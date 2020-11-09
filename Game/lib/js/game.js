@@ -29,7 +29,7 @@ let game = {};
 		let g = new Phaser.Game({
 			dom: { parent: 'Game' },
 			title: game.properties.name,
-			version: 'v' + game.properties.version.major  + '.' + game.properties.version.minor + '.' + game.properties.version.patch,
+			version: game.properties.version.major  + '.' + game.properties.version.minor + '.' + game.properties.version.patch,
 			parent: game.properties.dom,
 			url: '',
 			type: Phaser.AUTO,
