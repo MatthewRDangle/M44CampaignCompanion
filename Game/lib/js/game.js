@@ -33,21 +33,21 @@ let game = {};
 			parent: game.properties.dom,
 			url: '',
 			type: Phaser.AUTO,
-			width: window.innerWidth * window.devicePixelRatio,
-			height: window.innerHeight * window.devicePixelRatio,
+			width: '1920',
+			height: '1080',
 			disableContextMenu: true,
-			scene: [WarSim]
+			scene: [MainMenu, WarSim]
 		});
 		
 		// Make game responsive.
-		window.addEventListener("resize", () => {
-		  let width = window.innerWidth * window.devicePixelRatio;
-		  let height = window.innerHeight * window.devicePixelRatio;
-		  g.scale.resize(width, height);
-		  g.scene.scenes.forEach(function (scene) {
-		    scene.cameras.main.setViewport(0, 0, width, height);
-		  });
-		},false);
+//		window.addEventListener("resize", () => {
+//		  let width = window.innerWidth * window.devicePixelRatio;
+//		  let height = window.innerHeight * window.devicePixelRatio;
+//		  g.scale.resize(width, height);
+//		  g.scene.scenes.forEach(function (scene) {
+//		    scene.cameras.main.setViewport(0, 0, width, height);
+//		  });
+//		},false);
 		
 		// Return game object.
 		return g;
