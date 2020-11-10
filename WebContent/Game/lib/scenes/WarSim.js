@@ -6,6 +6,8 @@ class WarSim extends Phaser.Scene {
         super('WarSim');
     }
     preload() {}
-    create() {}
+    create() {
+    	
+    }
     update() {}
 }

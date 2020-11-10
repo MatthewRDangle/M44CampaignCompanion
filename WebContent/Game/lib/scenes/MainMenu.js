@@ -16,8 +16,13 @@ class MainMenu extends Phaser.Scene {
     }
     create() {
 
-    	// Insert the button.
-    	this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2, 'start_btn');
+    	// Insert the Start Button.
+    	let startGameBtn = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2, 'start_btn');
+    	startGameBtn.setInteractive({useHandCursor: true});
+    	startGameBtn.on('pointerdown', function (event) {
+    		this.game.canvas.style.cursor = "default";
+            this.scene.switch('WarSim');
+        }, this);
     }
     update() {}
 }
