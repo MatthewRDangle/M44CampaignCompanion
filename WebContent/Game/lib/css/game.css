@@ -10,6 +10,13 @@ html, body {
 	/* Content */
 	overflow: hidden;
 }
+#Game {
+	/* Display */
+	position: absolute;
+    	top: 50%;
+    	left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 
 /*

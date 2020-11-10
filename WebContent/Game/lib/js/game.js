@@ -32,9 +32,9 @@ let game = {};
 			version: game.properties.version.major  + '.' + game.properties.version.minor + '.' + game.properties.version.patch,
 			parent: game.properties.dom,
 			url: '',
+			width: 1024,
+			height: 768,
 			type: Phaser.AUTO,
-			width: '1920',
-			height: '1080',
 			disableContextMenu: true,
 			scene: [MainMenu, WarSim]
 		});

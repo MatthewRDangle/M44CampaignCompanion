@@ -17,7 +17,7 @@ class MainMenu extends Phaser.Scene {
     create() {
 
     	// Insert the button.
-    	this.add.image(800, 500, 'start_btn');
+    	this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2, 'start_btn');
     }
     update() {}
 }
