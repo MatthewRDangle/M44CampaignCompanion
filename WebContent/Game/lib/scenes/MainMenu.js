@@ -21,7 +21,7 @@ class MainMenu extends Phaser.Scene {
     	startGameBtn.setInteractive({useHandCursor: true});
     	startGameBtn.on('pointerdown', function (event) {
     		this.game.canvas.style.cursor = "default";
-            this.scene.switch('WarSim');
+            this.scene.switch('WarSim', {mode: 'View'});
         }, this);
     }
     update() {}
