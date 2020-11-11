@@ -31,7 +31,7 @@ let game = {};
 			title: game.properties.name,
 			version: game.properties.version.major  + '.' + game.properties.version.minor + '.' + game.properties.version.patch,
 			parent: game.properties.dom,
-			url: '',
+			url: game.properties.origin,
 			width: 1024,
 			height: 768,
             scale: {
@@ -42,16 +42,6 @@ let game = {};
 			disableContextMenu: true,
 			scene: [MainMenu, WarSim]
 		});
-		
-		// Make game responsive.
-//		window.addEventListener("resize", () => {
-//		  let width = window.innerWidth * window.devicePixelRatio;
-//		  let height = window.innerHeight * window.devicePixelRatio;
-//		  g.scale.resize(width, height);
-//		  g.scene.scenes.forEach(function (scene) {
-//		    scene.cameras.main.setViewport(0, 0, width, height);
-//		  });
-//		},false);
 		
 		// Return game object.
 		return g;
@@ -65,7 +55,8 @@ let game = {};
 	game.properties = {
 		name: 'Memoir 44: World War',
 		version: {major: '1', minor: '0', patch: '0'},
-		dom: document.getElementById('Game')
+		dom: document.getElementById('Game'),
+		origin: (window.location) ? window.location.origin : ''
 	}
 }());
 
