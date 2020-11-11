@@ -34,6 +34,10 @@ let game = {};
 			url: '',
 			width: 1024,
 			height: 768,
+            scale: {
+                //mode: Phaser.Scale.CENTER_BOTH,
+                autoCenter: Phaser.Scale.CENTER_BOTH
+            },
 			type: Phaser.AUTO,
 			disableContextMenu: true,
 			scene: [MainMenu, WarSim]
