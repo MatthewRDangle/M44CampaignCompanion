@@ -32,8 +32,9 @@ let game = {};
 			version: game.properties.version.major  + '.' + game.properties.version.minor + '.' + game.properties.version.patch,
 			parent: game.properties.dom,
 			url: game.properties.origin,
-			width: 1024,
-			height: 768,
+			width: window.innerWidth,
+			height: window.innerHeight,
+			backgroundColor: '151A1E',
             scale: {
                 //mode: Phaser.Scale.CENTER_BOTH,
                 autoCenter: Phaser.Scale.CENTER_BOTH
