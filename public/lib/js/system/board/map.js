@@ -14,8 +14,7 @@ class Map {
     	
     	// Game Data
     	this.scene = scene;
-    	this.container = scene.add.container(3000, 0);
-    	this.cam = this.scene.cameras.add(0, 45, 1400, 800).setScroll(3000, 0);
+    	this.container = scene.add.container(0,100);
     	
     	// Polygon Data.
     	this.width = width;
@@ -45,7 +44,7 @@ class Map {
     	
     	// Set Mode Change.
     	this.scene.data.list['mode'] = 'View';
-    	let modeText = this.scene.add.text(100, 10, 'Mode: '+ this.scene.data.list['mode'], { font: '16px Arial', fill: '#FFFFFF' });
+    	let modeText = this.scene.add.text(1250, 50, 'Mode: '+ this.scene.data.list['mode'], { font: '16px Arial', fill: '#FFFFFF' });
     	this.scene.input.keyboard.on('keydown', function() {
     		if (this.scene.data.list['mode']) {
     			if (this.scene.data.list['mode'] === 'View') { 

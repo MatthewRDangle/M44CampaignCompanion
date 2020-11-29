@@ -21,7 +21,7 @@ class Tile {
     	this.startY = startY;
     	this.tileCords = tileCords;
     	this.fillColor = 0xC5D6B7;
-    	this.borderColor = 0xFFFFFF;;
+    	this.borderColor = 0xFFFFFF;
     	this.polygon = this.scene.add.polygon(this.startX, this.startY, this.tileCords, this.fillColor);
     	this.polygon.isStroked = true;
     	this.polygon.lineWidth = 3;
@@ -41,7 +41,8 @@ class Tile {
     	
     	// Check if a unit doesn't already exist on this tile.
     	if ( !this.hasUnit() ) {
-    		let unit = this.scene.add.rectangle(this.polygon.x + this.container.x, this.polygon.y + this.container.y, 30, 30, 0x8d45ff);
+    		let unit = this.scene.add.rectangle(this.polygon.x, this.polygon.y, 30, 30, 0x8d45ff);
+    		this.container.add(unit);
     		this.unit = unit;
     	}
     }
