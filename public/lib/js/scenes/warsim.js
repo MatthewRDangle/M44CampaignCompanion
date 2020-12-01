@@ -27,8 +27,8 @@ class WarSim extends Phaser.Scene {
 		topBar.add(ww);
 		
 		// Builds the stats bar. 0x151A1E
-		let rightBar = this.add.container(1350, 40);
-		let rb_bck = this.add.rectangle(0, 0, 1000, 1000, 0x151A1E);
+		let rightBar = this.add.container(window.innerWidth - 570, 40);
+		let rb_bck = this.add.rectangle(0, 0, 570, 1000, 0x151A1E);
 		rb_bck.setOrigin(0, 0);
 		rightBar.add(rb_bck);
 
@@ -68,7 +68,7 @@ class WarSim extends Phaser.Scene {
 		leftBar.add(lb_bck);
 		
 		// build bottom bar for exiting the game.
-		let bottomBar = this.add.container(0, 880);
+		let bottomBar = this.add.container(0, window.innerHeight - 100);
 		let bb_bck = this.add.rectangle(0, 0, 2000, 100, 0x151A1E);
 		bb_bck.setOrigin(0, 0);
 		bottomBar.add(bb_bck);

@@ -44,7 +44,7 @@ class Map {
     	
     	// Set Mode Change.
     	this.scene.data.list['mode'] = 'View';
-    	let modeText = this.scene.add.text(1250, 50, 'Mode: '+ this.scene.data.list['mode'], { font: '16px Arial', fill: '#FFFFFF' });
+    	let modeText = this.scene.add.text(window.innerWidth - 670, 50, 'Mode: '+ this.scene.data.list['mode'], { font: '16px Arial', fill: '#FFFFFF' });
     	this.scene.input.keyboard.on('keydown', function() {
     		if (this.scene.data.list['mode']) {
     			if (this.scene.data.list['mode'] === 'View') { 
