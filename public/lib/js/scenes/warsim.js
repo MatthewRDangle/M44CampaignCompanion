@@ -47,9 +47,17 @@ class WarSim extends Phaser.Scene {
 		let vsHeader = this.add.text(260, 170, 'Armies', { font: '16px Arial', fill: '#FFFFFF'} );
 		rightBar.add(vsHeader);
 		
+		let germanStar = this.add.star(70, 257, 5, 5, 10, 0xFFFFFF);
+		germanStar.setOrigin(0, 0);
+		rightBar.add(germanStar);
+		
 		let germanFlag = this.add.image(100, 230, 'GermanFlag');
 		germanFlag.setOrigin(0, 0);
 		rightBar.add(germanFlag);
+		
+		let usaStar = this.add.star(320, 257, 5, 5, 10, 0xFFFFFF, 0.25);
+		usaStar.setOrigin(0, 0);
+		rightBar.add(usaStar);
 		
 		let usaFlag = this.add.image(350, 230, 'USAFlag');
 		usaFlag.setOrigin(0, 0);
