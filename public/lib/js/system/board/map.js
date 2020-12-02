@@ -14,7 +14,7 @@ class Map {
     	
     	// Game Data
     	this.scene = scene;
-    	this.container = scene.add.container(0,100);
+    	this.container = scene.add.container(0, 0);
     	
     	// Polygon Data.
     	this.width = width;
@@ -61,6 +61,23 @@ class Map {
     			}
     		}	
     	});
+    	
+    	// Construct a draggable map.
+    	let dragZone = this.scene.add.zone(20, 100, window.innerWidth - 590, window.innerHeight - 140);
+    	dragZone.setOrigin(0,0);
+    	dragZone.setInteractive();
+    	this.scene.input.setDraggable(dragZone);
+    	dragZone.on('dragstart', function(pointer) {
+    		this.container.setData('x_start', this.container.x);
+    		this.container.setData('y_start', this.container.y);
+    	}, this);
+
+    	dragZone.on('drag', function(pointer, dragX, dragY) {
+        	let trueDragX = dragX - dragZone.x;
+        	let trueDragY = dragY - dragZone.y;
+      		this.container.x = this.container.getData('x_start') + trueDragX;
+    		this.container.y = this.container.getData('y_start') + trueDragY;
+    	}, this);
 
     	// Construct a new tile for each width count.
     	let hexCoords = getHexCoords(this.tileHeight);
@@ -78,18 +95,18 @@ class Map {
     			let tile = new Tile(this.scene, this.container, hexX+this.startX, hexY+this.startY, hexCoords);
     			
     	    	// Move the map with a mouse drag.
-    	    	tile.polygon.setInteractive();
-    	    	this.scene.input.setDraggable(tile.polygon);
-    	    	tile.polygon.on('dragstart', function (pointer) {
-    	    		this.container.setData('x_start', this.container.x);
-    	    		this.container.setData('y_start', this.container.y);
-    	    	}, this);
-    	        tile.polygon.on('drag', function (pointer, dragX, dragY) {
-    	        	let trueDragX = dragX - tile.polygon.x;
-    	        	let trueDragY = dragY - tile.polygon.y;
-    	      		this.container.x = this.container.getData('x_start') + trueDragX;
-    	    		this.container.y = this.container.getData('y_start') + trueDragY;
-    	        }, this);
+//    	    	tile.polygon.setInteractive();
+//    	    	this.scene.input.setDraggable(tile.polygon);
+//    	    	tile.polygon.on('dragstart', function (pointer) {
+//    	    		this.container.setData('x_start', this.container.x);
+//    	    		this.container.setData('y_start', this.container.y);
+//    	    	}, this);
+//    	        tile.polygon.on('drag', function (pointer, dragX, dragY) {
+//    	        	let trueDragX = dragX - tile.polygon.x;
+//    	        	let trueDragY = dragY - tile.polygon.y;
+//    	      		this.container.x = this.container.getData('x_start') + trueDragX;
+//    	    		this.container.y = this.container.getData('y_start') + trueDragY;
+//    	        }, this);
     	        
     			tile.polygon.on('pointerdown', function(event) {
     				let mouseClick = event.event.which; // 1, 2 or 3 for a mouse click.
