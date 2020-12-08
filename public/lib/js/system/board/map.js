@@ -10,13 +10,13 @@ class Map {
 	 ** Title: Constructor
 	 ** Description: Initilizes the Grid.
 	 */
-    constructor(scene, width, height, startX, startY) {
+    constructor(scene, emitter, width, height, startX, startY) {
     	
     	// Game Data
     	this.scene = scene;
     	this.container = scene.add.container(0, 0);
-    	this.container.depth = 1;
-    	
+    	this.emitter = emitter;
+
     	// Polygon Data.
     	this.width = width;
     	this.height = height;
@@ -34,6 +34,8 @@ class Map {
 	 ** Description: Creates the grid and stores them into a container inside the scene.
 	 */
     draw() {
+    	let map = this;
+    	this.container.depth = 1;
 
     	// Scale The Map with the Mouse Wheel.
     	this.scene.input.on('wheel', function(pointer, gameObjects, deltaX, deltaY, deltaZ) {
@@ -63,21 +65,22 @@ class Map {
     	this.scene.data.list['mode'] = 'View';
     	let modeText = this.scene.add.text(window.innerWidth - 670, 50, 'Mode: '+ this.scene.data.list['mode'], { font: '16px Arial', fill: '#FFFFFF' });
     	modeText.depth = 2;
+    	this.emitter.on('changeMode', function() {
+    		modeText.setText('Mode: '+ this.scene.data.list['mode']);
+    	}, this);
     	this.scene.input.keyboard.on('keydown', function() {
-    		if (this.scene.data.list['mode']) {
-    			if (this.scene.data.list['mode'] === 'View') { 
-    				this.scene.data.list['mode'] = 'Add'; 
-    				modeText.setText('Mode: '+ this.scene.data.list['mode']);
-    			}
-    			else if (this.scene.data.list['mode'] === 'Add') { 
-    				this.scene.data.list['mode'] = 'View'; 
-    				modeText.setText('Mode: '+ this.scene.data.list['mode']);
-    			}
-    			else if (this.scene.data.list['mode'] === 'Move') { 
-    				this.scene.data.list['mode'] = 'View'; 
-    				modeText.setText('Mode: '+ this.scene.data.list['mode']);
-    			}
-    		}	
+        	if (this.scene.data.list['mode']) {
+				if (this.scene.data.list['mode'] === 'View') { 
+					this.scene.data.list['mode'] = 'Add'; 
+				}
+				else if (this.scene.data.list['mode'] === 'Add') { 
+					this.scene.data.list['mode'] = 'View'; 
+				}
+				else if (this.scene.data.list['mode'] === 'Move') { 
+					this.scene.data.list['mode'] = 'View'; 
+				}
+			}
+    		map.emitter.emit('changeMode');
     	});
 
     	// Construct a new tile for each width count.
@@ -93,66 +96,7 @@ class Map {
     			}
     			
     			// Create a hex shape and add it to the container to render.
-    			let tile = new Tile(this.scene, this.container, hexX+this.startX, hexY+this.startY, hexCoords);
-    			
-    	    	// Move the map with a mouse drag.
-    	    	this.scene.input.setDraggable(tile.polygon);
-    	    	tile.polygon.on('dragstart', function (pointer) {
-    	    		this.container.setData('x_start', this.container.x);
-    	    		this.container.setData('y_start', this.container.y);
-    	    	}, this);   
-    	        tile.polygon.on('drag', function (pointer, dragX, dragY) {
-    	        	let trueDragX = dragX - tile.polygon.x;
-    	        	let trueDragY = dragY - tile.polygon.y;
-    	      		this.container.x = this.container.getData('x_start') + trueDragX;
-    	    		this.container.y = this.container.getData('y_start') + trueDragY;
-    	        }, this);
-    	        
-    			tile.polygon.on('pointerdown', function(event) {
-    				let mouseClick = event.event.which; // 1, 2 or 3 for a mouse click.
-    				
-    				// On left click, enter movement mode for a unit.
-    				if (mouseClick === 1 && this.scene.data.list['mode'] === 'View') {
-    					
-    					// Check if unit exists. If it does, enter movement mode. Otherwise, do nothing.
-    					if ( tile.hasUnit() ) {
-    						this.scene.data.list['mode'] = 'Move';
-    	    				modeText.setText('Mode: '+ this.scene.data.list['mode']);
-    						this.scene.data.list['selectedHex'] = tile;
-    					}
-    				}
-    				
-    				// On left click while in movement mode, move the unit where it needs to go.
-    				else if (mouseClick === 1 && this.scene.data.list['mode'] === 'Move') {
-    		
-    					// Move unit to the new hex if a unit does not exist there.
-    					if ( !tile.hasUnit() ) {
-    						
-    						// Transfer the unit to the new tile.
-    						let old_tile = this.scene.data.list['selectedHex'];
-    						old_tile.transferUnit(tile);
-    						
-    						// Reset mode, deselect hex, and change unit to be inside new hex.
-    						this.scene.data.list['mode'] = 'View';
-    	    				modeText.setText('Mode: '+ this.scene.data.list['mode']);
-    						this.scene.data.list['selectedHex'] = false;
-    					}
-    				}
-
-    				// On right click, add or remove units.
-    				else if (mouseClick === 3 && this.scene.data.list['mode'] === 'Add') {
-    					
-    					// If the box doesn't have a unit, add it.
-    					if ( !tile.hasUnit() ) {
-    						tile.addUnit();
-    					}
-    					
-    					// If it has a unit, remove it.
-    					else {
-    						tile.removeUnit();
-    					}	
-    				}
-    			}, this);
+    			let tile = new Tile(this.scene, this.container, this.emitter, hexX+this.startX, hexY+this.startY, hexCoords);
     			this.tiles.push(tile);
     		}
     	}

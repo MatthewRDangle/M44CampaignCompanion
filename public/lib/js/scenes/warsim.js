@@ -16,8 +16,13 @@ class WarSim extends Phaser.Scene {
     }
     
     create() {
+    	
+    	// Create Base Object Handlers.
+    	let emitter = new Phaser.Events.EventEmitter();
+    	
     	// Create the game board to be rendered.
-    	let gameboard = new Map(this, 24, 18, 5, 5);
+    	let gameboard = new Map(this, emitter, 24, 18, 5, 5);
+    	
     	
     	// Build the top bar.
     	let topBar = this.add.container(0,0);
