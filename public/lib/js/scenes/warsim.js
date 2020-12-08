@@ -21,7 +21,9 @@ class WarSim extends Phaser.Scene {
     	
     	// Build the top bar.
     	let topBar = this.add.container(0,0);
+    	topBar.depth = 2;
 		let tb_bck = this.add.rectangle(0, 0, window.innerWidth, 40, 0x151A1E);
+    	tb_bck.setInteractive();
 		tb_bck.setOrigin(0, 0);
 		topBar.add(tb_bck);
 		let ww = this.add.text(10, 10, 'World War', { font: '16px Arial', fill: '#FFFFFF'} );
@@ -29,7 +31,9 @@ class WarSim extends Phaser.Scene {
 		
 		// Builds the stats bar. 0x151A1E
 		let rightBar = this.add.container(window.innerWidth - 570, 40);
+		rightBar.depth = 2;
 		let rb_bck = this.add.rectangle(0, 0, 570, window.innerHeight, 0x151A1E);
+		rb_bck.setInteractive();
 		rb_bck.setOrigin(0, 0);
 		rightBar.add(rb_bck);
 
@@ -73,13 +77,17 @@ class WarSim extends Phaser.Scene {
 		
 		// Add barrier to the left of the screen.
 		let leftBar = this.add.container(0, 40);
+		leftBar.depth = 2;
 		let lb_bck = this.add.rectangle(0, 0, 20, window.innerHeight - 40, 0x151A1E);
+		lb_bck.setInteractive();
 		lb_bck.setOrigin(0, 0);
 		leftBar.add(lb_bck);
 		
 		// build bottom bar for exiting the game.
 		let bottomBar = this.add.container(0, window.innerHeight - 100);
+		bottomBar.depth = 2;
 		let bb_bck = this.add.rectangle(0, 0, window.innerWidth, 100, 0x151A1E);
+		bb_bck.setInteractive();
 		bb_bck.setOrigin(0, 0);
 		bottomBar.add(bb_bck);
 		
