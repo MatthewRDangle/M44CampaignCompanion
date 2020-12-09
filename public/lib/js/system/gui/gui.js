@@ -42,7 +42,7 @@ class GUI {
     	
     	// Background Data
     	this.backgroundPoly = undefined;
-    	this.backgroundColor = 0x151A1E;
+    	this.backgroundColor = undefined;
     	this.backgroundImage = undefined;
     	this.backgroundShape = 'rectangle';
 	}
@@ -83,7 +83,7 @@ class GUI {
 			this.backgroundPoly.setInteractive();
 		
 		// Attach it to the container.
-		this.container.addAt(this.polygon, 0);
+		this.container.addAt(this.backgroundPoly, 0);
 	}
 	
 	/*
@@ -104,9 +104,10 @@ class GUI {
 	 */
 	renText() {
 
-		// If text poly does not exist, create it. Otherwise update it.
+		// If textpoly does not exist, create it. Otherwise update it.
 		if (!this.textPoly) {
-			this.textPoly = this.scene.add.text(0, 0,  content, { font: this.textSize + ' ' + this.textFamily, fill: this.textColor } );
+			this.textPoly = this.scene.add.text(0, 0,  this.textString, { font: this.textSize + ' ' + this.textFamily, fill: this.textColor } );
+			this.textPoly.setPadding( this.padding.left, this.padding.top, this.padding.right, this.padding.bottom );
 			this.textPoly.setOrigin(0, 0);
 			
 			// If the background exists, insert at index 1. Otherwise use index 0.
@@ -131,7 +132,7 @@ class GUI {
 	 */
 	setBackgroundColor(hexColor) {
 		this.backgroundColor = hexColor;
-		renBackground();
+		this.renBackground();
 	}
 	
 	/*
@@ -205,6 +206,8 @@ class GUI {
 			renText();
 	}
 	
+	
+	
 	/*
 	 ** Title: Set Coordinates
 	 ** Description: Sets the geo coordinates of the GUI.
@@ -220,6 +223,21 @@ class GUI {
 		this.y = y;
 		if (z)
 			this.z = z;
+		
+		this.updateGUI(); // Update the GUI polygons.
+	}
+	
+	/*
+	 ** Title: Set Depth
+	 ** Description: Sets the geo Z coordinate of the GUI.
+	 *
+	 ** @param z - number - required - the z cord value.
+	 */
+	setDepth(z) {
+		
+		// Set the cords to the object.
+		this.z = z;
+		this.container.depth = z;
 		
 		this.updateGUI(); // Update the GUI polygons.
 	}
@@ -257,6 +275,69 @@ class GUI {
 		this.renBackground(); // Update the GUI polygons.
 	}
 	
+	/*
+	 ** Title: Set Text Padding
+	 ** Description: Sets all the padding values. at once.
+	 */
+	setPadding(left, top, right, bottom) {
+		
+		// If the right and bottom don't exist, assume they are equal to the left and top properties.
+		if (!right && !bottom) {
+			right = left;
+			bottom = top;
+		}
+		
+		// Apply padding and render.
+		this.padding.left = left;
+		this.padding.top = top;
+		this.padding.right = right;
+		this.padding.bottom = bottom;
+		if (this.textPoly)
+			this.	renText();
+	}
+	
+	/*
+	 ** Title: Set Text Padding Left
+	 ** Description: Sets just the padding left.
+	 */
+	setPaddingLeft(left) {
+		this.padding.left = left;
+		if (this.textPoly)
+			this.renText();
+	}
+	
+	/*
+	 ** Title: Set Text Padding top
+	 ** Description: Sets just the padding top.
+	 */
+	setPaddingTop(top) {
+		this.padding.top = top;
+		if (this.textPoly)
+			this.renText();
+	}
+	
+	
+	/*
+	 ** Title: Set Text Padding right
+	 ** Description: Sets just the padding right.
+	 */
+	setPaddingRight(right) {
+		this.padding.top = right;
+		if (this.textPoly)
+			this.renText();
+	}
+	
+	
+	/*
+	 ** Title: Set Text Size
+	 ** Description: Sets the text string.
+	 */
+	setPaddingBottom(bottom) {
+		this.padding.top = bottom;
+		if (this.textPoly)
+			this.renText();
+	}
+	
 	
 	
 	/*
@@ -264,9 +345,9 @@ class GUI {
 	 ** Description: Will render or update the entire GUI.
 	 */
 	updateGUI() {
-		renContainer();
-		renBackground();
-		renText();
+		this.renContainer();
+		this.renBackground();
+		this.renText();
 	}
 	
 	

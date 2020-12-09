@@ -25,14 +25,19 @@ class WarSim extends Phaser.Scene {
     	
     	
     	// Build the top bar.
-    	let topBar = this.add.container(0,0);
-    	topBar.depth = 2;
-		let tb_bck = this.add.rectangle(0, 0, window.innerWidth, 40, 0x151A1E);
-    	tb_bck.setInteractive();
-		tb_bck.setOrigin(0, 0);
-		topBar.add(tb_bck);
-		let ww = this.add.text(10, 10, 'World War', { font: '16px Arial', fill: '#FFFFFF'} );
-		topBar.add(ww);
+    	let topbar = new GUI(this, emitter);
+    	topbar.setDimensions(window.innerWidth, 40);
+    	topbar.setDepth(2);
+    	topbar.setTextString('World War');
+    	topbar.setBackgroundColor(0x151A1E);
+//    	let topBar = this.add.container(0,0);
+//    	topBar.depth = 2;
+//		let tb_bck = this.add.rectangle(0, 0, window.innerWidth, 40, 0x151A1E);
+//    	tb_bck.setInteractive();
+//		tb_bck.setOrigin(0, 0);
+//		topBar.add(tb_bck);
+//		let ww = this.add.text(10, 10, 'World War', { font: '16px Arial', fill: '#FFFFFF'} );
+//		topBar.add(ww);
 		
 		// Builds the stats bar. 0x151A1E
 		let rightBar = this.add.container(window.innerWidth - 570, 40);
