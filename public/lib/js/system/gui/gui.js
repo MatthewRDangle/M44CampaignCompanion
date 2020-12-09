@@ -121,6 +121,7 @@ class GUI {
 			this.textPoly.setFill(this.textColor);
 			this.textPoly.setFontSize(this.textSize);
 			this.textPoly.setFontFamily(this.textFamily);
+			this.textPoly.setPadding( this.padding.left, this.padding.top, this.padding.right, this.padding.bottom );
 		}
 	}
 	
@@ -142,7 +143,7 @@ class GUI {
 	setBackgroundImage(ref) {
 		this.backgroundImage = ref;
 		this.backgroundShape = 'image';
-		renBackground();
+		this.renBackground();
 	}
 	
 	/*
@@ -151,7 +152,7 @@ class GUI {
 	 */
 	setBackgroundShape(shape) {
 		this.backgroundShape = shape;
-		renBackground();
+		this.renBackground();
 	}
 	
 	
@@ -172,7 +173,7 @@ class GUI {
 	setTextColor(hexColor) {
 		this.textColor = hexColor;
 		if (this.textPoly)
-			renText();
+			this.renText();
 	}
 	
 	/*
@@ -182,7 +183,7 @@ class GUI {
 	setTextSize(size) {
 		this.textSize = size;
 		if (this.textPoly)
-			renText();
+			this.renText();
 	}
 	
 	/*
@@ -192,7 +193,7 @@ class GUI {
 	setTextFamily(fontFamily) {
 		this.textFamily = fontFamily;
 		if (this.textPoly)
-			renText();
+			this.renText();
 	}
 	
 	/*
@@ -203,7 +204,7 @@ class GUI {
 		this.textHAlign = h;
 		this.textVAlign = v;
 		if (this.textPoly)
-			renText();
+			this.renText();
 	}
 	
 	
@@ -286,14 +287,14 @@ class GUI {
 			right = left;
 			bottom = top;
 		}
-		
+
 		// Apply padding and render.
 		this.padding.left = left;
 		this.padding.top = top;
 		this.padding.right = right;
 		this.padding.bottom = bottom;
 		if (this.textPoly)
-			this.	renText();
+			this.renText();
 	}
 	
 	/*

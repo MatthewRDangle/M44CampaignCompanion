@@ -28,7 +28,9 @@ class WarSim extends Phaser.Scene {
     	let topbar = new GUI(this, emitter);
     	topbar.setDimensions(window.innerWidth, 40);
     	topbar.setDepth(2);
+    	topbar.setInteractive(true);
     	topbar.setTextString('World War');
+    	topbar.setPadding(15, 10, 0, 0);
     	topbar.setBackgroundColor(0x151A1E);
 //    	let topBar = this.add.container(0,0);
 //    	topBar.depth = 2;
