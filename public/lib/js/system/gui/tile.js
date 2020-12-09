@@ -4,10 +4,9 @@
  ** Title: ???.
  ** Description: ???.
  */
-class Unit {
+class Board extends GUI {
 	
 	constructor() {
-		
-		this.gui = undefined;
+		// Insert base code here.
 	}
 }

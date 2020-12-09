@@ -4,9 +4,9 @@
  ** Title: ???.
  ** Description: ???.
  */
-class Component {
+class Board extends GUI {
 	
-	constructor() {
-		// Insert base code here.
+	constructor(scene, emitter) {
+		super(); // Import existing properties.
 	}
 }

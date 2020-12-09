@@ -4,10 +4,12 @@
  ** Title: ???.
  ** Description: ???.
  */
-class Unit {
+class Germany extends Faction {
 	
 	constructor() {
 		
-		this.gui = undefined;
+		// Display Information
+		this.nane = "Germany";
+		this.banner = "lib/assets/faction_germany.png";
 	}
 }

@@ -4,10 +4,12 @@
  ** Title: ???.
  ** Description: ???.
  */
-class Unit {
+class Faction {
 	
 	constructor() {
 		
-		this.gui = undefined;
+		// Display Information
+		this.nane = "Default Faction";
+		this.banner = "lib/assets/faction.png";
 	}
 }
