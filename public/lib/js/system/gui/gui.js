@@ -31,6 +31,12 @@ class GUI {
     	this.innerPolygons = [];
 	}
 	
+	/*
+	 ** Title: Add Child.
+	 ** Description: Add a GUI child to this GUI. This will automatically add it to the container.
+	 *
+	 * @param gui - GUI - required - The GUI to attach as a child to this GUI.
+	 */
 	addChild(gui) {
 		makeContainer(); // Convert this into a container.
 		this.innerPolygons.push(gui);
@@ -51,29 +57,57 @@ class GUI {
 	}
 */
 	
+	/*
+	 ** Title: Delete Container.
+	 ** Description: Deletes the container object, it's children, and sets the container to equal undefined.
+	 */
 	deleteContainer() {
-		delete this.container;
+		this.container.destroy();
 		this.container = undefined; // Reset value.
 	}
 	
+	/*
+	 ** Title: Delete Polygon.
+	 ** Description: Deletes the Polygon object and sets the Polygon to equal undefined.
+	 */
 	deletePolygon() {
-		delete this.polygon;
+		this.polygon.destroy();
 		this.polygon = undefined; // Reset value.
 	}
 	
+	/*
+	 ** Title: Make Container.
+	 ** Description: Sets this GUI object to be a container.
+	 */
 	makeContainer() {
 		
 		// If container is set to undefined, a create a new container.
 		if (!this.container) {
 			this.container = this.scene.add.container(this.x, this.y);
 			
-			// Remove polygon if it exists.
+			// If a polygon exists, attach it to this container.
 			if (this.polygon) {
-				this.deletePolygon();
+				this.container.add(this.polygon);
+			}
+			
+			// If a parent exists, attach this container to the parent.
+			if (this.parent)
+				this.parent.container.add(this.container);
+			
+			// If a parent exists, and a polygon, deattach the polygon from the parent so it's only attached to this container.
+			if (this.parent && this.polygon) {
+				this.parent.container.remove(this.polygon);
 			}
 		}
 	}
 	
+	/*
+	 ** Title: Make Polygon.
+	 ** Description: Sets this GUI object to be a polygon.
+	 *
+	 ** @param type - string - required - A string value for the type of polygon to create. (ie: rectangle, star, text, image).
+	 ** @param content - anything - optional - Some polygon will require content in order to render. (ie: text, image).
+	 */
 	makePolygon(type, content) {
 		
 		// If polygon is set to undefined, create it.
@@ -90,12 +124,20 @@ class GUI {
 			
 			this.polygon.setOrigin(0, 0); // Set the origin to the top left of the polygon, instead of center.
 			
-			// If this GUI has a parent, attach it to the parent container.
-			if (this.parent)
+			// Attach the polygon to the relative container. This is either the parent, or this container. Container takes priority.
+			if (this.container)
+				this.container.add(this.polygon);
+			else if (this.parent && this.parent.container)
 				this.parent.container.add(this.polygon);
 		}
 	}
 	
+	/*
+	 ** Title: Import Container
+	 ** Description: Attaches a container object if it's passed through.
+	 *
+	 ** @param container - Container - required - The container object to attach to the GUI.
+	 */
 	importContainer(container) {
 		
 		// If container is set to undefined, a new container can be imported.
@@ -103,8 +145,15 @@ class GUI {
 			this.container = container;
 	}
 	
+	/*
+	 ** Title: Set Background Color.
+	 ** Description: Sets the background hex color for this GUI.
+	 *
+	 ** @param hexCode - Container - required - The hex value to insert as a background color to the polygon.
+	 */
 	setBackgroundColor(hexCode) {
 		this.backgroundColor = hexCode;
+		// Insert code the set the background color of the polygon.
 	}
 	
 	setBackgroundImage(path) {
