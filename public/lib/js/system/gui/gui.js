@@ -56,7 +56,7 @@ class GUI {
 	addChild(child_gui) {
 		child_gui.parent = this;
 		this.innerGUI.push(child_gui);
-		this.container.add(chid_gui.container);
+		this.container.add(child_gui.container);
 	}
 	
 	
@@ -260,6 +260,34 @@ class GUI {
 	}
 	
 	/*
+	 ** Title: Set Width
+	 ** Description: Sets the width draw dimensions for this GUI.
+	 *
+	 ** @param width - number - required - width of the GUI.
+	 */
+	setWidth(width) {
+		
+		// Set the dimensions to the object.
+		this.width = width;
+		
+		this.updateGUI(); // Update the GUI polygons.
+	}
+	
+	/*
+	 ** Title: Set Height
+	 ** Description: Sets the height draw dimensions for this GUI.
+	 *
+	 ** @param height - number - required - height of the GUI.
+	 */
+	setHeight(height) {
+		
+		// Set the dimensions to the object.
+		this.height = height;
+		
+		this.updateGUI(); // Update the GUI polygons.
+	}
+	
+	/*
 	 ** Title: Set Interactive
 	 ** Description: Applies or removes the interactive setting on the GUI.
 	 *
@@ -350,239 +378,4 @@ class GUI {
 		this.renBackground();
 		this.renText();
 	}
-	
-	
-	
-	
-	
-	
-	
-//	
-//	/*
-//	 ** Title: Add Text Content
-//	 ** Description: Appends text gui as a child of this gui.
-//	 *
-//	 * @param gui - GUI - required - The GUI to attach as a child to this GUI.
-//	 */
-//	addTextContent(x, y, text) {
-//		
-//		// Build the text GUI.
-//		let text_gui = new GUI(this.scene, this.emitter); // Create a new GUI.
-//		text_gui.setCords(x, y, this.y);
-//		text_gui.makePolygon('text', text);
-//		
-//		// Add to Container.
-//		this.makeContainer(); // This method will only add a container if it's available.
-//		this.addChild(text_gui);
-//	}
-//	
-///*	
-//	createChild(options) {
-//		let child_gui = new GUI(this.scene, this.emitter);
-//	}
-//*/
-//	
-//	/*
-//	 ** Title: Delete Container.
-//	 ** Description: Deletes the container object, it's children, and sets the container to equal undefined.
-//	 */
-//	deleteContainer() {
-//		this.container.destroy();
-//		this.container = undefined; // Reset value.
-//	}
-//	
-//	/*
-//	 ** Title: Delete Polygon.
-//	 ** Description: Deletes the Polygon object and sets the Polygon to equal undefined.
-//	 */
-//	deletePolygon() {
-//		this.polygon.destroy();
-//		this.polygon = undefined; // Reset value.
-//	}
-//	
-//	/*
-//	 ** Title: Make Container.
-//	 ** Description: Sets this GUI object to be a container.
-//	 */
-//	makeContainer() {
-//		
-//		// If container is set to undefined, a create a new container.
-//		if (!this.container) {
-//			this.container = this.scene.add.container(this.x, this.y);
-//			this.container.depth = this.z;
-//			
-//			// If a polygon exists, attach it to this container.
-//			if (this.polygon) {
-//				this.container.add(this.polygon);
-//			}
-//			
-//			// If a parent exists, attach this container to the parent.
-//			if (this.parent)
-//				this.parent.container.add(this.container);
-//			
-//			// If a parent exists, and a polygon, deattach the polygon from the parent so it's only attached to this container.
-//			if (this.parent && this.polygon) {
-//				this.parent.container.remove(this.polygon);
-//			}
-//		}
-//	}
-//	
-//	/*
-//	 ** Title: Make Polygon.
-//	 ** Description: Sets this GUI object to be a polygon.
-//	 *
-//	 ** @param type - string - required - A string value for the type of polygon to create. (ie: rectangle, star, text, image).
-//	 ** @param content - anything - optional - Some polygon will require content in order to render. (ie: text, image).
-//	 */
-//	makePolygon(type, content) {
-//		
-//		// If a container exists, set the x and y cords to the 0.
-//		let x = this.x;
-//		let y = this.y;
-//		if (this.container) {
-//			x = 0;
-//			y = 0;
-//		}
-//
-//		// If polygon is set to undefined, create it.
-//		if (!this.polygon) {
-//			if (type === 'rectangle')
-//				 this.polygon = this.scene.add.rectangle(x, y, this.width, this.height, this.backgroundColor);
-//			else if (type === 'star')
-//				this.polygon = this.scene.add.star(x, y,  5, this.width, this.height, this.backgroundColor);
-//			else if (type === 'text')
-//				this.polygon = this.scene.add.text(x, y,  content, { font: '16px Arial', fill: '#FFFFFF' } );
-//			else if (type === 'image')
-//				this.polygon = this.scene.add.image(x, y, content);
-//			
-//			this.polygon.setOrigin(0, 0); // Set the origin to the top left of the polygon, instead of center.
-//			this.polygon.depth = this.z;
-//			
-//			// Set the interactive ability if it's set to true for the GUI.
-//			if(this.interactive)
-//				this.polygon.setInteractive();
-//			
-//			// Attach the polygon to the relative container. This is either the parent, or this container. Container takes priority.
-//			if (this.container)
-//				this.container.add(this.polygon);
-//			else if (this.parent && this.parent.container)
-//				this.parent.container.add(this.polygon);
-//		}
-//	}
-//	
-//	/*
-//	 ** Title: Import Container
-//	 ** Description: Attaches a container object if it's passed through.
-//	 *
-//	 ** @param container - Container - required - The container object to attach to the GUI.
-//	 */
-//	importContainer(container) {
-//		
-//		// If container is set to undefined, a new container can be imported.
-//		if (!this.container)
-//			this.container = container;
-//	}
-//	
-//	/*
-//	 ** Title: Set Background Shape.
-//	 ** Description: Sets the background shape. Default is rectangle.
-//	 *
-//	 *
-//	 */
-//	setBackgroundShape(shape) {
-//		this.backgroundShape = shape;
-//		
-//		// If polygon has already been created, delete and redraw it.
-//		if (this.polygon && this.backgroundColor) {
-//			this.polygon.destroy();
-//			this.makePolygon(this.backgroundShape);
-//		}
-//	}
-//	
-//	/*
-//	 ** Title: Set Background Color.
-//	 ** Description: Sets the background hex color for this GUI.
-//	 *
-//	 ** @param hexCode - Hex - required - The hex value to insert as a background color to the polygon.
-//	 */
-//	setBackgroundColor(hexCode) {
-//		this.backgroundColor = hexCode;
-//		this.makePolygon(this.backgroundShape);
-//	}
-//	
-//	/*
-//	 ** Title: Set Background Image.
-//	 ** Description: Apply a background image to this GUI.
-//	 *
-//	 ** @param reference - string - required - The Phaser import name reference of the image for the scene..
-//	 */
-//	setBackgroundImage(reference) {
-//		this.backgroundImage = reference;
-//		this.setBackgroundShape('image');
-//		this.makePolygon(this.backgroundShape, this.backgroundImage);
-//	}
-//	
-//	/*
-//	 ** Title: Set Coordinates
-//	 ** Description: Sets the geo coordinates of the GUI.
-//	 *
-//	 ** @param x - number - required - the x cord value.
-//	 ** @param y - number - required - the y cord value.
-//	 ** @param z - number - optional - the z cord value.
-//	 */
-//	setCords(x, y, z) {
-//		
-//		// Set the cords to the object.
-//		this.x = x;
-//		this.y = y;
-//		if (z)
-//			this.z = z;
-//		
-//		// Update the cords of the container and polygon.
-//		if (this.container)
-//			this.container.depth = this.z;
-//		else if (this.polygon)
-//			this.polygon.depth = this.z;
-//	}
-//	
-//	/*
-//	 ** Title: Set Dimensions
-//	 ** Description: Sets the width and height draw dimensions for this GUI.
-//	 *
-//	 ** @param width - number - required - width of the GUI.
-//	 ** @param height - number - required - height of the GUI.
-//	 */
-//	// @TODO - Find a way to fix setDimensions, for some reason it must be set after the polygon is created.
-//	setDimensions(width, height) {
-//		
-//		// Set the dimensions to the object.
-//		this.width = width;
-//		this.height = height;
-//		
-//		// Update the polygon dimensions.
-//		if (this.polygon) {
-//			this.polygon.width = this.width;
-//			this.polygon.height = this.height;
-//		}
-//	}
-//	
-//	/*
-//	 ** Title: Set Interactive
-//	 ** Description: Applies or removes the interactive setting on the GUI.
-//	 *
-//	 ** @param value - boolean - required - True value is apply interactive, false with remove it.
-//	 */
-//	// @TODO - Find a way to fix setInteractive, for some reason it must be set after the dimensions are set.
-//	setInteractive(value) {
-//		if (value === true) {
-//			this.interactive = true;
-//			if (this.polygon)
-//				this.polygon.setInteractive();
-//		}
-//		else if (value === false) {
-//			this.interactive = false;
-//			if (this.polygon)
-//				this.polygon.removeInteractive();
-//		}
-//	}
 }

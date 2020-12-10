@@ -32,79 +32,115 @@ class WarSim extends Phaser.Scene {
     	topbar.setTextString('World War');
     	topbar.setPadding(15, 10, 0, 0);
     	topbar.setBackgroundColor(0x151A1E);
-//    	let topBar = this.add.container(0,0);
-//    	topBar.depth = 2;
-//		let tb_bck = this.add.rectangle(0, 0, window.innerWidth, 40, 0x151A1E);
-//    	tb_bck.setInteractive();
-//		tb_bck.setOrigin(0, 0);
-//		topBar.add(tb_bck);
-//		let ww = this.add.text(10, 10, 'World War', { font: '16px Arial', fill: '#FFFFFF'} );
-//		topBar.add(ww);
+    	
+    	
 		
-		// Builds the stats bar. 0x151A1E
-		let rightBar = this.add.container(window.innerWidth - 570, 40);
-		rightBar.depth = 2;
-		let rb_bck = this.add.rectangle(0, 0, 570, window.innerHeight, 0x151A1E);
-		rb_bck.setInteractive();
-		rb_bck.setOrigin(0, 0);
-		rightBar.add(rb_bck);
-
-		let scenrio_bck = this.add.rectangle(5, 0, 560, 20, 0x404040);
-		scenrio_bck.setOrigin(0,0);
-		rightBar.add(scenrio_bck);
-		let scenrio = this.add.text(220, 0, 'Operation Overlord', { font: '16px Arial', fill: '#FFFFFF'} );
-		rightBar.add(scenrio);
-		let scenrio_descr = this.add.text(120, 50, 'Capture the Airfields and hold them for one turn.', { font: '16px Arial', fill: '#FFFFFF'} );
-		rightBar.add(scenrio_descr);
-		
-		let vsHeader_bck = this.add.rectangle(5, 170, 560, 20, 0x404040);
-		vsHeader_bck.setOrigin(0,0);
-		rightBar.add(vsHeader_bck);
-		let vsHeader = this.add.text(260, 170, 'Armies', { font: '16px Arial', fill: '#FFFFFF'} );
-		rightBar.add(vsHeader);
-		
-		let germanStar = this.add.star(70, 257, 5, 5, 10, 0xFFFFFF);
-		germanStar.setOrigin(0, 0);
-		rightBar.add(germanStar);
-		
-		let germanFlag = this.add.image(100, 230, 'GermanFlag');
-		germanFlag.setOrigin(0, 0);
-		rightBar.add(germanFlag);
-		
-		let usaStar = this.add.star(320, 257, 5, 5, 10, 0xFFFFFF, 0.25);
-		usaStar.setOrigin(0, 0);
-		rightBar.add(usaStar);
-		
-		let usaFlag = this.add.image(350, 230, 'USAFlag');
-		usaFlag.setOrigin(0, 0);
-		rightBar.add(usaFlag);
-		
-		let bar = this.add.rectangle(75, 350, 430, 30, 0x3C5442);
-		bar.setOrigin(0, 0);
-		rightBar.add(bar);
-		
-		let finishTurn = this.add.image(210, 400, 'FinishTurn');
-		finishTurn.setOrigin(0, 0);
-		rightBar.add(finishTurn);
+		// Builds the right bar containing game information.
+    	let rightbar = new GUI(this, emitter);
+    	rightbar.setInteractive(true);
+    	rightbar.setDimensions(570, window.innerHeight - topbar.height);
+    	rightbar.setCords(window.innerWidth - rightbar.width, topbar.height, 2);
+    	rightbar.setBackgroundColor(0x151A1E);
+    	
+    	// Scenario Details
+    	let scenario = new GUI(this, emitter);
+    	scenario.setCords(5, 0);
+    	scenario.setWidth(rightbar.width - 10);
+    	rightbar.addChild(scenario);
+    	
+    	// Scenario Header
+    	let scenario_header = new GUI(this, emitter);
+    	scenario_header.setDimensions(scenario.width, 30);
+    	scenario_header.setBackgroundColor(0x404040);
+    	scenario_header.setPadding(5, 5);
+    	scenario_header.setTextString('Operation Overlord');
+    	scenario.addChild(scenario_header);
+    	
+    	// Scenario Description
+    	let scenario_descr = new GUI(this, emitter);
+    	scenario_descr.setCords(0, 40);
+    	scenario_descr.setPadding(5, 5);
+    	scenario_descr.setTextString('Capture the Airfields and hold them for one turn.');
+    	scenario.addChild(scenario_descr);
+    	
+    	// Factions Details
+    	let factions = new GUI(this, emitter);
+    	factions.setCords(5, 200);
+    	factions.setWidth(rightbar.width - 10);
+    	rightbar.addChild(factions);
+    	
+    	// Factions Header
+    	let factions_header = new GUI(this, emitter);
+    	factions_header.setDimensions(factions.width, 30);
+    	factions_header.setBackgroundColor(0x404040);
+    	factions_header.setPadding(5, 5);
+    	factions_header.setTextString('Armies');
+    	factions.addChild(factions_header);
+    	
+    	// First Faction.
+    	let first_faction = new GUI(this, emitter);
+    	first_faction.setCords(60, 60);
+    	let first_faction_turnMarker = new GUI(this, emitter);
+    	first_faction_turnMarker.setCords(0, 25);
+    	first_faction_turnMarker.setDimensions(5, 10);
+    	first_faction_turnMarker.setBackgroundShape('star');
+    	first_faction_turnMarker.setBackgroundColor(0xFFFFFF);
+    	first_faction.addChild(first_faction_turnMarker);
+    	let first_faction_flag = new GUI(this, emitter);
+    	first_faction_flag.setCords(40, 0);
+    	first_faction_flag.setBackgroundImage('GermanFlag');
+    	first_faction.addChild(first_faction_flag);
+    	factions.addChild(first_faction);
+    	
+       	// Second Faction.
+    	let sec_faction = new GUI(this, emitter);
+    	sec_faction.setCords( rightbar.width / 4 * 2, 60);
+    	let sec_faction_turnMarker = new GUI(this, emitter);
+    	sec_faction_turnMarker.setCords(0, 25);
+    	sec_faction_turnMarker.setDimensions(5, 10);
+    	sec_faction_turnMarker.setBackgroundShape('star');
+    	sec_faction_turnMarker.setBackgroundColor(0xFFFFFF);
+    	sec_faction.addChild(sec_faction_turnMarker);
+    	let sec_faction_flag = new GUI(this, emitter);
+    	sec_faction_flag.setCords(40, 0);
+    	sec_faction_flag.setBackgroundImage('USAFlag');
+    	sec_faction.addChild(sec_faction_flag);
+    	factions.addChild(sec_faction);
+    	
+    	// Strength Bar.
+    	let strengthbar = new GUI(this, emitter);
+    	strengthbar.setCords(60, 380);
+    	strengthbar.setDimensions(430, 30);
+    	strengthbar.setBackgroundColor(0x3C5442);
+    	rightbar.addChild(strengthbar);
+    	
+    	// Finish Turn Button.
+    	let finishturn = new GUI(this, emitter);
+    	finishturn.setCords(200, 450);
+    	finishturn.setBackgroundImage('FinishTurn');
+    	rightbar.addChild(finishturn);
+    	
+    	
 		
 		// Add barrier to the left of the screen.
-		let leftBar = this.add.container(0, 40);
-		leftBar.depth = 2;
-		let lb_bck = this.add.rectangle(0, 0, 20, window.innerHeight - 40, 0x151A1E);
-		lb_bck.setInteractive();
-		lb_bck.setOrigin(0, 0);
-		leftBar.add(lb_bck);
+    	let leftbar = new GUI(this, emitter);
+    	leftbar.setCords(0, topbar.height, 2);
+    	leftbar.setDimensions(15, window.innerHeight - topbar.height);
+    	leftbar.setInteractive(true);
+    	leftbar.setBackgroundColor(0x151A1E);
 		
 		// build bottom bar for exiting the game.
-		let bottomBar = this.add.container(0, window.innerHeight - 100);
-		bottomBar.depth = 2;
-		let bb_bck = this.add.rectangle(0, 0, window.innerWidth, 100, 0x151A1E);
-		bb_bck.setInteractive();
-		bb_bck.setOrigin(0, 0);
-		bottomBar.add(bb_bck);
-		
-		let EndGame = this.add.image(5, 5, 'EndGame');
-		EndGame.setOrigin(0, 0);
-		bottomBar.add(EndGame);
+    	let bottombar = new GUI(this, emitter);
+    	bottombar.setDimensions(window.innerWidth, 100);
+    	bottombar.setCords(0, window.innerHeight - bottombar.height, 2);
+    	bottombar.setInteractive(true);
+    	bottombar.depth = 2;
+    	bottombar.setBackgroundColor(0x151A1E);
+    	
+    	// Build End Game Button.
+    	let endgame = new GUI(this, emitter);
+    	endgame.setCords(8, 5, 2);
+    	endgame.setBackgroundImage('EndGame');
+    	bottombar.addChild(endgame);
     }
 }

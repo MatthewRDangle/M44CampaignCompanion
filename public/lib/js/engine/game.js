@@ -36,13 +36,16 @@ let game = {};
 			height: window.innerHeight,
 			backgroundColor: '151A1E',
             scale: {
-                //mode: Phaser.Scale.CENTER_BOTH,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
 			type: Phaser.AUTO,
 			disableContextMenu: true,
 			scene: [MainMenu, WarSim]
 		});
+		
+//		window.onresize = function(e) {
+//			g.scale.resize( window.innerWidth, window.innerHeight);
+//		}
 		
 		// Return game object.
 		return g;
