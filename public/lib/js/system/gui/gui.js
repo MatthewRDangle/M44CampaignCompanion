@@ -37,14 +37,16 @@ class GUI {
     	this.textColor = '#FFFFFF';
     	this.textSize = '16px';
     	this.textFamily = 'Arial';
-    	this.textVAlign = 'middle'; // top, middle, bottom.
     	this.textHAlign = 'left'; // left, center, right;
+    	this.textVAlign = 'top'; // top, middle, bottom.
     	
     	// Background Data
     	this.backgroundPoly = undefined;
     	this.backgroundColor = undefined;
     	this.backgroundImage = undefined;
     	this.backgroundShape = 'rectangle';
+    	this.backgroundHAlign = 'left'; // left, center, right;
+    	this.backgroundVAlign = 'top'; // top, middle, bottom.
 	}
 	
 	/*
@@ -69,6 +71,9 @@ class GUI {
 		
 		// Render the background polygon.
 		let shape = this.backgroundShape;
+		
+		// TODO Logic to detect shape change. If it's changes, redraw the polygon.
+		
 		if (shape === 'rectangle')
 			this.backgroundPoly = this.scene.add.rectangle(0, 0, this.width, this.height, this.backgroundColor);
 		else if (shape === 'star')
@@ -81,6 +86,33 @@ class GUI {
 		// Set the interactive ability if it's set to true for the GUI.
 		if(this.interactive)
 			this.backgroundPoly.setInteractive();
+		
+		// If the BackgroundAlign attributes are set, figure how the x and y cords and origins.
+		let x = 0; // Default x cord and origin for text. textHAlign = left.
+		let xorg = 0;
+		let y = 0; // Default y cord and origin for text. textVAlign = top.
+		let yorg = 0;
+		if (this.backgroundHAlign === 'center') {
+			x = this.width / 2;
+			xorg = 0.5;
+		}
+		else if (this.backgroundHAlign === 'right') {
+			x = this.width;
+			xorg = 1;
+		}
+		if (this.backgroundVAlign === 'middle') {
+			y = this.height / 2;
+			yorg = 0.5;
+		}
+		else if (this.backgroundVAlign === 'bottom') {
+			y = this.height;
+			yorg = 1;
+		}
+		
+		// Update cords and origin.
+		this.backgroundPoly.setOrigin(xorg, yorg);
+		this.backgroundPoly.x = x;
+		this.backgroundPoly.y = y;
 		
 		// Attach it to the container.
 		this.container.addAt(this.backgroundPoly, 0);
@@ -103,12 +135,12 @@ class GUI {
 	 ** Description: Render the text string or update the text string. 
 	 */
 	renText() {
-
+		
 		// If textpoly does not exist, create it. Otherwise update it.
 		if (!this.textPoly) {
 			this.textPoly = this.scene.add.text(0, 0,  this.textString, { font: this.textSize + ' ' + this.textFamily, fill: this.textColor } );
 			this.textPoly.setPadding( this.padding.left, this.padding.top, this.padding.right, this.padding.bottom );
-			this.textPoly.setOrigin(0, 0);
+			this.textPoly.setWordWrapWidth(this.width, true);
 			
 			// If the background exists, insert at index 1. Otherwise use index 0.
 			if (this.backgroundPoly)
@@ -122,7 +154,35 @@ class GUI {
 			this.textPoly.setFontSize(this.textSize);
 			this.textPoly.setFontFamily(this.textFamily);
 			this.textPoly.setPadding( this.padding.left, this.padding.top, this.padding.right, this.padding.bottom );
+			this.textPoly.setWordWrapWidth(this.width, true);
 		}
+		
+		// If the textAlign attributes are set, figure how the x and y cords.
+		let x = 0; // Default x cord and origin for text. textHAlign = left.
+		let xorg = 0;
+		let y = 0; // Default y cord and origin for text. textVAlign = top.
+		let yorg = 0;
+		if (this.textHAlign === 'center') {
+			x = this.width / 2;
+			xorg = 0.5;
+		}
+		else if (this.textHAlign === 'right') {
+			x = this.width;
+			xorg = 1;
+		}
+		if (this.textVAlign === 'middle') {
+			y = this.height / 2;
+			yorg = 0.5;
+		}
+		else if (this.textVAlign === 'bottom') {
+			y = this.height;
+			yorg = 1;
+		}
+		
+		// Update cords and origin.
+		this.textPoly.setOrigin(xorg, yorg);
+		this.textPoly.x = x;
+		this.textPoly.y = y;
 	}
 	
 	
@@ -152,6 +212,34 @@ class GUI {
 	 */
 	setBackgroundShape(shape) {
 		this.backgroundShape = shape;
+		this.renBackground();
+	}
+	
+	/*
+	 ** Title: Set Background Align
+	 ** Description: Aligns the background on in it's container.
+	 */
+	setBackgroundAlign(h, v) {
+		this.backgroundHAlign = h;
+		this.backgroundVAlign = v;
+		this.renBackground();
+	}
+	
+	/*
+	 ** Title: Set Background H Align
+	 ** Description: Aligns the background H on in it's container.
+	 */
+	setBackgroundHAlign(h) {
+		this.backgroundHAlign = h;
+		this.renBackground();
+	}
+	
+	/*
+	 ** Title: Set Background V Align
+	 ** Description: Aligns the background V on in it's container.
+	 */
+	setBackgroundvAlign(v) {
+		this.backgroundvAlign = v;
 		this.renBackground();
 	}
 	
@@ -202,6 +290,26 @@ class GUI {
 	 */
 	setTextAlign(h, v) {
 		this.textHAlign = h;
+		this.textVAlign = v;
+		if (this.textPoly)
+			this.renText();
+	}
+	
+	/*
+	 ** Title: Set Text H Align
+	 ** Description: Aligns the text H on in it's container.
+	 */
+	setTextHAlign(h) {
+		this.textHAlign = h;
+		if (this.textPoly)
+			this.renText();
+	}
+	
+	/*
+	 ** Title: Set Text V Align
+	 ** Description: Aligns the text Y on in it's container.
+	 */
+	setTextVAlign(v) {
 		this.textVAlign = v;
 		if (this.textPoly)
 			this.renText();

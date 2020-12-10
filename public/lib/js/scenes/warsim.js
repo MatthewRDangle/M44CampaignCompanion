@@ -30,9 +30,9 @@ class WarSim extends Phaser.Scene {
     	topbar.setDepth(2);
     	topbar.setInteractive(true);
     	topbar.setTextString('World War');
-    	topbar.setPadding(15, 10, 0, 0);
+    	topbar.setPaddingLeft(15);
+    	topbar.setTextAlign('left', 'middle');
     	topbar.setBackgroundColor(0x151A1E);
-    	
     	
 		
 		// Builds the right bar containing game information.
@@ -54,71 +54,84 @@ class WarSim extends Phaser.Scene {
     	scenario_header.setBackgroundColor(0x404040);
     	scenario_header.setPadding(5, 5);
     	scenario_header.setTextString('Operation Overlord');
+    	scenario_header.setTextAlign('center', 'middle');
     	scenario.addChild(scenario_header);
     	
     	// Scenario Description
     	let scenario_descr = new GUI(this, emitter);
-    	scenario_descr.setCords(0, 40);
-    	scenario_descr.setPadding(5, 5);
+    	scenario_descr.setCords(0, 30);
+    	scenario_descr.setDimensions(scenario.width, 125);
+    	scenario_descr.setPaddingTop(10);
     	scenario_descr.setTextString('Capture the Airfields and hold them for one turn.');
+    	scenario_descr.setTextAlign('center', 'top');
     	scenario.addChild(scenario_descr);
     	
     	// Factions Details
     	let factions = new GUI(this, emitter);
-    	factions.setCords(5, 200);
+    	factions.setCords(5, 160);
     	factions.setWidth(rightbar.width - 10);
+    	scenario_header.setBackgroundColor(0x000000);
     	rightbar.addChild(factions);
     	
     	// Factions Header
     	let factions_header = new GUI(this, emitter);
     	factions_header.setDimensions(factions.width, 30);
     	factions_header.setBackgroundColor(0x404040);
-    	factions_header.setPadding(5, 5);
     	factions_header.setTextString('Armies');
+    	factions_header.setTextAlign('center', 'middle');
     	factions.addChild(factions_header);
     	
     	// First Faction.
     	let first_faction = new GUI(this, emitter);
-    	first_faction.setCords(60, 60);
+    	first_faction.setCords(0, 30);
+    	first_faction.setDimensions(factions.width / 2, 150);
+//    	first_faction.setBackgroundColor(0x000000);
     	let first_faction_turnMarker = new GUI(this, emitter);
-    	first_faction_turnMarker.setCords(0, 25);
+    	first_faction_turnMarker.setCords(first_faction.width / 2 - 60, first_faction.height / 2 - 5);
     	first_faction_turnMarker.setDimensions(5, 10);
+    	first_faction_turnMarker.setBackgroundAlign('center', 'middle');
     	first_faction_turnMarker.setBackgroundShape('star');
     	first_faction_turnMarker.setBackgroundColor(0xFFFFFF);
     	first_faction.addChild(first_faction_turnMarker);
     	let first_faction_flag = new GUI(this, emitter);
-    	first_faction_flag.setCords(40, 0);
+    	first_faction_flag.setCords(first_faction.width / 2 + 40, first_faction.height / 2);
+    	first_faction_flag.setBackgroundAlign('center', 'middle');
     	first_faction_flag.setBackgroundImage('GermanFlag');
     	first_faction.addChild(first_faction_flag);
     	factions.addChild(first_faction);
     	
        	// Second Faction.
     	let sec_faction = new GUI(this, emitter);
-    	sec_faction.setCords( rightbar.width / 4 * 2, 60);
+    	sec_faction.setCords(factions.width / 2, 30);
+    	sec_faction.setDimensions(factions.width / 2, 150);
+//    	sec_faction.setBackgroundColor(0x000000);
     	let sec_faction_turnMarker = new GUI(this, emitter);
-    	sec_faction_turnMarker.setCords(0, 25);
+    	sec_faction_turnMarker.setCords(sec_faction.width / 2 - 100, sec_faction.height / 2 - 5);
     	sec_faction_turnMarker.setDimensions(5, 10);
+    	sec_faction_turnMarker.setBackgroundAlign('center', 'middle');
     	sec_faction_turnMarker.setBackgroundShape('star');
     	sec_faction_turnMarker.setBackgroundColor(0xFFFFFF);
     	sec_faction.addChild(sec_faction_turnMarker);
     	let sec_faction_flag = new GUI(this, emitter);
-    	sec_faction_flag.setCords(40, 0);
+    	sec_faction_flag.setCords(sec_faction.width / 2, sec_faction.height / 2);
+    	sec_faction_flag.setBackgroundAlign('center', 'middle');
     	sec_faction_flag.setBackgroundImage('USAFlag');
     	sec_faction.addChild(sec_faction_flag);
     	factions.addChild(sec_faction);
     	
     	// Strength Bar.
     	let strengthbar = new GUI(this, emitter);
-    	strengthbar.setCords(60, 380);
     	strengthbar.setDimensions(430, 30);
+    	strengthbar.setCords(rightbar.width / 2 - strengthbar.width / 2, 180);
     	strengthbar.setBackgroundColor(0x3C5442);
-    	rightbar.addChild(strengthbar);
+    	factions.addChild(strengthbar);
     	
     	// Finish Turn Button.
     	let finishturn = new GUI(this, emitter);
-    	finishturn.setCords(200, 450);
+    	finishturn.setCords(factions.width / 2, 260);
+    	finishturn.setBackgroundAlign('center', 'middle');
     	finishturn.setBackgroundImage('FinishTurn');
-    	rightbar.addChild(finishturn);
+    	factions.addChild(finishturn);
     	
     	
 		
