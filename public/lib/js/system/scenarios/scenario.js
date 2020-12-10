@@ -7,7 +7,7 @@
 class Scenario {
 	
 	constructor(json) {
-		
+
 		// Instructions.
 		this.name = "Operation Overlord";
 		this.description = "Capture the Airfields and hold them for one turn.";

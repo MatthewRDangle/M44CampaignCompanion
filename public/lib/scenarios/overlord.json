@@ -1,0 +1,5 @@
+{
+	"name": "Operation Overlord",
+	"mission": "Capture the Airfields and hold them for one turn",
+	"faction": ["Germany", "America"]
+}

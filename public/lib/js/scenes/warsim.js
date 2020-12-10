@@ -7,6 +7,9 @@ class WarSim extends Phaser.Scene {
     }
     
     preload() {
+    	// Load Scenario.
+    	this.load.json('scenarioJSON', 'lib/scenarios/overlord.json');
+//    	this.data.list['scenario'] = new Scenario(this.cache.json.get('scenarioJSON'));
     	
     	// Load start button.
     	this.load.image('GermanFlag', 'lib/assets/GermanFlag.png');
@@ -18,7 +21,7 @@ class WarSim extends Phaser.Scene {
     create() {
     	
     	// Create Game Object Handlers.
-    	let scenarioDetails = new Scenario();
+    	let scenarioDetails = new Scenario(this.cache.json.get('scenarioJSON'));
     	let emitter = new Phaser.Events.EventEmitter();
     	
     	

@@ -43,6 +43,8 @@ let game = {};
 			scene: [MainMenu, WarSim]
 		});
 		
+		game.phaserObj = g; // Store the game object for future need.
+		
 //		window.onresize = function(e) {
 //			g.scale.resize( window.innerWidth, window.innerHeight);
 //		}
@@ -50,6 +52,13 @@ let game = {};
 		// Return game object.
 		return g;
 	}
+	
+	/*
+	 * Property: Phaser Object
+	 * Type: Value.
+	 * Description: The Phaser Game object. This is set when game.init() is called.
+	 */
+	game.phaserObj = undefined;
 	
 	/*
 	 * Function: Init.
