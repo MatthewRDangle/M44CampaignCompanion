@@ -6,10 +6,10 @@
  */
 class Faction {
 	
-	constructor() {
+	constructor(name, flag) {
 		
 		// Display Information
-		this.nane = "Default Faction";
-		this.banner = "lib/assets/faction.png";
+		this.nane = name;
+		this.flag = flag;
 	}
 }

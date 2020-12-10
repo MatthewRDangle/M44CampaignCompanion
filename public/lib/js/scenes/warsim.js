@@ -17,12 +17,13 @@ class WarSim extends Phaser.Scene {
     
     create() {
     	
-    	// Create Base Object Handlers.
+    	// Create Game Object Handlers.
+    	let scenarioDetails = new Scenario();
     	let emitter = new Phaser.Events.EventEmitter();
+    	
     	
     	// Create the game board to be rendered.
     	let gameboard = new Map(this, emitter, 24, 18, 5, 5);
-    	
     	
     	// Build the top bar.
     	let topbar = new GUI(this, emitter);
@@ -53,7 +54,7 @@ class WarSim extends Phaser.Scene {
     	scenario_header.setDimensions(scenario.width, 30);
     	scenario_header.setBackgroundColor(0x404040);
     	scenario_header.setPadding(5, 5);
-    	scenario_header.setTextString('Operation Overlord');
+    	scenario_header.setTextString(scenarioDetails.name);
     	scenario_header.setTextAlign('center', 'middle');
     	scenario.addChild(scenario_header);
     	
@@ -62,7 +63,7 @@ class WarSim extends Phaser.Scene {
     	scenario_descr.setCords(0, 30);
     	scenario_descr.setDimensions(scenario.width, 125);
     	scenario_descr.setPadding(10, 0);
-    	scenario_descr.setTextString('Capture the Airfields and hold them for one turn.');
+    	scenario_descr.setTextString(scenarioDetails.description);
     	scenario_descr.setTextAlign('center', 'middle');
     	scenario.addChild(scenario_descr);
     	
@@ -82,42 +83,12 @@ class WarSim extends Phaser.Scene {
     	factions.addChild(factions_header);
     	
     	// First Faction.
-    	let first_faction = new GUI(this, emitter);
-    	first_faction.setCords(0, 30);
-    	first_faction.setDimensions(factions.width / 2, 150);
-//    	first_faction.setBackgroundColor(0x000000);
-    	let first_faction_turnMarker = new GUI(this, emitter);
-    	first_faction_turnMarker.setCords(first_faction.width / 2 - 60, first_faction.height / 2 - 5);
-    	first_faction_turnMarker.setDimensions(5, 10);
-    	first_faction_turnMarker.setBackgroundAlign('center', 'middle');
-    	first_faction_turnMarker.setBackgroundShape('star');
-    	first_faction_turnMarker.setBackgroundColor(0xFFFFFF);
-    	first_faction.addChild(first_faction_turnMarker);
-    	let first_faction_flag = new GUI(this, emitter);
-    	first_faction_flag.setCords(first_faction.width / 2 + 40, first_faction.height / 2);
-    	first_faction_flag.setBackgroundAlign('center', 'middle');
-    	first_faction_flag.setBackgroundImage('GermanFlag');
-    	first_faction.addChild(first_faction_flag);
+    	let first_faction = this.createFactionDisplay(factions, 1, scenarioDetails.factions[0].flag);
     	factions.addChild(first_faction);
     	
        	// Second Faction.
-    	let sec_faction = new GUI(this, emitter);
-    	sec_faction.setCords(factions.width / 2, 30);
-    	sec_faction.setDimensions(factions.width / 2, 150);
-//    	sec_faction.setBackgroundColor(0x000000);
-    	let sec_faction_turnMarker = new GUI(this, emitter);
-    	sec_faction_turnMarker.setCords(sec_faction.width / 2 - 100, sec_faction.height / 2 - 5);
-    	sec_faction_turnMarker.setDimensions(5, 10);
-    	sec_faction_turnMarker.setBackgroundAlign('center', 'middle');
-    	sec_faction_turnMarker.setBackgroundShape('star');
-    	sec_faction_turnMarker.setBackgroundColor(0xFFFFFF);
-    	sec_faction.addChild(sec_faction_turnMarker);
-    	let sec_faction_flag = new GUI(this, emitter);
-    	sec_faction_flag.setCords(sec_faction.width / 2, sec_faction.height / 2);
-    	sec_faction_flag.setBackgroundAlign('center', 'middle');
-    	sec_faction_flag.setBackgroundImage('USAFlag');
-    	sec_faction.addChild(sec_faction_flag);
-    	factions.addChild(sec_faction);
+    	let second_faction = this.createFactionDisplay(factions, 2, scenarioDetails.factions[1].flag);
+    	factions.addChild(second_faction);
     	
     	// Strength Bar.
     	let strengthbar = new GUI(this, emitter);
@@ -155,5 +126,50 @@ class WarSim extends Phaser.Scene {
     	endgame.setCords(8, 5, 2);
     	endgame.setBackgroundImage('EndGame');
     	bottombar.addChild(endgame);
+    }
+    
+    // Create a faction display with GUI.
+    createFactionDisplay(parent, n, flag) {
+    	let xCord = (n == 2) ? parent.width / 2 : 0; // If this is the second faction display, set the offset value.
+    	let star_w_offset = (n == 2) ? 100 : 60; // If this is the second faction display, set the offset value.
+    	let flag_w_offset = (n == 2) ? 0 : 40; // If this is the second faction display, set the offset value.
+
+    	let faction = new GUI(this, this.emitter);
+    	faction.setCords(xCord, 30);
+    	faction.setDimensions(parent.width / 2, 150);
+//    	faction.setBackgroundColor(0x000000);
+    	let faction_turnMarker = new GUI(this, this.emitter);
+    	faction_turnMarker.setCords(faction.width / 2 - star_w_offset, faction.height / 2 - 5);
+    	faction_turnMarker.setDimensions(5, 10);
+    	faction_turnMarker.setBackgroundAlign('center', 'middle');
+    	faction_turnMarker.setBackgroundShape('star');
+    	faction_turnMarker.setBackgroundColor(0xFFFFFF);
+    	faction.addChild(faction_turnMarker);
+    	let faction_flag = new GUI(this, this.emitter);
+    	faction_flag.setCords(faction.width / 2 + flag_w_offset, faction.height / 2);
+    	faction_flag.setBackgroundAlign('center', 'middle');
+    	faction_flag.setBackgroundImage(flag);
+    	faction.addChild(faction_flag);
+    	return faction;
+    	
+    	
+       	// Second Faction.
+//    	let sec_faction = new GUI(this, emitter);
+//    	sec_faction.setCords(factions.width / 2, 30);
+//    	sec_faction.setDimensions(factions.width / 2, 150);
+//    	sec_faction.setBackgroundColor(0x000000);
+//    	let sec_faction_turnMarker = new GUI(this, emitter);
+//    	sec_faction_turnMarker.setCords(sec_faction.width / 2 - 100, sec_faction.height / 2 - 5);
+//    	sec_faction_turnMarker.setDimensions(5, 10);
+//    	sec_faction_turnMarker.setBackgroundAlign('center', 'middle');
+//    	sec_faction_turnMarker.setBackgroundShape('star');
+//    	sec_faction_turnMarker.setBackgroundColor(0xFFFFFF);
+//    	sec_faction.addChild(sec_faction_turnMarker);
+//    	let sec_faction_flag = new GUI(this, emitter);
+//    	sec_faction_flag.setCords(sec_faction.width / 2, sec_faction.height / 2);
+//    	sec_faction_flag.setBackgroundAlign('center', 'middle');
+//    	sec_faction_flag.setBackgroundImage('USAFlag');
+//    	sec_faction.addChild(sec_faction_flag);
+//    	factions.addChild(sec_faction);
     }
 }
