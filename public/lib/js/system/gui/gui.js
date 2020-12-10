@@ -39,6 +39,7 @@ class GUI {
     	this.textFamily = 'Arial';
     	this.textHAlign = 'left'; // left, center, right;
     	this.textVAlign = 'top'; // top, middle, bottom.
+    	this.backgroundAlpha = 1;
     	
     	// Background Data
     	this.backgroundPoly = undefined;
@@ -47,6 +48,7 @@ class GUI {
     	this.backgroundShape = 'rectangle';
     	this.backgroundHAlign = 'left'; // left, center, right;
     	this.backgroundVAlign = 'top'; // top, middle, bottom.
+    	this.backgroundAlpha = 1;
 	}
 	
 	/*
@@ -238,9 +240,17 @@ class GUI {
 	 ** Title: Set Background V Align
 	 ** Description: Aligns the background V on in it's container.
 	 */
-	setBackgroundvAlign(v) {
+	setBackgroundVAlign(v) {
 		this.backgroundvAlign = v;
 		this.renBackground();
+	}
+	
+	/*
+	 ** Title: Set Background Alpha
+	 ** Description: Sets the background alpha transparency value. 0 <= value >= 1.
+	 */
+	setBackgroundAlpha(value) {
+		this.backgroundAlpha = value;
 	}
 	
 	
@@ -313,6 +323,14 @@ class GUI {
 		this.textVAlign = v;
 		if (this.textPoly)
 			this.renText();
+	}
+	
+	/*
+	 ** Title: Set Text Alpha
+	 ** Description: Sets the background alpha transparency value. 0 <= value >= 1.
+	 */
+	setTextAlpha(value) {
+		this.textAlpha = value;
 	}
 	
 	

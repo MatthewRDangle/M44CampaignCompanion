@@ -61,9 +61,9 @@ class WarSim extends Phaser.Scene {
     	let scenario_descr = new GUI(this, emitter);
     	scenario_descr.setCords(0, 30);
     	scenario_descr.setDimensions(scenario.width, 125);
-    	scenario_descr.setPaddingTop(10);
+    	scenario_descr.setPadding(10, 0);
     	scenario_descr.setTextString('Capture the Airfields and hold them for one turn.');
-    	scenario_descr.setTextAlign('center', 'top');
+    	scenario_descr.setTextAlign('center', 'middle');
     	scenario.addChild(scenario_descr);
     	
     	// Factions Details
