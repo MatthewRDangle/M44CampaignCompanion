@@ -16,8 +16,8 @@ class FactionDisplay extends GUI {
     	
     	// Build the star turn marker.
     	this.faction_turnMarker = new GUI(scene, emitter);
-    	this.faction_turnMarker.setCords(this.width / 2 - star_w_offset, this.height / 2 - 5);
-    	this.faction_turnMarker.setDimensions(5, 10);
+    	this.faction_turnMarker.setDimensions(20, 20);
+    	this.faction_turnMarker.setCords(this.width / 2 - star_w_offset, this.height / 2 - this.faction_turnMarker.height / 2);
     	this.faction_turnMarker.setBackgroundAlign('center', 'middle');
     	this.faction_turnMarker.setBackgroundShape('star');
     	this.faction_turnMarker.setBackgroundColor(0xFFFFFF);

@@ -48,6 +48,8 @@ class GUI {
     	this.backgroundShape = 'rectangle';
     	this.backgroundHAlign = 'left'; // left, center, right;
     	this.backgroundVAlign = 'top'; // top, middle, bottom.
+    	this.backgroundBorderColor = undefined;
+    	this.backgroundBorderSize = undefined;
     	this.backgroundAlpha = 1;
     	
     	// Event Handlers.
@@ -114,9 +116,19 @@ class GUI {
 			if (shape === 'rectangle')
 				this.backgroundPoly = this.scene.add.rectangle(x, y, this.width, this.height, this.backgroundColor, this.backgroundAlpha);
 			else if (shape === 'star')
-				this.backgroundPoly = this.scene.add.star(x, y,  5, this.width, this.height, this.backgroundColor, this.backgroundAlpha);
+				this.backgroundPoly = this.scene.add.star(x, y,  5, this.width / 3.5, this.height / 1.5, this.backgroundColor, this.backgroundAlpha);
 			else if (shape === 'image')
 				this.backgroundPoly = this.scene.add.image(x, y, this.backgroundImage, this.backgroundAlpha);
+			else if (shape === 'polygon') {
+				this.backgroundPoly = this.scene.add.polygon(x, y, [
+	        		0, y, 
+	        		this.width * 0.25, y - this.height / 2, 
+	        		this.width * 0.75, y - this.height / 2, 
+	        		this.width, y,  
+	        		this.width * 0.75, y + this.height / 2,
+	        		this.width * 0.25, y + this.height / 2
+				], this.backgroundColor, this.backgroundAlpha);
+			}
 			
 			// Attach it to the container.
 			this.container.addAt(this.backgroundPoly, 0);
@@ -124,8 +136,8 @@ class GUI {
 		else {
 			
 			// Update Size.
-			this.backgroundPoly.width = this.width;
-			this.backgroundPoly.height = this.height;
+			this.backgroundPoly.displayWidth = this.width; // This will not change the width after it's been created.
+			this.backgroundPoly.displayHeight = this.height;  // This will not change the width after it's been created.
 			
 			// Set GEO.
 			this.backgroundPoly.x = x;
@@ -136,14 +148,23 @@ class GUI {
 				this.backgroundPoly.setFillStyle(this.backgroundColor, this.backgroundAlpha);
 		}
 		
+		// Update origin.
+		this.backgroundPoly.setOrigin(xorg, yorg);
+		
+		// Set Stroke
+		if (this.backgroundBorderSize > 0) {
+	    	this.backgroundPoly.isStroked = true;
+	    	this.backgroundPoly.lineWidth = this.backgroundBorderSize;
+	    	this.backgroundPoly.strokeColor = this.backgroundBorderColor;	
+		}
+		else
+			this.backgroundPoly.isStroked = false;
+		
 		// Attach events.
 		if (this.event.onclick) {
 			this.backgroundPoly.setInteractive({ cursor: 'pointer' });
 			this.backgroundPoly.on('pointerdown', this.event.onclick, this);
 		}
-		
-		// Update origin.
-		this.backgroundPoly.setOrigin(xorg, yorg);
 	}
 	
 	/*
@@ -151,8 +172,6 @@ class GUI {
 	 ** Description: Updates the container properties. 
 	 */
 	renContainer() {
-		this.container.width = this.width;
-		this.container.height = this.height;
 		this.container.x = this.x;
 		this.container.y = this.y;
 		this.container.depth = this.z;
@@ -280,6 +299,34 @@ class GUI {
 	 */
 	setBackgroundAlpha(value) {
 		this.backgroundAlpha = value;
+		this.renBackground();
+	}
+	
+	/*
+	 ** Title: Set Border
+	 ** Description: Set the border color and size.
+	 */
+	setBackgroundBorder(size, color) {
+		this.backgroundBorderSize = size;
+		this.backgroundBorderColor = color;
+		this.renBackground();
+	}
+	
+	/*
+	 ** Title: Set Border Size
+	 ** Description: Sets the border color hex value.
+	 */
+	setBackgroundBorderSize(value) {
+		this.backgroundBorderSize = value;
+		this.renBackground();
+	}
+	
+	/*
+	 ** Title: Set Border Color
+	 ** Description: Sets the border color hex value.
+	 */
+	setBackgroundBorderColor(value) {
+		this.backgroundBorderColor = value;
 		this.renBackground();
 	}
 	

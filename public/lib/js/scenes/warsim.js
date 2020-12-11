@@ -30,7 +30,8 @@ class WarSim extends Phaser.Scene {
     	emitter.on("nextTurn", nextTurn, this);
     	
     	// Create the game board to be rendered.
-    	let gameboard = new Map(this, emitter, 24, 18, 5, 5);
+//    	let gameboard = new GameBoard(this, emitter, 24, 18);
+//    	let gameboard = new Map(this, emitter, 24, 18, 5, 5);
     	
     	// Build the top bar.
     	let topbar = new GUI(this, emitter);
