@@ -16,7 +16,9 @@ class Map extends GUI {
 		// Map Data
 		this.mapWidth = mapWidth;
 		this.mapHeight = mapHeight;
-		this.hexHeight = 75;
+		this.tileSize = 75;
+		this.tileBorder = 1;
+		this.spacing = this.tileSize + this.tileBorder;
 		
 		this.renMap(); // Initial Render
 	}
@@ -32,10 +34,12 @@ class Map extends GUI {
     		
     		// Count a new tile for each height count.
     		for (let y = 0; y <= this.mapHeight-1; y++) {
-    			let hexX = x * this.hexHeight - (x*(this.hexHeight/9));
-    			let hexY = y * this.hexHeight + (y*2);
+    			let hexX = x * this.spacing - (x*(this.spacing/3.58));
+    			let hexY = y * (this.spacing - this.spacing/5);
+    			
+    			// Even tile columns, offset them down word.
     			if (x % 2 === 1) {
-    				hexY+= this.hexHeight / 2;
+    				hexY+= (this.spacing / 2) - (this.spacing/10);
     			}
     			
     			this.addTile(hexX, hexY);
@@ -52,6 +56,6 @@ class Map extends GUI {
 			// Create a hex shape and add it to the container to render.
 			let tile = new HexTile(this.scene, this.emitter);
 			tile.setCords(hexX, hexY);
-			this.container.add(tile);
+			this.addChild(tile);
 	}
 }
