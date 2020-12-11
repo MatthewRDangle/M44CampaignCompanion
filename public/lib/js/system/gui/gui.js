@@ -136,8 +136,8 @@ class GUI {
 		else {
 			
 			// Update Size.
-			this.backgroundPoly.displayWidth = this.width; // This will not change the width after it's been created.
-			this.backgroundPoly.displayHeight = this.height;  // This will not change the width after it's been created.
+			this.backgroundPoly.displayWidth = this.width; // TODO This will not change the width after it's been created.
+			this.backgroundPoly.displayHeight = this.height;  // TODO This will not change the width after it's been created.
 			
 			// Set GEO.
 			this.backgroundPoly.x = x;
