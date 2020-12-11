@@ -49,6 +49,11 @@ class GUI {
     	this.backgroundHAlign = 'left'; // left, center, right;
     	this.backgroundVAlign = 'top'; // top, middle, bottom.
     	this.backgroundAlpha = 1;
+    	
+    	// Event Handlers.
+    	this.event = {
+    			onclick: undefined
+    	}
 	}
 	
 	/*
@@ -74,34 +79,13 @@ class GUI {
 		// Set the shape to build the compare.
 		let shape = this.backgroundShape;
 		
-		// TODO Logic to detect shape change. If it's changes, redraw the polygon.
+		// If the shape changes, redraw the polygon.
 		if (this.backgroundPoly && this.backgroundPoly.type) {
 			if (this.backgroundPoly.type.toLowerCase() != shape) {
 				this.backgroundPoly.destroy();
 				this.backgroundPoly = undefined;
 			}
 		}
-		
-		// Render the polygon based on shape.
-		if (!this.backgroundPoly) {
-			if (shape === 'rectangle')
-				this.backgroundPoly = this.scene.add.rectangle(0, 0, this.width, this.height, this.backgroundColor, this.backgroundAlpha);
-			else if (shape === 'star')
-				this.backgroundPoly = this.scene.add.star(0, 0,  5, this.width, this.height, this.backgroundColor, this.backgroundAlpha);
-			else if (shape === 'image')
-				this.backgroundPoly = this.scene.add.image(0, 0, this.backgroundImage, this.backgroundAlpha);	
-		}
-		else {
-			this.backgroundPoly.width = this.width;
-			this.backgroundPoly.height = this.height;
-			this.backgroundPoly.setFillStyle(this.backgroundColor, this.backgroundAlpha);
-		}
-		
-		this.backgroundPoly.setOrigin(0, 0); // Set the origin to the top left of the polygon, instead of center.
-		
-		// Set the interactive ability if it's set to true for the GUI.
-		if(this.interactive)
-			this.backgroundPoly.setInteractive();
 		
 		// If the BackgroundAlign attributes are set, figure how the x and y cords and origins.
 		let x = 0; // Default x cord and origin for text. textHAlign = left.
@@ -125,13 +109,41 @@ class GUI {
 			yorg = 1;
 		}
 		
-		// Update cords and origin.
-		this.backgroundPoly.setOrigin(xorg, yorg);
-		this.backgroundPoly.x = x;
-		this.backgroundPoly.y = y;
+		// Render the polygon based on shape.
+		if (!this.backgroundPoly) {
+			if (shape === 'rectangle')
+				this.backgroundPoly = this.scene.add.rectangle(x, y, this.width, this.height, this.backgroundColor, this.backgroundAlpha);
+			else if (shape === 'star')
+				this.backgroundPoly = this.scene.add.star(x, y,  5, this.width, this.height, this.backgroundColor, this.backgroundAlpha);
+			else if (shape === 'image')
+				this.backgroundPoly = this.scene.add.image(x, y, this.backgroundImage, this.backgroundAlpha);
+			
+			// Attach it to the container.
+			this.container.addAt(this.backgroundPoly, 0);
+		}
+		else {
+			
+			// Update Size.
+			this.backgroundPoly.width = this.width;
+			this.backgroundPoly.height = this.height;
+			
+			// Set GEO.
+			this.backgroundPoly.x = x;
+			this.backgroundPoly.y = y;
+			
+			// If the setFillStyle is unable to be set, don't set it.
+			if (this.backgroundPoly.setFillStyle)
+				this.backgroundPoly.setFillStyle(this.backgroundColor, this.backgroundAlpha);
+		}
 		
-		// Attach it to the container.
-		this.container.addAt(this.backgroundPoly, 0);
+		// Attach events.
+		if (this.event.onclick) {
+			this.backgroundPoly.setInteractive({ cursor: 'pointer' });
+			this.backgroundPoly.on('pointerdown', this.event.onclick, this);
+		}
+		
+		// Update origin.
+		this.backgroundPoly.setOrigin(xorg, yorg);
 	}
 	
 	/*
@@ -434,23 +446,6 @@ class GUI {
 	}
 	
 	/*
-	 ** Title: Set Interactive
-	 ** Description: Applies or removes the interactive setting on the GUI.
-	 *
-	 ** @param value - boolean - required - True value is apply interactive, false with remove it.
-	 */
-	setInteractive(value) {
-		if (value === true) {
-			this.interactive = true;
-		}
-		else if (value === false) {
-			this.interactive = false;
-		}
-		
-		this.renBackground(); // Update the GUI polygons.
-	}
-	
-	/*
 	 ** Title: Set Text Padding
 	 ** Description: Sets all the padding values. at once.
 	 */
@@ -511,6 +506,16 @@ class GUI {
 		this.padding.top = bottom;
 		if (this.textPoly)
 			this.renText();
+	}
+	
+	/*
+	 ** Title: On Click
+	 ** Description: On click event for this GUI.
+	 */
+	onClick(callback) {
+		this.event.onclick = callback;
+		this.interactive = true;
+		this.renBackground(); // Update the GUI polygons.
 	}
 	
 	

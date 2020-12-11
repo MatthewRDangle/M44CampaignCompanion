@@ -36,7 +36,6 @@ class WarSim extends Phaser.Scene {
     	let topbar = new GUI(this, emitter);
     	topbar.setDimensions(window.innerWidth, 40);
     	topbar.setDepth(2);
-    	topbar.setInteractive(true);
     	topbar.setTextString('World War');
     	topbar.setPaddingLeft(15);
     	topbar.setTextAlign('left', 'middle');
@@ -45,7 +44,6 @@ class WarSim extends Phaser.Scene {
 		
 		// Builds the right bar containing game information.
     	let rightbar = new GUI(this, emitter);
-    	rightbar.setInteractive(true);
     	rightbar.setDimensions(570, window.innerHeight - topbar.height);
     	rightbar.setCords(window.innerWidth - rightbar.width, topbar.height, 2);
     	rightbar.setBackgroundColor(0x151A1E);
@@ -70,8 +68,8 @@ class WarSim extends Phaser.Scene {
     	scenario_descr.setCords(0, 30);
     	scenario_descr.setDimensions(scenario.width, 125);
     	scenario_descr.setPadding(10, 0);
-    	scenario_descr.setTextString(scenarioDetails.mission);
     	scenario_descr.setTextAlign('center', 'middle');
+    	scenario_descr.setTextString(scenarioDetails.mission);
     	scenario.addChild(scenario_descr);
     	
     	// Factions Details
@@ -108,7 +106,10 @@ class WarSim extends Phaser.Scene {
     	let finishturn = new GUI(this, emitter);
     	finishturn.setCords(factions.width / 2, 260);
     	finishturn.setBackgroundAlign('center', 'middle');
-    	finishturn.setBackgroundImage('FinishTurn');
+    	finishturn.onClick(function(e, x, y, a) {
+    		emitter.emit('nextTurn');
+    	});
+    	finishturn.setBackgroundImage('FinishTurn'); // TODO for some reason, the image must be built last in order for the origins to be correctly set. Any redraw will cause it to break.
     	factions.addChild(finishturn);
     	
     	
@@ -117,14 +118,12 @@ class WarSim extends Phaser.Scene {
     	let leftbar = new GUI(this, emitter);
     	leftbar.setCords(0, topbar.height, 2);
     	leftbar.setDimensions(15, window.innerHeight - topbar.height);
-    	leftbar.setInteractive(true);
     	leftbar.setBackgroundColor(0x151A1E);
 		
 		// build bottom bar for exiting the game.
     	let bottombar = new GUI(this, emitter);
     	bottombar.setDimensions(window.innerWidth, 100);
     	bottombar.setCords(0, window.innerHeight - bottombar.height, 2);
-    	bottombar.setInteractive(true);
     	bottombar.depth = 2;
     	bottombar.setBackgroundColor(0x151A1E);
     	
@@ -146,10 +145,9 @@ class WarSim extends Phaser.Scene {
     			first_faction.setIsTurn(false);
     		else
     			second_faction.setIsTurn(false);
-    			
     		
     		// Change Turn Counter
-    		if (faction_turn + 1 == scenario.factions.length)
+    		if (faction_turn + 1 == scenarioDetails.factions.length)
     			faction_turn = 0;
     		else
     			faction_turn =+ 1;
