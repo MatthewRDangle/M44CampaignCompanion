@@ -39,7 +39,7 @@ class GUI {
     	this.textFamily = 'Arial';
     	this.textHAlign = 'left'; // left, center, right;
     	this.textVAlign = 'top'; // top, middle, bottom.
-    	this.backgroundAlpha = 1;
+    	this.textAlpha = 1;
     	
     	// Background Data
     	this.backgroundPoly = undefined;
@@ -71,17 +71,31 @@ class GUI {
 	 */
 	renBackground() {
 		
-		// Render the background polygon.
+		// Set the shape to build the compare.
 		let shape = this.backgroundShape;
 		
 		// TODO Logic to detect shape change. If it's changes, redraw the polygon.
+		if (this.backgroundPoly && this.backgroundPoly.type) {
+			if (this.backgroundPoly.type.toLowerCase() != shape) {
+				this.backgroundPoly.destroy();
+				this.backgroundPoly = undefined;
+			}
+		}
 		
-		if (shape === 'rectangle')
-			this.backgroundPoly = this.scene.add.rectangle(0, 0, this.width, this.height, this.backgroundColor);
-		else if (shape === 'star')
-			this.backgroundPoly = this.scene.add.star(0, 0,  5, this.width, this.height, this.backgroundColor);
-		else if (shape === 'image')
-			this.backgroundPoly = this.scene.add.image(0, 0, this.backgroundImage);
+		// Render the polygon based on shape.
+		if (!this.backgroundPoly) {
+			if (shape === 'rectangle')
+				this.backgroundPoly = this.scene.add.rectangle(0, 0, this.width, this.height, this.backgroundColor, this.backgroundAlpha);
+			else if (shape === 'star')
+				this.backgroundPoly = this.scene.add.star(0, 0,  5, this.width, this.height, this.backgroundColor, this.backgroundAlpha);
+			else if (shape === 'image')
+				this.backgroundPoly = this.scene.add.image(0, 0, this.backgroundImage, this.backgroundAlpha);	
+		}
+		else {
+			this.backgroundPoly.width = this.width;
+			this.backgroundPoly.height = this.height;
+			this.backgroundPoly.setFillStyle(this.backgroundColor, this.backgroundAlpha);
+		}
 		
 		this.backgroundPoly.setOrigin(0, 0); // Set the origin to the top left of the polygon, instead of center.
 		
@@ -158,6 +172,9 @@ class GUI {
 			this.textPoly.setPadding( this.padding.left, this.padding.top, this.padding.right, this.padding.bottom );
 			this.textPoly.setWordWrapWidth(this.width, true);
 		}
+		
+		// Set the Alpha value.
+		this.textPoly.setAlpha(this.textAlpha);
 		
 		// If the textAlign attributes are set, figure how the x and y cords.
 		let x = 0; // Default x cord and origin for text. textHAlign = left.
@@ -251,6 +268,7 @@ class GUI {
 	 */
 	setBackgroundAlpha(value) {
 		this.backgroundAlpha = value;
+		this.renBackground();
 	}
 	
 	
@@ -331,6 +349,8 @@ class GUI {
 	 */
 	setTextAlpha(value) {
 		this.textAlpha = value;
+		if (this.textPoly)
+			this.renText();
 	}
 	
 	

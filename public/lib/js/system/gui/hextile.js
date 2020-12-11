@@ -4,9 +4,9 @@
  ** Title: ???.
  ** Description: ???.
  */
-class Board extends GUI {
+class HexTile extends GUI {
 	
 	constructor(scene, emitter) {
-		super(); // Import existing properties.
+		super(scene, emitter); // Import existing properties.
 	}
 }
