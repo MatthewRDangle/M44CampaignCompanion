@@ -17,7 +17,7 @@ class Map extends GUI {
 		this.mapWidth = mapWidth;
 		this.mapHeight = mapHeight;
 		this.tileSize = 75;
-		this.tileBorder = 1;
+		this.tileBorder = 0;
 		this.spacing = this.tileSize + this.tileBorder;
 		
 		this.renMap(); // Initial Render

@@ -19,7 +19,7 @@ class HexTile extends GUI {
 		this.setDimensions(w*3, h*3);
 		this.setBackgroundShape('polygon'); // TODO For some reason the shape needs to be built after the dimensions.
 		this.setBackgroundColor(0xC5D6B7);
-//		this.setBackgroundBorder(3, 0xFFFFFF);
+		this.setBackgroundBorder(4, 0xFFFFFF);
 	}
 	
 	/*
