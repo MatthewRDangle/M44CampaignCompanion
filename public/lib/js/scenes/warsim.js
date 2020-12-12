@@ -31,7 +31,7 @@ class WarSim extends Phaser.Scene {
     	
     	// Create the game board to be rendered.
     	let map = new Map(this, emitter, 10, 4);
-    	map.setCords(100,100);
+    	map.setCords(0, 0);
     	
     	// Build the top bar.
     	let topbar = new GUI(this, emitter);
@@ -117,15 +117,16 @@ class WarSim extends Phaser.Scene {
 		
 		// Add barrier to the left of the screen.
     	let leftbar = new GUI(this, emitter);
-    	leftbar.setCords(0, topbar.height, 2);
     	leftbar.setDimensions(15, window.innerHeight - topbar.height);
+    	leftbar.setCords(0, topbar.height);
+    	leftbar.setDepth(2);
     	leftbar.setBackgroundColor(0x151A1E);
 		
 		// build bottom bar for exiting the game.
     	let bottombar = new GUI(this, emitter);
     	bottombar.setDimensions(window.innerWidth, 100);
     	bottombar.setCords(0, window.innerHeight - bottombar.height, 2);
-    	bottombar.depth = 2;
+    	bottombar.setDepth(2);
     	bottombar.setBackgroundColor(0x151A1E);
     	
     	// Build End Game Button.
@@ -167,23 +168,5 @@ class WarSim extends Phaser.Scene {
     	let star_w_offset = (n == 2) ? 100 : 60; // If this is the second faction display, set the offset value.
     	let flag_w_offset = (n == 2) ? 0 : 40; // If this is the second faction display, set the offset value.
     	return new FactionDisplay(this, emitter, parent, xCord, star_w_offset, flag_w_offset, flag);
-
-//    	let faction = new GUI(this, this.emitter);
-//    	faction.setCords(xCord, 30);
-//    	faction.setDimensions(parent.width / 2, 150);
-////    	faction.setBackgroundColor(0x000000);
-//    	let faction_turnMarker = new GUI(this, this.emitter);
-//    	faction_turnMarker.setCords(faction.width / 2 - star_w_offset, faction.height / 2 - 5);
-//    	faction_turnMarker.setDimensions(5, 10);
-//    	faction_turnMarker.setBackgroundAlign('center', 'middle');
-//    	faction_turnMarker.setBackgroundShape('star');
-//    	faction_turnMarker.setBackgroundColor(0xFFFFFF);
-//    	faction.addChild(faction_turnMarker);
-//    	let faction_flag = new GUI(this, this.emitter);
-//    	faction_flag.setCords(faction.width / 2 + flag_w_offset, faction.height / 2);
-//    	faction_flag.setBackgroundAlign('center', 'middle');
-//    	faction_flag.setBackgroundImage(flag);
-//    	faction.addChild(faction_flag);
-//    	return faction;
     }
 }

@@ -443,7 +443,6 @@ class GUI {
 		
 		// Set the cords to the object.
 		this.z = z;
-		this.container.depth = z;
 		
 		this.updateGUI(); // Update the GUI polygons.
 	}
