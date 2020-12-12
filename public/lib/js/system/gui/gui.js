@@ -54,7 +54,8 @@ class GUI {
     	
     	// Event Handlers.
     	this.event = {
-    			onclick: undefined
+    			onclick: undefined,
+    			update: []
     	}
 	}
 	
@@ -243,7 +244,7 @@ class GUI {
 	 */
 	setBackgroundColor(hexColor) {
 		this.backgroundColor = hexColor;
-		this.renBackground();
+		this.updateBackground();
 	}
 	
 	/*
@@ -253,7 +254,7 @@ class GUI {
 	setBackgroundImage(ref) {
 		this.backgroundImage = ref;
 		this.backgroundShape = 'image';
-		this.renBackground();
+		this.updateBackground();
 	}
 	
 	/*
@@ -262,7 +263,7 @@ class GUI {
 	 */
 	setBackgroundShape(shape) {
 		this.backgroundShape = shape;
-		this.renBackground();
+		this.updateBackground();
 	}
 	
 	/*
@@ -272,7 +273,7 @@ class GUI {
 	setBackgroundAlign(h, v) {
 		this.backgroundHAlign = h;
 		this.backgroundVAlign = v;
-		this.renBackground();
+		this.updateBackground();
 	}
 	
 	/*
@@ -281,7 +282,7 @@ class GUI {
 	 */
 	setBackgroundHAlign(h) {
 		this.backgroundHAlign = h;
-		this.renBackground();
+		this.updateBackground();
 	}
 	
 	/*
@@ -290,7 +291,7 @@ class GUI {
 	 */
 	setBackgroundVAlign(v) {
 		this.backgroundvAlign = v;
-		this.renBackground();
+		this.updateBackground();
 	}
 	
 	/*
@@ -299,7 +300,7 @@ class GUI {
 	 */
 	setBackgroundAlpha(value) {
 		this.backgroundAlpha = value;
-		this.renBackground();
+		this.updateBackground();
 	}
 	
 	/*
@@ -309,7 +310,7 @@ class GUI {
 	setBackgroundBorder(size, color) {
 		this.backgroundBorderSize = size;
 		this.backgroundBorderColor = color;
-		this.renBackground();
+		this.updateBackground();
 	}
 	
 	/*
@@ -318,7 +319,7 @@ class GUI {
 	 */
 	setBackgroundBorderSize(value) {
 		this.backgroundBorderSize = value;
-		this.renBackground();
+		this.updateBackground();
 	}
 	
 	/*
@@ -327,7 +328,23 @@ class GUI {
 	 */
 	setBackgroundBorderColor(value) {
 		this.backgroundBorderColor = value;
+		this.updateBackground();
+	}
+	
+	/*
+	 * Title: Update Text
+	 ** Executes all functions to update the background.
+	 */
+	updateBackground() {
+		// Execute the render background function.
 		this.renBackground();
+		
+		// Execute all functions attached to this update function.
+		for (let idx = 0; idx < this.event.update; idx++) {
+			let update = this.event.update[idx];
+			if (update.updateBackground)
+				this.update.func();
+		}
 	}
 	
 	
@@ -338,7 +355,12 @@ class GUI {
 	 */
 	setTextString(text) {
 		this.textString = text; // Write text to GUI.
-		this.renText();
+		
+		// If textPoly doesn't exist, create it.
+		if (!this.textPoly)
+			this.renText();
+		else if (this.textPoly)
+			this.updateText();
 	}
 	
 	/*
@@ -347,8 +369,7 @@ class GUI {
 	 */
 	setTextColor(hexColor) {
 		this.textColor = hexColor;
-		if (this.textPoly)
-			this.renText();
+		this.updateText();
 	}
 	
 	/*
@@ -357,8 +378,7 @@ class GUI {
 	 */
 	setTextSize(size) {
 		this.textSize = size;
-		if (this.textPoly)
-			this.renText();
+		this.updateText();
 	}
 	
 	/*
@@ -367,8 +387,7 @@ class GUI {
 	 */
 	setTextFamily(fontFamily) {
 		this.textFamily = fontFamily;
-		if (this.textPoly)
-			this.renText();
+		this.updateText();
 	}
 	
 	/*
@@ -378,8 +397,7 @@ class GUI {
 	setTextAlign(h, v) {
 		this.textHAlign = h;
 		this.textVAlign = v;
-		if (this.textPoly)
-			this.renText();
+		this.updateText();
 	}
 	
 	/*
@@ -388,8 +406,7 @@ class GUI {
 	 */
 	setTextHAlign(h) {
 		this.textHAlign = h;
-		if (this.textPoly)
-			this.renText();
+		this.updateText();
 	}
 	
 	/*
@@ -398,8 +415,7 @@ class GUI {
 	 */
 	setTextVAlign(v) {
 		this.textVAlign = v;
-		if (this.textPoly)
-			this.renText();
+		this.updateText();
 	}
 	
 	/*
@@ -408,8 +424,24 @@ class GUI {
 	 */
 	setTextAlpha(value) {
 		this.textAlpha = value;
+		this.updateText();
+	}
+	
+	/*
+	 * Title: Update Text
+	 ** Executes all functions to update the text.
+	 */
+	updateText() {
+		// Execute the render text function.
 		if (this.textPoly)
 			this.renText();
+		
+		// Execute all functions attached to this update function.
+		for (let idx = 0; idx < this.event.update; idx++) {
+			let update = this.event.update[idx];
+			if (update.updateText)
+				this.update.func();
+		}
 	}
 	
 	
@@ -508,8 +540,7 @@ class GUI {
 		this.padding.top = top;
 		this.padding.right = right;
 		this.padding.bottom = bottom;
-		if (this.textPoly)
-			this.renText();
+		this.updateGUI();
 	}
 	
 	/*
@@ -518,8 +549,7 @@ class GUI {
 	 */
 	setPaddingLeft(left) {
 		this.padding.left = left;
-		if (this.textPoly)
-			this.renText();
+		this.updateGUI();
 	}
 	
 	/*
@@ -528,8 +558,7 @@ class GUI {
 	 */
 	setPaddingTop(top) {
 		this.padding.top = top;
-		if (this.textPoly)
-			this.renText();
+		this.updateGUI();
 	}
 	
 	
@@ -538,9 +567,8 @@ class GUI {
 	 ** Description: Sets just the padding right.
 	 */
 	setPaddingRight(right) {
-		this.padding.top = right;
-		if (this.textPoly)
-			this.renText();
+		this.padding.right = right;
+		this.updateGUI();
 	}
 	
 	
@@ -549,9 +577,8 @@ class GUI {
 	 ** Description: Sets the text string.
 	 */
 	setPaddingBottom(bottom) {
-		this.padding.top = bottom;
-		if (this.textPoly)
-			this.renText();
+		this.padding.bottom = bottom;
+		this.updateGUI();
 	}
 	
 	/*
@@ -561,7 +588,23 @@ class GUI {
 	onClick(callback) {
 		this.event.onclick = callback;
 		this.interactive = true;
-		this.renBackground(); // Update the GUI polygons.
+		this.updateGUI();
+	}
+	
+	/*
+	 * Title: Update Text
+	 ** Executes all functions to update the text.
+	 */
+	updateContainer() {
+		// Execute the render text function.
+		this.renContainer();
+		
+		// Execute all functions attached to this update function.
+		for (let idx = 0; idx < this.event.update; idx++) {
+			let update = this.event.update[idx];
+			if (update.updateContainer)
+				this.update.func();
+		}
 	}
 	
 	
@@ -571,8 +614,21 @@ class GUI {
 	 ** Description: Will render or update the entire GUI.
 	 */
 	updateGUI() {
-		this.renContainer();
-		this.renBackground();
-		this.renText();
+		this.updateContainer();
+		this.updateBackground();
+		this.updateText();
+	}
+	
+	/*
+	 ** Title: addToUpdateQ.
+	 ** Description: Adds a function to the update Q.
+	 */
+	addToUpdateQ(func, text, bck, cont) {
+		this.event.update.push({
+			func: func,
+			updateText: text,
+			updateBackground: bck,
+			updateContainer: cont
+		})
 	}
 }

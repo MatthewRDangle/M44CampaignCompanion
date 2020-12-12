@@ -28,10 +28,13 @@ class WarSim extends Phaser.Scene {
     	// War Simulation Events.
     	let faction_turn = 0;
     	emitter.on("nextTurn", nextTurn, this);
+    	let mode = 'View';
+    	emitter.on("mode", swapMode, this);
     	
-    	// Create the game board to be rendered.
-    	let map = new Map(this, emitter, scenarioDetails.width, scenarioDetails.height);
-    	map.setCords(20, 80);
+    	// Game Background.
+    	let gameBck = new GUI(this, emitter);
+    	gameBck.setDimensions(window.innerWidth, window.innerHeight);
+    	gameBck.setBackgroundColor(0x000000);
     	
     	// Build the top bar.
     	let topbar = new GUI(this, emitter);
@@ -135,6 +138,10 @@ class WarSim extends Phaser.Scene {
     	endgame.setBackgroundImage('EndGame');
     	bottombar.addChild(endgame);
     	
+    	// Create the game board to be rendered.
+    	let gameboard = new GameBoard(this, emitter, scenarioDetails.width, scenarioDetails.height);
+    	gameboard.setDimensions(window.innerWidth - leftbar.width - rightbar.width, window.innerHeight - topbar.height - bottombar.height);
+		gameboard.updateMode(mode);
     	
     	/*
     	 * Function: Next Turn
@@ -159,6 +166,25 @@ class WarSim extends Phaser.Scene {
     			first_faction.setIsTurn(true);
     		else
     			second_faction.setIsTurn(true);
+    	}
+    	
+    	/*
+    	 * Function: Swap Mode
+    	 * Description: Change the mode between view and add mode.
+    	 */
+    	function swapMode() {
+    		if (mode === "View") {
+    			mode = 'Add';
+    			gameboard.updateMode(mode);
+    		}
+    		else if (mode === "Add") {
+    			mode = "View";
+    			gameboard.updateMode(mode);
+    		}
+    		else if (mode === "Move") {
+    			mode = "View";
+    			gameboard.updateMode(mode);	
+    		}
     	}
     }
     
