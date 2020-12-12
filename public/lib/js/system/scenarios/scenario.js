@@ -12,6 +12,10 @@ class Scenario {
 		this.name = (json.name) ? json.name : "";
 		this.mission = (json.mission) ? json.mission : "";
 		
+		// Map Data.
+		this.width = (json.map.width) ? json.map.width : 0;
+		this.height = (json.map.height) ? json.map.height : 0
+		
 		// Game Data.
 		this.factions = [];
 		if (json.factions.length > 0) {

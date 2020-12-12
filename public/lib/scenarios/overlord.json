@@ -1,5 +1,9 @@
 {
 	"name": "Operation Overlord",
 	"mission": "Capture the Airfields and hold them for one turn",
-	"factions": ["Germany", "America"]
+	"factions": ["Germany", "America"],
+	"map": {
+		"width": "10",
+		"height": "10"
+	}
 }
