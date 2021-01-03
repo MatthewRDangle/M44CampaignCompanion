@@ -66,16 +66,72 @@ class Map extends GUI {
 
 			// Set tile as draggable.
 			let map = this;
+			tile.onClick(function(e) {
+				let mouseClick = e.event.which; // 1, 2 or 3 for a mouse click.
+				
+	    		// On left click, enter movement mode for a unit.
+	    		if (mouseClick === 1 && this.scene.data.list['mode'] === 'View') {
+	    			
+	    			// Check if unit exists. If it does, enter movement mode. Otherwise, do nothing.
+	    			if ( tile.units.infantry > 0 ) {
+	    				this.emitter.emit('moveMode');
+	    			}
+	    		}
+	    		
+	    		// On left click while in movement mode, move the unit where it needs to go.
+	    		else if (mouseClick === 1 && this.scene.data.list['mode'] === 'Move') {
+
+//	    			// Move unit to the new hex if a unit does not exist there.
+	    			if ( tile.units.infantry > 0 ) {
+	    				debugger;
+	    			}
+//	    			if ( !this.hasUnit() ) {
+//	    				
+//	    				// Transfer the unit to the new tile.
+//	    				let old_tile = this.scene.data.list['selectedHex'];
+//	    				old_tile.transferUnit(this);
+//	    				
+//	    				// Reset mode, deselect hex, and change unit to be inside new hex.
+//	    				this.scene.data.list['mode'] = 'View';
+//	    				this.emitter.emit('changeMode');
+//	    				this.scene.data.list['selectedHex'] = false;
+//	    			}
+	    		}
+
+	    		// On right click, add or remove units.
+	    		else if (mouseClick === 3 && this.scene.data.list['mode'] === 'Add') {
+	    			
+//	    			// If the box doesn't have a unit, add it.
+	    			if ( tile.units.infantry == 0 ) {
+	    				debugger;
+	    			}
+	    			
+	    			// If it has a unit, remove it.
+	    			else {
+	    				tile.units.infantry = 0;
+	    			}
+	    			
+//	    			if ( !this.hasUnit() ) {
+//	    				this.addUnit();
+//	    			}
+//	    			
+//	    			// If it has a unit, remove it.
+//	    			else {
+//	    				this.removeUnit();
+//	    			}
+	    		}
+	    	
+			});
 			if (this.draggable) {
 				tile.onDragStart(function(pointer) {
 					map.container.setData("x_start", map.x);
 					map.container.setData("y_start", map.y);
-				}, this);
+				});
 				tile.onDrag(function(pointer, dragX, dragY) {
 					let mapX = map.container.getData("x_start") + dragX;
 					let mapY = map.container.getData("y_start") + dragY;
 					map.setCords(mapX, mapY);
-				}, this);
+				});
 			}
 			
 			// Add tile to the map.

@@ -9,14 +9,7 @@ class Unit {
 	constructor() {
 		
 		// Display Data.
-		this.name = "Unit";
+		this.name = "Structure";
 		this.type = "Generic";
-		
-		// State Data.
-		this.movement = 0;
-		this.maxMovement = 0;
-		
-		// Faction Information
-		this.faction = undefined;
 	}
 }

@@ -43,8 +43,9 @@ class WarSim extends Phaser.Scene {
     	// War Simulation Events.
     	let faction_turn = 0;
     	emitter.on("nextTurn", nextTurn, this);
-    	let mode = 'View';
+    	this.data.list['mode'] = 'View';
     	emitter.on("mode", swapMode, this);
+    	emitter.on("moveMode", moveMode, this);
     	
     	// Game Background.
     	let gameBck = new GUI(this, emitter);
@@ -156,7 +157,7 @@ class WarSim extends Phaser.Scene {
     	// Create the game board to be rendered.
     	let gameboard = new GameBoard(this, emitter, scenarioDetails.width, scenarioDetails.height);
     	gameboard.setDimensions(window.innerWidth - leftbar.width - rightbar.width, window.innerHeight - topbar.height - bottombar.height);
-		gameboard.updateMode(mode);
+		gameboard.updateMode(this.data.list['mode']);
     	
     	/*
     	 * Function: Next Turn
@@ -188,19 +189,28 @@ class WarSim extends Phaser.Scene {
     	 * Description: Change the mode between view and add mode.
     	 */
     	function swapMode() {
-    		if (mode === "View") {
-    			mode = 'Add';
-    			gameboard.updateMode(mode);
+    		if (this.data.list['mode'] === "View") {
+    			this.data.list['mode'] = 'Add';
+    			gameboard.updateMode(this.data.list['mode']);
     		}
-    		else if (mode === "Add") {
-    			mode = "View";
-    			gameboard.updateMode(mode);
+    		else if (this.data.list['mode'] === "Add") {
+    			this.data.list['mode'] = "View";
+    			gameboard.updateMode(this.data.list['mode']);
     		}
-    		else if (mode === "Move") {
-    			mode = "View";
-    			gameboard.updateMode(mode);	
+    		else if (this.data.list['mode'] === "Move") {
+    			this.data.list['mode'] = "View";
+    			gameboard.updateMode(this.data.list['mode']);	
     		}
     	}
+    	
+    	/*
+    	 * Function: Move Mode.
+    	 * Description: ???
+    	 */
+		function moveMode() {
+			this.data.list['mode'] = 'Move';
+			gameboard.updateMode(this.data.list['mode']);
+		}
     }
     
     // Create a faction display with GUI.
