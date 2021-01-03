@@ -6,8 +6,8 @@
  */
 class Infantry extends Unit {
 	
-	constructor() {
-		super(); // Import existing properties
+	constructor(owner) {
+		super(owner); // Import existing properties
 		
 		// Display Data.
 		this.type = "infantry";

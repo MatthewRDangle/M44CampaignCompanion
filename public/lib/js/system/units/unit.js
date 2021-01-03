@@ -6,7 +6,7 @@
  */
 class Unit {
 	
-	constructor() {
+	constructor(owner) {
 		
 		// Display Data.
 		this.name = "Unit";
@@ -17,7 +17,7 @@ class Unit {
 		this.maxMovement = 0;
 		
 		// Faction Information
-		this.faction = undefined;
+		this.faction = owner;
 		
 		// GUI Information.
 		this.tile = undefined;
