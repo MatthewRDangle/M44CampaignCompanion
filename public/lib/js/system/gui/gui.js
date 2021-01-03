@@ -30,6 +30,7 @@ class GUI {
     	this.width = 0;
     	this.height = 0;
     	this.padding = { left: 0, top: 0, right: 0, bottom: 0 };
+    	this.scale = 1;
     	
     	// Text Content Data
     	this.textPoly = undefined;
@@ -71,6 +72,31 @@ class GUI {
 		child_gui.parent = this;
 		this.innerGUI.push(child_gui);
 		this.container.add(child_gui.container);
+	}
+	
+	/*
+	 ** Title: Remove Child.
+	 ** Description: Remove a GUI child from this GUI. This will automatically remove it to the container.
+	 *
+	 * @param gui - GUI - required - The inner GUI to remove.
+	 */
+	removeChild(child_gui) {
+		let index = this.innerGUI.indexOf(child_gui);
+		this.innerGUI.splice(index, 1);
+		child_gui.destroy();
+	}
+	
+	/*
+	 ** Title: Destroy.
+	 ** Description: Destroys the instance of this object.
+	 */
+	destroy() {
+		if (this.textPoly)
+			this.textPoly.destroy();
+		if (this.backgroundPoly)
+			this.backgroundPoly.destroy();
+		if (this.container)
+			this.container.destroy();
 	}
 	
 	
@@ -193,6 +219,7 @@ class GUI {
 		this.container.x = this.x;
 		this.container.y = this.y;
 		this.container.depth = this.z;
+		this.container.setScale(this.scale);
 	}
 	
 	/*
@@ -508,6 +535,20 @@ class GUI {
 		// Set the dimensions to the object.
 		this.width = width;
 		this.height = height;
+		
+		this.updateGUI(); // Update the GUI polygons.
+	}
+	
+	/*
+	 ** Title: Set Scale
+	 ** Description: Sets the scale for this GUI.
+	 *
+	 ** @param scale - number - required - scale of the GUI.
+	 */
+	setScale(scale) {
+		
+		// Set the dimensions to the object.
+		this.scale = scale;
 		
 		this.updateGUI(); // Update the GUI polygons.
 	}

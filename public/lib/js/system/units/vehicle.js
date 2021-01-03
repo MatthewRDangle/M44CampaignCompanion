@@ -10,6 +10,6 @@ class Vehicle extends Unit {
 		super(); // Import existing properties
 		
 		// Display Data.
-		this.type = "Vehicle";
+		this.type = "vehicle";
 	}
 }

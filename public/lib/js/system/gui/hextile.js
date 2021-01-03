@@ -20,15 +20,12 @@ class HexTile extends GUI {
 		
 		// Game Data.
 		this.units = {
-				infantry: 0,
-				tank: 0,
-				ship: 0,
-				plane: 0
+				infantry: [],
+				vehicle: [],
+				naval: [],
+				aircraft: []
 		};
-		this.structures = {
-				airbase: undefined,
-				encampment: undefined
-		};
+		this.structure = undefined;
 		this.terrain = undefined;
 		
 		// Create the Polygon.
@@ -45,7 +42,28 @@ class HexTile extends GUI {
 	 ** Description: ???
 	 */
 	addUnit(unit) {
-		this.units[unit.type] + 1; // Add unit to directory.
+		this.units[unit.type].push(unit); // Add unit to directory.
+
+		// Attach unit GUI.
+		let unit_marker = new GUI(this.scene, this.emitter);
+		unit_marker.setCords(this.width / 2, this.height / 2);
+		unit_marker.setScale(0.25);
+		unit_marker.setDimensions(0, 10);
+		unit_marker.setBackgroundAlign('center', 'middle');
+		unit_marker.setBackgroundImage('Friendly_Infantry');
+		unit.attachGUI(unit_marker); // Attach the GUI for later access.
+		
+		this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+	}
+	
+	/*
+	 ** Title: Remove Unit
+	 ** Description: ???
+	 */
+	removeUnit(unit) {
+		let index = this.units[unit.type].indexOf(unit);
+		this.units[unit.type].splice(index, 1); // Remove from unit array.
+		this.removeChild(unit.gui);
 	}
 	
 	/*
@@ -53,7 +71,15 @@ class HexTile extends GUI {
 	 ** Description: ???
 	 */
 	addStructure(structure) {
-		this.structures[structure.type] + 1; // Add structure to directory.
+		this.structure = structure;
+	}
+	
+	/*
+	 ** Title: Remove Structure
+	 ** Description: ???
+	 */
+	addStructure() {
+		this.structure = undefined;
 	}
 	
 	/*
@@ -61,6 +87,7 @@ class HexTile extends GUI {
 	 ** Description: ???
 	 */
 	setTerrain(terrain) {
-		this.terrain = terrain;
+		if (terrain)
+			this.terrain = terrain;
 	}
 }

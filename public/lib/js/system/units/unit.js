@@ -18,5 +18,13 @@ class Unit {
 		
 		// Faction Information
 		this.faction = undefined;
+		
+		// GUI Information.
+		this.gui = undefined;
+	}
+	
+	attachGUI(gui) {
+		if (gui)
+			this.gui = gui;
 	}
 }

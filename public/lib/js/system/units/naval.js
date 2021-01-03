@@ -4,12 +4,12 @@
  ** Title: ???.
  ** Description: ???.
  */
-class Aircraft extends Unit {
+class Naval extends Unit {
 	
 	constructor() {
 		super(); // Import existing properties
 		
 		// Display Data.
-		this.type = "aircraft";
+		this.type = "naval";
 	}
 }

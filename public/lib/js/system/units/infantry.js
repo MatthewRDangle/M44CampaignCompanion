@@ -10,6 +10,6 @@ class Infantry extends Unit {
 		super(); // Import existing properties
 		
 		// Display Data.
-		this.type = "Infantry";
+		this.type = "infantry";
 	}
 }

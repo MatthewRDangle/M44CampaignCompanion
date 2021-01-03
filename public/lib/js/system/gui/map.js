@@ -101,24 +101,13 @@ class Map extends GUI {
 	    		// On right click, add or remove units.
 	    		else if (mouseClick === 3 && this.scene.data.list['mode'] === 'Add') {
 	    			
-//	    			// If the box doesn't have a unit, add it.
-	    			if ( tile.units.infantry == 0 ) {
-	    				debugger;
+	    			// If the box doesn't have a unit, add it, otherwise remove it.
+	    			if ( tile.units.infantry.length == 0) {
+	    				tile.addUnit( new Infantry() );
 	    			}
-	    			
-	    			// If it has a unit, remove it.
 	    			else {
-	    				tile.units.infantry = 0;
+	    				tile.removeUnit( tile.units.infantry[0] );
 	    			}
-	    			
-//	    			if ( !this.hasUnit() ) {
-//	    				this.addUnit();
-//	    			}
-//	    			
-//	    			// If it has a unit, remove it.
-//	    			else {
-//	    				this.removeUnit();
-//	    			}
 	    		}
 	    	
 			});
