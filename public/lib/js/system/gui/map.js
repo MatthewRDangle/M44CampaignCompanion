@@ -73,29 +73,22 @@ class Map extends GUI {
 	    		if (mouseClick === 1 && this.scene.data.list['mode'] === 'View') {
 	    			
 	    			// Check if unit exists. If it does, enter movement mode. Otherwise, do nothing.
-	    			if ( tile.units.infantry > 0 ) {
-	    				this.emitter.emit('moveMode');
+	    			if ( tile.units.infantry.length > 0 ) {
+	    				this.emitter.emit('moveMode'); // Change the mode to move.
+	    				this.scene.data.list['selectedHex'] = tile; // Set the selected tile.
 	    			}
 	    		}
 	    		
 	    		// On left click while in movement mode, move the unit where it needs to go.
 	    		else if (mouseClick === 1 && this.scene.data.list['mode'] === 'Move') {
-
-//	    			// Move unit to the new hex if a unit does not exist there.
-	    			if ( tile.units.infantry > 0 ) {
-	    				debugger;
+	    			
+	    			// Move unit to the new hex if a unit does not exist there.
+	    			if ( tile.units.infantry.length == 0 ) {
+	    				let old_tile = this.scene.data.list['selectedHex'];
+	    				old_tile.transferUnit( old_tile.units.infantry[0], tile );
+	    				this.emitter.emit('mode');
+	    				this.scene.data.list['selectedHex'] = false;
 	    			}
-//	    			if ( !this.hasUnit() ) {
-//	    				
-//	    				// Transfer the unit to the new tile.
-//	    				let old_tile = this.scene.data.list['selectedHex'];
-//	    				old_tile.transferUnit(this);
-//	    				
-//	    				// Reset mode, deselect hex, and change unit to be inside new hex.
-//	    				this.scene.data.list['mode'] = 'View';
-//	    				this.emitter.emit('changeMode');
-//	    				this.scene.data.list['selectedHex'] = false;
-//	    			}
 	    		}
 
 	    		// On right click, add or remove units.

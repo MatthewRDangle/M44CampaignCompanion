@@ -194,14 +194,19 @@ class GUI {
 		}
 		else
 			this.backgroundPoly.isStroked = false;
-		
-		// Attach events.
+
+		// Attach onclick events.
+		this.backgroundPoly.off('pointerdown');
 		if (this.event.onclick) {
 			this.backgroundPoly.setInteractive({ cursor: 'pointer' }); // Allow it to be interactive.
 			
 			// Enable Click Events.
 			this.backgroundPoly.on('pointerdown', this.event.onclick, this);
 		}
+		
+		// Attach ondrag events.
+		this.backgroundPoly.off('dragstart');
+		this.backgroundPoly.off('drag');
 		if (this.event.ondrag) {
 			this.backgroundPoly.setInteractive({ cursor: 'pointer' }); // Allow it to be interactive.
 			this.scene.input.setDraggable(this.backgroundPoly); // Enable dragging.

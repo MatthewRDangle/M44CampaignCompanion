@@ -20,7 +20,13 @@ class Unit {
 		this.faction = undefined;
 		
 		// GUI Information.
+		this.tile = undefined;
 		this.gui = undefined;
+	}
+	
+	attachTile(tile) {
+		if (tile)
+			this.tile = tile;
 	}
 	
 	attachGUI(gui) {

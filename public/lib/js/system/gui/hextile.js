@@ -51,8 +51,9 @@ class HexTile extends GUI {
 		unit_marker.setDimensions(0, 10);
 		unit_marker.setBackgroundAlign('center', 'middle');
 		unit_marker.setBackgroundImage('Friendly_Infantry');
-		unit.attachGUI(unit_marker); // Attach the GUI for later access.
 		
+		unit.attachTile(this); // Attach the tile for later access.
+		unit.attachGUI(unit_marker); // Attach the GUI for later access.
 		this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
 	}
 	
@@ -61,9 +62,19 @@ class HexTile extends GUI {
 	 ** Description: ???
 	 */
 	removeUnit(unit) {
+		unit.tile = undefined;
 		let index = this.units[unit.type].indexOf(unit);
 		this.units[unit.type].splice(index, 1); // Remove from unit array.
 		this.removeChild(unit.gui);
+	}
+	
+	/*
+	 ** Title: Transfer Unit
+	 ** Description: ???
+	 */
+	transferUnit(unit, tile) {
+		this.removeUnit(unit);
+		tile.addUnit(unit);
 	}
 	
 	/*
