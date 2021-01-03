@@ -55,6 +55,8 @@ class GUI {
     	// Event Handlers.
     	this.event = {
     			onclick: undefined,
+    			ondragstart: undefined,
+    			ondrag: undefined,
     			update: []
     	}
 	}
@@ -122,12 +124,18 @@ class GUI {
 				this.backgroundPoly = this.scene.add.image(x, y, this.backgroundImage, this.backgroundAlpha);
 			else if (shape === 'polygon') {
 				this.backgroundPoly = this.scene.add.polygon(x, y, [
-	        		0, y, 
-	        		this.width * 0.25, y - this.height / 2, 
-	        		this.width * 0.75, y - this.height / 2, 
-	        		this.width, y,  
-	        		this.width * 0.75, y + this.height / 2,
-	        		this.width * 0.25, y + this.height / 2
+					this.width * 0.25, y,
+					this.width * 0.75, y,
+					this.width, y + this.height / 2,
+					this.width * 0.75, y + this.height,
+					this.width * 0.25, y + this.height,
+					0, y + this.height / 2,
+//	        		0, y, 
+//	        		this.width * 0.25, y - this.height / 2, 
+//	        		this.width * 0.75, y - this.height / 2, 
+//	        		this.width, y,  
+//	        		this.width * 0.75, y + this.height / 2,
+//	        		this.width * 0.25, y + this.height / 2
 				], this.backgroundColor, this.backgroundAlpha);
 			}
 			
@@ -163,8 +171,17 @@ class GUI {
 		
 		// Attach events.
 		if (this.event.onclick) {
-			this.backgroundPoly.setInteractive({ cursor: 'pointer' });
+			this.backgroundPoly.setInteractive({ cursor: 'pointer' }); // Allow it to be interactive.
+			
+			// Enable Click Events.
 			this.backgroundPoly.on('pointerdown', this.event.onclick, this);
+		}
+		if (this.event.ondrag) {
+			this.backgroundPoly.setInteractive({ cursor: 'pointer' }); // Allow it to be interactive.
+			this.scene.input.setDraggable(this.backgroundPoly); // Enable dragging.
+			if (this.event.ondragstart) // If drag start exists, set it.
+				this.backgroundPoly.on('dragstart', this.event.ondragstart);
+			this.backgroundPoly.on('drag', this.event.ondrag); // Set the on drag function.
 		}
 	}
 	
@@ -581,15 +598,54 @@ class GUI {
 		this.updateGUI();
 	}
 	
+	
+	
 	/*
 	 ** Title: On Click
 	 ** Description: On click event for this GUI.
 	 */
 	onClick(callback) {
 		this.event.onclick = callback;
-		this.interactive = true;
+
+		if (callback)
+			this.interactive = true;
+		else
+			this.interactive = false;
+		
 		this.updateGUI();
 	}
+	
+	/*
+	 ** Title: On Drag Start
+	 ** Description: Attach Start Draggble Function.
+	 */
+	onDragStart(callback) {
+		this.event.ondragstart = callback;
+
+		if (callback)
+			this.interactive = true;
+		else
+			this.interactive = false;
+		
+		this.updateGUI();
+	}
+	
+	/*
+	 ** Title: On Drag
+	 ** Description: Attach Draggble Function.
+	 */
+	onDrag(callback) {
+		this.event.ondrag = callback;
+		
+		if (callback)
+			this.interactive = true;
+		else
+			this.interactive = false;
+		
+		this.updateGUI();
+	}
+	
+	
 	
 	/*
 	 * Title: Update Text

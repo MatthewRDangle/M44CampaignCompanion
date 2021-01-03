@@ -10,8 +10,13 @@ class HexTile extends GUI {
 	 ** Title: Constructor
 	 ** Description: Builds the tile.
 	 */
-	constructor(scene, emitter) {
+	constructor(scene, emitter, id) {
 		super(scene, emitter); // Import existing properties.
+		
+		// Set the ID of the tile.
+		this.id = undefined;
+		if (id && typeof id === 'string')
+			this.id = id;
 		
 		// Create the Polygon.
 		let w = 24;

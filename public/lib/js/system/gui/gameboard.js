@@ -12,8 +12,10 @@ class GameBoard extends GUI {
 		// Map Data.
 		this.xTiles = xTiles;
 		this.yTiles = yTiles;
-		this.mapGUI = new Map(scene, emitter, xTiles, yTiles);
+		this.mapGUI = new Map(scene, emitter, xTiles, yTiles, true);
 		this.modeGUI = new GUI(scene, emitter);
+		
+		// Render Setup.
 		this.renBoard();
 	}
 	

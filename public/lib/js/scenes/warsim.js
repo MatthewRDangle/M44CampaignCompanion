@@ -9,8 +9,23 @@ class WarSim extends Phaser.Scene {
     preload() {
     	// Load Scenario JSON.
     	this.load.json('scenarioJSON', 'lib/scenarios/overlord.json');
+
+    	// Structures.
+    	this.load.image('Neutral_Encampment', 'lib/assets/Encampment.png');
+    	this.load.image('Neutral_Airbase', 'lib/assets/Airbase.png');
     	
-    	// Assets
+    	// Units.
+    	this.load.image('Friendly_Tank', 'lib/assets/Green_Tank.png');
+    	this.load.image('Friendly_Plane', 'lib/assets/Green_Plane.png');
+    	this.load.image('Friendly_Ship', 'lib/assets/Green_Ship.png');
+    	this.load.image('Friendly_Infantry', 'lib/assets/Green_Infantry.png');
+    	this.load.image('Enemy_Tank', 'lib/assets/Red_Tank.png');
+    	this.load.image('Enemy_Plane', 'lib/assets/Red_Plane.png');
+    	this.load.image('Enemy_Ship', 'lib/assets/Red_Ship.png');
+    	this.load.image('Enemy_Infantry', 'lib/assets/Red_Infantry.png');
+    	
+    	// Buttons.
+    	this.load.image('Battle', 'lib/assets/Battle.png');
     	this.load.image('FinishTurn', 'lib/assets/FinishTurn.png');
     	this.load.image('EndGame', 'lib/assets/EndGame.png');
     	

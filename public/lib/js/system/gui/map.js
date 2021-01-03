@@ -10,7 +10,7 @@ class Map extends GUI {
 	 ** Title: Constructor
 	 ** Description: Builds the Map.
 	 */
-	constructor(scene, emitter, mapWidth, mapHeight) {
+	constructor(scene, emitter, mapWidth, mapHeight, draggable) {
 		super(scene, emitter); // Import existing properties.
 		
 		// Map Data
@@ -19,6 +19,7 @@ class Map extends GUI {
 		this.tileSize = 75;
 		this.tileBorder = 0;
 		this.spacing = this.tileSize + this.tileBorder;
+		this.draggable = draggable;
 		
 		this.renMap(); // Initial Render
 	}
@@ -30,6 +31,7 @@ class Map extends GUI {
 	renMap() {
 
 		// Construct a new tile for each width count.
+		let alphabet = ['A',' B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     	for (let x = 0; x <= this.mapWidth - 1; x++) {
     		
     		// Count a new tile for each height count.
@@ -42,7 +44,12 @@ class Map extends GUI {
     				hexY+= (this.spacing / 2) - (this.spacing/10);
     			}
     			
-    			this.addTile(hexX, hexY);
+    			// Set the ID.
+    			let xID = Number(x / alphabet.length).toFixed() + alphabet[x % alphabet.length];
+    			let yID = y;
+    			
+    			 // Create and add the tile to the map.
+    			this.addTile(hexX, hexY, xID + yID);
     		}
     	}
 	}
@@ -51,11 +58,27 @@ class Map extends GUI {
 	 ** Title: Add Tile.
 	 ** Description: Creates and appends a tile to the GUI container.
 	 */
-	addTile(hexX, hexY) {
+	addTile(hexX, hexY, id) {
 		
 			// Create a hex shape and add it to the container to render.
-			let tile = new HexTile(this.scene, this.emitter);
+			let tile = new HexTile(this.scene, this.emitter, id);
 			tile.setCords(hexX, hexY);
+
+			// Set tile as draggable.
+			let map = this;
+			if (this.draggable) {
+				tile.onDragStart(function(pointer) {
+					map.container.setData("x_start", map.x);
+					map.container.setData("y_start", map.y);
+				}, this);
+				tile.onDrag(function(pointer, dragX, dragY) {
+					let mapX = map.container.getData("x_start") + dragX;
+					let mapY = map.container.getData("y_start") + dragY;
+					map.setCords(mapX, mapY);
+				}, this);
+			}
+			
+			// Add tile to the map.
 			this.addChild(tile);
 	}
 }
