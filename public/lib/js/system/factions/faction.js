@@ -9,7 +9,7 @@ class Faction {
 	constructor(name, flag) {
 		
 		// Display Information
-		this.nane = name;
+		this.name = name;
 		this.flag = flag;
 	}
 }

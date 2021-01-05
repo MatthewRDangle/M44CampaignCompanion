@@ -51,4 +51,12 @@ class GameBoard extends GUI {
 		this.modeGUI.setTextString("Mode: " + value);
 		this.updateGUI();
 	}
+	
+	/*
+	 ** Title: Update Board.
+	 ** Description: ???
+	 */
+	updateBoard() {
+		this.mapGUI.updateMap();
+	}
 }

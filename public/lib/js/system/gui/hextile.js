@@ -32,7 +32,7 @@ class HexTile extends GUI {
 		let w = 24;
 		let h = 20;
 		this.setDimensions(w*3, h*3);
-		this.setBackgroundShape('polygon'); // TODO For some reason the shape needs to be built after the dimensions.
+		this.setBackgroundShape('polygon');
 		this.setBackgroundColor(0xC5D6B7);
 		this.setBackgroundBorder(4, 0xFFFFFF);
 	}
@@ -44,14 +44,10 @@ class HexTile extends GUI {
 	addUnit(unit) {
 		this.units[unit.type].push(unit); // Add unit to directory.
 
-		// Attach unit GUI.
-		let unit_marker = new GUI(this.scene, this.emitter);
-		unit_marker.setCords(this.width / 2, this.height / 2);
-		unit_marker.setScale(0.25);
-		unit_marker.setDimensions(0, 10);
-		unit_marker.setBackgroundAlign('center', 'middle');
-		unit_marker.setBackgroundImage('Friendly_Infantry');
+		// Build GUI.
+		let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
 		
+		// Attach unit GUI.
 		unit.attachTile(this); // Attach the tile for later access.
 		unit.attachGUI(unit_marker); // Attach the GUI for later access.
 		this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
@@ -92,6 +88,53 @@ class HexTile extends GUI {
 	addStructure() {
 		this.structure = undefined;
 	}
+	
+	
+	
+	/*
+	 ** Title: Swap GUI Display.
+	 ** Description: ???
+	 */
+	swapGUIDisplay() {
+		if (this.units.infantry.length > 0) {
+			let unit = this.units.infantry[0]; // Retrieve Unit.
+			unit.gui.destroy(); // Destroy the current GUI
+			
+			// Build GUI.
+			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+
+			// Attach GUI.
+			unit.attachGUI(unit_marker); // Attach the GUI for later access.
+			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+		}
+	}
+	
+	/*
+	 ** Title: Build GUI Display.
+	 ** Description: Builds the GUI display based on ownership and unit.
+	 */
+	buildGUIDisplay(unit) {
+		
+			// Check if ownership matches the turn indicator, if it does, set the image.
+			let image = undefined;
+			let unitType = unit.type.charAt(0).toUpperCase() + unit.type.slice(1);
+			if ( this.scene.data.list['activeFaction'] === unit.faction )
+				image = 'Friendly_' + unitType;
+			else
+				image = 'Enemy_' + unitType;
+		
+			// Attach unit GUI.
+			let unit_marker = new GUI(this.scene, this.emitter);
+			unit_marker.setCords(this.width / 2, this.height / 2);
+			unit_marker.setScale(0.25);
+			unit_marker.setDimensions(0, 10);
+			unit_marker.setBackgroundAlign('center', 'middle');
+			unit_marker.setBackgroundImage(image);
+			return unit_marker;
+	}
+	
+	
+	
 	
 	/*
 	 ** Title: Add Terrain

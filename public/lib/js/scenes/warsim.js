@@ -40,12 +40,23 @@ class WarSim extends Phaser.Scene {
     	let scenarioDetails = new Scenario(this.cache.json.get('scenarioJSON'));
     	let emitter = new Phaser.Events.EventEmitter();
     	
-    	// War Simulation Events.
+    	// Faction Control.
+    	let faction1 = new Faction(scenarioDetails.factions[0].name, scenarioDetails.factions[0].flag);
+    	let faction2 = new Faction(scenarioDetails.factions[1].name, scenarioDetails.factions[1].flag);
+    	
+    	// Turn Control.
     	let faction_turn = 0;
+    	this.data.list['activeFaction'] = faction1;
     	emitter.on("nextTurn", nextTurn, this);
+    	
+    	// Mode Control.
     	this.data.list['mode'] = 'View';
     	emitter.on("mode", swapMode, this);
     	emitter.on("moveMode", moveMode, this);
+    	
+    	
+    	
+    	
     	
     	// Game Background.
     	let gameBck = new GUI(this, emitter);
@@ -131,8 +142,6 @@ class WarSim extends Phaser.Scene {
     	});
     	finishturn.setBackgroundImage('FinishTurn'); // TODO for some reason, the image must be built last in order for the origins to be correctly set. Any redraw will cause it to break.
     	factions.addChild(finishturn);
-    	
-    	
 		
 		// Add barrier to the left of the screen.
     	let leftbar = new GUI(this, emitter);
@@ -182,6 +191,15 @@ class WarSim extends Phaser.Scene {
     			first_faction.setIsTurn(true);
     		else
     			second_faction.setIsTurn(true);
+
+    		// Assign active faction.
+    		if ( first_faction.isTurn )
+    			this.data.list['activeFaction'] = faction1;
+    		else if ( second_faction.isTurn )
+    			this.data.list['activeFaction'] = faction2;
+    		
+    		// Update the gameboard.
+    		gameboard.updateBoard();
     	}
     	
     	/*

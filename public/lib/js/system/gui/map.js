@@ -96,14 +96,16 @@ class Map extends GUI {
 	    			
 	    			// If the box doesn't have a unit, add it, otherwise remove it.
 	    			if ( tile.units.infantry.length == 0) {
-	    				tile.addUnit( new Infantry() );
+	    				let newUnit =  new Infantry( this.scene.data.list['activeFaction'] );
+	    				tile.addUnit(newUnit);
 	    			}
 	    			else {
 	    				tile.removeUnit( tile.units.infantry[0] );
 	    			}
 	    		}
-	    	
 			});
+			
+			//Enable Tile Dragging.
 			if (this.draggable) {
 				tile.onDragStart(function(pointer) {
 					map.container.setData("x_start", map.x);
@@ -118,5 +120,15 @@ class Map extends GUI {
 			
 			// Add tile to the map.
 			this.addChild(tile);
+	}
+	
+	// Update All Hex Tiles.
+	updateMap() {
+		for (let idx = 0; idx < this.innerGUI.length; idx++) {
+			let childGUI = this.innerGUI[idx]; // Retrieve the child GUI.
+			if ( childGUI instanceof HexTile ) {
+				childGUI.swapGUIDisplay();
+			}
+		}
 	}
 }
