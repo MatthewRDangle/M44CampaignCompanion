@@ -198,6 +198,12 @@ class WarSim extends Phaser.Scene {
     		else if ( second_faction.isTurn )
     			this.data.list['activeFaction'] = faction2;
     		
+    		debugger;
+    		// Update gameboard mode settings.
+    		this.data.list['selectedHex'] = undefined;
+    		this.data.list['mode'] = "View";
+    		gameboard.updateMode(this.data.list['mode']);
+    		
     		// Update the gameboard.
     		gameboard.updateBoard();
     	}
