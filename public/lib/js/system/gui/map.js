@@ -74,8 +74,10 @@ class Map extends GUI {
 	    			
 	    			// Check if unit exists. If it does, enter movement mode. Otherwise, do nothing.
 	    			if ( tile.units.infantry.length > 0 ) {
-	    				this.emitter.emit('moveMode'); // Change the mode to move.
-	    				this.scene.data.list['selectedHex'] = tile; // Set the selected tile.
+	    				if ( tile.units.infantry[0].faction === this.scene.data.list['activeFaction'] ) {
+		    				this.emitter.emit('moveMode'); // Change the mode to move.
+		    				this.scene.data.list['selectedHex'] = tile; // Set the selected tile.
+	    				}
 	    			}
 	    		}
 	    		
