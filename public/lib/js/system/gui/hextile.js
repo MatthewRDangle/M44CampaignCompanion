@@ -104,8 +104,49 @@ class HexTile extends GUI {
 	 ** Description: ???
 	 */
 	updateGUIDisplay() {
+		
+		// Infantry Update.
 		if (this.units.infantry.length > 0) {
 			let unit = this.units.infantry[0]; // Retrieve Unit.
+			unit.gui.destroy(); // Destroy the current GUI
+			
+			// Build GUI.
+			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+
+			// Attach GUI.
+			unit.attachGUI(unit_marker); // Attach the GUI for later access.
+			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+		}
+		
+		// Vehicle Update.
+		if (this.units.vehicle.length > 0) {
+			let unit = this.units.vehicle[0]; // Retrieve Unit.
+			unit.gui.destroy(); // Destroy the current GUI
+			
+			// Build GUI.
+			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+
+			// Attach GUI.
+			unit.attachGUI(unit_marker); // Attach the GUI for later access.
+			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+		}
+		
+		// Aircraft Update.
+		if (this.units.aircraft.length > 0) {
+			let unit = this.units.aircraft[0]; // Retrieve Unit.
+			unit.gui.destroy(); // Destroy the current GUI
+			
+			// Build GUI.
+			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+
+			// Attach GUI.
+			unit.attachGUI(unit_marker); // Attach the GUI for later access.
+			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+		}
+		
+		// Naval Update.
+		if (this.units.naval.length > 0) {
+			let unit = this.units.naval[0]; // Retrieve Unit.
 			unit.gui.destroy(); // Destroy the current GUI
 			
 			// Build GUI.

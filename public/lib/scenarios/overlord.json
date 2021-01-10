@@ -12,6 +12,11 @@
 				"infantry": 8
 			}
 		},
+		"0B0": {
+			"America": {
+				"vehicle": 7
+			}
+		},
 		"0B1": {
 			"America": {
 				"infantry": 4

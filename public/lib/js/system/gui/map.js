@@ -73,23 +73,60 @@ class Map extends GUI {
 	    		if (mouseClick === 1 && this.scene.data.list['mode'] === 'View') {
 	    			
 	    			// Check if unit exists. If it does, enter movement mode. Otherwise, do nothing.
-	    			if ( tile.units.infantry.length > 0 ) {
-	    				if ( tile.units.infantry[0].faction === this.scene.data.list['activeFaction'] ) {
-		    				this.emitter.emit('moveMode'); // Change the mode to move.
-		    				this.scene.data.list['selectedHex'] = tile; // Set the selected tile.
-	    				}
-	    			}
+	    			let unitType = undefined;
+    				if ( tile.units.infantry.length > 0 ) {
+    					unitType = "infantry";
+    				}
+    				else if ( tile.units.vehicle.length > 0 ) {
+    					unitType = "vehicle";    					
+					}
+    				else if ( tile.units.aircraft.length > 0 ) {
+    					unitType = "aircraft";
+					}
+    				else if ( tile.units.naval.length > 0 ) {
+    					unitType = "naval";
+					}
+    				else {
+    					return;
+    				}
+    				
+    				// Select tile and change to move mode.
+    				let unitArray = tile.units[unitType];
+    				if ( unitArray[0].faction === this.scene.data.list['activeFaction'] ) {
+	    				this.emitter.emit('moveMode'); // Change the mode to move.
+	    				this.scene.data.list['selectedHex'] = tile; // Set the selected tile.
+    				}
 	    		}
 	    		
 	    		// On left click while in movement mode, move the unit where it needs to go.
 	    		else if (mouseClick === 1 && this.scene.data.list['mode'] === 'Move') {
 	    			
 	    			// Move unit to the new hex if a unit does not exist there.
-	    			if ( tile.units.infantry.length == 0 ) {
-	    				let old_tile = this.scene.data.list['selectedHex'];
-	    				old_tile.transferUnit( old_tile.units.infantry[0], tile );
-	    				this.emitter.emit('mode');
-	    				this.scene.data.list['selectedHex'] = false;
+	    			if ( tile.units.infantry.length == 0 || tile.units.vehicle.length == 0 || tile.units.aircraft.length == 0 || tile.units.naval.length == 0) {
+    					let old_tile = this.scene.data.list['selectedHex']; // Retrieve the selected tile.
+
+	    				// Find the unit type for transfer.
+	    				let unitType = undefined;
+	    				if ( old_tile.units.infantry.length > 0 ) {
+	    					unitType = "infantry";
+	    				}
+	    				else if ( old_tile.units.vehicle.length > 0 ) {
+	    					unitType = "vehicle";    					
+						}
+	    				else if ( old_tile.units.aircraft.length > 0 ) {
+	    					unitType = "aircraft";
+						}
+	    				else if ( old_tile.units.naval.length > 0 ) {
+	    					unitType = "naval";
+						}
+	    				
+	    				// If a unit type exists, transfer unit to the new tile.
+	    				if (unitType) {
+	    					let unitArray = old_tile.units[unitType];
+		    				old_tile.transferUnit( unitArray[0], tile );
+		    				this.emitter.emit('mode');
+		    				this.scene.data.list['selectedHex'] = false;	
+	    				}
 	    			}
 	    			
 	    			// If a unit does exist and is owned by the same unit, merge them together.
