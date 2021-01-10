@@ -221,7 +221,7 @@ class WarSim extends Phaser.Scene {
     			this.data.list['mode'] = "View";
     			gameboard.updateMode(this.data.list['mode']);
     		}
-    		else if (this.data.list['mode'] === "Move") {
+    		else if (this.data.list['mode'] === "Move") { 
     			this.data.list['mode'] = "View";
     			gameboard.updateMode(this.data.list['mode']);	
     		}

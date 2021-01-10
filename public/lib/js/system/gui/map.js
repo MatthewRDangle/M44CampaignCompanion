@@ -102,7 +102,9 @@ class Map extends GUI {
 	    				tile.addUnit(newUnit);
 	    			}
 	    			else {
-	    				tile.removeUnit( tile.units.infantry[0] );
+	    				if ( this.scene.data.list['activeFaction'] === tile.faction) {
+	    					tile.removeUnit( tile.units.infantry[0] );	
+	    				}
 	    			}
 	    		}
 			});
