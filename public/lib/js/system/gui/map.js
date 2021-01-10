@@ -31,7 +31,7 @@ class Map extends GUI {
 	renMap() {
 
 		// Construct a new tile for each width count.
-		let alphabet = ['A',' B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+		let alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     	for (let x = 0; x <= this.mapWidth - 1; x++) {
     		
     		// Count a new tile for each height count.
@@ -47,7 +47,7 @@ class Map extends GUI {
     			// Set the ID.
     			let xID = Number(x / alphabet.length).toFixed() + alphabet[x % alphabet.length];
     			let yID = y;
-    			
+
     			 // Create and add the tile to the map.
     			this.addTile(hexX, hexY, xID + yID);
     		}
@@ -59,7 +59,7 @@ class Map extends GUI {
 	 ** Description: Creates and appends a tile to the GUI container.
 	 */
 	addTile(hexX, hexY, id) {
-		
+
 			// Create a hex shape and add it to the container to render.
 			let tile = new HexTile(this.scene, this.emitter, id);
 			tile.setCords(hexX, hexY);
@@ -93,7 +93,7 @@ class Map extends GUI {
 	    			}
 	    			
 	    			// If a unit does exist and is owned by the same unit, merge them together.
-	    			else if ( tile.units.infantry[0].faction === this.scene.data.list['activeFaction'] && this.scene.data.list['selectedHex'] !== this) {
+	    			else if ( tile.units.infantry[0].faction === this.scene.data.list['activeFaction'] && this.scene.data.list['selectedHex'] !== this ) {
 	    				let unit = tile.units.infantry[0];
 	    				let old_tile = this.scene.data.list['selectedHex'];
 	    				unit.mergeWithUnit( old_tile.units.infantry[0] );

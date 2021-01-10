@@ -14,11 +14,11 @@ class Scenario {
 		
 		// Map Data.
 		this.width = (json.map.width) ? json.map.width : 0;
-		this.height = (json.map.height) ? json.map.height : 0
+		this.height = (json.map.height) ? json.map.height : 0;
 		
-		// Game Data.
+		// Faction Data.
 		this.factions = [];
-		if (json.factions.length > 0) {
+		if (json.factions && json.factions.length > 0) {
 			for (let idx = 0; idx < json.factions.length; idx++) {
 				let faction = json.factions[idx]; // Retrieve faction name.
 				
@@ -35,5 +35,8 @@ class Scenario {
 					this.factions.push( new Faction('Japan', 'JapanFlag') );
 			}
 		}
+		
+		// Unit Data.
+		this.units =(json.units) ? json.units : {};
 	}
 }

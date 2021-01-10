@@ -167,6 +167,28 @@ class WarSim extends Phaser.Scene {
     	let gameboard = new GameBoard(this, emitter, scenarioDetails.width, scenarioDetails.height);
     	gameboard.setDimensions(window.innerWidth - leftbar.width - rightbar.width, window.innerHeight - topbar.height - bottombar.height);
 		gameboard.updateMode(this.data.list['mode']);
+		
+		// Attach Pre-build Scenario Units.
+		if (scenarioDetails.units) {
+			for (let tileID in scenarioDetails.units) {
+				let build_instructions = scenarioDetails.units[tileID]; // Retrieve the unit build instructions for a tile.
+				if (build_instructions) {
+					for (let factionName in build_instructions) {
+						let faction_instruction = build_instructions[factionName];
+						for (let unitType in faction_instruction) {
+							let unitCount = faction_instruction[unitType];
+							
+							if ( factionName === faction1.name )
+								gameboard.addUnit(tileID, unitType, unitCount, faction1); // Create the unit at the tile.
+							else if (factionName === faction2.name )
+								gameboard.addUnit(tileID, unitType, unitCount, faction2); // Create the unit at the tile.
+						}
+					}
+				}
+			}	
+		}
+		
+		
     	
     	/*
     	 * Function: Next Turn

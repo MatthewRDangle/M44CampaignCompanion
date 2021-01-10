@@ -8,7 +8,7 @@ class GameBoard extends GUI {
 	
 	constructor(scene, emitter, xTiles, yTiles) {
 		super(scene, emitter); // Import existing properties
-		
+
 		// Map Data.
 		this.xTiles = xTiles;
 		this.yTiles = yTiles;
@@ -17,6 +17,35 @@ class GameBoard extends GUI {
 		
 		// Render Setup.
 		this.renBoard();
+	}
+
+	/*
+	 ** Title: Add Unit.
+	 ** Description: Creates a unit at a particular position.
+	 */
+	addUnit(tileID, unitType, unitCount, unitOwner) {
+		let map = this.mapGUI;
+		for (let idx = 0; idx <map.innerGUI.length; idx++) {
+			let childGUI = map.innerGUI[idx]; // Retrieve child GUI object.
+			
+			// Don't only continue if the object is a hextile.
+			if ( childGUI instanceof HexTile ) {
+				let tile = childGUI;
+				
+				// Create units for this tile is the ID matches.
+				if ( tile.id === tileID ) {
+					let unit = undefined; // Create unit placeholder.
+					if (unitType === "infantry") { unit = new Infantry(unitOwner); }
+					else if (unitType === "vehicle") { unit = new Vehicle(unitOwner); }
+					else if (unitType === "aircraft") { unit = new Aircraft(unitOwner); }
+					else if (unitType === "naval") { unit = new Naval(unitOwner); }
+					else { return } // If no unit type matches, escape this.
+					
+					if ( unitCount > 0 ) { unit.health = unitCount }; // Add the unit health.
+					tile.addUnit(unit); // Create the unit on this tile.
+				}
+			}
+		}
 	}
 	
 	/*

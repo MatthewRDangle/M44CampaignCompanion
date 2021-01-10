@@ -5,5 +5,17 @@
 	"map": {
 		"width": "24",
 		"height": "16"
+	},
+	"units": {
+		"0A0": {
+			"America": {
+				"infantry": 8
+			}
+		},
+		"0B1": {
+			"America": {
+				"infantry": 4
+			}
+		}
 	}
 }

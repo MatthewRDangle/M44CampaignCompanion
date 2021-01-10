@@ -41,11 +41,11 @@ class HexTile extends GUI {
 	 ** Title: Add Unit
 	 ** Description: ???
 	 */
-	addUnit(unit) {
+	addUnit(unit, count) {
 		this.units[unit.type].push(unit); // Add unit to directory.
 
 		// Build GUI.
-		let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+		let unit_marker = this.buildGUIDisplay(unit);
 		
 		// Attach unit GUI.
 		unit.attachTile(this); // Attach the tile for later access.
