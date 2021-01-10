@@ -68,7 +68,7 @@ class Map extends GUI {
 			let map = this;
 			tile.onClick(function(e) {
 				let mouseClick = e.event.which; // 1, 2 or 3 for a mouse click.
-				
+
 	    		// On left click, enter movement mode for a unit.
 	    		if (mouseClick === 1 && this.scene.data.list['mode'] === 'View') {
 	    			
@@ -91,20 +91,46 @@ class Map extends GUI {
 	    				this.emitter.emit('mode');
 	    				this.scene.data.list['selectedHex'] = false;
 	    			}
+	    			
+	    			// If a unit does exist and is owned by the same unit, merge them together.
+	    			else if ( tile.units.infantry[0].faction === this.scene.data.list['activeFaction'] && this.scene.data.list['selectedHex'] !== this) {
+	    				let unit = tile.units.infantry[0];
+	    				let old_tile = this.scene.data.list['selectedHex'];
+	    				unit.mergeWithUnit( old_tile.units.infantry[0] );
+	    				tile.updateGUIDisplay();
+
+	    				this.emitter.emit('mode');
+	    				this.scene.data.list['selectedHex'] = false;
+	    			}
 	    		}
 
-	    		// On right click, add or remove units.
-	    		else if (mouseClick === 3 && this.scene.data.list['mode'] === 'Add') {
+	    		// On left click, add additional units.
+	    		else if (mouseClick === 1 && this.scene.data.list['mode'] === 'Add') {
 	    			
 	    			// If the box doesn't have a unit, add it, otherwise remove it.
 	    			if ( tile.units.infantry.length == 0) {
-	    				let newUnit =  new Infantry( this.scene.data.list['activeFaction'] );
+	    				let newUnit = new Infantry( this.scene.data.list['activeFaction'] );
 	    				tile.addUnit(newUnit);
 	    			}
 	    			else {
-	    				if ( this.scene.data.list['activeFaction'] === tile.faction) {
-	    					tile.removeUnit( tile.units.infantry[0] );	
+	    				if ( this.scene.data.list['activeFaction'] === tile.units.infantry[0].faction ) {
+	    					let unit = tile.units.infantry[0];
+	    					unit.health++;
+	    					tile.updateGUIDisplay();
 	    				}
+	    			}
+	    		}
+	    		
+	    		// On right click, remove all units.
+	    		else if (mouseClick === 3 && this.scene.data.list['mode'] === 'Add') {
+
+	    			if ( tile.units.infantry.length > 0 && this.scene.data.list['activeFaction'] === tile.units.infantry[0].faction ) {
+	    				if ( tile.units.infantry[0].health > 1 ) {
+	    					tile.units.infantry[0].health--;
+	    					tile.updateGUIDisplay();
+	    				}
+	    				else
+	    					tile.removeUnit( tile.units.infantry[0] );
 	    			}
 	    		}
 			});
@@ -131,7 +157,7 @@ class Map extends GUI {
 		for (let idx = 0; idx < this.innerGUI.length; idx++) {
 			let childGUI = this.innerGUI[idx]; // Retrieve the child GUI.
 			if ( childGUI instanceof HexTile ) {
-				childGUI.swapGUIDisplay();
+				childGUI.updateGUIDisplay();
 			}
 		}
 	}

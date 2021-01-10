@@ -95,7 +95,7 @@ class HexTile extends GUI {
 	 ** Title: Swap GUI Display.
 	 ** Description: ???
 	 */
-	swapGUIDisplay() {
+	updateGUIDisplay() {
 		if (this.units.infantry.length > 0) {
 			let unit = this.units.infantry[0]; // Retrieve Unit.
 			unit.gui.destroy(); // Destroy the current GUI
@@ -130,6 +130,19 @@ class HexTile extends GUI {
 			unit_marker.setDimensions(0, 10);
 			unit_marker.setBackgroundAlign('center', 'middle');
 			unit_marker.setBackgroundImage(image);
+			
+			// Build the Health Counter.
+			let health_counter = new GUI(this.scene, this.emitter);
+			health_counter.setDimensions(20, 20);
+			health_counter.setCords( (this.width / 2) - (health_counter.width / 2), (this.height / 2) - (health_counter.height / 2) );
+			health_counter.setScale(3);
+			health_counter.setTextAlign('center', 'middle');
+			health_counter.setTextString(unit.health);
+			health_counter.setBackgroundColor(0x000000);
+			
+			// Return the Marker.
+			unit_marker.addChild(health_counter);
+//			return health_counter;
 			return unit_marker;
 	}
 	
