@@ -95,51 +95,162 @@ class Map extends GUI {
     				if ( unitArray[0].faction === this.scene.data.list['activeFaction'] ) {
 	    				this.emitter.emit('moveMode'); // Change the mode to move.
 	    				this.scene.data.list['selectedHex'] = tile; // Set the selected tile.
+	    				tile.highlight();
+	    				this.scene.data.list['selectedUnitType'] = unitType;
     				}
 	    		}
 	    		
 	    		// On left click while in movement mode, move the unit where it needs to go.
 	    		else if (mouseClick === 1 && this.scene.data.list['mode'] === 'Move') {
+	    			let old_tile = this.scene.data.list['selectedHex']; // Retrieve the selected tile.
+					let unitType = this.scene.data.list['selectedUnitType']; // Retrieve the selected unit type.
+	    			
+	    			// If the player selects the same tile, change which unit is selected.
+	    			if ( old_tile === tile ) {
+	    				
+	    				// Change the unit type based on what unit is selected.
+	    				if ( unitType === 'infantry' ) {
+		    				if ( old_tile.units.vehicle.length > 0 ) {
+		    					unitType = "vehicle";
+							}
+		    				else if ( old_tile.units.aircraft.length > 0 ) {
+		    					unitType = "aircraft";
+							}
+		    				else if ( old_tile.units.naval.length > 0 ) {
+		    					unitType = "naval";
+							}
+	    				}
+	    				else if ( unitType === 'vehicle' ) {
+		    				if ( old_tile.units.aircraft.length > 0 ) {
+		    					unitType = "aircraft";
+							}
+		    				else if ( old_tile.units.naval.length > 0 ) {
+		    					unitType = "naval";
+							}
+		    				else if ( old_tile.units.infantry.length > 0 ) {
+		    					unitType = "infantry";
+		    				}
+	    				}
+	    				else if ( unitType === 'aircraft' ) {
+		    				 if ( old_tile.units.naval.length > 0 ) {
+		    					unitType = "naval";
+							}
+		    				else if ( old_tile.units.infantry.length > 0 ) {
+		    					unitType = "infantry";
+		    				}
+		    				else if ( old_tile.units.vehicle.length > 0 ) {
+		    					unitType = "vehicle";
+							}
+	    				}
+	    				else if ( unitType === 'naval' ) {
+		    				if ( old_tile.units.infantry.length > 0 ) {
+		    					unitType = "infantry";
+		    				}
+		    				else if ( old_tile.units.vehicle.length > 0 ) {
+		    					unitType = "vehicle";
+							}
+		    				else if ( old_tile.units.aircraft.length > 0 ) {
+		    					unitType = "aircraft";
+							}
+	    				}
+	    				
+	    				this.scene.data.list['selectedUnitType'] = unitType; // Change the selected unit type.
+	    				if (unitType) { old_tile.changeUnitDisplayOrder(unit.type); }
+	    				return; // Prevent further execution of code.
+	    			}
 	    			
 	    			// Move unit to the new hex if a unit does not exist there.
 	    			if ( tile.units.infantry.length == 0 || tile.units.vehicle.length == 0 || tile.units.aircraft.length == 0 || tile.units.naval.length == 0) {
-    					let old_tile = this.scene.data.list['selectedHex']; // Retrieve the selected tile.
-
-	    				// Find the unit type for transfer.
-	    				let unitType = undefined;
-	    				if ( old_tile.units.infantry.length > 0 ) {
-	    					unitType = "infantry";
-	    				}
-	    				else if ( old_tile.units.vehicle.length > 0 ) {
-	    					unitType = "vehicle";    					
-						}
-	    				else if ( old_tile.units.aircraft.length > 0 ) {
-	    					unitType = "aircraft";
-						}
-	    				else if ( old_tile.units.naval.length > 0 ) {
-	    					unitType = "naval";
-						}
 	    				
 	    				// If a unit type exists, transfer unit to the new tile.
 	    				if (unitType) {
 	    					let unitArray = old_tile.units[unitType];
 		    				old_tile.transferUnit( unitArray[0], tile );
-		    				this.emitter.emit('mode');
-		    				this.scene.data.list['selectedHex'] = false;	
+		    				tile.changeUnitDisplayOrder(unitType);
 	    				}
 	    			}
 	    			
 	    			// If a unit does exist and is owned by the same unit, merge them together.
 	    			else if ( tile.units.infantry[0].faction === this.scene.data.list['activeFaction'] && this.scene.data.list['selectedHex'] !== this ) {
-	    				let unit = tile.units.infantry[0];
 	    				let old_tile = this.scene.data.list['selectedHex'];
-	    				unit.mergeWithUnit( old_tile.units.infantry[0] );
+	    				let selectedUnitType = this.scene.data.list['selectedUnitType'];
+	    				
+	    				let unit = tile.units[selectedUnitType][0];
+	    				let old_unit = old_tile.units[selectedUnitType][0];
+	    				
+	    				unit.mergeWithUnit( old_unit );
 	    				tile.updateGUIDisplay();
-
+	    				tile.changeUnitDisplayOrder(unit.type);
+	    			}
+	    			
+	    			// Change mode to view if there are no units on the old tile.
+	    			if ( old_tile.units.infantry.length == 0 && old_tile.units.vehicle.length == 0 && old_tile.units.aircraft.length == 0 && old_tile.units.naval.length == 0) { 
 	    				this.emitter.emit('mode');
 	    				this.scene.data.list['selectedHex'] = false;
+	    				old_tile.dehighlight();
+	    			}
+	    			
+	    			//If other units still exist on the selected tile, stay selected and select the next unit in the list.
+	    			else  {
+	    				
+	    				// Find which unit to change the selected unit type to.
+	    				if ( unitType === 'infantry' ) {
+		    				if ( old_tile.units.vehicle.length > 0 ) {
+		    					unitType = "vehicle";
+							}
+		    				else if ( old_tile.units.aircraft.length > 0 ) {
+		    					unitType = "aircraft";
+							}
+		    				else if ( old_tile.units.naval.length > 0 ) {
+		    					unitType = "naval";
+							}
+	    				}
+	    				else if ( unitType === 'vehicle' ) {
+		    				if ( old_tile.units.aircraft.length > 0 ) {
+		    					unitType = "aircraft";
+							}
+		    				else if ( old_tile.units.naval.length > 0 ) {
+		    					unitType = "naval";
+							}
+		    				else if ( old_tile.units.infantry.length > 0 ) {
+		    					unitType = "infantry";
+		    				}
+	    				}
+	    				else if ( unitType === 'aircraft' ) {
+		    				 if ( old_tile.units.naval.length > 0 ) {
+		    					unitType = "naval";
+							}
+		    				else if ( old_tile.units.infantry.length > 0 ) {
+		    					unitType = "infantry";
+		    				}
+		    				else if ( old_tile.units.vehicle.length > 0 ) {
+		    					unitType = "vehicle";
+							}
+	    				}
+	    				else if ( unitType === 'naval' ) {
+		    				if ( old_tile.units.infantry.length > 0 ) {
+		    					unitType = "infantry";
+		    				}
+		    				else if ( old_tile.units.vehicle.length > 0 ) {
+		    					unitType = "vehicle";
+							}
+		    				else if ( old_tile.units.aircraft.length > 0 ) {
+		    					unitType = "aircraft";
+							}
+	    				}
+	    				
+	    				this.scene.data.list['selectedUnitType'] = unitType; // Change the selected unit type.
 	    			}
 	    		}
+	    		
+    			// Right click in Move mode to cancel.
+    			else if ( mouseClick ===3 && this.scene.data.list['mode'] === 'Move' ) {
+    				this.emitter.emit('mode');
+    				this.scene.data.list['selectedHex'] = false;
+    				
+    				let old_tile = this.scene.data.list['selectedHex']; // Retrieve the selected tile.
+    				old_tile.dehighlight();
+    			}
 
 	    		// On left click, add additional units.
 	    		else if (mouseClick === 1 && this.scene.data.list['mode'] === 'Add') {

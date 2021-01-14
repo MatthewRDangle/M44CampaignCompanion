@@ -163,7 +163,10 @@ class WarSim extends Phaser.Scene {
     	endgame.setBackgroundImage('EndGame');
     	bottombar.addChild(endgame);
     	
-    	// Create the game board to be rendered.
+    	// Enable DEV tools.
+    	this.data.list['devTools'] = scenarioDetails.devTools;
+    	
+    	// Create the game board to be rendered.;
     	let gameboard = new GameBoard(this, emitter, scenarioDetails.width, scenarioDetails.height);
     	gameboard.setDimensions(window.innerWidth - leftbar.width - rightbar.width, window.innerHeight - topbar.height - bottombar.height);
 		gameboard.updateMode(this.data.list['mode']);

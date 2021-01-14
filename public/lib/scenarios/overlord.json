@@ -1,4 +1,6 @@
 {
+	"devMode": "false",
+	
 	"name": "Operation Overlord",
 	"mission": "Capture the Airfields and hold them for one turn",
 	"factions": ["Germany", "America"],

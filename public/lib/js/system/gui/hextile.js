@@ -19,6 +19,7 @@ class HexTile extends GUI {
 			this.id = id;
 		
 		// Game Data.
+		this.topUnit = undefined;
 		this.units = {
 				infantry: [],
 				vehicle: [],
@@ -37,12 +38,14 @@ class HexTile extends GUI {
 		this.setBackgroundBorder(4, 0xFFFFFF);
 		
 		// Display the id text.
-		let idText = new GUI(this.scene, this.emitter);
-		idText.setTextString(this.id);
-		idText.setCords(this.width - 15, 10);
-		idText.setScale(0.75);
-		idText.setTextHAlign("right");
-		this.addChild(idText);
+		if ( this.scene.data.list['devTools'] ) {
+			let idText = new GUI(this.scene, this.emitter);
+			idText.setTextString(this.id);
+			idText.setCords(this.width - 15, 10);
+			idText.setScale(0.75);
+			idText.setTextHAlign("right");
+			this.addChild(idText);	
+		}
 	}
 	
 	/*
@@ -77,8 +80,39 @@ class HexTile extends GUI {
 	 ** Description: ???
 	 */
 	transferUnit(unit, tile) {
+
 		this.removeUnit(unit);
 		tile.addUnit(unit);
+
+		// Change order.
+		if (unit === 'infantry') {
+			if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
+			else if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
+			else if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
+			else if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
+			else { this.topUnit = undefined; }
+		}
+		else if (unit === 'vehicle') {
+			if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
+			else if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
+			else if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
+			else if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
+			else { this.topUnit = undefined; }
+		}
+		else if (unit === 'aircraft') {
+			if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
+			else if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
+			else if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
+			else if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
+			else { this.topUnit = undefined; }
+		}
+		else if (unit === 'naval') {
+			if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
+			else if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
+			else if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
+			else if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
+			else { this.topUnit = undefined; }
+		}
 	}
 	
 	/*
@@ -195,6 +229,45 @@ class HexTile extends GUI {
 			return unit_marker;
 	}
 	
+	/*
+	 ** Title: Highlight.
+	 ** Description: Highlights the hex by changing it's color.
+	 */
+	highlight() {
+		this.setBackgroundColor(0x0ED7014);
+	}
+	dehighlight() {
+		this.setBackgroundColor(0xC5D6B7);
+	}
+	
+	changeUnitDisplayOrder(unitTypeOnTop) {
+		this.topUnit = unitTypeOnTop;
+		
+//		if (unitTypeOnTop === 'infantry') {
+//			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(100); };
+//			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(102); };
+//			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(103); };
+//			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(104) };
+//		}
+//		else if (unitTypeOnTop === 'vehicle') {
+//			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(104); };
+//			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(101); };
+//			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(102); };
+//			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(103) };
+//		}
+//		else if (unitTypeOnTop === 'aircraft') {
+//			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(103); };
+//			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(104); };
+//			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(101); };
+//			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(102) };
+//		}
+//		else if (unitTypeOnTop === 'naval') {
+//			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(102); };
+//			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(103); };
+//			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(104); };
+//			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(101) };
+//		}
+	}
 	
 	
 	
