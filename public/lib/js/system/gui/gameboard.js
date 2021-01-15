@@ -31,7 +31,7 @@ class GameBoard extends GUI {
 			// Don't only continue if the object is a hextile.
 			if ( childGUI instanceof HexTile ) {
 				let tile = childGUI;
-				
+debugger;
 				// Create units for this tile is the ID matches.
 				if ( tile.id === tileID ) {
 					let unit = undefined; // Create unit placeholder.

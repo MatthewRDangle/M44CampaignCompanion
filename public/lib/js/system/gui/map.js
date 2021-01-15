@@ -49,7 +49,7 @@ class Map extends GUI {
     			let yID = y;
 
     			 // Create and add the tile to the map.
-    			this.addTile(hexX, hexY, xID + yID);
+    			this.addTile(hexX, hexY, xID, yID);
     		}
     	}
 	}
@@ -58,10 +58,11 @@ class Map extends GUI {
 	 ** Title: Add Tile.
 	 ** Description: Creates and appends a tile to the GUI container.
 	 */
-	addTile(hexX, hexY, id) {
+	addTile(hexX, hexY, idx, idy) {
 
 			// Create a hex shape and add it to the container to render.
-			let tile = new HexTile(this.scene, this.emitter, id);
+			let tile = new HexTile(this.scene, this.emitter, idx, idy);
+			tile.setMap(this);
 			tile.setCords(hexX, hexY);
 
 			// Set tile as draggable.
@@ -298,6 +299,27 @@ class Map extends GUI {
 			
 			// Add tile to the map.
 			this.addChild(tile);
+	}
+	
+	// Retrieve Tile.
+	retrieveTile(id) {
+		if (typeof id === 'string') {
+			// Retrieve all tile hexes to evaluate distance.
+			for (let key in this.map.innerGUI) {
+				
+				// Check if child is an instance of a hextile.
+				let child = this.map.innerGUI[key];
+				if (child instanceof HexTile) {
+					let hexTile = child; // If it is, assign it as hexTile.
+					
+					// Return hextile if the ID matches.
+					if (hexTile.id === id)
+						return hexTile;
+				}
+			}
+		}
+		else
+			return undefined;
 	}
 	
 	// Update All Hex Tiles.

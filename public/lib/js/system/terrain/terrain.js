@@ -14,6 +14,10 @@ class Terrain {
 		
 		// Game Data.
 		this.movement_cost = 1;
-		this.isPassable = true;
+		this.isPassable = {
+			land: true,
+			air: true,
+			sea: true
+		};
 	}
 }
