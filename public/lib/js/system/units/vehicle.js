@@ -11,5 +11,10 @@ class Vehicle extends Unit {
 		
 		// Display Data.
 		this.type = "vehicle";
+		
+		// State Data.
+		this.health = 1; // This is the amount of "token" the player may place on the board of this type.
+		this.movement = 4;
+		this.maxMovement = 4;
 	}
 }
