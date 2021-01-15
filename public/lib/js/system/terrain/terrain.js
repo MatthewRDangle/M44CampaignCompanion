@@ -10,5 +10,10 @@ class Terrain {
 		
 		// Display Data.
 		this.name = "Terrain";
+		this.image = undefined;
+		
+		// Game Data.
+		this.movement_cost = 1;
+		this.isPassable = true;
 	}
 }
