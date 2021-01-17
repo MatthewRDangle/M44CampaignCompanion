@@ -159,9 +159,9 @@ class Map extends GUI {
 	    				if (unitType) { old_tile.changeUnitDisplayOrder(unit.type); }
 	    				return; // Prevent further execution of code.
 	    			}
-	    			
+
 	    			// Move unit to the new hex if a unit does not exist there.
-	    			if ( tile.units.infantry.length == 0 || tile.units.vehicle.length == 0 || tile.units.aircraft.length == 0 || tile.units.naval.length == 0) {
+	    			if ( tile.units[this.scene.data.list['selectedUnitType']].length == 0 ) {
 	    				
 	    				// If a unit type exists, transfer unit to the new tile.
 	    				if (unitType) {

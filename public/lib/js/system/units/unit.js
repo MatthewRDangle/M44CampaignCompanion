@@ -53,4 +53,8 @@ class Unit {
 			unit.tile.removeUnit(unit);
 		}
 	}
+	
+	resetUnitMovement() {
+		this.movement = this.maxMovement;
+	}
 }
