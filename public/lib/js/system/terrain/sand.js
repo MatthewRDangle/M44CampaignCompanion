@@ -4,7 +4,7 @@
  ** Title: ???.
  ** Description: ???.
  */
-class Ocean extends Terrain {
+class Sand extends Terrain {
 	
 	constructor() {
 		super();

@@ -15,8 +15,8 @@ class HexTile extends GUI {
 
 		// Set the ID of the tile.
 		this.id = idx + idy;
-		this.idX = this.idX;
-		this.idY = this.idY;
+		this.idX = idx;
+		this.idY = idy;
 		
 		// Game Data.
 		this.topUnit = undefined;
@@ -277,9 +277,9 @@ class HexTile extends GUI {
 			this.map = map;
 	}
 	
-	retrieveHexWithinDistance(disatnce, howMove, ignoreIDs) {
+	retrieveHexWithinDistance(distance, howMove, ignoreIDs) {
 		let approved_tiles = []; // Storage for all approved tiles within distance.
-		
+
 		// Return nothing if distance is not greater then 0 or simply does not exist.
 		if (!distance && distance <= 0)
 			return [];
@@ -290,57 +290,63 @@ class HexTile extends GUI {
 		let alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 		
 		let checkYsame = startHex.idY; // Hex Y value with same Y.
-		let checkYtop = startHex.idxY - 1 // Hex Y value to the that's above.
-		let checkYbottom = startHex.idxY + 1 // Hex Y value that's below.
+		let checkYtop = startHex.idY - 1 // Hex Y value to the that's above.
+		let checkYbottom = startHex.idY + 1 // Hex Y value that's below.
 		let checkXsame = startHex.idX; // Hex X value with same X.
-		let checkXleft = startHex.idX; // Hex X value that's left.
-		let checkXright = startHex.idX; // Hex X value that's right.
-		
+		let checkXleft = retrieveAlphabet( startHex.idX, -1 ); // Hex X value that's left.
+		let checkXright = retrieveAlphabet( startHex.idX, 1 ); // Hex X value that's right.
+
 		// Retrieve Hexes to the left.
 		if (checkXleft) {
-			if (checkYsame) {
+			if (checkYsame >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXleft + checkYsame);
-				if (evan_hexTile) {
-					evaluate_hexTile(evan_hexTile);
+				if (eval_hexTile) {
+					evaluate_hexTile(eval_hexTile);
 				}
 			}
-			if (checkYtop) {
+			if (checkYtop >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXleft + checkYtop);
-				if (evan_hexTile) {
-					evaluate_hexTile(evan_hexTile);
+				if (eval_hexTile) {
+					evaluate_hexTile(eval_hexTile);
 				}
 			}
 		}
 		
 		// Retrieve Hexes in the center.
 		if (checkXsame) {
-			if (checkYtop) {
+			if (checkYtop >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXsame + checkYtop);
-				if (evan_hexTile) {
-					evaluate_hexTile(evan_hexTile);
+				if (eval_hexTile) {
+					evaluate_hexTile(eval_hexTile);
 				}
 			}
-			if (checkYsame) {
+			if (checkYsame >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXsame + checkYsame);
-				if (evan_hexTile) {
-					evaluate_hexTile(evan_hexTile);
+				if (eval_hexTile) {
+					evaluate_hexTile(eval_hexTile);
 				}
 			}
-			if (checkYbotom) {
-				let eval_hexTile = this.map.retrieveTile(checkXsame + checkYbotom);
-				if (evan_hexTile) {
-					evaluate_hexTile(evan_hexTile);
+			if (checkYbottom >= 0) {
+				let eval_hexTile = this.map.retrieveTile(checkXsame + checkYbottom);
+				if (eval_hexTile) {
+					evaluate_hexTile(eval_hexTile);
 				}
 			}
 		}
 		
 		// Retrieve hexes to the right.
 		if (checkXright) {
-			if (checkYsame) {
+			if (checkYsame >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXright + checkYsame);
+				if (eval_hexTile) {
+					evaluate_hexTile(eval_hexTile);
+				}
 			}
-			if (checkYtop) {
+			if (checkYtop >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXright + checkYsame);
+				if (eval_hexTile) {
+					evaluate_hexTile(eval_hexTile);
+				}
 			}
 		}
 		
@@ -348,7 +354,7 @@ class HexTile extends GUI {
 		
 		// Evaluates a tile and makes sure it's within the distance specified.
 		function evaluate_hexTile(hexTile) {
-			
+
 			// If this hexTile is part of the ignore ID list, ignore it and don't continue.
 			if (ignoreIDs) {
 				for (let idx = 0; idx < ignoreIDs.length; idx++) {
@@ -371,7 +377,7 @@ class HexTile extends GUI {
 					approved_tiles.push(hexTile);
 					
 					// If distance is still remaining, check the distance from this tile as well.
-					let diff_dist = distance - eval_distance;
+					let diff_dist = eval_distance;
 					if (diff_dist) {
 						
 						// If an ignoreID list already exists, append this ID to it and pass it through. Other wise create a new one.
@@ -397,8 +403,8 @@ class HexTile extends GUI {
 			let found_char_idx = eval_find_char_idx(num, char_idx + modifier);
 			
 			// Find the character.
-			let found_char = alphabet.indexOf(found_char_idx);
-			return found_char;
+			let found_char = alphabet[ found_char_idx ];
+			return num + found_char;
 			
 			// Ensures the found_char_idx is a always valid X id.
 			function eval_find_char_idx(num, idx) {
@@ -410,9 +416,9 @@ class HexTile extends GUI {
 					
 					// If numb equals 0, then don't eval further.
 					if (num == 0)
-						return eval_find_char_idx(find_char_idx);
-					else
 						return undefined;
+					else
+						return eval_find_char_idx(find_char_idx);
 				}
 				else
 					return found_char_idx;

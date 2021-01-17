@@ -16,6 +16,7 @@ class Unit {
 		this.health = 1; // This is the amount of "token" the player may place on the board of this type.
 		this.movement = 0;
 		this.maxMovement = 0;
+		this.howMove = undefined;
 		
 		// Faction Information
 		this.faction = owner; // AKA the owner/commander of this unit.

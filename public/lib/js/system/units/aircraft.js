@@ -16,5 +16,6 @@ class Aircraft extends Unit {
 		this.health = 1; // This is the amount of "token" the player may place on the board of this type.
 		this.movement = 6;
 		this.maxMovement = 6;
+		this.howMove = "air";
 	}
 }

@@ -4,7 +4,7 @@
  ** Title: ???.
  ** Description: ???.
  */
-class Ocean extends Terrain {
+class Water extends Terrain {
 	
 	constructor() {
 		super();
@@ -18,7 +18,7 @@ class Ocean extends Terrain {
 		this.isPassable = {
 				land: true,
 				air: true,
-				sea: true,
+				sea: true
 		}
 	}
 }

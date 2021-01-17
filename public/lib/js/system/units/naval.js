@@ -16,5 +16,6 @@ class Naval extends Unit {
 		this.health = 1; // This is the amount of "token" the player may place on the board of this type.
 		this.movement = 2;
 		this.maxMovement = 2;
+		this.howMove = "sea";
 	}
 }

@@ -64,6 +64,36 @@ class Map extends GUI {
 			let tile = new HexTile(this.scene, this.emitter, idx, idy);
 			tile.setMap(this);
 			tile.setCords(hexX, hexY);
+			
+			// Retrieve and assign terrain value for this hex tile if it exists.
+			let terrainData = this.scene.data.list['scenarioTerrain'];
+			for ( let hexID in terrainData ) {
+				if ( hexID === tile.id ) {
+					let value = terrainData[ hexID ];
+					let terrain = undefined;
+					
+					if (value === 'Grass')
+						terrain = new Grass();
+					
+					else if (value === 'Ocean')
+						terrain = new Ocean();
+					
+					else if (value === 'River')
+						terrain = new River();
+					
+					else if (value === 'Road')
+						terrain = new Road();
+					
+					else if (value === 'Sand')
+						terrain = new Sand();
+					
+					else if (value === 'Water')
+						terrain = new Water();
+					
+					if ( terrain )
+						tile.setTerrain( terrain );
+				}
+			}
 
 			// Set tile as draggable.
 			let map = this;
@@ -98,6 +128,11 @@ class Map extends GUI {
 	    				this.scene.data.list['selectedHex'] = tile; // Set the selected tile.
 	    				tile.highlight();
 	    				this.scene.data.list['selectedUnitType'] = unitType;
+	    				
+	    				// Highlight all tiles within move range.
+	    				let unit = tile.units[unitType][0];
+	    				let acceptableTiles = tile.retrieveHexWithinDistance(unit.movement, unit.howMove);
+	    				debugger; // TODO change the colors of the accepted tiles.
     				}
 	    		}
 	    		
@@ -304,10 +339,10 @@ class Map extends GUI {
 	retrieveTile(id) {
 		if (typeof id === 'string') {
 			// Retrieve all tile hexes to evaluate distance.
-			for (let key in this.map.innerGUI) {
+			for (let key in this.innerGUI) {
 				
 				// Check if child is an instance of a hextile.
-				let child = this.map.innerGUI[key];
+				let child = this.innerGUI[key];
 				if (child instanceof HexTile) {
 					let hexTile = child; // If it is, assign it as hexTile.
 					

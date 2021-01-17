@@ -40,6 +40,9 @@ class WarSim extends Phaser.Scene {
     	let scenarioDetails = new Scenario(this.cache.json.get('scenarioJSON'));
     	let emitter = new Phaser.Events.EventEmitter();
     	
+    	// Make terrain global for later retrieval.
+    	this.data.list['scenarioTerrain'] = scenarioDetails.terrain;
+    	
     	// Faction Control.
     	let faction1 = new Faction(scenarioDetails.factions[0].name, scenarioDetails.factions[0].flag);
     	let faction2 = new Faction(scenarioDetails.factions[1].name, scenarioDetails.factions[1].flag);
