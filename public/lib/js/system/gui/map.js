@@ -246,11 +246,10 @@ class Map extends GUI {
 	    		
     			// Right click in Move mode to cancel.
     			else if ( mouseClick ===3 && this.scene.data.list['mode'] === 'Move' ) {
-    				this.emitter.emit('mode');
-    				this.scene.data.list['selectedHex'] = false;
-    				
     				let old_tile = this.scene.data.list['selectedHex']; // Retrieve the selected tile.
     				old_tile.dehighlight();
+    				this.emitter.emit('mode');
+    				this.scene.data.list['selectedHex'] = false;
     			}
 
 	    		// On left click, add additional units.

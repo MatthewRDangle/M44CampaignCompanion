@@ -7,7 +7,7 @@
 class Scenario {
 	
 	constructor(json) {
-		this.devMode = (json.devMode === 'true') ? true : false; // Enables visual assistance for JSON sceario development.
+		this.devTools = (json.devTools === 'true') ? true : false; // Enables visual assistance for JSON sceario development.
 
 		// Instructions.
 		this.name = (json.name) ? json.name : "";
