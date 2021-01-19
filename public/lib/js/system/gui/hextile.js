@@ -295,20 +295,33 @@ class HexTile extends GUI {
 		let checkXsame = startHex.idX; // Hex X value with same X.
 		let checkXleft = retrieveAlphabet( startHex.idX, -1 ); // Hex X value that's left.
 		let checkXright = retrieveAlphabet( startHex.idX, 1 ); // Hex X value that's right.
-
+		let odd_or_even_row = findOddEven( startHex.idX );
+		
 		// Retrieve Hexes to the left.
 		if (checkXleft) {
 			if (checkYsame >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXleft + checkYsame);
 				if (eval_hexTile) {
-					evaluate_hexTile(eval_hexTile);
+					evaluate_hexTile(this, eval_hexTile);
 				}
 			}
-			if (checkYtop >= 0) {
-				let eval_hexTile = this.map.retrieveTile(checkXleft + checkYtop);
-				if (eval_hexTile) {
-					evaluate_hexTile(eval_hexTile);
+			
+			// Check if the tile is an odd or even tile and select the correct adjacent tile to check accordingly.
+			if (odd_or_even_row === 'odd') {
+				if (checkYbottom >= 0) {
+					let eval_hexTile = this.map.retrieveTile(checkXleft + checkYbottom);
+					if (eval_hexTile) {
+						evaluate_hexTile(this, eval_hexTile);
+					}
 				}
+			}
+			else if (odd_or_even_row === 'even') {
+				if (checkYtop >= 0) {
+					let eval_hexTile = this.map.retrieveTile(checkXleft + checkYtop);
+					if (eval_hexTile) {
+						evaluate_hexTile(this, eval_hexTile);
+					}
+				}	
 			}
 		}
 		
@@ -317,19 +330,14 @@ class HexTile extends GUI {
 			if (checkYtop >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXsame + checkYtop);
 				if (eval_hexTile) {
-					evaluate_hexTile(eval_hexTile);
+					evaluate_hexTile(this, eval_hexTile);
 				}
 			}
-			if (checkYsame >= 0) {
-				let eval_hexTile = this.map.retrieveTile(checkXsame + checkYsame);
-				if (eval_hexTile) {
-					evaluate_hexTile(eval_hexTile);
-				}
-			}
+		
 			if (checkYbottom >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXsame + checkYbottom);
 				if (eval_hexTile) {
-					evaluate_hexTile(eval_hexTile);
+					evaluate_hexTile(this, eval_hexTile);
 				}
 			}
 		}
@@ -339,21 +347,46 @@ class HexTile extends GUI {
 			if (checkYsame >= 0) {
 				let eval_hexTile = this.map.retrieveTile(checkXright + checkYsame);
 				if (eval_hexTile) {
-					evaluate_hexTile(eval_hexTile);
+					evaluate_hexTile(this, eval_hexTile);
 				}
 			}
-			if (checkYtop >= 0) {
-				let eval_hexTile = this.map.retrieveTile(checkXright + checkYsame);
-				if (eval_hexTile) {
-					evaluate_hexTile(eval_hexTile);
+			
+			// Check if the tile is an odd or even tile and select the correct adjacent tile to check accordingly.
+			if (odd_or_even_row === 'odd') {
+				if (checkYbottom >= 0) {
+					let eval_hexTile = this.map.retrieveTile(checkXright + checkYbottom);
+					if (eval_hexTile) {
+						evaluate_hexTile(this, eval_hexTile);
+					}
 				}
+			}
+			else if (odd_or_even_row === 'even') {
+				if (checkYtop >= 0) {
+					let eval_hexTile = this.map.retrieveTile(checkXright + checkYtop);
+					if (eval_hexTile) {
+						evaluate_hexTile(this, eval_hexTile);
+					}
+				}	
 			}
 		}
 		
 		return approved_tiles;
 		
+		function findOddEven(value) {
+			
+			// Find the new character index.
+			let char = value.substring(value.length - 1);
+			let char_idx = alphabet.indexOf(char);
+			
+			let test = char_idx % 2;
+			if (test == 0)
+				return 'even';
+			else
+				return 'odd';
+		}
+		
 		// Evaluates a tile and makes sure it's within the distance specified.
-		function evaluate_hexTile(hexTile) {
+		function evaluate_hexTile(ths, hexTile) {
 
 			// If this hexTile is part of the ignore ID list, ignore it and don't continue.
 			if (ignoreIDs) {
@@ -383,10 +416,10 @@ class HexTile extends GUI {
 						// If an ignoreID list already exists, append this ID to it and pass it through. Other wise create a new one.
 						if (ignoreIDs) {
 							ignoreIDs.push(hexTile.id);
-							approved_tiles = approved_tiles.concat( hexTile.retrieveHexWithinDistance(diff_dist), howTo, ignoreIDs );
+							approved_tiles = approved_tiles.concat( hexTile.retrieveHexWithinDistance(diff_dist, howMove, ignoreIDs ));
 						}
 						else {
-							approved_tiles = approved_tiles.concat( hexTile.retrieveHexWithinDistance(diff_dist), howTo, [hexTile.id] );	
+							approved_tiles = approved_tiles.concat( hexTile.retrieveHexWithinDistance(diff_dist, howMove, [ths.id, hexTile.id] ));
 						}
 					}
 				}
