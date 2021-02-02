@@ -277,8 +277,12 @@ class HexTile extends GUI {
 			this.map = map;
 	}
 	
-	retrieveHexWithinDistance(distance, howMove, ignoreIDs) {
-		let approved_tiles = []; // Storage for all approved tiles within distance.
+	retrieveHexWithinDistance(distance, howMove, ignoreIDs, moveCost) {
+		let approved_tiles = {}; // Storage for all approved tiles within distance.
+		
+		// If movement cost does not exist, set it to 0.
+		if (!moveCost)
+			moveCost = 0;
 
 		// Return nothing if distance is not greater then 0 or simply does not exist.
 		if (!distance && distance <= 0)
@@ -369,7 +373,7 @@ class HexTile extends GUI {
 				}	
 			}
 		}
-		
+
 		return approved_tiles;
 		
 		function findOddEven(value) {
@@ -403,11 +407,15 @@ class HexTile extends GUI {
 				// Check if the hex is passable.
 				if ( !terrain.isPassable[howMove] )
 					return;
-				
+
 				// Retrieve the evaluation distance to see if it possible to move into.
 				let eval_distance = distance - terrain.movement_cost;
 				if (eval_distance >= 0) {
-					approved_tiles.push(hexTile);
+					let local_moveCost = hexTile.terrain.movement_cost + moveCost;
+					approved_tiles[hexTile.id] = { 
+							movementCost: local_moveCost,
+							hexTile: hexTile
+					};
 					
 					// If distance is still remaining, check the distance from this tile as well.
 					let diff_dist = eval_distance;
@@ -416,14 +424,34 @@ class HexTile extends GUI {
 						// If an ignoreID list already exists, append this ID to it and pass it through. Other wise create a new one.
 						if (ignoreIDs) {
 							ignoreIDs.push(hexTile.id);
-							approved_tiles = approved_tiles.concat( hexTile.retrieveHexWithinDistance(diff_dist, howMove, ignoreIDs ));
+							approved_tiles = mergeApprovedTiles( approved_tiles, hexTile.retrieveHexWithinDistance(diff_dist, howMove, ignoreIDs, local_moveCost) );
 						}
 						else {
-							approved_tiles = approved_tiles.concat( hexTile.retrieveHexWithinDistance(diff_dist, howMove, [ths.id, hexTile.id] ));
+							approved_tiles = mergeApprovedTiles( approved_tiles, hexTile.retrieveHexWithinDistance(diff_dist, howMove, [ hexTile.id ]), local_moveCost );
 						}
 					}
 				}
 			}
+		}
+		
+		function mergeApprovedTiles(approvedTiles1, approvedTiles2) {
+			let mergedTiles = approvedTiles1;
+			for (let key in approvedTiles2) {
+				
+				// Check if record tile exists inside mergedTiles If it does, use the the tile with the lowest cost to move.
+				if ( mergedTiles[key] ) {
+					if ( mergedTiles[key].movementCost - approvedTiles2[key].movementCost <= 0) {
+						mergedTiles[key] = approvedTiles2[key];
+					}
+				}
+				
+				// If the tile does not exist, attach it.
+				else {
+					mergedTiles[key] = approvedTiles2[key];
+				}
+			}
+			
+			return mergedTiles;
 		}
 		
 		// Retrieve the Alphabetical index value for an idX.

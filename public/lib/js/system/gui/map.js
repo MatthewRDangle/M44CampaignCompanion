@@ -128,13 +128,13 @@ class Map extends GUI {
 	    				this.scene.data.list['selectedHex'] = tile; // Set the selected tile.
 	    				tile.highlight();
 	    				this.scene.data.list['selectedUnitType'] = unitType;
-	    				
+
 	    				// Highlight all tiles within move range.
 	    				let unit = tile.units[unitType][0];
-	    				let acceptableTiles = tile.retrieveHexWithinDistance(unit.movement, unit.howMove);
+	    				let acceptableTiles = tile.retrieveHexWithinDistance(unit.movement, unit.howMove, [this.id]);
 	    				this.scene.data.list['acceptableTiles'] = acceptableTiles; // Save to loop through later.
-	    				for (let idx = 0; idx < acceptableTiles.length; idx++) {
-	    					let hexTile = acceptableTiles[idx];
+	    				for (let hexID in acceptableTiles) {
+	    					let hexTile = acceptableTiles[hexID].hexTile;
 	    					hexTile.setBackgroundColor(0x0000FF);
 	    				}
 
@@ -199,17 +199,17 @@ class Map extends GUI {
 	    				
 	    				// Delight all moveable to tiles.
 	    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
-	    				for (let idx = 0; idx < acceptableTiles.length; idx++) {
-	    					let hexTile = acceptableTiles[idx];
+	    				for (let hexID in acceptableTiles) {
+	    					let hexTile = acceptableTiles[hexID].hexTile;
 	    					hexTile.setBackgroundColor(0xC5D6B7);
 	    				}
 	    				
 	    				// Highlight all tiles within move range based on the new selected unit.
 	    				let unit = old_tile.units[unitType][0];
-	    				acceptableTiles = old_tile.retrieveHexWithinDistance(unit.movement, unit.howMove);
+	    				acceptableTiles = old_tile.retrieveHexWithinDistance(unit.movement, unit.howMove, [this.id]);
 	    				this.scene.data.list['acceptableTiles'] = acceptableTiles; // Save to loop through later.
-	    				for (let idx = 0; idx < acceptableTiles.length; idx++) {
-	    					let hexTile = acceptableTiles[idx];
+	    				for (let hexID in acceptableTiles) {
+	    					let hexTile = acceptableTiles[hexID].hexTile;
 	    					hexTile.setBackgroundColor(0x0000FF);
 	    				}
 	    				
@@ -222,23 +222,37 @@ class Map extends GUI {
 	    			}
 
 	    			// Move unit to the new hex if a unit does not exist there.
+    				let unitMoved = false;
 	    			if ( tile.units[this.scene.data.list['selectedUnitType']].length == 0 ) {
 	    				
 	    				// Retrieve the acceptable tiles to see if the unit can move there.
 	    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
-	    				for (let idx = 0; idx < acceptableTiles.length; idx++) {
-	    					let hexTile = acceptableTiles[idx];
-	    					
+	    				for (let hexID in acceptableTiles) {
+	    					let hexTile = acceptableTiles[hexID].hexTile;
+	    					let movement_cost = acceptableTiles[hexID].movementCost;
+
 	    					// If the acceptableTile equals this tile, allow the unit to move.
 	    					if (hexTile === tile) {
 	    						
 	    	    				// If a unit type exists, transfer unit to the new tile.
 	    	    				if (unitType) {
 	    	    					let unitArray = old_tile.units[unitType];
-	    	    					if ( unitArray[0] ) {
-		    		    					old_tile.transferUnit( unitArray[0], tile );
-		    		    					// TODO reduce unit movement and store into an array so it can be refreshed later.
+	    	    					let unit = unitArray[0];
+	    	    					if ( unit ) {
+	    	    						
+	    	    							// Reduce movement space based on tile move.
+	    	    							unit.movement = unit.movement - movement_cost;
+	    	    							
+	    	    							// Transfer unit to the tile.
+		    		    					old_tile.transferUnit( unit, tile );
 		    		    					tile.changeUnitDisplayOrder(unitType);
+		    		    					unitMoved = true;
+
+		    		    					// Attach unit to move list so there movements can be refreshed later.
+		    		    					let movedUnits = this.scene.data.list['movedUnits'];
+		    		    					if (!movedUnits.includes(unit) ) {
+		    		    						this.scene.data.list['movedUnits'].push(unit);
+		    		    					}
 	    	    					}
 	    	    				}
 	    					}
@@ -256,7 +270,18 @@ class Map extends GUI {
 	    				unit.mergeWithUnit( old_unit );
 	    				tile.updateGUIDisplay();
 	    				tile.changeUnitDisplayOrder(unit.type);
+    					unitMoved = true;
+    					
+    					// Attach unit to move list so there movements can be refreshed later.
+    					let movedUnits = this.scene.data.list['movedUnits'];
+    					if (!movedUnits.includes(unit) ) {
+    						this.scene.data.list['movedUnits'].push( unit );
+    					}
 	    			}
+	    			
+	    			// If unit has not moved, then continue further.
+	    			if (!unitMoved)
+	    				return;
 
 	    			// Change mode to view if there are no units on the old tile.
 	    			if ( old_tile.units.infantry.length == 0 && old_tile.units.vehicle.length == 0 && old_tile.units.aircraft.length == 0 && old_tile.units.naval.length == 0) { 
@@ -266,8 +291,8 @@ class Map extends GUI {
 	    				
 	    				// Delight all moveable to tiles.
 	    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
-	    				for (let idx = 0; idx < acceptableTiles.length; idx++) {
-	    					let hexTile = acceptableTiles[idx];
+	    				for (let hexID in acceptableTiles) {
+	    					let hexTile = acceptableTiles[hexID].hexTile;
 	    					hexTile.setBackgroundColor(0xC5D6B7);
 	    				}
 	    			}
@@ -325,17 +350,17 @@ class Map extends GUI {
 	    				
 	    				// Delight all moveable to tiles.
 	    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
-	    				for (let idx = 0; idx < acceptableTiles.length; idx++) {
-	    					let hexTile = acceptableTiles[idx];
+	    				for (let hexID in acceptableTiles) {
+	    					let hexTile = acceptableTiles[hexID].hexTile;
 	    					hexTile.setBackgroundColor(0xC5D6B7);
 	    				}
 	    				
 	    				// Highlight all tiles within move range based on the new selected unit.
 	    				let unit = old_tile.units[unitType][0];
-	    				acceptableTiles = old_tile.retrieveHexWithinDistance(unit.movement, unit.howMove);
+	    				acceptableTiles = old_tile.retrieveHexWithinDistance(unit.movement, unit.howMove, [this.id]);
 	    				this.scene.data.list['acceptableTiles'] = acceptableTiles; // Save to loop through later.
-	    				for (let idx = 0; idx < acceptableTiles.length; idx++) {
-	    					let hexTile = acceptableTiles[idx];
+	    				for (let hexID in acceptableTiles) {
+	    					let hexTile = acceptableTiles[hexID].hexTile;
 	    					hexTile.setBackgroundColor(0x0000FF);
 	    				}
 	    			}
@@ -350,8 +375,8 @@ class Map extends GUI {
     				
     				// Delight all moveable to tiles.
     				let acceptableTiles = this.scene.data.list['acceptableTiles'];
-    				for (let idx = 0; idx < acceptableTiles.length; idx++) {
-    					let hexTile = acceptableTiles[idx];
+    				for (let hexID in acceptableTiles) {
+    					let hexTile = acceptableTiles[hexID].hexTile;
     					hexTile.setBackgroundColor(0xC5D6B7);
     				}
     			}

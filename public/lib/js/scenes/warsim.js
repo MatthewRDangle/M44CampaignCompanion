@@ -174,6 +174,8 @@ class WarSim extends Phaser.Scene {
     	gameboard.setDimensions(window.innerWidth - leftbar.width - rightbar.width, window.innerHeight - topbar.height - bottombar.height);
 		gameboard.updateMode(this.data.list['mode']);
 		
+		this.data.list['movedUnits'] = []; // Place holder for the map to insert moveUnits here.
+		
 		// Attach Pre-build Scenario Units.
 		if (scenarioDetails.units) {
 			for (let tileID in scenarioDetails.units) {
@@ -225,6 +227,17 @@ class WarSim extends Phaser.Scene {
     			this.data.list['activeFaction'] = faction1;
     		else if ( second_faction.isTurn )
     			this.data.list['activeFaction'] = faction2;
+
+    		// Refresh unit movements.
+    		let movedUnits = this.data.list['movedUnits'];
+    		for (let idx = 0; idx < movedUnits.length; idx++) {
+    			let unit = movedUnits[idx];
+    			unit.resetUnitMovement();
+    			
+    			// Remove unit from array.
+    			let indexOfUnit = movedUnits.indexOf(unit);
+    			movedUnits.splice( indexOfUnit, 1 );
+    		}
 
     		// Update gameboard mode settings.
     		this.data.list['selectedHex'] = undefined;
