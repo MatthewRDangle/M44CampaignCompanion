@@ -127,14 +127,20 @@ class Unit {
 			this.deselect();
 			this.tile.dehighlight();
 			this.tile.transferUnit(this, tile);
+			
+			// Add Unit to movedUnits Index for refresh.
+			if ( !this.gui.scene.data.list['movedUnits'].includes( this ) ) {
+				this.gui.scene.data.list['movedUnits'].push( this );
+			}
 		}
 	}
 	
 	/*
-	 ** Title: Reset Unit Movement.
+	 ** Title: Refresh.
 	 ** Description: ???
 	 */
-	resetUnitMovement() {
+	refresh() {
+		debugger;
 		this.movement = this.maxMovement;
 	}
 	

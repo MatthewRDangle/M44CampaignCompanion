@@ -206,6 +206,7 @@ class WarSim extends Phaser.Scene {
     	 * Description: Sets the next factions turn.
     	 */
     	function nextTurn() {
+    		debugger;
     		
     		// Turn Off Previous Player Turn.
     		if (faction_turn == 0)
@@ -231,11 +232,12 @@ class WarSim extends Phaser.Scene {
     		else if ( second_faction.isTurn )
     			this.data.list['activeFaction'] = faction2;
 
+    		debugger;
     		// Refresh unit movements.
     		let movedUnits = this.data.list['movedUnits'];
     		for (let idx = 0; idx < movedUnits.length; idx++) {
     			let unit = movedUnits[idx];
-    			unit.resetUnitMovement();
+    			unit.refresh();
     			
     			// Remove unit from array.
     			let indexOfUnit = movedUnits.indexOf(unit);
