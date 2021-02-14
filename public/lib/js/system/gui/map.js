@@ -45,7 +45,7 @@ class Map extends GUI {
     			}
     			
     			// Set the ID.
-    			let xID = Number(x / alphabet.length).toFixed() + alphabet[x % alphabet.length];
+    			let xID = Math.floor( x / alphabet.length ) + alphabet[x % alphabet.length];
     			let yID = y;
 
     			 // Create and add the tile to the map.

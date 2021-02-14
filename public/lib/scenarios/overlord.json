@@ -1,5 +1,5 @@
 {
-	"devTools": "false",
+	"devTools": "true",
 	
 	"name": "Operation Overlord",
 	"mission": "Eapture the Airfields and hold them for one turn",
