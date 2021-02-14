@@ -1,5 +1,5 @@
 {
-	"devTools": "true",
+	"devTools": "false",
 	
 	"name": "Operation Overlord",
 	"mission": "Eapture the Airfields and hold them for one turn",
@@ -10,18 +10,38 @@
 	},
 	
 	"units": {
-		"0A0": {
+		"0F3": {
 			"America": {
-				"infantry": 8
+				"infantry": 4
 			}
 		},
-		"0B0": {
+		"0G3": {
 			"America": {
-				"vehicle": 7
+				"infantry": 4
 			}
 		},
-		"0B1": {
+		"0G4": {
 			"America": {
+				"vehicle": 3
+			}
+		},
+		"0H3": {
+			"America": {
+				"infantry": 4
+			}
+		},
+		"0F4": {
+			"Germany": {
+				"infantry": 4
+			}
+		},
+		"0G5": {
+			"Germany": {
+				"vehicle": 3
+			}
+		},
+		"0H4": {
+			"Germany": {
 				"infantry": 4
 			}
 		}

@@ -122,22 +122,10 @@ class Map extends GUI {
     				}
     				
     				// Select tile and change to move mode.
-    				let unitArray = tile.units[unitType];
-    				if ( unitArray[0].faction === this.scene.data.list['activeFaction'] ) {
+    				let toMoveUnit = tile.units[unitType][0];
+    				if ( toMoveUnit.faction === this.scene.data.list['activeFaction'] ) {
 	    				this.emitter.emit('moveMode'); // Change the mode to move.
-	    				this.scene.data.list['selectedHex'] = tile; // Set the selected tile.
-	    				tile.highlight();
-	    				this.scene.data.list['selectedUnitType'] = unitType;
-
-	    				// Highlight all tiles within move range.
-	    				let unit = tile.units[unitType][0];
-	    				let acceptableTiles = tile.retrieveHexWithinDistance(unit.movement, unit.howMove, [this.id]);
-	    				this.scene.data.list['acceptableTiles'] = acceptableTiles; // Save to loop through later.
-	    				for (let hexID in acceptableTiles) {
-	    					let hexTile = acceptableTiles[hexID].hexTile;
-	    					hexTile.setBackgroundColor(0x0000FF);
-	    				}
-
+	    				toMoveUnit.select();
     				}
 	    		}
 	    		
@@ -145,224 +133,310 @@ class Map extends GUI {
 	    		else if (mouseClick === 1 && this.scene.data.list['mode'] === 'Move') {
 	    			let old_tile = this.scene.data.list['selectedHex']; // Retrieve the selected tile.
 					let unitType = this.scene.data.list['selectedUnitType']; // Retrieve the selected unit type.
-	    			
-	    			// If the player selects the same tile, change which unit is selected.
+					let movingUnit = this.scene.data.list['selectedUnit']; // Retrieve the unit being moved.
+
+	    			// Check if the tile clicked is the same as the currently selected tile.
 	    			if ( old_tile === tile ) {
+	    				movingUnit.deselect(); // Deselect the currently selected Unit.
+	    				this.emitter.emit('mode'); // Change the mode to move.
 	    				
-	    				// Change the unit type based on what unit is selected.
-	    				if ( unitType === 'infantry' ) {
-		    				if ( old_tile.units.vehicle.length > 0 ) {
-		    					unitType = "vehicle";
-							}
-		    				else if ( old_tile.units.aircraft.length > 0 ) {
-		    					unitType = "aircraft";
-							}
-		    				else if ( old_tile.units.naval.length > 0 ) {
-		    					unitType = "naval";
-							}
-	    				}
-	    				else if ( unitType === 'vehicle' ) {
-		    				if ( old_tile.units.aircraft.length > 0 ) {
-		    					unitType = "aircraft";
-							}
-		    				else if ( old_tile.units.naval.length > 0 ) {
-		    					unitType = "naval";
-							}
-		    				else if ( old_tile.units.infantry.length > 0 ) {
-		    					unitType = "infantry";
-		    				}
-	    				}
-	    				else if ( unitType === 'aircraft' ) {
-		    				 if ( old_tile.units.naval.length > 0 ) {
-		    					unitType = "naval";
-							}
-		    				else if ( old_tile.units.infantry.length > 0 ) {
-		    					unitType = "infantry";
-		    				}
-		    				else if ( old_tile.units.vehicle.length > 0 ) {
-		    					unitType = "vehicle";
-							}
-	    				}
-	    				else if ( unitType === 'naval' ) {
-		    				if ( old_tile.units.infantry.length > 0 ) {
-		    					unitType = "infantry";
-		    				}
-		    				else if ( old_tile.units.vehicle.length > 0 ) {
-		    					unitType = "vehicle";
-							}
-		    				else if ( old_tile.units.aircraft.length > 0 ) {
-		    					unitType = "aircraft";
-							}
-	    				}
-	    				
-	    				this.scene.data.list['selectedUnitType'] = unitType; // Change the selected unit type.
-	    				
-	    				// Delight all moveable to tiles.
-	    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
-	    				for (let hexID in acceptableTiles) {
-	    					let hexTile = acceptableTiles[hexID].hexTile;
-	    					hexTile.setBackgroundColor(0xC5D6B7);
-	    				}
-	    				
-	    				// Highlight all tiles within move range based on the new selected unit.
-	    				let unit = old_tile.units[unitType][0];
-	    				acceptableTiles = old_tile.retrieveHexWithinDistance(unit.movement, unit.howMove, [this.id]);
-	    				this.scene.data.list['acceptableTiles'] = acceptableTiles; // Save to loop through later.
-	    				for (let hexID in acceptableTiles) {
-	    					let hexTile = acceptableTiles[hexID].hexTile;
-	    					hexTile.setBackgroundColor(0x0000FF);
-	    				}
-	    				
-	    				// Change the unit type display order on GUI.
-	    				if (unit) { 
-	    					old_tile.changeUnitDisplayOrder(unit.type);
-    					}
-	    				
-	    				return; // Prevent further execution of code.
+//	    				// Change the unit type based on what unit is selected.
+//	    				if ( unitType === 'infantry' ) {
+//		    				if ( old_tile.units.vehicle.length > 0 ) {
+//		    					unitType = "vehicle";
+//							}
+//		    				else if ( old_tile.units.aircraft.length > 0 ) {
+//		    					unitType = "aircraft";
+//							}
+//		    				else if ( old_tile.units.naval.length > 0 ) {
+//		    					unitType = "naval";
+//							}
+//	    				}
+//	    				else if ( unitType === 'vehicle' ) {
+//		    				if ( old_tile.units.aircraft.length > 0 ) {
+//		    					unitType = "aircraft";
+//							}
+//		    				else if ( old_tile.units.naval.length > 0 ) {
+//		    					unitType = "naval";
+//							}
+//		    				else if ( old_tile.units.infantry.length > 0 ) {
+//		    					unitType = "infantry";
+//		    				}
+//	    				}
+//	    				else if ( unitType === 'aircraft' ) {
+//		    				 if ( old_tile.units.naval.length > 0 ) {
+//		    					unitType = "naval";
+//							}
+//		    				else if ( old_tile.units.infantry.length > 0 ) {
+//		    					unitType = "infantry";
+//		    				}
+//		    				else if ( old_tile.units.vehicle.length > 0 ) {
+//		    					unitType = "vehicle";
+//							}
+//	    				}
+//	    				else if ( unitType === 'naval' ) {
+//		    				if ( old_tile.units.infantry.length > 0 ) {
+//		    					unitType = "infantry";
+//		    				}
+//		    				else if ( old_tile.units.vehicle.length > 0 ) {
+//		    					unitType = "vehicle";
+//							}
+//		    				else if ( old_tile.units.aircraft.length > 0 ) {
+//		    					unitType = "aircraft";
+//							}
+//	    				}
+//	    				
+//	    				this.scene.data.list['selectedUnitType'] = unitType; // Change the selected unit type.
+//	    				
+//	    				// Delight all moveable to tiles.
+//	    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
+//	    				for (let hexID in acceptableTiles) {
+//	    					let hexTile = acceptableTiles[hexID].hexTile;
+//	    					hexTile.setBackgroundColor(0xC5D6B7);
+//	    				}
+//	    				
+//	    				// Highlight all tiles within move range based on the new selected unit.
+//	    				let unit = old_tile.units[unitType][0];
+//	    				acceptableTiles = old_tile.retrieveHexWithinDistance(unit.movement, unit.howMove, [this.id]);
+//	    				this.scene.data.list['acceptableTiles'] = acceptableTiles; // Save to loop through later.
+//	    				for (let hexID in acceptableTiles) {
+//	    					let hexTile = acceptableTiles[hexID].hexTile;
+//	    					hexTile.setBackgroundColor(0x0000FF);
+//	    				}
+//	    				
+//	    				// Change the unit type display order on GUI.
+//	    				if (unit) { 
+//	    					old_tile.changeUnitDisplayOrder(unit.type);
+//    					}
 	    			}
-
-	    			// Move unit to the new hex if a unit does not exist there.
-    				let unitMoved = false;
-	    			if ( tile.units[this.scene.data.list['selectedUnitType']].length == 0 ) {
+	    			
+	    			// If the tile clicked is not the same as the selected tile, evaluate if the move is possible by the unit.
+	    			else {
+	    				let unitMovePossible = false; // Evaluate variable for whether the unit can move to this new tile based on the acceptable tiles. Assume false by default.
 	    				
-	    				// Retrieve the acceptable tiles to see if the unit can move there.
+	    				// Check if the tile matches one of the acceptable tiles.
 	    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
-	    				for (let hexID in acceptableTiles) {
+	    				for ( let hexID in acceptableTiles ) {
 	    					let hexTile = acceptableTiles[hexID].hexTile;
-	    					let movement_cost = acceptableTiles[hexID].movementCost;
-
-	    					// If the acceptableTile equals this tile, allow the unit to move.
+	    					let cost_to_move = acceptableTiles[hexID].movementCost;
+	    					
+	    					// Check if the tile exists in acceptable tiles. If it does, permit the move and modify the unit movement int.
 	    					if (hexTile === tile) {
-	    						
-	    	    				// If a unit type exists, transfer unit to the new tile.
-	    	    				if (unitType) {
-	    	    					let unitArray = old_tile.units[unitType];
-	    	    					let unit = unitArray[0];
-	    	    					if ( unit ) {
-	    	    						
-	    	    							// Reduce movement space based on tile move.
-	    	    							unit.movement = unit.movement - movement_cost;
-	    	    							
-	    	    							// Transfer unit to the tile.
-		    		    					old_tile.transferUnit( unit, tile );
-		    		    					tile.changeUnitDisplayOrder(unitType);
-		    		    					unitMoved = true;
-
-		    		    					// Attach unit to move list so there movements can be refreshed later.
-		    		    					let movedUnits = this.scene.data.list['movedUnits'];
-		    		    					if (!movedUnits.includes(unit) ) {
-		    		    						this.scene.data.list['movedUnits'].push(unit);
-		    		    					}
-	    	    					}
-	    	    				}
+	    						unitMovePossible = true;
+	    						movingUnit.reduceMovementBy(cost_to_move);
 	    					}
+	    					
 	    				}
-	    			}
-	    			
-	    			// If a unit does exist and is owned by the same unit, merge them together.
-	    			else if ( tile.units.infantry[0].faction === this.scene.data.list['activeFaction'] && this.scene.data.list['selectedHex'] !== this ) {
-	    				let old_tile = this.scene.data.list['selectedHex'];
-	    				let selectedUnitType = this.scene.data.list['selectedUnitType'];
 	    				
-	    				let unit = tile.units[selectedUnitType][0];
-	    				let old_unit = old_tile.units[selectedUnitType][0];
-	    				
-	    				unit.mergeWithUnit( old_unit );
-	    				tile.updateGUIDisplay();
-	    				tile.changeUnitDisplayOrder(unit.type);
-    					unitMoved = true;
-    					
-    					// Attach unit to move list so there movements can be refreshed later.
-    					let movedUnits = this.scene.data.list['movedUnits'];
-    					if (!movedUnits.includes(unit) ) {
-    						this.scene.data.list['movedUnits'].push( unit );
-    					}
-	    			}
-	    			
-	    			// If unit has not moved, then continue further.
-	    			if (!unitMoved)
-	    				return;
+	    				// If the unit move is possible, move the unit to the tile and evaluate the tiles' occupied space to determine the results of the move action.
+	    				if (unitMovePossible) {
 
-	    			// Change mode to view if there are no units on the old tile.
-	    			if ( old_tile.units.infantry.length == 0 && old_tile.units.vehicle.length == 0 && old_tile.units.aircraft.length == 0 && old_tile.units.naval.length == 0) { 
-	    				this.emitter.emit('mode');
-	    				this.scene.data.list['selectedHex'] = false;
-	    				old_tile.dehighlight();
-	    				
-	    				// Delight all moveable to tiles.
-	    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
-	    				for (let hexID in acceptableTiles) {
-	    					let hexTile = acceptableTiles[hexID].hexTile;
-	    					hexTile.setBackgroundColor(0xC5D6B7);
-	    				}
-	    			}
-	    			
-	    			//If other units still exist on the selected tile, stay selected and select the next unit in the list.
-	    			else  {
-	    				
-	    				// Find which unit to change the selected unit type to.
-	    				if ( unitType === 'infantry' ) {
-		    				if ( old_tile.units.vehicle.length > 0 ) {
-		    					unitType = "vehicle";
-							}
-		    				else if ( old_tile.units.aircraft.length > 0 ) {
-		    					unitType = "aircraft";
-							}
-		    				else if ( old_tile.units.naval.length > 0 ) {
-		    					unitType = "naval";
-							}
-	    				}
-	    				else if ( unitType === 'vehicle' ) {
-		    				if ( old_tile.units.aircraft.length > 0 ) {
-		    					unitType = "aircraft";
-							}
-		    				else if ( old_tile.units.naval.length > 0 ) {
-		    					unitType = "naval";
-							}
-		    				else if ( old_tile.units.infantry.length > 0 ) {
-		    					unitType = "infantry";
+		    				// If the tile is occupied by the same faction as the unit being moved, join their forces on the same tile.
+		    				if (tile.occupied === movingUnit.faction && unitType === movingUnit.type ) {
+	    						let unit = tile.units[unitType][0]; // Retrieve the unit for merging.
+	    						
+	    						// Merge unit and update the GUI.
+			    				unit.mergeWithUnit( movingUnit );
+			    				tile.updateGUIDisplay();
+			    				tile.changeUnitDisplayOrder(unit.type);
+			    				
+		    					// Attach unit to move list so there movements can be refreshed later.
+		    					let movedUnits = this.scene.data.list['movedUnits'];
+		    					if ( !movedUnits.includes(unit) ) {
+		    						this.scene.data.list['movedUnits'].push( unit );
+		    					}
+		    					
+		    					// If unit still has movement left, select it.
+		    					if (unit.movement > 0)
+		    						unit.select();
+		    					else
+		    						this.emitter.emit('mode'); // Change the mode to view.
 		    				}
-	    				}
-	    				else if ( unitType === 'aircraft' ) {
-		    				 if ( old_tile.units.naval.length > 0 ) {
-		    					unitType = "naval";
-							}
-		    				else if ( old_tile.units.infantry.length > 0 ) {
-		    					unitType = "infantry";
+		    				
+		    				// If the tile is occupied by a faction that is not the same as the unit being moved, let the unit contest the area.
+		    				else if (tile.occupied !== undefined && tile.occupied !== movingUnit.faction) {
+		    					movingUnit.moveToTile(tile);; // Transfer the unit to the new tile from the old tile.
+		    					
+		    					// Contest this tile.
+		    					tile.contest();
+		    					this.emitter.emit('mode'); // Change the mode to view.
 		    				}
-		    				else if ( old_tile.units.vehicle.length > 0 ) {
-		    					unitType = "vehicle";
-							}
-	    				}
-	    				else if ( unitType === 'naval' ) {
-		    				if ( old_tile.units.infantry.length > 0 ) {
-		    					unitType = "infantry";
+		    				
+		    				// If no faction occupies the tile, let the unit move their and consume it's movement points.
+		    				else {
+		    					movingUnit.moveToTile(tile);
+		    					
+		    					// If unit space is remaining, find available move spaces again.
+		    					if (movingUnit.movement > 0)
+		    						movingUnit.select();
+		    					else
+		    	    				this.emitter.emit('mode'); // Change the mode to view.
 		    				}
-		    				else if ( old_tile.units.vehicle.length > 0 ) {
-		    					unitType = "vehicle";
-							}
-		    				else if ( old_tile.units.aircraft.length > 0 ) {
-		    					unitType = "aircraft";
-							}
+		    				
 	    				}
 	    				
-	    				this.scene.data.list['selectedUnitType'] = unitType; // Change the selected unit type.
 	    				
-	    				// Delight all moveable to tiles.
-	    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
-	    				for (let hexID in acceptableTiles) {
-	    					let hexTile = acceptableTiles[hexID].hexTile;
-	    					hexTile.setBackgroundColor(0xC5D6B7);
-	    				}
+
 	    				
-	    				// Highlight all tiles within move range based on the new selected unit.
-	    				let unit = old_tile.units[unitType][0];
-	    				acceptableTiles = old_tile.retrieveHexWithinDistance(unit.movement, unit.howMove, [this.id]);
-	    				this.scene.data.list['acceptableTiles'] = acceptableTiles; // Save to loop through later.
-	    				for (let hexID in acceptableTiles) {
-	    					let hexTile = acceptableTiles[hexID].hexTile;
-	    					hexTile.setBackgroundColor(0x0000FF);
-	    				}
+	    				
+	    				
+//		    			// Move unit to the new hex if a unit does not exist there.
+//		    			if ( tile.units[unitType].length == 0 ) {
+//		    				
+//		    				// Retrieve the acceptable tiles to see if the unit can move there.
+//		    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
+//		    				for (let hexID in acceptableTiles) {
+//		    					let hexTile = acceptableTiles[hexID].hexTile;
+//		    					let movement_cost = acceptableTiles[hexID].movementCost;
+//
+//		    					// If the acceptableTile equals this tile, allow the unit to move.
+//		    					if (hexTile === tile) {
+//		    						
+//		    	    				// If a unit type exists, transfer unit to the new tile.
+//		    	    				if (unitType) {
+//		    	    					let unitArray = old_tile.units[unitType];
+//		    	    					let unit = unitArray[0];
+//		    	    					if ( unit ) {
+//		    	    						
+//		    	    							// Reduce movement space based on tile move.
+//		    	    							unit.movement = unit.movement - movement_cost;
+//		    	    							
+//		    	    							// Transfer unit to the tile.
+//			    		    					old_tile.transferUnit( unit, tile );
+//			    		    					tile.changeUnitDisplayOrder(unitType);
+//			    		    					unitMoved = true;
+//
+//			    		    					// Attach unit to move list so there movements can be refreshed later.
+//			    		    					let movedUnits = this.scene.data.list['movedUnits'];
+//			    		    					if (!movedUnits.includes(unit) ) {
+//			    		    						this.scene.data.list['movedUnits'].push(unit);
+//			    		    					}
+//		    	    					}
+//		    	    				}
+//		    					}
+//		    				}
+//		    			}
+//
+//	    				// If the tile is occupied by the faction who is taking their turn, merge them together.
+//		    			if ( tile.occupied === this.scene.data.list['activeFaction'] ) {
+//		    				let old_tile = this.scene.data.list['selectedHex'];
+//		    				let selectedUnitType = this.scene.data.list['selectedUnitType'];
+//		    				
+//		    				let unit = tile.units[selectedUnitType][0];
+//		    				let old_unit = old_tile.units[selectedUnitType][0];
+//		    				
+//		    				unit.mergeWithUnit( old_unit );
+//		    				tile.updateGUIDisplay();
+//		    				tile.changeUnitDisplayOrder(unit.type);
+//	    					unitMoved = true;
+//	    					
+//	    					// Attach unit to move list so there movements can be refreshed later.
+//	    					let movedUnits = this.scene.data.list['movedUnits'];
+//	    					if (!movedUnits.includes(unit) ) {
+//	    						this.scene.data.list['movedUnits'].push( unit );
+//	    					}
+//	    				}
+//	    				
+//	    				// If the tile is occupied by an enemy faction, move unit there and contest it.
+//	    				if ( tile.occupied !== this.scene.data.list['activeFaction'] ) {
+//		    				let old_tile = this.scene.data.list['selectedHex'];
+//		    				
+//		    				// Unit Information.
+//		    				let selectedUnitType = this.scene.data.list['selectedUnitType'];
+//		    				let unit = old_tile.units[selectedUnitType][0];
+//		    				
+//		    				// Move unit into the tile, then contest the tile.
+//		    				old_tile.transferUnit( unit, tile );
+//		    				tile.contest();
+//		    				unitMoved = true;
+//	    				}
+//		
+//		    			// If unit has not moved, then don't continue further.
+//		    			if (!unitMoved)
+//		    				return;
+//
+//		    			// Change mode to view if there are no units on the old tile.
+//		    			if ( old_tile.units.infantry.length == 0 && old_tile.units.vehicle.length == 0 && old_tile.units.aircraft.length == 0 && old_tile.units.naval.length == 0) { 
+//		    				this.emitter.emit('mode');
+//		    				this.scene.data.list['selectedHex'] = false;
+//		    				old_tile.dehighlight();
+//		    				
+//		    				// Delight all moveable to tiles.
+//		    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
+//		    				for (let hexID in acceptableTiles) {
+//		    					let hexTile = acceptableTiles[hexID].hexTile;
+//		    					hexTile.setBackgroundColor(0xC5D6B7);
+//		    				}
+//		    			}
+//		    			
+//		    			//If other units still exist on the selected tile, stay selected and select the next unit in the list.
+//		    			else  {
+//		    				
+//		    				// Find which unit to change the selected unit type to.
+//		    				if ( unitType === 'infantry' ) {
+//			    				if ( old_tile.units.vehicle.length > 0 ) {
+//			    					unitType = "vehicle";
+//								}
+//			    				else if ( old_tile.units.aircraft.length > 0 ) {
+//			    					unitType = "aircraft";
+//								}
+//			    				else if ( old_tile.units.naval.length > 0 ) {
+//			    					unitType = "naval";
+//								}
+//		    				}
+//		    				else if ( unitType === 'vehicle' ) {
+//			    				if ( old_tile.units.aircraft.length > 0 ) {
+//			    					unitType = "aircraft";
+//								}
+//			    				else if ( old_tile.units.naval.length > 0 ) {
+//			    					unitType = "naval";
+//								}
+//			    				else if ( old_tile.units.infantry.length > 0 ) {
+//			    					unitType = "infantry";
+//			    				}
+//		    				}
+//		    				else if ( unitType === 'aircraft' ) {
+//			    				 if ( old_tile.units.naval.length > 0 ) {
+//			    					unitType = "naval";
+//								}
+//			    				else if ( old_tile.units.infantry.length > 0 ) {
+//			    					unitType = "infantry";
+//			    				}
+//			    				else if ( old_tile.units.vehicle.length > 0 ) {
+//			    					unitType = "vehicle";
+//								}
+//		    				}
+//		    				else if ( unitType === 'naval' ) {
+//			    				if ( old_tile.units.infantry.length > 0 ) {
+//			    					unitType = "infantry";
+//			    				}
+//			    				else if ( old_tile.units.vehicle.length > 0 ) {
+//			    					unitType = "vehicle";
+//								}
+//			    				else if ( old_tile.units.aircraft.length > 0 ) {
+//			    					unitType = "aircraft";
+//								}
+//		    				}
+//		    				
+//		    				this.scene.data.list['selectedUnitType'] = unitType; // Change the selected unit type.
+//		    				
+//		    				// Delight all moveable to tiles.
+//		    				let acceptableTiles = this.scene.data.list['acceptableTiles'];
+//		    				for (let hexID in acceptableTiles) {
+//		    					let hexTile = acceptableTiles[hexID].hexTile;
+//		    					hexTile.setBackgroundColor(0xC5D6B7);
+//		    				}
+//		    				
+//		    				// Highlight all tiles within move range based on the new selected unit.
+//		    				let unit = old_tile.units[unitType][0];
+//		    				acceptableTiles = old_tile.retrieveHexWithinDistance(unit.movement, unit.howMove, [this.id]);
+//		    				this.scene.data.list['acceptableTiles'] = acceptableTiles; // Save to loop through later.
+//		    				for (let hexID in acceptableTiles) {
+//		    					let hexTile = acceptableTiles[hexID].hexTile;
+//		    					hexTile.setBackgroundColor(0x0000FF);
+//		    				}
+//		    			}
+	    				
 	    			}
 	    		}
 	    		
@@ -387,7 +461,8 @@ class Map extends GUI {
 	    			// If the box doesn't have a unit, add it, otherwise remove it.
 	    			if ( tile.units.infantry.length == 0) {
 	    				let newUnit = new Infantry( this.scene.data.list['activeFaction'] );
-	    				tile.addUnit(newUnit);
+	    				tile.addUnit(newUnit); // Attach the unit to the tile.
+	    				newUnit.setOccupied(newUnit.faction); // Set the owner of the tile.
 	    			}
 	    			else {
 	    				if ( this.scene.data.list['activeFaction'] === tile.units.infantry[0].faction ) {
@@ -408,6 +483,7 @@ class Map extends GUI {
 	    				}
 	    				else
 	    					tile.removeUnit( tile.units.infantry[0] );
+	    					newUnit.setOccupied(undefined); // Set the owner of the tile.
 	    			}
 	    		}
 			});

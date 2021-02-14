@@ -24,6 +24,9 @@ class WarSim extends Phaser.Scene {
     	this.load.image('Enemy_Aircraft', 'lib/assets/Red_Plane.png');
     	this.load.image('Enemy_Naval', 'lib/assets/Red_Ship.png');
     	
+    	// Markers.
+    	this.load.image('Marker_Battle', 'lib/assets/Battle.png');
+    	
     	// Buttons.
     	this.load.image('Battle', 'lib/assets/Battle.png');
     	this.load.image('FinishTurn', 'lib/assets/FinishTurn.png');

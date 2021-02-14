@@ -54,6 +54,16 @@ let game = {};
 	}
 	
 	/*
+	 * Property: Colors.
+	 * Type: Object.
+	 * Description: Global color variables.
+	 */
+	game.colors = {
+			blue: '0x0000FF',
+			tan: '0xC5D6B7'
+	}
+	
+	/*
 	 * Property: Phaser Object
 	 * Type: Value.
 	 * Description: The Phaser Game object. This is set when game.init() is called.

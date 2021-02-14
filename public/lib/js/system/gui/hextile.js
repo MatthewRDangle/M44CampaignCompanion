@@ -19,6 +19,13 @@ class HexTile extends GUI {
 		this.idY = idy;
 		
 		// Game Data.
+		this.occupied = undefined;
+		this.isContested = false;
+		this.contested = { 
+				attacked: undefined, 
+				defender: undefined, 
+				markerGUI: undefined 
+		};
 		this.topUnit = undefined;
 		this.units = {
 				infantry: [],
@@ -52,73 +59,6 @@ class HexTile extends GUI {
 	}
 	
 	/*
-	 ** Title: Add Unit
-	 ** Description: ???
-	 */
-	addUnit(unit, count) {
-		this.units[unit.type].push(unit); // Add unit to directory.
-
-		// Build GUI.
-		let unit_marker = this.buildGUIDisplay(unit);
-		
-		// Attach unit GUI.
-		unit.attachTile(this); // Attach the tile for later access.
-		unit.attachGUI(unit_marker); // Attach the GUI for later access.
-		this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
-	}
-	
-	/*
-	 ** Title: Remove Unit
-	 ** Description: ???
-	 */
-	removeUnit(unit) {
-		unit.tile = undefined;
-		let index = this.units[unit.type].indexOf(unit);
-		this.units[unit.type].splice(index, 1); // Remove from unit array.
-		this.removeChild(unit.gui);
-	}
-	
-	/*
-	 ** Title: Transfer Unit
-	 ** Description: ???
-	 */
-	transferUnit(unit, tile) {
-
-		this.removeUnit(unit);
-		tile.addUnit(unit);
-
-		// Change order.
-		if (unit === 'infantry') {
-			if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
-			else if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
-			else if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
-			else if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
-			else { this.topUnit = undefined; }
-		}
-		else if (unit === 'vehicle') {
-			if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
-			else if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
-			else if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
-			else if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
-			else { this.topUnit = undefined; }
-		}
-		else if (unit === 'aircraft') {
-			if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
-			else if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
-			else if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
-			else if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
-			else { this.topUnit = undefined; }
-		}
-		else if (unit === 'naval') {
-			if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
-			else if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
-			else if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
-			else if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
-			else { this.topUnit = undefined; }
-		}
-	}
-	
-	/*
 	 ** Title: Add Structure
 	 ** Description: ???
 	 */
@@ -127,72 +67,22 @@ class HexTile extends GUI {
 	}
 	
 	/*
-	 ** Title: Remove Structure
+	 ** Title: Add Unit
 	 ** Description: ???
 	 */
-	addStructure() {
-		this.structure = undefined;
-	}
-	
-	
-	
-	/*
-	 ** Title: Swap GUI Display.
-	 ** Description: ???
-	 */
-	updateGUIDisplay() {
-		
-		// Infantry Update.
-		if (this.units.infantry.length > 0) {
-			let unit = this.units.infantry[0]; // Retrieve Unit.
-			unit.gui.destroy(); // Destroy the current GUI
-			
-			// Build GUI.
-			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+	addUnit(unit) {
+		this.units[unit.type].push(unit); // Add unit to directory.
 
-			// Attach GUI.
-			unit.attachGUI(unit_marker); // Attach the GUI for later access.
-			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
-		}
+		// Build GUI.
+		let unit_marker = this.buildGUIDisplay(unit);
 		
-		// Vehicle Update.
-		if (this.units.vehicle.length > 0) {
-			let unit = this.units.vehicle[0]; // Retrieve Unit.
-			unit.gui.destroy(); // Destroy the current GUI
-			
-			// Build GUI.
-			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
-
-			// Attach GUI.
-			unit.attachGUI(unit_marker); // Attach the GUI for later access.
-			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
-		}
+		// Attach unit GUI.
+		unit.attachTile(this); // Attach the tile for later access.
+		unit.attachGUI(unit_marker); // Attach the GUI for later access.
+		this.addChild(unit_marker); // Attach unit marker GUI to the hex tile.
 		
-		// Aircraft Update.
-		if (this.units.aircraft.length > 0) {
-			let unit = this.units.aircraft[0]; // Retrieve Unit.
-			unit.gui.destroy(); // Destroy the current GUI
-			
-			// Build GUI.
-			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
-
-			// Attach GUI.
-			unit.attachGUI(unit_marker); // Attach the GUI for later access.
-			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
-		}
-		
-		// Naval Update.
-		if (this.units.naval.length > 0) {
-			let unit = this.units.naval[0]; // Retrieve Unit.
-			unit.gui.destroy(); // Destroy the current GUI
-			
-			// Build GUI.
-			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
-
-			// Attach GUI.
-			unit.attachGUI(unit_marker); // Attach the GUI for later access.
-			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
-		}
+		if (this.occupied === undefined)
+			this.occupied = unit.faction;
 	}
 	
 	/*
@@ -228,21 +118,13 @@ class HexTile extends GUI {
 			
 			// Return the Marker.
 			unit_marker.addChild(health_counter);
-//			return health_counter;
 			return unit_marker;
 	}
 	
 	/*
-	 ** Title: Highlight.
-	 ** Description: Highlights the hex by changing it's color.
+	 ** Title: Change Unit Display Order.
+	 ** Description: ???
 	 */
-	highlight() {
-		this.setBackgroundColor(0x0ED7014);
-	}
-	dehighlight() {
-		this.setBackgroundColor(0xC5D6B7);
-	}
-	
 	changeUnitDisplayOrder(unitTypeOnTop) {
 		this.topUnit = unitTypeOnTop;
 		
@@ -272,11 +154,128 @@ class HexTile extends GUI {
 //		}
 	}
 	
-	setMap(map) {
-		if (map)
-			this.map = map;
+	/*
+	 ** Title: Contest
+	 ** Description: ???
+	 */
+	contest() {
+
+		// Create the Battle Marker.
+		let battle_marker = new GUI(this.scene, this.emitter);
+		battle_marker.setScale(0.5);
+		battle_marker.setCords(this.width / 2, this.height / 2);
+		battle_marker.setBackgroundAlign('center', 'middle');
+		battle_marker.setBackgroundImage("Marker_Battle");
+		
+		// Update the tile object.
+		this.isContested = true;
+		this.contested.battleMarker = battle_marker;
+		this.addChild(battle_marker); // Render the GUI.
+		
+		// Hide All Units if they exist.
+		if (this.units.infantry.length > 0) {
+			for ( let idx = 0; idx < this.units.infantry.length; idx++ ) {
+				let unit = this.units.infantry[idx];
+				unit.makeGUIinvisible();
+			}
+		}
+		if (this.units.vehicle.length > 0) {
+			for ( let idx = 0; idx < this.units.vehicle.length; idx++ ) {
+				let unit = this.units.vehicle[idx];
+				unit.makeGUIinvisible();
+			}
+		}
+		if (this.units.naval.length > 0) {
+			for ( let idx = 0; idx < this.units.naval.length; idx++ ) {
+				let unit = this.units.naval[idx];
+				unit.makeGUIinvisible();
+			}
+		}
+		if (this.units.aircraft.length > 0) {
+			for ( let idx = 0; idx < this.units.aircraft.length; idx++ ) {
+				let unit = this.units.aircraft[idx];
+				unit.makeGUIinvisible();
+			}
+		}
 	}
 	
+	/*
+	 ** Title: Contest Resolve
+	 ** Description: ???
+	 */
+	contestResolve() {
+		
+		// Only resolve if the battle marker is exists.
+		if ( this.contested.battleMarker ) {
+			
+			// Remove the battle marker.
+			this.removeChild( this.contested.battleMarker.battle_marker );
+			
+			// Update the tile object.
+			this.isContested = false;
+			this.contested.battleMarker = undefined;	
+			
+			// Hide All Units if they exist.
+			if (this.units.infantry.length > 0) {
+				for ( let idx = 0; idx < this.units.infantry.length; idx++ ) {
+					let unit = this.units.infantry[idx];
+					unit.makeGUIvisible();
+				}
+			}
+			if (this.units.vehicle.length > 0) {
+				for ( let idx = 0; idx < this.units.vehicle.length; idx++ ) {
+					let unit = this.units.vehicle[idx];
+					unit.makeGUIvisible();
+				}
+			}
+			if (this.units.naval.length > 0) {
+				for ( let idx = 0; idx < this.units.naval.length; idx++ ) {
+					let unit = this.units.naval[idx];
+					unit.makeGUIvisible();
+				}
+			}
+			if (this.units.aircraft.length > 0) {
+				for ( let idx = 0; idx < this.units.aircraft.length; idx++ ) {
+					let unit = this.units.aircraft[idx];
+					unit.makeGUIvisible();
+				}
+			}
+		}
+	}
+	
+	/*
+	 ** Title: Dehighlight.
+	 ** Description: Highlights the hex by changing it's color.
+	 */	
+	dehighlight() {
+		this.setBackgroundColor(0xC5D6B7);
+	}
+	
+	/*
+	 ** Title: Deselect.
+	 ** Description: ???
+	 */	
+	deselect() {
+		
+		// Highlight the text and update the global variable if this hextile is currently selected.
+		if (this.scene.data.list['selectedHex'] === this) {
+			this.scene.data.list['selectedHex'] = undefined;
+			this.dehighlight();	
+		}
+	}
+	
+	/*
+	 ** Title: Highlight.
+	 ** Description: Highlights the hex by changing it's color.
+	 */
+	highlight() {
+		this.setBackgroundColor(0x0ED7014);
+	}
+
+	/*
+	 ** Title: Retrieve Hex Within Distance.
+	 ** Description: ???
+	 */
 	retrieveHexWithinDistance(distance, howMove, ignoreIDs, moveCost) {
 		let approved_tiles = {}; // Storage for all approved tiles within distance.
 		
@@ -487,14 +486,177 @@ class HexTile extends GUI {
 		}
 	}
 	
-	
+	/*
+	 ** Title: Remove Structure
+	 ** Description: ???
+	 */
+	removeStructure() {
+		
+		// Remove the Structure.
+		this.removeChild( this.structure );
+		
+		// Update the Game Object.
+		this.structure = undefined;
+	}
 	
 	/*
-	 ** Title: Add Terrain
+	 ** Title: Remove Unit
+	 ** Description: ???
+	 */
+	removeUnit(unit) {
+		unit.tile = undefined;
+		let index = this.units[unit.type].indexOf(unit);
+		this.units[unit.type].splice(index, 1); // Remove from unit array.
+		this.removeChild(unit.gui);
+		
+		// Check if last unit is removed to reset ownership.
+		if ( this.units.infantry.length == 0 && this.units.vehicle.length == 0 && this.units.naval.length == 0 && this.units.aircraft.length == 0 ) {
+			this.occupied = undefined;
+		}
+	}
+	
+	/*
+	 ** Title: Set Occupied.
+	 ** Description: ???
+	 */
+	setOccupied(faction) {
+		if (faction)
+			this.occupied = faction;
+		else
+			this.occupied = undefined;
+	}
+	
+	/*
+	 ** Title: Set Map
+	 ** Description: ???
+	 */
+	setMap(map) {
+		if (map)
+			this.map = map;
+	}
+	
+	/*
+	 ** Title: Set Terrain
 	 ** Description: ???
 	 */
 	setTerrain(terrain) {
 		if (terrain)
 			this.terrain = terrain;
+	}
+	
+	/*
+	 ** Title: Select
+	 ** Description: ???
+	 */
+	select() {
+		
+		// If an existing tile is already selected, deselect it.
+		if ( this.scene.data.list['selectedHex'] instanceof HexTile ) {
+			let old_selected_tile = this.scene.data.list['selectedHex'];
+			old_selected_tile.deselect();
+		}
+		
+		// Highlight the text and update the global variable.
+		this.scene.data.list['selectedHex'] = this;
+		this.highlight();
+	}
+	
+	/*
+	 ** Title: Transfer Unit
+	 ** Description: ???
+	 */
+	transferUnit(unit, tile) {
+
+		this.removeUnit(unit);
+		tile.addUnit(unit);
+
+		// Change order.
+		if (unit === 'infantry') {
+			if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
+			else if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
+			else if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
+			else if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
+			else { this.topUnit = undefined; }
+		}
+		else if (unit === 'vehicle') {
+			if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
+			else if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
+			else if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
+			else if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
+			else { this.topUnit = undefined; }
+		}
+		else if (unit === 'aircraft') {
+			if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
+			else if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
+			else if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
+			else if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
+			else { this.topUnit = undefined; }
+		}
+		else if (unit === 'naval') {
+			if ( this.units.infantry.lenght > 0 ) { this.changeUnitDisplayOrder('infantry'); }
+			else if ( this.units.vehicle.lenght > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
+			else if ( this.units.aircraft.lenght > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
+			else if ( this.units.naval.lenght > 0 ) { this.changeUnitDisplayOrder('naval'); }	
+			else { this.topUnit = undefined; }
+		}
+	}
+	
+	/*
+	 ** Title: Swap GUI Display.
+	 ** Description: ???
+	 */
+	updateGUIDisplay() {
+		
+		// Infantry Update.
+		if (this.units.infantry.length > 0) {
+			let unit = this.units.infantry[0]; // Retrieve Unit.
+			unit.gui.destroy(); // Destroy the current GUI
+			
+			// Build GUI.
+			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+
+			// Attach GUI.
+			unit.attachGUI(unit_marker); // Attach the GUI for later access.
+			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+		}
+		
+		// Vehicle Update.
+		if (this.units.vehicle.length > 0) {
+			let unit = this.units.vehicle[0]; // Retrieve Unit.
+			unit.gui.destroy(); // Destroy the current GUI
+			
+			// Build GUI.
+			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+
+			// Attach GUI.
+			unit.attachGUI(unit_marker); // Attach the GUI for later access.
+			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+		}
+		
+		// Aircraft Update.
+		if (this.units.aircraft.length > 0) {
+			let unit = this.units.aircraft[0]; // Retrieve Unit.
+			unit.gui.destroy(); // Destroy the current GUI
+			
+			// Build GUI.
+			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+
+			// Attach GUI.
+			unit.attachGUI(unit_marker); // Attach the GUI for later access.
+			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+		}
+		
+		// Naval Update.
+		if (this.units.naval.length > 0) {
+			let unit = this.units.naval[0]; // Retrieve Unit.
+			unit.gui.destroy(); // Destroy the current GUI
+			
+			// Build GUI.
+			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+
+			// Attach GUI.
+			unit.attachGUI(unit_marker); // Attach the GUI for later access.
+			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+		}
 	}
 }

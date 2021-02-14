@@ -43,6 +43,7 @@ class GameBoard extends GUI {
 					
 					if ( unitCount > 0 ) { unit.health = unitCount }; // Add the unit health.
 					tile.addUnit(unit); // Create the unit on this tile.
+					tile.setOccupied(unit.faction); // Set the tile to occupied.
 				}
 			}
 		}
