@@ -140,7 +140,6 @@ class Unit {
 	 ** Description: ???
 	 */
 	refresh() {
-		debugger;
 		this.movement = this.maxMovement;
 	}
 	

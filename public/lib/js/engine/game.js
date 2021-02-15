@@ -60,7 +60,9 @@ let game = {};
 	 */
 	game.colors = {
 			blue: '0x0000FF',
-			tan: '0xC5D6B7'
+			tan: '0xC5D6B7',
+			black: '0x000000',
+			white: '0xFFFFFF'
 	}
 	
 	/*

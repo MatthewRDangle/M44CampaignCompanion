@@ -38,6 +38,7 @@ class WarSim extends Phaser.Scene {
     }
     
     create() {
+    	this.data.list['battleOverlay'] = undefined;
     	
     	// Create Game Object Handlers.
     	let scenarioDetails = new Scenario(this.cache.json.get('scenarioJSON'));
@@ -67,7 +68,7 @@ class WarSim extends Phaser.Scene {
     	// Game Background.
     	let gameBck = new GUI(this, emitter);
     	gameBck.setDimensions(window.innerWidth, window.innerHeight);
-    	gameBck.setBackgroundColor(0x000000);
+    	gameBck.setBackgroundColor( game.colors.black );
     	
     	// Build the top bar.
     	let topbar = new GUI(this, emitter);
@@ -206,7 +207,6 @@ class WarSim extends Phaser.Scene {
     	 * Description: Sets the next factions turn.
     	 */
     	function nextTurn() {
-    		debugger;
     		
     		// Turn Off Previous Player Turn.
     		if (faction_turn == 0)
@@ -232,7 +232,6 @@ class WarSim extends Phaser.Scene {
     		else if ( second_faction.isTurn )
     			this.data.list['activeFaction'] = faction2;
 
-    		debugger;
     		// Refresh unit movements.
     		let movedUnits = this.data.list['movedUnits'];
     		for (let idx = 0; idx < movedUnits.length; idx++) {
@@ -289,4 +288,128 @@ class WarSim extends Phaser.Scene {
     	let flag_w_offset = (n == 2) ? 0 : 40; // If this is the second faction display, set the offset value.
     	return new FactionDisplay(this, emitter, parent, xCord, star_w_offset, flag_w_offset, flag);
     }
+    
+	/*
+	 * Function: Build Battle Overlay.
+	 * Description: ???
+	 */
+	buildBattleOverlay(emitter) {
+		
+		// Build the overlay.
+    	let overlay = new GUI(this, emitter);
+    	overlay.setDimensions(window.innerWidth, window.innerHeight);
+    	overlay.setDepth(5);
+    	overlay.onClick( function() { /* Left Empty to Prevent Propagation.. */ } )
+    	overlay.setBackgroundColor( game.colors.black );
+    	this.data.list['battleOverlay'] = overlay;
+    	
+    	// Add Result Inputs
+    	let attackerInputs = construct_resultDetails('attacker', this, emitter);
+    	let defenderInputs = construct_resultDetails('defender', this, emitter);
+    	overlay.addChild( attackerInputs );
+    	overlay.addChild( defenderInputs );
+    	
+    	// Add Submit Results Button.
+    	let submitBTN = new GUI(this, emitter);
+
+    	// Construct a input.
+    	function construct_resultInput(x, y, scene, emitter, type) {
+
+    		// Build the input.
+    		let input = new GUI(scene, emitter);
+        	input.setDimensions(100, 25);
+        	input.setCords(x, y + 5);
+        	input.setTextString('0');
+        	input.setTextAlign('center', 'middle');
+        	input.setTextColor( game.colors.black );
+        	input.setBackgroundColor( game.colors.white );
+        	
+        	// Up Arrow Buttom.
+        	let upArrowBTN  = new GUI(scene, emitter);
+        	upArrowBTN.setDimensions(20, input.height / 2 - 1);
+        	upArrowBTN.setCords(input.width + 2, 0);
+        	upArrowBTN.setBackgroundColor( game.colors.tan );
+        	upArrowBTN.onClick(function() {
+        			input.setTextString( Number(input.textString) + 1 );
+        	});
+        	
+        	// UpTriangle.
+        	let UpTriangle = new GUI(scene, emitter);
+        	UpTriangle.setTextString('Up');
+        	UpTriangle.setTextSize('10px');
+        	UpTriangle.setTextAlign('center', 'middle');
+        	UpTriangle.setTextColor( game.colors.black );
+        	UpTriangle.setCords( upArrowBTN.width / 2, upArrowBTN.height / 2 )
+        	upArrowBTN.addChild( UpTriangle );
+        	
+        	// Down Arrow Button.
+        	let downArrowBTN = new GUI(scene, emitter);
+        	downArrowBTN.setDimensions(20, input.height / 2 - 1);
+        	downArrowBTN.setCords(input.width + 2, input.height / 2 + 1);
+        	downArrowBTN.setBackgroundColor( game.colors.tan );
+        	downArrowBTN.onClick(function() {
+        		
+        		if (input.textString > 0)
+        			input.setTextString( Number(input.textString) - 1 );
+        	});
+        	
+        	// DownTriangle.
+        	let DownTriangle = new GUI(scene, emitter);
+        	DownTriangle.setTextString('Down');
+        	DownTriangle.setTextColor( game.colors.black );
+        	DownTriangle.setCords(downArrowBTN.width / 2, downArrowBTN.height / 2);
+        	DownTriangle.setTextSize('10px');
+        	DownTriangle.setTextAlign('center', 'middle');
+        	downArrowBTN.addChild( DownTriangle );
+        	
+        	// Render Label.
+        	let inLab = new GUI(scene, emitter);
+        	inLab.setTextString('# ' + type + ' survived');
+        	inLab.setTextVAlign('center');
+        	inLab.setTextColor('#FFFFFF');
+        	inLab.setHeight(input.height);
+        	inLab.setCords(input.width + upArrowBTN.width + 10, 0);
+        	
+        	// Return Input.
+        	input.addChild(upArrowBTN);
+        	input.addChild(downArrowBTN);
+        	input.addChild(inLab);
+        	return input;
+    	}
+    	
+    	// Constructs a results container full of inputs.
+    	function construct_resultDetails(who, scene, emitter) {
+    		
+    		// Build Results Input.
+        	let infantry_results = construct_resultInput(0, 0, scene, emitter, 'infantry');
+        	let vehicle_results = construct_resultInput(0, infantry_results.y + infantry_results.height, scene, emitter, 'vehicle');
+        	let naval_results= construct_resultInput(0, vehicle_results.y + vehicle_results.height, scene, emitter, 'naval');
+        	let aircraft_results = construct_resultInput(0, naval_results.y + naval_results.height, scene, emitter, 'aircraft');
+        	
+        	// Results Parent.
+        	let results = new GUI(scene, emitter);
+        	results.addChild(infantry_results);
+        	results.addChild(vehicle_results);
+        	results.addChild(naval_results);
+        	results.addChild(aircraft_results);
+        	
+        	// Modify Cords.
+    		if (who === 'attacker') {
+            	results.setCords( window.innerWidth / 4 - 120 , window.innerHeight / 2 - (12.5 * 4));
+    		}
+    		else if (who === 'defender') {
+    			results.setCords( window.innerWidth / 4 * 3 - 120 , window.innerHeight / 2 - (12.5 * 4));
+    		}
+        	
+        	return results;
+    	}
+	}
+	
+	/*
+	 * Function: Close Battle Overlay.
+	 * Description: Close the overlay by destroy the GUI object and removing it from view.
+	 */
+	closeBattleOverlay() {
+		this.data.list['battleOverlay'].destroy();
+	}
 }

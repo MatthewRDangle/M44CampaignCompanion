@@ -102,7 +102,7 @@ class Map extends GUI {
 
 	    		// On left click, enter movement mode for a unit.
 	    		if (mouseClick === 1 && this.scene.data.list['mode'] === 'View') {
-	    			
+
 	    			// Check if unit exists. If it does, enter movement mode. Otherwise, do nothing.
 	    			let unitType = undefined;
     				if ( tile.units.infantry.length > 0 ) {
@@ -121,11 +121,20 @@ class Map extends GUI {
     					return;
     				}
     				
-    				// Select tile and change to move mode.
-    				let toMoveUnit = tile.units[unitType][0];
-    				if ( toMoveUnit.faction === this.scene.data.list['activeFaction'] ) {
-	    				this.emitter.emit('moveMode'); // Change the mode to move.
-	    				toMoveUnit.select();
+    				// Check if the tile is contested. If it isn't, select unit and enter move mode.
+    				if ( !tile.isContested ) {
+    				
+        				// Select tile and change to move mode.
+        				let toMoveUnit = tile.units[unitType][0];
+        				if ( toMoveUnit.faction === this.scene.data.list['activeFaction'] ) {
+    	    				this.emitter.emit('moveMode'); // Change the mode to move.
+    	    				toMoveUnit.select();
+        				}
+    				}
+    				
+    				// If it's a contested tile, open battle overlay.
+    				else {
+    					this.scene.buildBattleOverlay(this.emitter);
     				}
 	    		}
 	    		
@@ -232,7 +241,7 @@ class Map extends GUI {
 	    				if (unitMovePossible) {
 
 		    				// If the tile is occupied by the same faction as the unit being moved, join their forces on the same tile.
-		    				if (tile.occupied === movingUnit.faction && unitType === movingUnit.type ) {
+		    				if ( tile.occupied === movingUnit.faction && tile.units[unitType].length > 0 ) {
 	    						let unit = tile.units[unitType][0]; // Retrieve the unit for merging.
 	    						
 	    						// Merge unit and update the GUI.
@@ -262,9 +271,9 @@ class Map extends GUI {
 		    					this.emitter.emit('mode'); // Change the mode to view.
 		    				}
 		    				
-		    				// If no faction occupies the tile, let the unit move their and consume it's movement points.
+		    				// Let the unit move their and consume it's movement points.
 		    				else {
-		    					movingUnit.moveToTile(tile);
+		    					movingUnit.moveToTile( tile );
 		    					
 		    					// If unit space is remaining, find available move spaces again.
 		    					if (movingUnit.movement > 0)

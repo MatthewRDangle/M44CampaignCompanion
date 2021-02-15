@@ -159,44 +159,24 @@ class HexTile extends GUI {
 	 ** Description: ???
 	 */
 	contest() {
+		
+		// Only execute if its not already contested.
+		if (!this.isContested) {
 
-		// Create the Battle Marker.
-		let battle_marker = new GUI(this.scene, this.emitter);
-		battle_marker.setScale(0.5);
-		battle_marker.setCords(this.width / 2, this.height / 2);
-		battle_marker.setBackgroundAlign('center', 'middle');
-		battle_marker.setBackgroundImage("Marker_Battle");
+			// Create the Battle Marker.
+			let battle_marker = new GUI(this.scene, this.emitter);
+			battle_marker.setScale(0.5);
+			battle_marker.setCords(this.width / 2, this.height / 2);
+			battle_marker.setBackgroundAlign('center', 'middle');
+			battle_marker.setBackgroundImage("Marker_Battle");
+			
+			// Update the tile object.
+			this.isContested = true;
+			this.contested.battleMarker = battle_marker;
+			this.addChild(battle_marker); // Render the GUI.
+		}
 		
-		// Update the tile object.
-		this.isContested = true;
-		this.contested.battleMarker = battle_marker;
-		this.addChild(battle_marker); // Render the GUI.
-		
-		// Hide All Units if they exist.
-		if (this.units.infantry.length > 0) {
-			for ( let idx = 0; idx < this.units.infantry.length; idx++ ) {
-				let unit = this.units.infantry[idx];
-				unit.makeGUIinvisible();
-			}
-		}
-		if (this.units.vehicle.length > 0) {
-			for ( let idx = 0; idx < this.units.vehicle.length; idx++ ) {
-				let unit = this.units.vehicle[idx];
-				unit.makeGUIinvisible();
-			}
-		}
-		if (this.units.naval.length > 0) {
-			for ( let idx = 0; idx < this.units.naval.length; idx++ ) {
-				let unit = this.units.naval[idx];
-				unit.makeGUIinvisible();
-			}
-		}
-		if (this.units.aircraft.length > 0) {
-			for ( let idx = 0; idx < this.units.aircraft.length; idx++ ) {
-				let unit = this.units.aircraft[idx];
-				unit.makeGUIinvisible();
-			}
-		}
+
 	}
 	
 	/*
