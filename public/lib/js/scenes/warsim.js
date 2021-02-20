@@ -258,8 +258,10 @@ class WarSim extends Phaser.Scene {
     	 */
     	function swapMode() {
     		if (this.data.list['mode'] === "View") {
-    			this.data.list['mode'] = 'Add';
-    			gameboard.updateMode(this.data.list['mode']);
+    			if ( this.scene.data.list['devTools'] ) {
+        			this.data.list['mode'] = 'Add';
+        			gameboard.updateMode(this.data.list['mode']);	
+    			}
     		}
     		else if (this.data.list['mode'] === "Add") {
     			this.data.list['mode'] = "View";
@@ -395,10 +397,10 @@ class WarSim extends Phaser.Scene {
         	
         	// Modify Cords.
     		if (who === 'attacker') {
-            	results.setCords( window.innerWidth / 4 - 120 , window.innerHeight / 2 - (12.5 * 4));
+            	results.setCords( window.innerWidth / 4 - 120 , window.innerHeight - (30 * 4) - 200); // 30 = size of input, 4 is the number of inputs. 50 is the offset.
     		}
     		else if (who === 'defender') {
-    			results.setCords( window.innerWidth / 4 * 3 - 120 , window.innerHeight / 2 - (12.5 * 4));
+    			results.setCords( window.innerWidth / 4 * 3 - 120 , window.innerHeight - (30 * 4) - 200); // 30 = size of input, 4 is the number of inputs. 50 is the offset.
     		}
         	
         	return results;

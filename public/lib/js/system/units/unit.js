@@ -75,6 +75,15 @@ class Unit {
 	}
 	
 	/*
+	 * Title: ChangeHealth
+	 * Description: ???
+	 */
+	changeHealth(number) {
+		this.health = number;
+		this.tile.updateGUIDisplay();
+	}
+	
+	/*
 	 ** Title: Make GUI Invisible.
 	 ** Description: ???
 	 */

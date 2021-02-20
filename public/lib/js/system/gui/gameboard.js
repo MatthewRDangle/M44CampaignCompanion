@@ -66,10 +66,12 @@ class GameBoard extends GUI {
 		this.modeGUI.setTextString("Mode: View");
     	this.modeGUI.setBackgroundColor(0x404040);
     	
-    	// Set up spacebar event.
-    	this.scene.input.keyboard.on('keydown', function() {
-    		this.emitter.emit("mode");
-    	}, this);
+    	// Set up spacebar event if dev tools are enabled.
+    	if (this.scene.data.list['devtools']) {
+        	this.scene.input.keyboard.on('keydown', function() {
+        		this.emitter.emit("mode");
+        	}, this);	
+    	}
 	}
 	
 	/*
