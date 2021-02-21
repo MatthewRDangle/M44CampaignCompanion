@@ -126,10 +126,8 @@ class Map extends GUI {
     				
         				// Select tile and change to move mode.
         				let toMoveUnit = tile.units[unitType][0];
-        				if ( toMoveUnit.faction === this.scene.data.list['activeFaction'] ) {
-    	    				this.emitter.emit('moveMode'); // Change the mode to move.
+        				if ( toMoveUnit.faction === this.scene.data.list['activeFaction'] )
     	    				toMoveUnit.select();
-        				}
     				}
     				
     				// If it's a contested tile, open battle overlay.
@@ -145,10 +143,8 @@ class Map extends GUI {
 					let movingUnit = this.scene.data.list['selectedUnit']; // Retrieve the unit being moved.
 
 	    			// Check if the tile clicked is the same as the currently selected tile.
-	    			if ( old_tile === tile ) {
+	    			if ( old_tile === tile )
 	    				movingUnit.deselect(); // Deselect the currently selected Unit.
-	    				this.emitter.emit('mode'); // Change the mode to move.
-	    			}
 	    			
 	    			// If the tile clicked is not the same as the selected tile, evaluate if the move is possible by the unit.
 	    			else {
@@ -194,18 +190,13 @@ class Map extends GUI {
 			    						this.scene.data.list['movedUnits'].push( unit );
 			    					}	
 		    					}
-		    					
-		    					// If unit still has movement left, select it.
-		    					if (unit.movement > 0)
-		    						unit.select();
-		    					else
-		    						this.emitter.emit('mode'); // Change the mode to view.
 		    				}
 		    				
 		    				// If the tile is occupied by a faction that is not the same as the unit being moved, let the unit contest the area.
 		    				else if (tile.occupied !== undefined && tile.occupied !== movingUnit.faction) {
+		    					tile.contest(); // Set the tile contested flag.
 		    					
-		    					// If the alt key is activate, only move over one unit.
+		    					// If the alt key is activated, only move over one unit.
 		    					if ( e.event.altKey ) {
 		    						
 		    						// Check if unit already exists for this faction.
@@ -221,33 +212,14 @@ class Map extends GUI {
 		    						
 		    						// If the unit wasn't updated, then add it.
 		    						if (!updatedUnit) {
-			    						let mUnit = undefined;
-			    						
-			    						switch(movingUnit.type) {
-			    							case 'infantry':
-			    								mUnit = new Infantry(movingUnit.faction);
-			    								break
-			    							case 'vehicle':
-			    								mUnit = new Vehicle(movingUnit.faction);
-			    								break
-			    							case 'naval':
-			    								mUnit = new Naval(movingUnit.faction);
-			    								break
-			    							case 'aircraft':
-			    								mUnit = new Aircraft(movingUnit.faction);
-			    						}
-			    						if (mUnit) {
-				    						mUnit.health = 1;
-				    						mUnit.movement = movingUnit.movement;
-				    						mUnit.reduceMovementBy( cost_to_move );
-				    						tile.addUnit( mUnit );	
-			    						}
+			    						let mUnit = movingUnit.moveToTile(tile, 1);
+			    						mUnit.reduceMovementBy( cost_to_move );
+			    						movingUnit.changeHealth( movingUnit.health - 1 );
 		    						}
 
 		    					}
 		    					else {
 			    					movingUnit.moveToTile(tile);; // Transfer the unit to the new tile from the old tile.
-			    					tile.contest();
 			    					this.emitter.emit('mode'); // Change the mode to view.
 		    					}
 		    				}
@@ -257,41 +229,14 @@ class Map extends GUI {
 		    					
 		    					// If the alt key is activate, only move over one unit.
 		    					if ( e.event.altKey ) {
+		    						let mUnit = movingUnit.moveToTile(tile, 1);
+		    						mUnit.reduceMovementBy( cost_to_move );
 		    						movingUnit.changeHealth( movingUnit.health - 1 );
-		    						
-		    						// Create a new unit with a health of 1
-		    						let mUnit = undefined;
-		    						
-		    						switch(movingUnit.type) {
-		    							case 'infantry':
-		    								mUnit = new Infantry(movingUnit.faction);
-		    								break
-		    							case 'vehicle':
-		    								mUnit = new Vehicle(movingUnit.faction);
-		    								break
-		    							case 'naval':
-		    								mUnit = new Naval(movingUnit.faction);
-		    								break
-		    							case 'aircraft':
-		    								mUnit = new Aircraft(movingUnit.faction);
-		    						}
-		    						if (mUnit) {
-		    							mUnit.health = 1;
-			    						mUnit.movement = movingUnit.movement;
-			    						mUnit.reduceMovementBy( cost_to_move );
-			    						tile.addUnit( mUnit );	
-		    						}
 		    					}
 		    					else {
 		    						movingUnit.reduceMovementBy(cost_to_move);
 			    					movingUnit.moveToTile( tile );
 		    					}
-		    					
-		    					// If unit space is remaining, find available move spaces again.
-		    					if (movingUnit.movement > 0)
-		    						movingUnit.select();
-		    					else
-		    	    				this.emitter.emit('mode'); // Change the mode to view.
 		    				}	
 	    				}
 	    			}

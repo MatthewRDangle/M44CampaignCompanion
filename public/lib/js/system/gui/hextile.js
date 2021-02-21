@@ -128,30 +128,30 @@ class HexTile extends GUI {
 	changeUnitDisplayOrder(unitTypeOnTop) {
 		this.topUnit = unitTypeOnTop;
 		
-//		if (unitTypeOnTop === 'infantry') {
-//			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(100); };
-//			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(102); };
-//			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(103); };
-//			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(104) };
-//		}
-//		else if (unitTypeOnTop === 'vehicle') {
-//			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(104); };
-//			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(101); };
-//			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(102); };
-//			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(103) };
-//		}
-//		else if (unitTypeOnTop === 'aircraft') {
-//			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(103); };
-//			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(104); };
-//			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(101); };
-//			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(102) };
-//		}
-//		else if (unitTypeOnTop === 'naval') {
-//			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(102); };
-//			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(103); };
-//			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(104); };
-//			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(101) };
-//		}
+		if (unitTypeOnTop === 'infantry') {
+			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(100); };
+			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(102); };
+			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(103); };
+			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(104) };
+		}
+		else if (unitTypeOnTop === 'vehicle') {
+			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(104); };
+			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(101); };
+			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(102); };
+			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(103) };
+		}
+		else if (unitTypeOnTop === 'aircraft') {
+			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(103); };
+			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(104); };
+			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(101); };
+			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(102) };
+		}
+		else if (unitTypeOnTop === 'naval') {
+			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(102); };
+			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(103); };
+			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(104); };
+			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(101) };
+		}
 	}
 	
 	/*
@@ -242,6 +242,20 @@ class HexTile extends GUI {
 			this.scene.data.list['selectedHex'] = undefined;
 			this.dehighlight();	
 		}
+	}
+	
+	/*
+	 ** Title: Has Unit
+	 ** Description: ???
+	 */
+	hasUnit(unit) {
+		let unitsArray = this.units[unit.type];
+		for (let idx = 0; idx < unitsArray.length; idx++) {
+			let testUnit = unitsArray[idx];
+			if (testUnit === unit)
+				return true; // Return true once the unit is found and stop looking.
+		}
+		return false; // Return false to state the unit has not been found.
 	}
 	
 	/*
@@ -484,14 +498,20 @@ class HexTile extends GUI {
 	 ** Description: ???
 	 */
 	removeUnit(unit) {
-		unit.tile = undefined;
-		let index = this.units[unit.type].indexOf(unit);
-		this.units[unit.type].splice(index, 1); // Remove from unit array.
-		this.removeChild(unit.gui);
 		
-		// Check if last unit is removed to reset ownership.
-		if ( this.units.infantry.length == 0 && this.units.vehicle.length == 0 && this.units.naval.length == 0 && this.units.aircraft.length == 0 ) {
-			this.occupied = undefined;
+		// Does the unit exist in the unit tree.
+		if ( this.hasUnit(unit) ) {
+			unit.tile = undefined;
+			
+			// Remove the unit from the tile units object and GUI.
+			let index = this.units[unit.type].indexOf(unit);
+			this.units[unit.type].splice(index, 1); // Remove from unit array.
+			this.removeChild(unit.gui); // Removes the GUI from the render.
+			
+			// Check if last unit is removed to reset ownership.
+			if ( this.units.infantry.length == 0 && this.units.vehicle.length == 0 && this.units.naval.length == 0 && this.units.aircraft.length == 0 ) {
+				this.occupied = undefined;
+			}	
 		}
 	}
 	

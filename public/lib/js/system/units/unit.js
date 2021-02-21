@@ -50,9 +50,10 @@ class Unit {
 	 ** Description: ???
 	 */
 	deselect() {
-	
+
 		// Only deselect this unit if it currently is selected.
 		if (this.gui.scene.data.list['selectedUnit'] === this) {
+			this.gui.emitter.emit('mode'); // Change the mode to view.
 			
 			// Only deselect this unit if a GUI exists; it is impossible to deselect it otherwise / there is no need to deselect it otherwise.
 			if ( this.gui ) {
@@ -75,12 +76,28 @@ class Unit {
 	}
 	
 	/*
+	 ** Title: Destroy
+	 ** Description: ???
+	 */
+	destroy() {
+		this.deselect();
+		
+		if (this.tile instanceof HexTile) {
+			this.tile.removeUnit( this );
+		}
+	}
+	
+	/*
 	 * Title: ChangeHealth
 	 * Description: ???
 	 */
 	changeHealth(number) {
 		this.health = number;
-		this.tile.updateGUIDisplay();
+		
+		if (this.health == 0)
+			this.destroy();
+		else
+			this.tile.updateGUIDisplay();
 	}
 	
 	/*
@@ -128,14 +145,49 @@ class Unit {
 	}
 	
 	/*
-	 ** Title: Merge With Unit.
+	 ** Title: Move To Tile.
 	 ** Description: ???
 	 */
-	moveToTile(tile) {
-		if (tile instanceof HexTile && this.tile instanceof HexTile) {
+	moveToTile(tile, num) {
+		
+		// Move part of the unit to the tile.
+		if (tile instanceof HexTile && this.tile instanceof HexTile && num) {
+			
+			// Create a new unit and insert it at new tile.
+			let mUnit = undefined;
+			switch(this.type) {
+				case 'infantry':
+					mUnit = new Infantry(this.faction);
+					break
+				case 'vehicle':
+					mUnit = new Vehicle(this.faction);
+					break
+				case 'naval':
+					mUnit = new Naval(this.faction);
+					break
+				case 'aircraft':
+					mUnit = new Aircraft(this.faction);
+			}
+			mUnit.health = 1;
+			mUnit.movement = this.movement;
+			tile.addUnit( mUnit );
+			
+			// Add Unit to movedUnits Index for refresh.
+			if ( !this.gui.scene.data.list['movedUnits'].includes( this ) ) {
+				this.gui.scene.data.list['movedUnits'].push( mUnit );
+			}
+			
+			return mUnit; // Return so the unit can be further modified.
+		}
+		
+		// Move the whole unit to the new tile.
+		else if (tile instanceof HexTile && this.tile instanceof HexTile) {
 			this.deselect();
-			this.tile.dehighlight();
 			this.tile.transferUnit(this, tile);
+
+			// If Movement still exits and tile is not contested, reselect it.
+			if (this.movement > 0 && !tile.isContested)
+				this.select();
 			
 			// Add Unit to movedUnits Index for refresh.
 			if ( !this.gui.scene.data.list['movedUnits'].includes( this ) ) {
@@ -180,10 +232,11 @@ class Unit {
 		if ( this.gui ) {
 			this.gui.scene.data.list['selectedUnit'] = this;
 			this.gui.scene.data.list['selectedUnitType'] = this.type;
-			
+
 			// If a tile is attached to this GUI. Select it as well. Then enable move mode.
 			if (this.tile instanceof HexTile) {
 				this.tile.select();
+				this.gui.emitter.emit('moveMode');
 
 				// Highlight all tiles within move range.
 				let acceptableTiles = this.tile.retrieveHexWithinDistance(this.movement, this.howMove, [this.tile.id]);

@@ -258,7 +258,7 @@ class WarSim extends Phaser.Scene {
     	 */
     	function swapMode() {
     		if (this.data.list['mode'] === "View") {
-    			if ( this.scene.data.list['devTools'] ) {
+    			if ( this.data.list['devTools'] ) {
         			this.data.list['mode'] = 'Add';
         			gameboard.updateMode(this.data.list['mode']);	
     			}
