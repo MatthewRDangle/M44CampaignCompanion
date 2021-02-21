@@ -158,7 +158,7 @@ class HexTile extends GUI {
 	 ** Title: Contest
 	 ** Description: ???
 	 */
-	contest() {
+	contest(faction) {
 		
 		// Only execute if its not already contested.
 		if (!this.isContested) {
@@ -172,8 +172,13 @@ class HexTile extends GUI {
 			
 			// Update the tile object.
 			this.isContested = true;
+			this.contested.defender = this.occupied;
+			this.contested.attacker = faction;
 			this.contested.battleMarker = battle_marker;
 			this.addChild(battle_marker); // Render the GUI.
+			
+			// Add the tile to the contestedArray.
+			this.scene.data.list['contestedTiles'].push(this);
 		}
 		
 
@@ -183,17 +188,23 @@ class HexTile extends GUI {
 	 ** Title: Contest Resolve
 	 ** Description: ???
 	 */
-	contestResolve() {
+	contestResolve( occupier ) {
 		
 		// Only resolve if the battle marker is exists.
 		if ( this.contested.battleMarker ) {
 			
 			// Remove the battle marker.
-			this.removeChild( this.contested.battleMarker.battle_marker );
+			this.removeChild( this.contested.battleMarker );
 			
 			// Update the tile object.
 			this.isContested = false;
-			this.contested.battleMarker = undefined;	
+			this.contested.battleMarker = undefined;
+			this.contested.attacker = undefined;
+			this.contested.defender = undefined;
+			
+			// If a winning faction is
+			if ( occupier )
+				this.setOccupied( occupier );
 			
 			// Hide All Units if they exist.
 			if (this.units.infantry.length > 0) {
@@ -220,6 +231,10 @@ class HexTile extends GUI {
 					unit.makeGUIvisible();
 				}
 			}
+			
+			// Remove the tile from the contest global array.
+			let idx = this.scene.data.list['contestedTiles'].indexOf(this);
+			this.scene.data.list['contestedTiles'].splice(idx, 1);
 		}
 	}
 	

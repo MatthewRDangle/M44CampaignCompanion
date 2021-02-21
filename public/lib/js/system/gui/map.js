@@ -132,7 +132,7 @@ class Map extends GUI {
     				
     				// If it's a contested tile, open battle overlay.
     				else {
-    					this.scene.buildBattleOverlay(this.emitter);
+    					this.scene.buildBattleOverlay(this.emitter, tile);
     				}
 	    		}
 	    		
@@ -194,7 +194,7 @@ class Map extends GUI {
 		    				
 		    				// If the tile is occupied by a faction that is not the same as the unit being moved, let the unit contest the area.
 		    				else if (tile.occupied !== undefined && tile.occupied !== movingUnit.faction) {
-		    					tile.contest(); // Set the tile contested flag.
+		    					tile.contest( movingUnit.faction ); // Set the tile contested flag.
 		    					
 		    					// If the alt key is activated, only move over one unit.
 		    					if ( e.event.altKey ) {

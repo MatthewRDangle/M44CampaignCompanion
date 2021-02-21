@@ -39,6 +39,8 @@ class WarSim extends Phaser.Scene {
     
     create() {
     	this.data.list['battleOverlay'] = undefined;
+    	this.data.list['battleResults'] = undefined;
+    	this.data.list['contestedTiles'] = [];
     	
     	// Create Game Object Handlers.
     	let scenarioDetails = new Scenario(this.cache.json.get('scenarioJSON'));
@@ -208,6 +210,9 @@ class WarSim extends Phaser.Scene {
     	 */
     	function nextTurn() {
     		
+    		if ( this.data.list['contestedTiles'].length > 0 )
+    			return;
+    		
     		// Turn Off Previous Player Turn.
     		if (faction_turn == 0)
     			first_faction.setIsTurn(false);
@@ -295,7 +300,45 @@ class WarSim extends Phaser.Scene {
 	 * Function: Build Battle Overlay.
 	 * Description: ???
 	 */
-	buildBattleOverlay(emitter) {
+	buildBattleOverlay(emitter, tile) {
+
+		// Set Attacker Units Object.
+		let attackerUnits = {};
+		for (let unitType in tile.units) {
+			attackerUnits[unitType] = 0;
+			
+			// Retrieve the units from each unit type array, then find units owned by the attacking forces.
+			let unitsArray = tile.units[unitType];
+			for (let idx = 0; idx < unitsArray.length; idx++) {
+				
+				// If the unit is not owned by the tile occupant, it's the attacker.
+				let unit = unitsArray[idx];
+				if (tile.occupied !== unit.faction)
+					attackerUnits[unitType] = attackerUnits[unitType] + unit.health;
+			}
+		}
+		
+		// Set Defender Units Object.
+		let defenderUnits = {};
+		for (let unitType in tile.units) {
+			defenderUnits[unitType] = 0;
+			
+			// Retrieve the units from each unit type array, then find units owned by the attacking forces.
+			let unitsArray = tile.units[unitType];
+			for (let idx = 0; idx < unitsArray.length; idx++) {
+				
+				// If the unit is owned by the tile occupant, it's the defender.
+				let unit = unitsArray[idx];
+				if (tile.occupied === unit.faction)
+					defenderUnits[unitType] = defenderUnits[unitType] + unit.health;
+			}
+		}
+		
+		// Attach the inputs to the battle results data object.
+		this.data.list['battleResults'] = {
+				attackerUnits,
+				defenderUnits
+		}
 		
 		// Build the overlay.
     	let overlay = new GUI(this, emitter);
@@ -306,22 +349,70 @@ class WarSim extends Phaser.Scene {
     	this.data.list['battleOverlay'] = overlay;
     	
     	// Add Result Inputs
-    	let attackerInputs = construct_resultDetails('attacker', this, emitter);
-    	let defenderInputs = construct_resultDetails('defender', this, emitter);
+    	let attackerInputs = construct_resultDetails('attacker', this, emitter, attackerUnits);
+    	let defenderInputs = construct_resultDetails('defender', this, emitter, defenderUnits);
     	overlay.addChild( attackerInputs );
     	overlay.addChild( defenderInputs );
     	
     	// Add Submit Results Button.
     	let submitBTN = new GUI(this, emitter);
+    	submitBTN.setTextString('Submit Results');
+    	submitBTN.setTextColor("#FFFFFF");
+    	submitBTN.setDimensions(125, 50);
+    	submitBTN.setTextAlign('center', 'middle');
+       	submitBTN.setBackgroundColor(game.colors.blue);
+       	submitBTN.setCords( window.innerWidth / 2 - submitBTN.width / 2,  window.innerHeight - submitBTN.height - 100 );
+    	submitBTN.onClick( function() {
+    		
+    		// Retrieve results and update the objects.
+    		let results = this.scene.data.list['battleResults'];
+    		
+    		// Retrieve total numbers for each.
+    		let attackerSurvivors = 0;
+    		let defenderSurvivors = 0;
+    		
+    		// Loop through the tile units and update each.
+    		for ( let type in tile.units ) {
+    			for (let ddx = 0; ddx < tile.units[type].length; ddx++) {
+    				let unit = tile.units[type][ddx]; // Retrieve the unit.
+
+    				// The faction who occupies the tile is the faction owner.
+    				let defenderFactionName = tile.occupied.name;
+    				if (unit.faction.name === defenderFactionName) {
+    					unit.changeHealth( results.defenderUnits[type] );
+    					defenderSurvivors = defenderSurvivors + results.defenderUnits[type];
+    				}
+    				else {
+    					unit.changeHealth( results.attackerUnits[type] );
+    					attackerSurvivors = attackerSurvivors + results.attackerUnits[type];
+    				}
+    			}
+    		}
+    		
+    		// If the defenders have been defeated, resolve the contest on the tile, and change ownership to the attacking faction.
+    		if ( defenderSurvivors === 0 ) {
+    			tile.contestResolve( tile.contested.attacker  );
+    			tile.updateGUIDisplay();
+    		}
+    		else if ( attackerSurvivors === 0 ) {
+    			tile.contestResolve();
+    			tile.updateGUIDisplay();
+    		}
+    		
+    		// Close the overlay and empty the results.
+    		this.scene.data.list['battleResults'] = undefined;
+    		this.scene.closeBattleOverlay(); // Close the overlay.
+    	} );
+    	overlay.addChild(submitBTN);
 
     	// Construct a input.
-    	function construct_resultInput(x, y, scene, emitter, type) {
+    	function construct_resultInput(x, y, scene, emitter, type, who, unitCount) {
 
     		// Build the input.
     		let input = new GUI(scene, emitter);
         	input.setDimensions(100, 25);
         	input.setCords(x, y + 5);
-        	input.setTextString('0');
+        	input.setTextString(unitCount);
         	input.setTextAlign('center', 'middle');
         	input.setTextColor( game.colors.black );
         	input.setBackgroundColor( game.colors.white );
@@ -332,7 +423,20 @@ class WarSim extends Phaser.Scene {
         	upArrowBTN.setCords(input.width + 2, 0);
         	upArrowBTN.setBackgroundColor( game.colors.tan );
         	upArrowBTN.onClick(function() {
-        			input.setTextString( Number(input.textString) + 1 );
+        		
+        			if ( input.textString < unitCount ) {
+            			let survivors = Number(input.textString) + 1;
+        				input.setTextString( survivors ); // Update the textString.
+            			
+            			// Update the results object.
+            			switch (who) {
+            				case "attacker":
+            					this.scene.data.list['battleResults'].attackerUnits[type] = survivors;
+            					break;
+            				case "defender":
+            					this.scene.data.list['battleResults'].defenderUnits[type] = survivors;
+            			}
+        			}
         	});
         	
         	// UpTriangle.
@@ -351,8 +455,19 @@ class WarSim extends Phaser.Scene {
         	downArrowBTN.setBackgroundColor( game.colors.tan );
         	downArrowBTN.onClick(function() {
         		
-        		if (input.textString > 0)
-        			input.setTextString( Number(input.textString) - 1 );
+        		if (input.textString > 0) {
+        			let survivors = Number(input.textString) - 1;
+        			input.setTextString( survivors ); // Update the textString.
+
+        			// Update the results object.
+        			switch (who) {
+        				case "attacker":
+        					this.scene.data.list['battleResults'].attackerUnits[type] = survivors;
+        					break;
+        				case "defender":
+        					this.scene.data.list['battleResults'].defenderUnits[type] = survivors;
+        			}
+        		}
         	});
         	
         	// DownTriangle.
@@ -380,13 +495,13 @@ class WarSim extends Phaser.Scene {
     	}
     	
     	// Constructs a results container full of inputs.
-    	function construct_resultDetails(who, scene, emitter) {
+    	function construct_resultDetails(who, scene, emitter, unitsObject) {
     		
     		// Build Results Input.
-        	let infantry_results = construct_resultInput(0, 0, scene, emitter, 'infantry');
-        	let vehicle_results = construct_resultInput(0, infantry_results.y + infantry_results.height, scene, emitter, 'vehicle');
-        	let naval_results= construct_resultInput(0, vehicle_results.y + vehicle_results.height, scene, emitter, 'naval');
-        	let aircraft_results = construct_resultInput(0, naval_results.y + naval_results.height, scene, emitter, 'aircraft');
+        	let infantry_results = construct_resultInput(0, 0, scene, emitter, 'infantry', who, unitsObject.infantry);
+        	let vehicle_results = construct_resultInput(0, infantry_results.y + infantry_results.height, scene, emitter, 'vehicle', who, unitsObject.vehicle);
+        	let naval_results= construct_resultInput(0, vehicle_results.y + vehicle_results.height, scene, emitter, 'naval', who, unitsObject.naval);
+        	let aircraft_results = construct_resultInput(0, naval_results.y + naval_results.height, scene, emitter, 'aircraft', who, unitsObject.aircraft);
         	
         	// Results Parent.
         	let results = new GUI(scene, emitter);
