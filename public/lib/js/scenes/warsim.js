@@ -23,6 +23,9 @@ class WarSim extends Phaser.Scene {
     	this.load.image('Enemy_Vehicle', 'lib/assets/Red_Tank.png');
     	this.load.image('Enemy_Aircraft', 'lib/assets/Red_Plane.png');
     	this.load.image('Enemy_Naval', 'lib/assets/Red_Ship.png');
+
+    	// Board Setups.
+		this.load.image('Beach_Landing_01', 'lib/boardSetups/Beach_Landing_01.png');
     	
     	// Markers.
     	this.load.image('Marker_Battle', 'lib/assets/Battle.png');
@@ -302,6 +305,22 @@ class WarSim extends Phaser.Scene {
 	 */
 	buildBattleOverlay(emitter, tile) {
 
+		// Build the overlay.
+		let overlay = new GUI(this, emitter);
+		overlay.setDimensions(window.innerWidth, window.innerHeight);
+		overlay.setDepth(5);
+		overlay.onClick( function() { /* Left Empty to Prevent Propagation.. */ } )
+		overlay.setBackgroundColor( game.colors.black );
+		this.data.list['battleOverlay'] = overlay;
+
+		// Display the Board Setup.
+		let boardSetup = new GUI(this, emitter);
+		//boardSetup.setDimensions(window.innerWidth, window.innerHeight / 2);
+		boardSetup.setCords(window.innerWidth / 2 - 325, 30);
+		boardSetup.setScale(0.5);
+		boardSetup.setBackgroundImage('Beach_Landing_01');
+		overlay.addChild(boardSetup);
+
 		// Set Attacker Units Object.
 		let attackerUnits = {};
 		for (let unitType in tile.units) {
@@ -316,37 +335,30 @@ class WarSim extends Phaser.Scene {
 				if (tile.occupied !== unit.faction)
 					attackerUnits[unitType] = attackerUnits[unitType] + unit.health;
 			}
+
 		}
-		
+
 		// Set Defender Units Object.
 		let defenderUnits = {};
 		for (let unitType in tile.units) {
 			defenderUnits[unitType] = 0;
-			
+
 			// Retrieve the units from each unit type array, then find units owned by the attacking forces.
 			let unitsArray = tile.units[unitType];
 			for (let idx = 0; idx < unitsArray.length; idx++) {
-				
+
 				// If the unit is owned by the tile occupant, it's the defender.
 				let unit = unitsArray[idx];
 				if (tile.occupied === unit.faction)
 					defenderUnits[unitType] = defenderUnits[unitType] + unit.health;
 			}
 		}
-		
+
 		// Attach the inputs to the battle results data object.
 		this.data.list['battleResults'] = {
-				attackerUnits,
-				defenderUnits
-		}
-		
-		// Build the overlay.
-    	let overlay = new GUI(this, emitter);
-    	overlay.setDimensions(window.innerWidth, window.innerHeight);
-    	overlay.setDepth(5);
-    	overlay.onClick( function() { /* Left Empty to Prevent Propagation.. */ } )
-    	overlay.setBackgroundColor( game.colors.black );
-    	this.data.list['battleOverlay'] = overlay;
+			attackerUnits,
+			defenderUnits
+		};
     	
     	// Add Result Inputs
     	let attackerInputs = construct_resultDetails('attacker', this, emitter, attackerUnits);
@@ -496,15 +508,23 @@ class WarSim extends Phaser.Scene {
     	
     	// Constructs a results container full of inputs.
     	function construct_resultDetails(who, scene, emitter, unitsObject) {
-    		
+
+    		// Build Result Header
+			// So the user knows who the results belong to.
+			let header = new GUI(scene, emitter);
+			header.setTextString(who.charAt(0).toUpperCase() + who.slice(1)); // The extra who methods capitalize the first letter of the who string.
+			header.setTextColor( '#FFFFFF' );
+			header.setCords(0, 0);
+
     		// Build Results Input.
-        	let infantry_results = construct_resultInput(0, 0, scene, emitter, 'infantry', who, unitsObject.infantry);
+        	let infantry_results = construct_resultInput(0, 50, scene, emitter, 'infantry', who, unitsObject.infantry);
         	let vehicle_results = construct_resultInput(0, infantry_results.y + infantry_results.height, scene, emitter, 'vehicle', who, unitsObject.vehicle);
         	let naval_results= construct_resultInput(0, vehicle_results.y + vehicle_results.height, scene, emitter, 'naval', who, unitsObject.naval);
         	let aircraft_results = construct_resultInput(0, naval_results.y + naval_results.height, scene, emitter, 'aircraft', who, unitsObject.aircraft);
         	
         	// Results Parent.
         	let results = new GUI(scene, emitter);
+        	results.addChild(header);
         	results.addChild(infantry_results);
         	results.addChild(vehicle_results);
         	results.addChild(naval_results);
@@ -512,10 +532,10 @@ class WarSim extends Phaser.Scene {
         	
         	// Modify Cords.
     		if (who === 'attacker') {
-            	results.setCords( window.innerWidth / 4 - 120 , window.innerHeight - (30 * 4) - 200); // 30 = size of input, 4 is the number of inputs. 50 is the offset.
+            	results.setCords( window.innerWidth / 4 - 120 , window.innerHeight - (30 * 4) - 275); // 30 = size of input, 4 is the number of inputs. 50 is the offset.
     		}
     		else if (who === 'defender') {
-    			results.setCords( window.innerWidth / 4 * 3 - 120 , window.innerHeight - (30 * 4) - 200); // 30 = size of input, 4 is the number of inputs. 50 is the offset.
+    			results.setCords( window.innerWidth / 4 * 3 - 120 , window.innerHeight - (30 * 4) - 275); // 30 = size of input, 4 is the number of inputs. 50 is the offset.
     		}
         	
         	return results;
