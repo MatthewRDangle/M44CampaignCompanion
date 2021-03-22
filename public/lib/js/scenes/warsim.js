@@ -26,6 +26,12 @@ class WarSim extends Phaser.Scene {
 
     	// Board Setups.
 		this.load.image('Beach_Landing_01', 'lib/boardSetups/Beach_Landing_01.png');
+		this.load.image('Beach_Landing_02', 'lib/boardSetups/Beach_Landing_02.png');
+		this.load.image('Encampment_01', 'lib/boardSetups/Encampment_01.png');
+		this.load.image('Road_01', 'lib/boardSetups/Road_01.png');
+		this.load.image('Road_02', 'lib/boardSetups/Road_02.png');
+		this.load.image('Road_03', 'lib/boardSetups/Road_03.png');
+		this.load.image('Road_04', 'lib/boardSetups/Road_04.png');
     	
     	// Markers.
     	this.load.image('Marker_Battle', 'lib/assets/Battle.png');
@@ -49,9 +55,10 @@ class WarSim extends Phaser.Scene {
     	let scenarioDetails = new Scenario(this.cache.json.get('scenarioJSON'));
     	let emitter = new Phaser.Events.EventEmitter();
     	
-    	// Make terrain global for later retrieval.
+    	// Make terrain boardSetup global for later retrieval.
     	this.data.list['scenarioTerrain'] = scenarioDetails.terrain;
-    	
+		this.data.list['boards'] = scenarioDetails.boards;
+
     	// Faction Control.
     	let faction1 = new Faction(scenarioDetails.factions[0].name, scenarioDetails.factions[0].flag);
     	let faction2 = new Faction(scenarioDetails.factions[1].name, scenarioDetails.factions[1].flag);
@@ -318,7 +325,7 @@ class WarSim extends Phaser.Scene {
 		//boardSetup.setDimensions(window.innerWidth, window.innerHeight / 2);
 		boardSetup.setCords(window.innerWidth / 2 - 325, 30);
 		boardSetup.setScale(0.5);
-		boardSetup.setBackgroundImage('Beach_Landing_01');
+		boardSetup.setBackgroundImage(tile.boardSetup);
 		overlay.addChild(boardSetup);
 
 		// Set Attacker Units Object.

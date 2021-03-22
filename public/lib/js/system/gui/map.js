@@ -95,6 +95,14 @@ class Map extends GUI {
 				}
 			}
 
+		// Retrieve and assign terrain value for this hex tile if it exists.
+		let boardSetupData = this.scene.data.list['boards'];
+		for ( let hexID in boardSetupData ) {
+			if ( hexID === tile.id ) {
+				tile.setBoardSetup(boardSetupData[hexID]);
+			}
+		}
+
 			// Set tile as draggable.
 			let map = this;
 			tile.onClick(function(e) {

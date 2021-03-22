@@ -40,5 +40,6 @@ class Scenario {
 		// Board Setup Data.
 		this.units =(json.units) ? json.units : {};
 		this.terrain = (json.terrain) ? json.terrain : {};
+		this.boards = (json.boards) ? json.boards : {};
 	}
 }

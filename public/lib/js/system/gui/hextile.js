@@ -35,6 +35,7 @@ class HexTile extends GUI {
 		};
 		this.structure = undefined;
 		this.terrain = undefined;
+		this.boardSetup = undefined;
 		
 		// Map Access.
 		this.map = undefined;
@@ -539,6 +540,15 @@ class HexTile extends GUI {
 			this.occupied = faction;
 		else
 			this.occupied = undefined;
+	}
+
+	/*
+	** Title: Set Board
+	** Description: ???
+	 */
+	setBoardSetup(imageID) {
+		if (imageID)
+			this.boardSetup = imageID;
 	}
 	
 	/*
