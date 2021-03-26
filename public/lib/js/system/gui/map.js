@@ -30,6 +30,15 @@ class Map extends GUI {
 	 */
 	renMap() {
 
+		// Set the background image.
+		let scenarioDetails = this.scene.cache.json.get('scenarioJSON');
+		if (scenarioDetails.map.background) {
+			let backgroundImage = new GUI(this.scene, this.emitter);
+			backgroundImage.setCords(0, 0);
+			backgroundImage.setBackgroundImage(scenarioDetails.map.background);
+			this.addChild(backgroundImage);
+		}
+
 		// Construct a new tile for each width count.
 		let alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     	for (let x = 0; x <= this.mapWidth - 1; x++) {
@@ -64,6 +73,7 @@ class Map extends GUI {
 			let tile = new HexTile(this.scene, this.emitter, idx, idy);
 			tile.setMap(this);
 			tile.setCords(hexX, hexY);
+			tile.setBackgroundAlpha(0.15);
 			
 			// Retrieve and assign terrain value for this hex tile if it exists.
 			let terrainData = this.scene.data.list['scenarioTerrain'];

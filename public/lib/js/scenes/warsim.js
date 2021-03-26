@@ -32,6 +32,9 @@ class WarSim extends Phaser.Scene {
 		this.load.image('Road_02', 'lib/boardSetups/Road_02.png');
 		this.load.image('Road_03', 'lib/boardSetups/Road_03.png');
 		this.load.image('Road_04', 'lib/boardSetups/Road_04.png');
+
+		// Maps
+		this.load.image('map_operation_overlord', 'lib/scenarios/overlord.png');
     	
     	// Markers.
     	this.load.image('Marker_Battle', 'lib/assets/Battle.png');

@@ -1,12 +1,13 @@
 {
-	"devTools": "false",
+	"devTools": "true",
 	
 	"name": "Operation Overlord",
 	"mission": "Eapture the Airfields and hold them for one turn",
 	"factions": ["Germany", "America"],
 	"map": {
 		"width": "26",
-		"height": "16"
+		"height": "23",
+		"background": "map_operation_overlord"
 	},
 	
 	"units": {

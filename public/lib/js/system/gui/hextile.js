@@ -46,7 +46,7 @@ class HexTile extends GUI {
 		this.setDimensions(w*3, h*3);
 		this.setBackgroundShape('polygon');
 		this.setBackgroundColor(0xC5D6B7);
-		this.setBackgroundBorder(4, 0xFFFFFF);
+		this.setBackgroundBorder(2, 0xFFFFFF);
 		
 		// Display the id text.
 		if ( this.scene.data.list['devTools'] ) {
