@@ -16,7 +16,7 @@ class Water extends Terrain {
 		// Game Data.
 		this.movement_cost = 2;
 		this.isPassable = {
-				land: true,
+				land: false,
 				air: true,
 				sea: true
 		}

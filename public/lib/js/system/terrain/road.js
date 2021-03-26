@@ -16,9 +16,9 @@ class Road extends Terrain {
 		// Game Data.
 		this.movement_cost = 1;
 		this.isPassable = {
-				land: false,
+				land: true,
 				air: true,
-				sea: true
+				sea: false
 		}
 	}
 }
