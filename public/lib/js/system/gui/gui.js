@@ -58,6 +58,7 @@ class GUI {
     			onclick: undefined,
     			ondragstart: undefined,
     			ondrag: undefined,
+				onmousescroll: undefined,
     			update: []
     	}
 	}
@@ -208,6 +209,13 @@ class GUI {
 			if (this.event.ondragstart) // If drag start exists, set it.
 				this.backgroundPoly.on('dragstart', this.event.ondragstart);
 			this.backgroundPoly.on('drag', this.event.ondrag); // Set the on drag function.
+		}
+
+		// Attach on mouse scroll.
+		this.backgroundPoly.off('wheel');
+		if (this.event.onmousescroll) {
+			this.backgroundPoly.setInteractive(); // Allow it to be interactive.
+			this.backgroundPoly.on('wheel', this.event.onmousescroll); // Set the mouse wheel function.
 		}
 	}
 	
@@ -646,13 +654,10 @@ class GUI {
 	 ** Description: On click event for this GUI.
 	 */
 	onClick(callback) {
-		this.event.onclick = callback;
 
 		if (callback)
 			this.interactive = true;
-		else
-			this.interactive = false;
-		
+			this.event.onclick = callback;
 		this.updateGUI();
 	}
 	
@@ -661,28 +666,34 @@ class GUI {
 	 ** Description: Attach Start Draggble Function.
 	 */
 	onDragStart(callback) {
-		this.event.ondragstart = callback;
 
 		if (callback)
+			this.event.ondragstart = callback;
 			this.interactive = true;
-		else
-			this.interactive = false;
-		
 		this.updateGUI();
 	}
 	
 	/*
 	 ** Title: On Drag
-	 ** Description: Attach Draggble Function.
+	 ** Description: Attach Draggable Function.
 	 */
 	onDrag(callback) {
-		this.event.ondrag = callback;
-		
+
 		if (callback)
+			this.event.ondrag = callback;
 			this.interactive = true;
-		else
-			this.interactive = false;
-		
+		this.updateGUI();
+	}
+
+	/*
+	** Title: On Mouse Scroll.
+	** Description: Execute the callback when the mouse wheel is scrolled.
+	 */
+	onMouseScroll(callback) {
+
+		if (callback)
+			this.event.onmousescroll = callback;
+			this.interactive = true;
 		this.updateGUI();
 	}
 	

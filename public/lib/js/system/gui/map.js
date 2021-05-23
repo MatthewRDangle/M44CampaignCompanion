@@ -113,7 +113,7 @@ class Map extends GUI {
 			}
 		}
 
-			// Set tile as draggable.
+			// Set tile as draggable & map as zoomable.
 			let map = this;
 			tile.onClick(function(e) {
 				let mouseClick = e.event.which; // 1, 2 or 3 for a mouse click.
@@ -308,6 +308,14 @@ class Map extends GUI {
 	    			}
 	    		}
 			});
+			tile.onMouseScroll(function(pointer, dx, dy, dz, event) {
+				if (dy > 0)
+					map.setScale(map.scale - 0.1);
+				else if (dy < 0)
+					map.setScale(map.scale + 0.1);
+			});
+
+
 			
 			//Enable Tile Dragging.
 			if (this.draggable) {
