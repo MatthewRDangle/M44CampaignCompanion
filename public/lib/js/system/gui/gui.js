@@ -155,13 +155,7 @@ class GUI {
 					this.width, y + this.height / 2,
 					this.width * 0.75, y + this.height,
 					this.width * 0.25, y + this.height,
-					0, y + this.height / 2,
-//	        		0, y, 
-//	        		this.width * 0.25, y - this.height / 2, 
-//	        		this.width * 0.75, y - this.height / 2, 
-//	        		this.width, y,  
-//	        		this.width * 0.75, y + this.height / 2,
-//	        		this.width * 0.25, y + this.height / 2
+					0, y + this.height / 2
 				], this.backgroundColor, this.backgroundAlpha);
 			}
 			
@@ -185,6 +179,7 @@ class GUI {
 		
 		// Update origin.
 		this.backgroundPoly.setOrigin(xorg, yorg);
+		this.backgroundPoly.depth = this.z;
 		
 		// Set Stroke
 		if (this.backgroundBorderSize > 0) {

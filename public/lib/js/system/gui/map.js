@@ -196,11 +196,12 @@ class Map extends GUI {
 		    						movingUnit.changeHealth( movingUnit.health - 1 );
 		    					}
 		    					else {
-		    						
+
 		    						// Merge unit and update the GUI.
+									movingUnit.reduceMovementBy(cost_to_move);
 				    				unit.mergeWithUnit( movingUnit );
+									tile.changeUnitDisplayOrder(unit.type);
 				    				tile.updateGUIDisplay();
-				    				tile.changeUnitDisplayOrder(unit.type);
 				    				
 			    					// Attach unit to move list so there movements can be refreshed later.
 			    					let movedUnits = this.scene.data.list['movedUnits'];
