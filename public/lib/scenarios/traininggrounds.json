@@ -1,5 +1,5 @@
 {
-	"devTools": "true",
+	"devTools": "false",
 	
 	"name": "Training Grounds",
 	"mission": "Defeat all enemy units.",
