@@ -10,7 +10,7 @@ class Ocean extends Terrain {
 		super();
 		
 		// Display Data.
-		this.name = "Terrain";
+		this.name = "Ocean";
 		this.image = undefined;
 		
 		// Game Data.

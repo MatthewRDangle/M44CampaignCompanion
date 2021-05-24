@@ -10,7 +10,7 @@ class Grass extends Terrain {
 		super();
 		
 		// Display Data.
-		this.name = "Terrain";
+		this.name = "Grass";
 		this.image = undefined;
 		
 		// Game Data.

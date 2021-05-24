@@ -4,17 +4,17 @@
  ** Title: ???.
  ** Description: ???.
  */
-class Road extends Terrain {
+class City extends Terrain {
 	
 	constructor() {
 		super();
 		
 		// Display Data.
-		this.name = "Road";
+		this.name = "City";
 		this.image = undefined;
 		
 		// Game Data.
-		this.movement_cost = 1;
+		this.movement_cost = 2;
 		this.isPassable = {
 				land: true,
 				air: true,

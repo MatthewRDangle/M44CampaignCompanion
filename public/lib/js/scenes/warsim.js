@@ -8,7 +8,7 @@ class WarSim extends Phaser.Scene {
     
     preload() {
     	// Load Scenario JSON.
-    	this.load.json('scenarioJSON', 'lib/scenarios/overlord.json');
+    	this.load.json('scenarioJSON', 'lib/scenarios/traininggrounds.json');
 
     	// Structures.
     	this.load.image('Neutral_Encampment', 'lib/assets/Encampment.png');
@@ -34,7 +34,7 @@ class WarSim extends Phaser.Scene {
 		this.load.image('Road_04', 'lib/boardSetups/Road_04.png');
 
 		// Maps
-		this.load.image('map_operation_overlord', 'lib/scenarios/overlord.png');
+		this.load.image('map_training_grounds', 'lib/scenarios/traininggrounds.png');
     	
     	// Markers.
     	this.load.image('Marker_Battle', 'lib/assets/Battle.png');

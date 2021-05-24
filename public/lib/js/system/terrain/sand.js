@@ -10,7 +10,7 @@ class Sand extends Terrain {
 		super();
 		
 		// Display Data.
-		this.name = "Terrain";
+		this.name = "Sand";
 		this.image = undefined;
 		
 		// Game Data.

@@ -10,7 +10,7 @@ class River extends Terrain {
 		super();
 		
 		// Display Data.
-		this.name = "Terrain";
+		this.name = "River";
 		this.image = undefined;
 		
 		// Game Data.
