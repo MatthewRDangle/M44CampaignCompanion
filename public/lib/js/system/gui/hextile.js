@@ -292,7 +292,12 @@ class HexTile extends GUI {
 	 */
 	retrieveHexWithinDistance(distance, howMove, ignoreIDs, moveCost) {
 		let approved_tiles = {}; // Storage for all approved tiles within distance.
-		
+
+		// Prevent moving forward if the tile is owned by the opposing faction.
+		let currentFaction = this.scene.data.list['activeFaction'];
+		if (this.occupied != currentFaction && this.occupied != undefined)
+			return approved_tiles;
+
 		// If movement cost does not exist, set it to 0.
 		if (!moveCost)
 			moveCost = 0;
@@ -425,7 +430,7 @@ class HexTile extends GUI {
 				let eval_distance = distance - terrain.movement_cost;
 				if (eval_distance >= 0) {
 					let local_moveCost = hexTile.terrain.movement_cost + moveCost;
-					approved_tiles[hexTile.id] = { 
+					approved_tiles[hexTile.id] = {
 							movementCost: local_moveCost,
 							hexTile: hexTile
 					};
@@ -437,10 +442,23 @@ class HexTile extends GUI {
 						// If an ignoreID list already exists, append this ID to it and pass it through. Other wise create a new one.
 						if (ignoreIDs) {
 							ignoreIDs.push(hexTile.id);
-							approved_tiles = mergeApprovedTiles( approved_tiles, hexTile.retrieveHexWithinDistance(diff_dist, howMove, ignoreIDs, local_moveCost) );
+
+							// Prevent moving forward if the tile is owned by the opposing faction.
+							let currentFaction = hexTile.scene.data.list['activeFaction'];
+							if (hexTile.occupied != currentFaction && hexTile.occupied != undefined) {
+								return approved_tiles;
+							}
+							else
+								approved_tiles = mergeApprovedTiles( approved_tiles, hexTile.retrieveHexWithinDistance(diff_dist, howMove, ignoreIDs, local_moveCost) );
 						}
 						else {
-							approved_tiles = mergeApprovedTiles( approved_tiles, hexTile.retrieveHexWithinDistance(diff_dist, howMove, [ hexTile.id ]), local_moveCost );
+							// Prevent moving forward if the tile is owned by the opposing faction.
+							let currentFaction = hexTile.scene.data.list['activeFaction'];
+							if (hexTile.occupied != currentFaction && hexTile.occupied != undefined) {
+								return approved_tiles;
+							}
+							else
+								approved_tiles = mergeApprovedTiles( approved_tiles, hexTile.retrieveHexWithinDistance(diff_dist, howMove, [ hexTile.id ]), local_moveCost );
 						}
 					}
 				}
@@ -450,7 +468,7 @@ class HexTile extends GUI {
 		function mergeApprovedTiles(approvedTiles1, approvedTiles2) {
 			let mergedTiles = approvedTiles1;
 			for (let key in approvedTiles2) {
-				
+
 				// Check if record tile exists inside mergedTiles If it does, use the the tile with the lowest cost to move.
 				if ( mergedTiles[key] ) {
 					if ( mergedTiles[key].movementCost - approvedTiles2[key].movementCost <= 0) {

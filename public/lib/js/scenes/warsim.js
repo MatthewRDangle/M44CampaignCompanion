@@ -98,6 +98,7 @@ class WarSim extends Phaser.Scene {
     	rightbar.setDimensions(570, window.innerHeight - topbar.height);
     	rightbar.setCords(window.innerWidth - rightbar.width, topbar.height, 2);
     	rightbar.setBackgroundColor(0x151A1E);
+    	rightbar.preventBubbling();
     	
     	// Scenario Details
     	let scenario = new GUI(this, emitter);
@@ -259,8 +260,18 @@ class WarSim extends Phaser.Scene {
     			movedUnits.splice( indexOfUnit, 1 );
     		}
 
-    		// Update gameboard mode settings.
-    		this.data.list['selectedHex'] = undefined;
+			// Delight all moveable to tiles.
+			let acceptableTiles = this.data.list['acceptableTiles'];
+			for (let hexID in acceptableTiles) {
+				let hexTile = acceptableTiles[hexID].hexTile;
+				hexTile.setBackgroundColor(0xC5D6B7);
+			}
+
+			// Update gameboard mode settings.
+			let selectedHex = this.data.list['selectedHex'];
+			if (selectedHex)
+				selectedHex.deselect();
+    		//this.data.list['selectedHex'] = undefined;
     		this.data.list['mode'] = "View";
     		gameboard.updateMode(this.data.list['mode']);
     		
@@ -325,7 +336,7 @@ class WarSim extends Phaser.Scene {
 		let boardSetup = new GUI(this, emitter);
 		//boardSetup.setDimensions(window.innerWidth, window.innerHeight / 2);
 		boardSetup.setCords(window.innerWidth / 2 - 325, 30);
-		boardSetup.setScale(0.5);
+		boardSetup.setScale(0.6);
 		boardSetup.setBackgroundImage(tile.boardSetup);
 		overlay.addChild(boardSetup);
 

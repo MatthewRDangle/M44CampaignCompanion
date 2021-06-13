@@ -59,6 +59,7 @@ class GUI {
     			ondragstart: undefined,
     			ondrag: undefined,
 				onmousescroll: undefined,
+				preventBubbling: false,
     			update: []
     	}
 	}
@@ -189,6 +190,12 @@ class GUI {
 		}
 		else
 			this.backgroundPoly.isStroked = false;
+
+		// Prevent Bubbling.
+		if (this.event.preventBubbling) {
+			this.backgroundPoly.setInteractive();
+			this.backgroundPoly.on('pointerdown', function() {}, this);
+		}
 
 		// Attach onclick events.
 		this.backgroundPoly.off('pointerdown');
@@ -657,6 +664,16 @@ class GUI {
 		if (callback)
 			this.interactive = true;
 			this.event.onclick = callback;
+		this.updateGUI();
+	}
+
+	/*
+	** Title: Prevent Bubbling
+	** Description: Prevents clicking on GUI's located behind it.
+	 */
+	preventBubbling() {
+		this.interactive = true;
+		this.event.preventBubbling = true;
 		this.updateGUI();
 	}
 	
