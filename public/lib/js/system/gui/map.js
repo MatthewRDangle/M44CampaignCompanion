@@ -84,7 +84,13 @@ class Map extends GUI {
 					
 					if (value === 'Grass')
 						terrain = new Grass();
-					
+
+					else if (value === 'Forest')
+						terrain = new Forest();
+
+					else if (value === 'City')
+						terrain = new City();
+
 					else if (value === 'Ocean')
 						terrain = new Ocean();
 					
@@ -123,21 +129,10 @@ class Map extends GUI {
 
 	    			// Check if unit exists. If it does, enter movement mode. Otherwise, do nothing.
 	    			let unitType = undefined;
-    				if ( tile.units.infantry.length > 0 ) {
-    					unitType = "infantry";
-    				}
-    				else if ( tile.units.vehicle.length > 0 ) {
-    					unitType = "vehicle";    					
-					}
-    				else if ( tile.units.aircraft.length > 0 ) {
-    					unitType = "aircraft";
-					}
-    				else if ( tile.units.naval.length > 0 ) {
-    					unitType = "naval";
-					}
-    				else {
-    					return;
-    				}
+	    			if (tile.topUnit)
+	    				unitType = tile.topUnit;
+    				else
+    					return
     				
     				// Check if the tile is contested. If it isn't, select unit and enter move mode.
     				if ( !tile.isContested ) {
@@ -201,7 +196,7 @@ class Map extends GUI {
 									movingUnit.reduceMovementBy(cost_to_move);
 				    				unit.mergeWithUnit( movingUnit );
 									tile.changeUnitDisplayOrder(unit.type);
-				    				tile.updateGUIDisplay();
+									tile.updateGUIDisplay();
 				    				
 			    					// Attach unit to move list so there movements can be refreshed later.
 			    					let movedUnits = this.scene.data.list['movedUnits'];
@@ -256,6 +251,8 @@ class Map extends GUI {
 		    						movingUnit.reduceMovementBy(cost_to_move);
 			    					movingUnit.moveToTile( tile );
 		    					}
+								tile.changeUnitDisplayOrder(movingUnit.type);
+								tile.updateGUIDisplay();
 		    				}	
 	    				}
 	    			}

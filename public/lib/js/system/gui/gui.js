@@ -180,7 +180,6 @@ class GUI {
 		
 		// Update origin.
 		this.backgroundPoly.setOrigin(xorg, yorg);
-		this.backgroundPoly.depth = this.z;
 		
 		// Set Stroke
 		if (this.backgroundBorderSize > 0) {
@@ -226,7 +225,7 @@ class GUI {
 	renContainer() {
 		this.container.x = this.x;
 		this.container.y = this.y;
-		this.container.depth = this.z;
+		this.container.setDepth(this.z);
 		this.container.setScale(this.scale);
 	}
 	

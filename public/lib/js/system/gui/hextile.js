@@ -23,8 +23,8 @@ class HexTile extends GUI {
 		this.isContested = false;
 		this.contested = { 
 				attacked: undefined, 
-				defender: undefined, 
-				markerGUI: undefined 
+				defender: undefined,
+				battleMarker: undefined
 		};
 		this.topUnit = undefined;
 		this.units = {
@@ -36,6 +36,11 @@ class HexTile extends GUI {
 		this.structure = undefined;
 		this.terrain = undefined;
 		this.boardSetup = undefined;
+
+		// Unit Display Order
+		this.unitDisplayOrder = [
+			'naval', 'aircraft', 'vehicle', 'infantry'
+		];
 		
 		// Map Access.
 		this.map = undefined;
@@ -81,6 +86,8 @@ class HexTile extends GUI {
 		unit.attachTile(this); // Attach the tile for later access.
 		unit.attachGUI(unit_marker); // Attach the GUI for later access.
 		this.addChild(unit_marker); // Attach unit marker GUI to the hex tile.
+		this.changeUnitDisplayOrder(unit.type);
+		this.updateGUIDisplay();
 		
 		if (this.occupied === undefined)
 			this.occupied = unit.faction;
@@ -128,30 +135,27 @@ class HexTile extends GUI {
 	 */
 	changeUnitDisplayOrder(unitTypeOnTop) {
 		this.topUnit = unitTypeOnTop;
+		this.unitDisplayOrder = [];
 
 		if (unitTypeOnTop === 'infantry') {
-			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(100); };
-			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(102); };
-			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(103); };
-			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(104) };
+			this.unitDisplayOrder = [
+				'naval', 'aircraft', 'vehicle', 'infantry'
+			];
 		}
 		else if (unitTypeOnTop === 'vehicle') {
-			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(104); };
-			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(101); };
-			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(102); };
-			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(103) };
+			this.unitDisplayOrder = [
+				'infantry', 'naval', 'aircraft', 'vehicle'
+			];
 		}
 		else if (unitTypeOnTop === 'aircraft') {
-			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(103); };
-			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(104); };
-			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(101); };
-			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(102) };
+			this.unitDisplayOrder = [
+				'vehicle', 'infantry', 'naval', 'aircraft'
+			];
 		}
 		else if (unitTypeOnTop === 'naval') {
-			if ( this.units['infantry'][0] ) { this.units['infantry'][0].gui.setDepth(102); };
-			if ( this.units['vehicle'][0] ) { this.units['vehicle'][0].gui.setDepth(103); };
-			if ( this.units['aircraft'][0] ) { this.units['aircraft'][0].gui.setDepth(104); };
-			if ( this.units['naval'][0] ) { this.units['naval'][0].gui.setDepth(101) };
+			this.unitDisplayOrder = [
+				'aircraft', 'vehicle', 'infantry', 'naval'
+			];
 		}
 	}
 	
@@ -596,34 +600,35 @@ class HexTile extends GUI {
 		tile.addUnit(unit);
 
 		// Change order.
-		if (unit === 'infantry') {
+		if (unit.type === 'infantry') {
 			if ( this.units.vehicle.length > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
 			else if ( this.units.aircraft.length > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
 			else if ( this.units.naval.length > 0 ) { this.changeUnitDisplayOrder('naval'); }
 			else if ( this.units.infantry.length > 0 ) { this.changeUnitDisplayOrder('infantry'); }
 			else { this.topUnit = undefined; }
 		}
-		else if (unit === 'vehicle') {
+		else if (unit.type === 'vehicle') {
 			if ( this.units.aircraft.length > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
 			else if ( this.units.naval.length > 0 ) { this.changeUnitDisplayOrder('naval'); }
 			else if ( this.units.infantry.length > 0 ) { this.changeUnitDisplayOrder('infantry'); }
 			else if ( this.units.vehicle.length > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
 			else { this.topUnit = undefined; }
 		}
-		else if (unit === 'aircraft') {
+		else if (unit.type === 'aircraft') {
 			if ( this.units.naval.length > 0 ) { this.changeUnitDisplayOrder('naval'); }
 			else if ( this.units.infantry.length > 0 ) { this.changeUnitDisplayOrder('infantry'); }
 			else if ( this.units.vehicle.length > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
 			else if ( this.units.aircraft.length > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
 			else { this.topUnit = undefined; }
 		}
-		else if (unit === 'naval') {
+		else if (unit.type === 'naval') {
 			if ( this.units.infantry.length > 0 ) { this.changeUnitDisplayOrder('infantry'); }
 			else if ( this.units.vehicle.length > 0 ) { this.changeUnitDisplayOrder('vehicle');  }
 			else if ( this.units.aircraft.length > 0 ) { this.changeUnitDisplayOrder('aircraft'); }
 			else if ( this.units.naval.length > 0 ) { this.changeUnitDisplayOrder('naval'); }
 			else { this.topUnit = undefined; }
 		}
+		this.updateGUIDisplay();
 	}
 	
 	/*
@@ -631,57 +636,39 @@ class HexTile extends GUI {
 	 ** Description: ???
 	 */
 	updateGUIDisplay() {
-		
-		// Infantry Update.
-		if (this.units.infantry.length > 0) {
-			let unit = this.units.infantry[0]; // Retrieve Unit.
-			unit.gui.destroy(); // Destroy the current GUI
-			
-			// Build GUI.
-			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+		let tile = this;
+		let order = this.unitDisplayOrder;
+		for (let idx = 0; idx < order.length; idx++)
+			updateUnit( order[idx] );
 
-			// Attach GUI.
-			unit.attachGUI(unit_marker); // Attach the GUI for later access.
-			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+		// If the tile is contested. Rebuild the contested gui as well.
+		if (tile.isContested && tile.contested.battleMarker) {
+			this.removeChild( this.contested.battleMarker );
+
+			let battle_marker = new GUI(this.scene, this.emitter);
+			battle_marker.setScale(0.5);
+			battle_marker.setCords(this.width / 2, this.height / 2);
+			battle_marker.setBackgroundAlign('center', 'middle');
+			battle_marker.setBackgroundImage("Marker_Battle");
+
+			this.contested.battleMarker = battle_marker;
+			this.addChild(battle_marker); // Render the GUI.
 		}
-		
-		// Vehicle Update.
-		if (this.units.vehicle.length > 0) {
-			let unit = this.units.vehicle[0]; // Retrieve Unit.
-			unit.gui.destroy(); // Destroy the current GUI
-			
-			// Build GUI.
-			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
 
-			// Attach GUI.
-			unit.attachGUI(unit_marker); // Attach the GUI for later access.
-			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
-		}
-		
-		// Aircraft Update.
-		if (this.units.aircraft.length > 0) {
-			let unit = this.units.aircraft[0]; // Retrieve Unit.
-			unit.gui.destroy(); // Destroy the current GUI
-			
-			// Build GUI.
-			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+		// Update Unit.
+		function updateUnit(type) {
+			let unit_array = tile.units[type];
+			if (unit_array.length > 0) {
+				let unit = unit_array[0];
 
-			// Attach GUI.
-			unit.attachGUI(unit_marker); // Attach the GUI for later access.
-			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
-		}
-		
-		// Naval Update.
-		if (this.units.naval.length > 0) {
-			let unit = this.units.naval[0]; // Retrieve Unit.
-			unit.gui.destroy(); // Destroy the current GUI
-			
-			// Build GUI.
-			let unit_marker = this.buildGUIDisplay(unit); // TODO currently broken!!! FIX IT!!
+				// Build GUI.
+				unit.gui.destroy();
+				let unit_marker = tile.buildGUIDisplay(unit);
 
-			// Attach GUI.
-			unit.attachGUI(unit_marker); // Attach the GUI for later access.
-			this.addChild(unit_marker); // Attach unit marker gui to the hex tile.
+				// Attach GUI.
+				unit.attachGUI(unit_marker);
+				tile.addChild(unit_marker);
+			}
 		}
 	}
 }

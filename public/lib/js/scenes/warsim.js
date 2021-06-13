@@ -25,13 +25,11 @@ class WarSim extends Phaser.Scene {
     	this.load.image('Enemy_Naval', 'lib/assets/Red_Ship.png');
 
     	// Board Setups.
-		this.load.image('Beach_Landing_01', 'lib/boardSetups/Beach_Landing_01.png');
-		this.load.image('Beach_Landing_02', 'lib/boardSetups/Beach_Landing_02.png');
-		this.load.image('Encampment_01', 'lib/boardSetups/Encampment_01.png');
-		this.load.image('Road_01', 'lib/boardSetups/Road_01.png');
-		this.load.image('Road_02', 'lib/boardSetups/Road_02.png');
-		this.load.image('Road_03', 'lib/boardSetups/Road_03.png');
-		this.load.image('Road_04', 'lib/boardSetups/Road_04.png');
+		this.load.image('Road_05', 'lib/boardSetups/Road_05.png');
+		this.load.image('City_02', 'lib/boardSetups/City_02.png');
+		this.load.image('Forest_01', 'lib/boardSetups/Forest_01.png');
+		this.load.image('River_01', 'lib/boardSetups/River_01.png');
+		this.load.image('Bridge_01', 'lib/boardSetups/Bridge_01.png');
 
 		// Maps
 		this.load.image('map_training_grounds', 'lib/scenarios/traininggrounds.png');
