@@ -2,21 +2,25 @@
   "name": "wwiicampaigncompanion",
   "version": "1.0.0",
   "description": "World War II Digital Campaign Companion.",
-  "main": "app.js",
+  "main": "main.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "electron .",
+    "dev": "electron . dev"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MatthewRDangle/WWIICampaignCompanion.git"
   },
-  "author": "MatthewRDangle",
-  "license": "ISC",
+  "author": "Matthew R. Dangle",
+  "license": "Apache License 2.0",
   "bugs": {
     "url": "https://github.com/MatthewRDangle/WWIICampaignCompanion/issues"
   },
   "homepage": "https://github.com/MatthewRDangle/WWIICampaignCompanion#readme",
+  "devDependencies": {
+    "electron": "^16.0.4"
+  },
   "dependencies": {
-    "battlecry": "file:../battlecry"
+    "mithril": "^2.0.4"
   }
 }
