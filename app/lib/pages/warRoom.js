@@ -1,8 +1,7 @@
 const m = require('mithril');
-const {ipcRenderer} = require('electron');
 import Page from '../js/page.js'
 
-export const page = new Page('/main');
+export const page = new Page('/warRoom');
 page.setPage(function() {
     return m('div.mainMenu', [
         m('div.mainMenu_header', [
@@ -11,9 +10,9 @@ page.setPage(function() {
         ]),
         m('nav.mainMenu_nav', [
             m('div.mainMenu_nav_link',
-                {onclick: function() { page.navigate('/campaign') }}, 'Campaigns'),
+                {onclick: function() { page.navigate('/warRoom') }}, 'Declare War'),
             m('div.mainMenu_nav_link',
-                {onclick: function() { ipcRenderer.send('close-app') }}, 'Exit to Desktop')
+                {onclick: function() { page.navigate('/main') }}, '<< Back')
         ])
     ]);
 });

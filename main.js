@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 const appArguments = process.argv;
@@ -30,5 +30,9 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit()
+})
+
+ipcMain.on('close-app', (evt, arg) => {
     if (process.platform !== 'darwin') app.quit()
 })
