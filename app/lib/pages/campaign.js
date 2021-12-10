@@ -5,7 +5,7 @@ export const page = new Page('/campaign');
 page.setPage(function() {
     return m('div.mainMenu', [
         m('div.mainMenu_header', [
-            m('div.mainMenu_header_icon'),
+            m('div.mainMenu_header_icon', m('img', {src: 'lib/images/logo.svg', alt: "A plane flying upward that's being targeted."})),
             m('h1.mainMenu_header_label', 'Campaign Companion')
         ]),
         m('nav.mainMenu_nav', [

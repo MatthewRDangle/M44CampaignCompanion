@@ -1,0 +1,31 @@
+.mainMenu {}
+.mainMenu_header {
+    display: flex;
+    align-items: center;
+    margin: 4% 5%;
+}
+.mainMenu_header_icon {
+    width: 150px;
+}
+.mainMenu_header_icon img {
+    width: 100%;
+}
+.mainMenu_header_label {
+    margin: 0;
+}
+.mainMenu_nav {
+    margin-top: 35vh;
+}
+.mainMenu_nav_link {
+    padding: 10px 0 10px 5%;
+    margin-bottom: 10px;
+    font-size: 1.25em;
+    cursor: pointer;
+    width: 400px;
+    border-radius: 0 40px 100px 0;
+    transition: background-color .2s, color .2s;
+}
+.mainMenu_nav_link:hover, .mainMenu_nav_link:focus {
+    color: var(--Background);
+    background-color: var(--Highlight);
+}
