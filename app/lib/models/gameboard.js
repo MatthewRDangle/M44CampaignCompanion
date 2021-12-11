@@ -35,6 +35,20 @@ class Scene extends Phaser.Scene {
     }
 
     create() {
-        let map = new GUI();
+        const map = new GUI(this);
+        const scenario = {
+            columns: 1,
+            rows: 1,
+        }
+
+        const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        for (let idx_columns = 0; idx_columns < scenario.columns; idx_columns++) {
+            for (let idx_rows = 1; idx_rows < scenario.rows; idx_rows++) {
+                let tile = new Tile(Scene, map);
+                const id_column = alphabet[idx_columns % alphabet.length];
+                tile.id = id_column + '-' + idx_rows;
+                map.addChild(tile);
+            }
+        }
     }
 }
