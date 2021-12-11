@@ -8,7 +8,7 @@ export default class GameBoard {
         if (!isFinite(width) || !isFinite(height))
             throw Error('GameBoard requires a width an height to draw the tiles.');
 
-        let phaser_canvas = new Phaser.Game({
+        this.phaser_canvas = new Phaser.Game({
             dom: { parent: element.id },
             title: 'WWII Campaign Companion',
             version: 'beta',
@@ -20,10 +20,21 @@ export default class GameBoard {
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
             type: Phaser.AUTO,
-            disableContextMenu: true
+            disableContextMenu: true,
+            scene: [Scene]
         });
         window.addEventListener('resize', function resize() {
-            phaser_canvas.scale.resize(window.innerWidth, window.innerHeight);
+            this.phaser_canvas.scale.resize(window.innerWidth, window.innerHeight);
         });
+    }
+}
+
+class Scene extends Phaser.Scene {
+    constructor() {
+        super('Scene');
+    }
+
+    create() {
+        let map = new GUI();
     }
 }
