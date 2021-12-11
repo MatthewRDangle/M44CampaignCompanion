@@ -23,7 +23,7 @@ export default class GameBoard {
             type: Phaser.AUTO,
             disableContextMenu: true,
             scene: [Scene]
-        }); this.phaser_canvas = phaser_canvas;
+        });
         window.addEventListener('resize', function resize() {
             phaser_canvas.scale.resize(window.innerWidth, window.innerHeight);
         });
