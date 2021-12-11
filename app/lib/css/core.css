@@ -22,16 +22,17 @@
   --Font:         #FFFFFF;
   --Background:   #151A1E;
   --Highlight:	  #C5D6B7;
+  --Border:       #FFFFFF;
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../font/Roboto-Regular.ttf") format("truetype");
+  src: url("../fonts/Roboto-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../font/Roboto-Medium.ttf") format("truetype");
+  src: url("../fonts/Roboto-Medium.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
@@ -51,7 +52,7 @@ html, body {
   margin: 0; /* Aligns HTML and Body right up against the browser window. */
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  line-height: 1.25; /* Keep this number unitless to avoid overlap and inheritance issues. */
+  line-height: 1.75; /* Keep this number unitless to avoid overlap and inheritance issues. */
   overflow-x: hidden; /* Hides any content outside the browser window (horizontally). */
   -webkit-text-size-adjust: 100%; /* Prevent adjustments of font size after orientation changes in iOS. */
   color: var(--Font);

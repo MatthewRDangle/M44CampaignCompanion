@@ -1,6 +1,6 @@
 const m = require('mithril');
 const fs = require('fs');
-import Page from './lib/js/page.js';
+import Page from './lib/models/page.js';
 
 try {
     let pages = [];
