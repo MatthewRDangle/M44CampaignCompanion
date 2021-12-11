@@ -1,4 +1,5 @@
 const Phaser = require('phaser');
+import GUI from './gui.js';
 
 export default class GameBoard {
 
@@ -8,7 +9,7 @@ export default class GameBoard {
         if (!isFinite(width) || !isFinite(height))
             throw Error('GameBoard requires a width an height to draw the tiles.');
 
-        this.phaser_canvas = new Phaser.Game({
+        let phaser_canvas = new Phaser.Game({
             dom: { parent: element.id },
             title: 'WWII Campaign Companion',
             version: 'beta',
@@ -22,9 +23,9 @@ export default class GameBoard {
             type: Phaser.AUTO,
             disableContextMenu: true,
             scene: [Scene]
-        });
+        }); this.phaser_canvas = phaser_canvas;
         window.addEventListener('resize', function resize() {
-            this.phaser_canvas.scale.resize(window.innerWidth, window.innerHeight);
+            phaser_canvas.scale.resize(window.innerWidth, window.innerHeight);
         });
     }
 }

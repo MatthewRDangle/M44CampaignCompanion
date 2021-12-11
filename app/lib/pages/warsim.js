@@ -11,6 +11,5 @@ page.setPage(function() {
 });
 page.oncreate = () => {
     let game_element = document.getElementById('game');
-    let hexboard = new GameBoard(game_element, 32, 32);
-    hexboard.phaser_canvas.scene.add('scene', scene, true);
+    new GameBoard(game_element, 32, 32);
 };

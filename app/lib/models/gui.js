@@ -1,4 +1,4 @@
-class GUI {
+export default class GUI {
     constructor(scene) {
         this.scene = scene;
         this.parent = undefined;
