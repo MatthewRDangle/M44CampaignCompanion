@@ -1,4 +1,6 @@
-class Tile extends GUI {
+import PGUI from "../pgui.js";
+
+export default class Tile extends PGUI {
     constructor(scene, map) {
         super(scene);
         this.map = map || undefined;
@@ -12,10 +14,10 @@ class Tile extends GUI {
         this.overlay = undefined;
         this.units = [];
 
-        // Create Polygon
-        this.geo.x = 24 * 3;
-        this.geo.y = 20 * 3;
-        this.backgroundShape = 'polygon';
+        // Create Default Hex
+        this.width = 24 * 3;
+        this.height = 20 * 3;
+        this.backgroundShape = 'hex';
         this.backgroundColor = '0xC5D6B7';
     }
 

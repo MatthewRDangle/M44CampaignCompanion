@@ -1,6 +1,6 @@
 "use strict";
 
-export class IO {
+export default class IO {
 
     /**
      * @constructor

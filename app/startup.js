@@ -7,6 +7,7 @@ try {
     await fs.readdir('app/lib/pages', (err, files) => {
         files.forEach((file, index, array) => {
             import('./lib/pages/' + file).then(module => {
+                console.log(module.page);
                 pages.push(module.page);
                 if (index + 1 >= array.length)
                     config_router(pages);
@@ -23,6 +24,6 @@ const config_router = function(pages) {
         });
         if (!router.hasOwnProperty('/main'))
             router['/main'] = new Page('/main');
-        m.route(document.body, "/main", router);
+        m.route(document.body, "/warSim", router);
     }
 }

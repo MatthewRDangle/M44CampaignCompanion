@@ -1,261 +1,321 @@
+/** Handles rendering graphics on to the screen. */
 export default class GUI {
-    constructor(scene) {
-        this.scene = scene;
+
+    /**
+     * @constructor
+     * @description Object to render and update graphical user interface.
+     */
+    constructor(data) {
+        this.state = {}; // Container for devs to safely add whatever information or references they want.
+        this.index = {id: {}, tags: {}}; // Enables faster information retrieval.
+
+        // Attributes.
+        this.id = undefined; // No ID by default.
+        this.tags = []; // Shared identifiers that can be found by multiple names.
+        this.data = data || undefined; // Data API object.
+
+        // Set GUI Hierarchy.
         this.parent = undefined;
-        this.container = this.scene.add.container(this.x, this.y);
         this.children = [];
-        this.id = undefined;
-        this.geo = {
-            x: 0,
-            y: 0,
-            z: 0
-        }
-        this.width = 0;
-        this.height = 0;
-        this.padding = { left: 0, top: 0, right: 0, bottom: 0 };
-        this.scale = 1;
 
-        this.textPoly = undefined; // Is created based on props below.
-        this.textString = undefined;
-        this.textColor = '#FFFFFF';
-        this.textSize = '16px';
-        this.textFamily = 'Roboto';
-        this.textHAlign = 'left'; // left, center, right;
-        this.textVAlign = 'top'; // top, middle, bottom.
-        this.textAlpha = 1;
+        // Render Information.
+        this.interface = undefined; // Can be anything capable of rendering something. HTML, JS Element Node, or any object capable of rendering.
+    }
 
-        this.backgroundPoly = undefined; // Is created based on props below.
-        this.backgroundColor = undefined;
-        this.backgroundImage = undefined;
-        this.backgroundShape = 'rectangle';
-        this.backgroundHAlign = 'left'; // left, center, right;
-        this.backgroundVAlign = 'top'; // top, middle, bottom.
-        this.backgroundBorderColor = undefined;
-        this.backgroundBorderSize = undefined;
-        this.backgroundAlpha = 1;
+    /**
+     * @method addChild
+     * @description Adds a GUI child to this GUI.
+     *
+     * @param {GUI} gui - The GUI to add as a child.
+     */
+    addChild(gui) {
+        if (gui instanceof GUI) {
+            gui.parent = this; // Set this GUI as a parent so it can be access later.
+            gui.children.push(gui); // Adds the gui to the array.
 
-        this.event = {
-            onclick: undefined,
-            ondragstart: undefined,
-            ondrag: undefined,
-            onmousescroll: undefined,
-            preventBubbling: false,
-            update: []
+            // Check if Child has a id or tag(s). If they do, index them.
+            let gui_id = gui.id;
+            if (gui_id)
+                this.__indexGUIID(gui, 'a', gui_id);
+
+            let gui_tags = gui.tags;
+            if (gui_tags > 0) {
+                this.__indexGUITags(gui, 'a', gui_tags);
+            }
         }
     }
 
-    addChild(child_gui) {
-        child_gui.parent = this;
-        this.children.push(child_gui);
-        this.container.add(child_gui.container);
+    /**
+     * @method addTag
+     * @description Adds a tag to the tag attribute.
+     *
+     * @param {Array|String} value - The string value to add as a tag.
+     */
+    addTag(value) {
+        if (typeof value === 'string')
+            value = [value];
+        else if (typeof value !== 'array')
+            return;
+
+        // Add the tags from the parent.
+        let parent = this.parent;
+        if (parent)
+            this.parent.__indexGUITags(this, 'a', value);
+
+        // Add the tag(s) to the tags attribute.
+        let tag_index = this.tags;
+        for (let idx = 0; idx < value.length; idx++) {
+            let tag = value[idx];
+            tag_index.push(tag); // Add Tag.
+        }
     }
 
-    removeChild(child_gui) {
-        let index = this.children.indexOf(child_gui);
-        this.children.splice(index, 1);
-        child_gui.destroy();
+    /**
+     * @method attachData
+     * @description Attaches a data object to the data property.
+     *
+     * @param {Data} dataObj - The Data object to attach to the data property.
+     */
+    attachData(dataObj) {
+        if (dataObj instanceof Data) {
+            this.data = dataObj;
+        }
     }
 
+    /**
+     * @method destroy
+     * @description Instructions to delete a graphical UI.
+     */
     destroy() {
-        if (this.textPoly)
-            this.textPoly.destroy();
-        if (this.backgroundPoly)
-            this.backgroundPoly.destroy();
-        if (this.container)
-            this.container.destroy();
+
+        // If this GUI has a parent, remove it from the parents children.
+        if (this.parent)
+            this.parent.removeChild(this);
+        this.erase(); // Erase the GUI from the renderer.
     }
 
-    batch(func) {
-        if (func && typeof func === 'function') {
-            func();
-            this.render();
+    /**
+     * @interface erase
+     * @description Instructions to remove the graphical UI from the renderer but keep all reference data.
+     */
+    erase() {
+        throw new Error('No erase instructions set.');
+    }
+
+    /**
+     * @interface draw
+     * @description Instructions to renders a graphical UI. Attach the renderable object to the interface property.
+     */
+    draw() {
+        throw new Error('No draw instructions set.');
+    }
+
+    /**
+     * @method getChildByID
+     * @description Retrieve a child GUI from this GUI object.
+     *
+     * @param {String} id - The ID of the child GUI to retrieve.
+     * @return {GUI}
+     */
+    getChildByID(id) {
+        if (id && typeof id === 'string')
+            return this.index.id[id] || undefined;
+    }
+
+    /**
+     * @method getChildByTag
+     * @description Retrieve all child GUIs' from this GUI object.
+     *
+     * @param {String} tag - The tag of the child GUI to retrieve.
+     * @return {GUI}
+     */
+    getChildrenByTag(tag) {
+        if (tag && typeof tag === 'string')
+            return this.index.tags[tag] || undefined;
+    }
+
+    /**
+     * @method __indexGUIID
+     * @description Indexes a GUI by ID to this GUI. Capable of adding and removing. Does not check if GUI is a child.
+     *
+     * @param {GUI} gui - The GUI object index.
+     * @param {String} method - Add (a) or remove (r).
+     * @param {String} id - The id string.
+     */
+    __indexGUIID(gui, method, id) {
+        let index = this.index.id; // Index to use.
+
+        // Add ID to index.
+        if (method === 'a' && typeof id === 'string' && gui instanceof GUI) {
+            index[id] = gui; // Attach index.
+        }
+
+        // Remove ID from index.
+        else if (method === 'r' && typeof id === 'string') {
+            let is_indexed = index[id];
+            if (is_indexed)
+                delete index[id]; // Remove index.
         }
     }
 
-    render_text() {
+    /**
+     * @method __indexGUITags
+     * @description Indexes a GUI by Tags to this GUI. Capable of adding and removing. Does not check if GUI is a child.
+     *
+     * @param {GUI} gui - The GUI object index.
+     * @param {String} method - Add (a) or remove (r).
+     * @param {Array} tags - The tags to add or remove.
+     */
+    __indexGUITags(gui, method, tags) {
+        let index = this.index.tags; // Index to use.
 
-        // If textpoly does not exist, create it. Otherwise update it.
-        if (!this.textPoly) {
-            this.textPoly = this.scene.add.text(0, 0,  this.textString, { font: this.textSize + ' ' + this.textFamily, fill: this.textColor } );
-            this.textPoly.setPadding( this.padding.left, this.padding.top, this.padding.right, this.padding.bottom );
-            this.textPoly.setWordWrapWidth(this.width, true);
+        // Add tags to index.
+        if (method === 'a' && typeof tags === 'array' && gui instanceof GUI) {
 
-            // If the background exists, insert at index 1. Otherwise use index 0.
-            if (this.backgroundPoly)
-                this.container.addAt(this.textPoly, 1);
-            else
-                this.container.addAt(this.textPoly, 0);
-        }
-        else {
-            this.textPoly.setText(this.textString);
-            this.textPoly.setFill(this.textColor);
-            this.textPoly.setFontSize(this.textSize);
-            this.textPoly.setFontFamily(this.textFamily);
-            this.textPoly.setPadding( this.padding.left, this.padding.top, this.padding.right, this.padding.bottom );
-            this.textPoly.setWordWrapWidth(this.width, true);
-        }
+            // Loop through all tags.
+            for (let idx = 0; idx < tags.length; idx++) {
+                let tag = tags[idx];
 
-        // Set the Alpha value.
-        this.textPoly.setAlpha(this.textAlpha);
+                // If Tag exists, add the gui to the tag.
+                let tag_check = index[tag];
+                if (tag_check) {
+                    tag_check.push(gui);
+                }
 
-        // If the textAlign attributes are set, figure how the x and y cords.
-        let x = 0; // Default x cord and origin for text. textHAlign = left.
-        let xorg = 0;
-        let y = 0; // Default y cord and origin for text. textVAlign = top.
-        let yorg = 0;
-        if (this.textHAlign === 'center') {
-            x = this.width / 2;
-            xorg = 0.5;
-        }
-        else if (this.textHAlign === 'right') {
-            x = this.width;
-            xorg = 1;
-        }
-        if (this.textVAlign === 'middle') {
-            y = this.height / 2;
-            yorg = 0.5;
-        }
-        else if (this.textVAlign === 'bottom') {
-            y = this.height;
-            yorg = 1;
-        }
-
-        // Update cords and origin.
-        this.textPoly.setOrigin(xorg, yorg);
-        this.textPoly.x = x;
-        this.textPoly.y = y;
-    }
-
-    render_background() {
-
-        // Set the shape to build the compare.
-        let shape = this.backgroundShape;
-
-        // If the shape changes, redraw the polygon.
-        if (this.backgroundPoly && this.backgroundPoly.type) {
-            if (this.backgroundPoly.type.toLowerCase() !== shape) {
-                this.backgroundPoly.destroy();
-                this.backgroundPoly = undefined;
+                // If the tag doesn't exist, create the tag. Then add it.
+                else {
+                    tag_check = index[tag] = [];
+                    tag_check.push(gui);
+                }
             }
         }
 
-        // If the BackgroundAlign attributes are set, figure how the x and y cords and origins.
-        let x = 0; // Default x cord and origin for text. textHAlign = left.
-        let xorg = 0;
-        let y = 0; // Default y cord and origin for text. textVAlign = top.
-        let yorg = 0;
-        if (this.backgroundHAlign === 'center') {
-            x = this.width / 2;
-            xorg = 0.5;
-        }
-        else if (this.backgroundHAlign === 'right') {
-            x = this.width;
-            xorg = 1;
-        }
-        if (this.backgroundVAlign === 'middle') {
-            y = this.height / 2;
-            yorg = 0.5;
-        }
-        else if (this.backgroundVAlign === 'bottom') {
-            y = this.height;
-            yorg = 1;
-        }
+        // Remove tags from index.
+        else if (method === 'r' && typeof tags === 'array' && gui instanceof GUI) {
 
-        // Render the polygon based on shape.
-        if (!this.backgroundPoly) {
-            if (shape === 'rectangle')
-                this.backgroundPoly = this.scene.add.rectangle(x, y, this.width, this.height, this.backgroundColor, this.backgroundAlpha);
-            else if (shape === 'star')
-                this.backgroundPoly = this.scene.add.star(x, y,  5, this.width / 3.5, this.height / 1.5, this.backgroundColor, this.backgroundAlpha);
-            else if (shape === 'image')
-                this.backgroundPoly = this.scene.add.image(x, y, this.backgroundImage, this.backgroundAlpha);
-            else if (shape === 'polygon') {
-                this.backgroundPoly = this.scene.add.polygon(x, y, [
-                    this.width * 0.25, y,
-                    this.width * 0.75, y,
-                    this.width, y + this.height / 2,
-                    this.width * 0.75, y + this.height,
-                    this.width * 0.25, y + this.height,
-                    0, y + this.height / 2
-                ], this.backgroundColor, this.backgroundAlpha);
+            // Loop through all tags.
+            for (let idx = 0; idx < tags.length; idx++) {
+                let tag = tags[idx];
+
+                // If Tag exists, remove the gui from the tag.
+                let tag_check = index[tag];
+                if (tag_check) {
+                    let indexOf = tag_check.indexOf(gui);
+                    tag_check.splice(indexOf, 1);
+                }
+            }
+        }
+    }
+
+    /**
+     * @method removeChild
+     * @description Removes a GUI child from this GUI.
+     *
+     * @param {GUI} gui - The GUI child to remove.
+     */
+    removeChild(gui) {
+        if (gui instanceof GUI) {
+            gui.parent = undefined; // Removes the gui parent.
+
+            // Check if Child has a id or tag(s). If they do, remove their index.
+            let gui_id = gui.id;
+            let gui_tags = gui.tags;
+            if (gui_id)
+                this.__indexGUIID(gui, 'r', gui_id);
+
+            if (gui_tags > 0) {
+                this.__indexGUITags(gui, 'r', gui_tags);
             }
 
-            // Attach it to the container.
-            this.container.addAt(this.backgroundPoly, 0);
-        }
-        else {
-
-            // Update Size.
-            this.backgroundPoly.displayWidth = this.width; // TODO This will not change the width after it's been created.
-            this.backgroundPoly.displayHeight = this.height;  // TODO This will not change the width after it's been created.
-
-            // Set GEO.
-            this.backgroundPoly.x = x;
-            this.backgroundPoly.y = y;
-
-            // If the setFillStyle is unable to be set, don't set it.
-            if (this.backgroundPoly.setFillStyle)
-                this.backgroundPoly.setFillStyle(this.backgroundColor, this.backgroundAlpha);
-        }
-
-        // Update origin.
-        this.backgroundPoly.setOrigin(xorg, yorg);
-
-        // Set Stroke
-        if (this.backgroundBorderSize > 0) {
-            this.backgroundPoly.isStroked = true;
-            this.backgroundPoly.lineWidth = this.backgroundBorderSize;
-            this.backgroundPoly.strokeColor = this.backgroundBorderColor;
-        }
-        else
-            this.backgroundPoly.isStroked = false;
-
-        // Prevent Bubbling.
-        if (this.event.preventBubbling) {
-            this.backgroundPoly.setInteractive();
-            this.backgroundPoly.on('pointerdown', function() {}, this);
-        }
-
-        // Attach onclick events.
-        this.backgroundPoly.off('pointerdown');
-        if (this.event.onclick) {
-            this.backgroundPoly.setInteractive({ cursor: 'pointer' }); // Allow it to be interactive.
-
-            // Enable Click Events.
-            this.backgroundPoly.on('pointerdown', this.event.onclick, this);
-        }
-
-        // Attach ondrag events.
-        this.backgroundPoly.off('dragstart');
-        this.backgroundPoly.off('drag');
-        if (this.event.ondrag) {
-            this.backgroundPoly.setInteractive({ cursor: 'pointer' }); // Allow it to be interactive.
-            this.scene.input.setDraggable(this.backgroundPoly); // Enable dragging.
-            if (this.event.ondragstart) // If drag start exists, set it.
-                this.backgroundPoly.on('dragstart', this.event.ondragstart);
-            this.backgroundPoly.on('drag', this.event.ondrag); // Set the on drag function.
-        }
-
-        // Attach on mouse scroll.
-        this.backgroundPoly.off('wheel');
-        if (this.event.onmousescroll) {
-            this.backgroundPoly.setInteractive(); // Allow it to be interactive.
-            this.backgroundPoly.on('wheel', this.event.onmousescroll); // Set the mouse wheel function.
+            // Remove the child gui from the array.
+            let index = this.children.indexOf(gui);
+            this.children.splice(index, 1); // Removes the gui from the array of children.
         }
     }
 
-    render() {
-        this.container.x = this.geo.x;
-        this.container.y = this.geo.y;
-        this.container.setDepth(this.geo.z);
-        this.container.setScale(this.scale);
-        this.render_text();
-        this.render_background();
+    /**
+     * @method removeID
+     * @description Removes the ID attribute.
+     */
+    removeID() {
+        let id = this.id;
+        if (id) {
+            let parent = this.parent;
+            if (parent)
+                this.parent.__indexGUIID(this, 'r', id);
+            this.id = undefined; // Remove ID.
+        }
     }
 
-    addEventListener(name, func) {
-        let listeners = this.event;
-        if ( listeners.hasOwnProperty(name) && typeof func === 'function' )
-            listeners.name = func;
+    /**
+     * @method removeTag
+     * @description Removes a tag from the tag attribute.
+     *
+     * @param {Array|String} tags - The tag string to remove.
+     */
+    removeTag(tags) {
+        if (typeof tags === 'string')
+            tags = [tags];
+        else if (typeof tags !== 'array')
+            return;
+
+        // Remove the tags from the parent.
+        let parent = this.parent;
+        if (parent)
+            this.parent.__indexGUITags(this, 'r', tags);
+
+        // Remove the tag(s) from the tags attribute.
+        let tag_index = this.tags;
+        for (let idx = 0; idx < tags.length; idx++) {
+            let tag = tag_index[idx];
+            let indexOf = this.tags[tag];
+            this.tags.splice(indexOf, 1); // Remove Tag.
+        }
+    }
+
+    /**
+     * @method setID
+     * @description Sets the ID attribute.
+     *
+     * @param {String} value - The string value to set the ID to.
+     */
+    setID(value) {
+        if (typeof value === 'string') {
+            this.id = value; // Set ID.
+            this.parent.__indexGUIID(this, 'a', value);
+        }
+    }
+
+
+    /**
+     * @method setState
+     * @description Changes the state object from the GUI.
+     */
+    setState(key, value) {
+        if (value)
+            return;
+
+        // If key is an object, then configure the changes in bulk. Each object key & value pair represents a state key & value pair.
+        if (typeof key === 'object') {
+            value = key;
+            key = undefined;
+            for (let key in value) {
+                this.state[key] = value[key];
+            }
+        }
+
+        // If key is a string, set update the it's associated state value.
+        else if (key === 'string') {
+            this.state[key] = value;
+        }
+    }
+
+
+    /**
+     * @interface update
+     * @description Instructions to update the graphical UI.
+     */
+    update() {
+        throw new Error('No Update Instructions Set');
     }
 }

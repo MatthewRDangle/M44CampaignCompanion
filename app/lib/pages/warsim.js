@@ -1,6 +1,6 @@
 const m = require('mithril');
 import Page from '../models/page.js'
-import GameBoard from '../models/gameboard.js'
+import GameBoard from "../models/gameboard.js";
 
 export const page = new Page('/warSim');
 page.setPage(function() {
@@ -11,5 +11,5 @@ page.setPage(function() {
 });
 page.oncreate = () => {
     let game_element = document.getElementById('game');
-    new GameBoard(game_element, 32, 32);
+    const map = new GameBoard(game_element, 32, 32);
 };

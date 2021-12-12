@@ -1,9 +1,11 @@
 const Phaser = require('phaser');
-import GUI from './gui.js';
+import PGUI from './gui/pgui.js';
+import Tile from './gui/pgui/tile.js';
 
 export default class GameBoard {
 
     constructor(element, width, height) {
+
         if (!element)
             throw Error('GameBoard requires an element to mount to.');
         if (!isFinite(width) || !isFinite(height))
@@ -36,20 +38,30 @@ class Scene extends Phaser.Scene {
     }
 
     create() {
-        const map = new GUI(this);
+        const map = new PGUI(this);
         const scenario = {
-            columns: 1,
-            rows: 1,
+            columns: 15,
+            rows: 15,
         }
 
         const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
         for (let idx_columns = 0; idx_columns < scenario.columns; idx_columns++) {
-            for (let idx_rows = 1; idx_rows < scenario.rows; idx_rows++) {
-                let tile = new Tile(Scene, map);
-                const id_column = alphabet[idx_columns % alphabet.length];
-                tile.id = id_column + '-' + idx_rows;
+            for (let idx_rows = 0; idx_rows < scenario.rows; idx_rows++) {
+                let tile = new Tile(this, map);
+                tile.batch(() => {
+                    const id_column = alphabet[idx_columns % alphabet.length];
+                    tile.id = id_column + '-' + (idx_rows + 1);
+
+                    const geo = {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    }; tile.geo.x = geo.x; tile.geo.y = geo.y; tile.geo.z = geo.y;
+                });
                 map.addChild(tile);
             }
         }
+
+        map.render();
     }
 }
