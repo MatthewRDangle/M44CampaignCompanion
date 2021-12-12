@@ -6,8 +6,12 @@ export default class GUI {
      * @description Object to render and update graphical user interface.
      */
     constructor(data) {
-        this.state = {}; // Container for devs to safely add whatever information or references they want.
         this.index = {id: {}, tags: {}}; // Enables faster information retrieval.
+
+        // State.
+        this.isDrawn = false; // Indicates the GUI has been rendered.
+        this.stateChange = false; // Used to trigger update method.
+        this.state = {}; // Container for devs to safely add whatever information or references they want.
 
         // Attributes.
         this.id = undefined; // No ID by default.
@@ -36,11 +40,11 @@ export default class GUI {
             // Check if Child has a id or tag(s). If they do, index them.
             let gui_id = gui.id;
             if (gui_id)
-                this.__indexGUIID(gui, 'a', gui_id);
+                this.__indexGUIID(gui, 'add', gui_id);
 
             let gui_tags = gui.tags;
             if (gui_tags > 0) {
-                this.__indexGUITags(gui, 'a', gui_tags);
+                this.__indexGUITags(gui, 'add', gui_tags);
             }
         }
     }
@@ -139,19 +143,19 @@ export default class GUI {
      * @description Indexes a GUI by ID to this GUI. Capable of adding and removing. Does not check if GUI is a child.
      *
      * @param {GUI} gui - The GUI object index.
-     * @param {String} method - Add (a) or remove (r).
+     * @param {String} method - Add (add) or remove (rm).
      * @param {String} id - The id string.
      */
     __indexGUIID(gui, method, id) {
         let index = this.index.id; // Index to use.
 
         // Add ID to index.
-        if (method === 'a' && typeof id === 'string' && gui instanceof GUI) {
+        if (method === 'add' && typeof id === 'string' && gui instanceof GUI) {
             index[id] = gui; // Attach index.
         }
 
         // Remove ID from index.
-        else if (method === 'r' && typeof id === 'string') {
+        else if (method === 'rm' && typeof id === 'string') {
             let is_indexed = index[id];
             if (is_indexed)
                 delete index[id]; // Remove index.
@@ -221,10 +225,10 @@ export default class GUI {
             let gui_id = gui.id;
             let gui_tags = gui.tags;
             if (gui_id)
-                this.__indexGUIID(gui, 'r', gui_id);
+                this.__indexGUIID(gui, 'rm', gui_id);
 
             if (gui_tags > 0) {
-                this.__indexGUITags(gui, 'r', gui_tags);
+                this.__indexGUITags(gui, 'rm', gui_tags);
             }
 
             // Remove the child gui from the array.
@@ -242,7 +246,7 @@ export default class GUI {
         if (id) {
             let parent = this.parent;
             if (parent)
-                this.parent.__indexGUIID(this, 'r', id);
+                this.parent.__indexGUIID(this, 'rm', id);
             this.id = undefined; // Remove ID.
         }
     }
@@ -282,7 +286,8 @@ export default class GUI {
     setID(value) {
         if (typeof value === 'string') {
             this.id = value; // Set ID.
-            this.parent.__indexGUIID(this, 'a', value);
+            if (this.parent)
+                this.parent.__indexGUIID(this, 'add', value);
         }
     }
 
@@ -292,22 +297,28 @@ export default class GUI {
      * @description Changes the state object from the GUI.
      */
     setState(key, value) {
-        if (value)
-            return;
+        const state = this.state;
 
         // If key is an object, then configure the changes in bulk. Each object key & value pair represents a state key & value pair.
         if (typeof key === 'object') {
             value = key;
             key = undefined;
             for (let key in value) {
-                this.state[key] = value[key];
+                this.stateChange = true;
+                state[key] = value[key];
             }
         }
 
         // If key is a string, set update the it's associated state value.
-        else if (key === 'string') {
-            this.state[key] = value;
+        else if (typeof key === 'string') {
+            this.stateChange = true;
+            state[key] = value;
         }
+
+        if (this.stateChange)
+            this.update();
+        else if (this.isDrawn)
+            this.draw();
     }
 
 

@@ -5,7 +5,7 @@ export default class PGUI extends GUI {
         super();
 
         this.state.scene = scene;
-        this.state.container = this.scene.add.container(0, 0);
+        this.state.container = this.state.scene.add.container(0, 0);
         this.state.geo = {
             x: 0,
             y: 0,
@@ -59,6 +59,8 @@ export default class PGUI extends GUI {
         state.container.y = state.geo.y;
         state.container.setDepth(state.geo.z);
         state.container.setScale(state.scale);
+        render_text();
+        render_background();
 
 
         // ===========================================
@@ -239,6 +241,10 @@ export default class PGUI extends GUI {
                 state.backgroundPoly.on('wheel', state.event.onmousescroll); // Set the mouse wheel function.
             }
         }
+    }
+
+    update() {
+        this.draw();
     }
 
     // addChild(child_gui) {
