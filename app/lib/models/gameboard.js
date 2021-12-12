@@ -40,8 +40,8 @@ class Scene extends Phaser.Scene {
     create() {
         const map = new PGUI(this);
         const scenario = {
-            columns: 1,
-            rows: 1,
+            columns: 5,
+            rows: 5,
         }
 
         const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -53,8 +53,8 @@ class Scene extends Phaser.Scene {
                 const id_column =  alphabet[idx_columns % alphabet_length];
                 tile.setID(id_series + '-' + id_column + '-' + (idx_rows + 1));
                 tile.setState('geo', {
-                    x: 0,
-                    y: 0,
+                    x: idx_columns * tile.state.width,
+                    y: idx_rows * tile.state.height,
                     z: 0
                 });
                 map.addChild(tile);
