@@ -53,8 +53,8 @@ class Scene extends Phaser.Scene {
                 const id_column =  alphabet[idx_columns % alphabet_length];
                 tile.setID(id_series + '-' + id_column + '-' + (idx_rows + 1));
                 tile.setState('geo', {
-                    x: idx_columns * tile.state.width,
-                    y: idx_rows * tile.state.height,
+                    x: (idx_columns > 0) ? idx_columns * (2/3 * tile.state.width) : idx_columns * tile.state.width,
+                    y: (idx_columns % 2 * (tile.state.height / 2)) + (idx_rows * tile.state.height),
                     z: 0
                 });
                 map.addChild(tile);
