@@ -48,8 +48,6 @@ export default class PGUI extends GUI {
         }
     }
 
-    addChild(gui) {}
-
     draw() {
         const state = this.state;
 

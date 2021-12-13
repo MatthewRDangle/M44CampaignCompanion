@@ -1,8 +1,11 @@
 const Phaser = require('phaser');
+const Data = require("../api/data");
 import Unit from './unit.js';
 import PGUI from './gui/pgui.js';
 import Tile from './gui/pgui/tile.js';
+import Faction from "./faction.js";
 import {localData} from '../../localdata.js';
+import {scenario} from '../../scenario_temp.js';
 
 export default class GameBoard {
 
@@ -41,17 +44,14 @@ class Scene extends Phaser.Scene {
 
     create() {
         const map = new PGUI(this);
-        const scenario = {
-            columns: 26,
-            rows: 12,
-        }
+        const scenario_data = new Data(scenario);
 
         const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        for (let idx_columns = 0; idx_columns < scenario.columns; idx_columns++) {
-            for (let idx_rows = 0; idx_rows < scenario.rows; idx_rows++) {
+        for (let idx_columns = 0; idx_columns < scenario_data.getValue('columns'); idx_columns++) {
+            for (let idx_rows = 0; idx_rows < scenario_data.getValue('rows'); idx_rows++) {
                 let tile = new Tile(this, map);
                 const alphabet_length = alphabet.length;
-                const id_series = (idx_columns / alphabet_length);
+                const id_series = (idx_columns % alphabet_length);
                 const id_column =  alphabet[idx_columns % alphabet_length];
                 tile.setID(id_series + '-' + id_column + '-' + (idx_rows + 1));
 
@@ -65,6 +65,18 @@ class Scene extends Phaser.Scene {
                     onclick: tile_onclick_handler(tile)
                 }
 
+                if (scenario_data.getValue('devMode')) {
+                    state.textString = tile.id;
+                    state.textHAlign = 'center';
+                    state.textVAlign = 'middle';
+                }
+
+                const scenario_tiles = scenario_data.getValue('tiles');
+                if (scenario_tiles && scenario_tiles.hasOwnProperty(tile.id)) {
+                    const instructions_data = scenario_tiles.navigate(tile.id);
+                    tile_scenario_api(tile, instructions_data);
+                }
+
                 tile.setState(state);
                 map.addChild(tile);
             }
@@ -73,6 +85,28 @@ class Scene extends Phaser.Scene {
     }
 }
 
+const tile_scenario_api = function(tile, instructions_data) {
+    const instructions = instructions_data.getValue();
+    const factions_list = instructions_data.root.factions;
+    factions_list.forEach(function(name) {
+        localData.navigate('factions').addChild(name, new Faction(name));
+    });
+
+    for (let key in instructions) {
+        const factions_container = localData.navigate('factions').getValue();
+        const faction = factions_container[key];
+        if (faction) {
+            const faction_instructions = instructions[key];
+            for (let type in faction_instructions) {
+                const count = faction_instructions[type];
+                let unit = new Unit(faction);
+                unit.health = count;
+                unit.type = type;
+                tile.addUnit(unit);
+            }
+        }
+    }
+}
 
 const tile_onclick_handler = function(tile) {
     return (pointer) => {

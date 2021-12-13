@@ -19,6 +19,7 @@ export default class Tile extends PGUI {
         // Create Default Hex
         this.state.width = 24 * 3;
         this.state.height = 20 * 3;
+        this.state.textColor = '0x000000';
         this.state.backgroundShape = 'hex';
         this.state.backgroundColor = '0xD2E2BB';
     }

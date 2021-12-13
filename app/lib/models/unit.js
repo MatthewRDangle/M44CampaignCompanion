@@ -6,8 +6,10 @@ export default class Unit {
         if ( !(owner instanceof Faction) )
             throw Error('A unit must be assigned to a faction.');
 
-        this.name = 'Unit';
         this.faction = owner;
+        this.name = 'Unit';
+        this.type = 'Generic';
+        this.health = 1;
 
         this.pgui = undefined;
         this.tile = undefined;
