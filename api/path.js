@@ -27,7 +27,7 @@ class Path {
      */
     changeSeparator(separator) {
         if (separator && typeof separator === 'string' && separator.length > 0) {
-            this.pathString = this.pathString.replaceAll(this.separator, separator);
+            this.pathString = this.pathArray.join(separator);
             this.separator = separator;
         }
     }

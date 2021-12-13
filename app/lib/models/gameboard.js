@@ -1,6 +1,8 @@
 const Phaser = require('phaser');
+import Unit from './unit.js';
 import PGUI from './gui/pgui.js';
 import Tile from './gui/pgui/tile.js';
+import {localData} from '../../localdata.js';
 
 export default class GameBoard {
 
@@ -40,8 +42,8 @@ class Scene extends Phaser.Scene {
     create() {
         const map = new PGUI(this);
         const scenario = {
-            columns: 5,
-            rows: 5,
+            columns: 26,
+            rows: 12,
         }
 
         const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -52,14 +54,48 @@ class Scene extends Phaser.Scene {
                 const id_series = (idx_columns / alphabet_length);
                 const id_column =  alphabet[idx_columns % alphabet_length];
                 tile.setID(id_series + '-' + id_column + '-' + (idx_rows + 1));
-                tile.setState('geo', {
+
+                let state = {};
+                state.geo = {
                     x: (idx_columns > 0) ? idx_columns * (2/3 * tile.state.width) : idx_columns * tile.state.width,
                     y: (idx_columns % 2 * (tile.state.height / 2)) + (idx_rows * tile.state.height),
                     z: 0
-                });
+                };
+                state.event = {
+                    onclick: tile_onclick_handler(tile)
+                }
+
+                tile.setState(state);
                 map.addChild(tile);
             }
         }
         map.draw();
+    }
+}
+
+
+const tile_onclick_handler = function(tile) {
+    return (pointer) => {
+        let mouse_event = pointer.event;
+        let mouse_button = mouse_event.button;
+
+        // Left Click.
+        if (mouse_button === 0) {
+            const viewMode = localData.getValue('viewMode');
+            if (viewMode === 'view') {
+                tile.select();
+            }
+            else if (viewMode === 'move') {
+                const selected_unit = localData.getValue('selected_unit');
+                selected_unit.moveTo(tile);
+            }
+        }
+
+        // Right Click.
+        else if (mouse_button === 3) {
+            const selected_tile = localData.getValue('selected_tile');
+            if (selected_tile instanceof Tile)
+                selected_tile.deselect();
+        }
     }
 }

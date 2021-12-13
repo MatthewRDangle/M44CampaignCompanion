@@ -1,11 +1,11 @@
-"use strict";
+const Path = require("./path");
 
 class Data {
 
     /**
      * @constructor
      *
-     * @param {string} path - A string to parse through; separating data names with "/".
+     * @param {string | path | Object} path - A string to parse through; separating data names with "/".
      * @param {*} [container] - Any value, even undefined.
      */
     constructor(path, container) {
@@ -59,7 +59,7 @@ class Data {
      * @method addChild
      * @description Creates a child property for this Data. Converts this data object to a parent if not already. If the child being added has the same name as an existing child, that child will be overwritten.
      *
-     * @param {String|Data} [name] - The name of the child data variable.
+     * @param {string} [name] - The name of the child data variable.
      * @param {*} [container] - Any value, even undefined.
      */
     addChild(name, container) {
@@ -115,7 +115,7 @@ class Data {
      * @method getValue
      * @description Retrieves the value of the Data variable.
      *
-     * @param {string} subValue - If the data object is a "parent", use this to retrieve a specific child.
+     * @param {string} [subValue] - If the data object is a "parent", use this to retrieve a specific child.
      * @return {*} Returns whatever the value is. If nothing is there, it will be an empty object if it's a parent, or undefined if it's a value.
      */
     getValue(subValue) {
@@ -147,11 +147,11 @@ class Data {
         let parent = undefined;
         for (let idx = 0; idx < path.pathArray.length; idx++) {
             let name = path.pathArray[idx];
-            container = container[name];
 
             // If nothing exists, return undefined.
-            if (!container)
+            if (!container.hasOwnProperty(name))
                 return undefined;
+            container = container[name];
 
             // If at the second to the last of the path, set the parent.
             if (idx === path.pathArray.length - 2)
