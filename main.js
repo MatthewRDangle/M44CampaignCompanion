@@ -19,6 +19,7 @@ const createWindow = () => {
     win.webContents.openDevTools();
     win.setMenu(null);
     win.loadFile('app/index.html');
+    win.maximize();
 }
 
 app.whenReady().then(() => {
