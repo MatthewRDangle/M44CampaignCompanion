@@ -17,8 +17,8 @@ export default class Tile extends PGUI {
         this.state.units = [];
 
         // Create Default Hex
-        this.state.width = 24 * 3;
-        this.state.height = 20 * 3;
+        this.state.width = 20 * 10;
+        this.state.height = 14 * 10;
         this.state.textColor = '0x000000';
         this.state.backgroundShape = 'hex';
         this.state.backgroundColor = '0xD2E2BB';
@@ -28,11 +28,11 @@ export default class Tile extends PGUI {
 
     addUnit(unit) {
         if (unit instanceof Unit) {
-            let units = {...this.state.units};
+            let units = [...this.state.units];
             units.push(unit);
             this.setState(unit);
             if (!unit.pgui)
-                unit.draw();
+                unit.draw(this.state.scene);
             this.addChild(unit.pgui);
         }
     }

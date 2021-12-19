@@ -73,7 +73,7 @@ class Scene extends Phaser.Scene {
 
                 const scenario_tiles = scenario_data.getValue('tiles');
                 if (scenario_tiles && scenario_tiles.hasOwnProperty(tile.id)) {
-                    const instructions_data = scenario_tiles.navigate(tile.id);
+                    const instructions_data = scenario_data.navigate('tiles/' + tile.id);
                     tile_scenario_api(tile, instructions_data);
                 }
 
@@ -101,7 +101,7 @@ const tile_scenario_api = function(tile, instructions_data) {
                 const count = faction_instructions[type];
                 let unit = new Unit(faction);
                 unit.health = count;
-                unit.type = type;
+                unit.name = type;
                 tile.addUnit(unit);
             }
         }
