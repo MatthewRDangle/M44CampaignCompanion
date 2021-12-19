@@ -48,6 +48,22 @@ export default class PGUI extends GUI {
         }
     }
 
+    addChild(child_pgui) {
+        GUI.prototype.addChild.call(this, child_pgui);
+        this.state.container.add(child_pgui.state.container);
+    }
+
+    erase() {
+        if (this.state.container)
+            this.state.container.destroy();
+
+        if (this.state.textPoly)
+            this.state.textPoly.destroy();
+
+        if (this.state.backgroundPoly)
+            this.state.backgroundPoly.destroy();
+    }
+
     draw() {
         const state = this.state;
 
