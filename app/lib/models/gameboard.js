@@ -57,7 +57,8 @@ class Scene extends Phaser.Scene {
 
                 let state = {};
                 state.geo = {
-                    x: (idx_columns > 0) ? idx_columns * (2/3 * tile.state.width) : idx_columns * tile.state.width,
+                    x: (idx_columns > 0) ? idx_columns * (tile.state.width * 0.75) : idx_columns * tile.state.width,
+                    // x: (idx_columns > 0) ? idx_columns * (2/3 * tile.state.width) : idx_columns * tile.state.width,
                     y: (idx_columns % 2 * (tile.state.height / 2)) + (idx_rows * tile.state.height),
                     z: 0
                 };
