@@ -39,6 +39,7 @@ export default class Tile extends PGUI {
 
     deselect() {
         localData.navigate('selected_tile').setValue(undefined);
+        this.setState('backgroundColor', '0xD2E2BB');
     }
 
     removeUnit(unit) {
@@ -55,7 +56,9 @@ export default class Tile extends PGUI {
     }
 
     select() {
-        localData.navigate('selected_tile').setValue(this);
+        var test = localData.navigate('selected_tile')
+        test.setValue(this);
+        this.setState('backgroundColor', '0xDBBD77');
     }
 
     setTerrain() {}

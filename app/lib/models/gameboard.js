@@ -110,13 +110,16 @@ const tile_scenario_api = function(tile, instructions_data) {
 
 const tile_onclick_handler = function(tile) {
     return (pointer) => {
-        let mouse_event = pointer.event;
-        let mouse_button = mouse_event.button;
+        const mouse_event = pointer.event;
+        const mouse_button = mouse_event.button;
+        const selected_tile = localData.getValue('selected_tile');
 
         // Left Click.
         if (mouse_button === 0) {
             const viewMode = localData.getValue('viewMode');
             if (viewMode === 'view') {
+                if (selected_tile instanceof Tile)
+                    selected_tile.deselect();
                 tile.select();
             }
             else if (viewMode === 'move') {
@@ -127,7 +130,6 @@ const tile_onclick_handler = function(tile) {
 
         // Right Click.
         else if (mouse_button === 3) {
-            const selected_tile = localData.getValue('selected_tile');
             if (selected_tile instanceof Tile)
                 selected_tile.deselect();
         }

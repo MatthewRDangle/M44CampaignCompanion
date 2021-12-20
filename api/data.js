@@ -21,7 +21,7 @@ class Data {
         // If path does not exist, assume it's the root path '/'.
         // Also, set the root object as the value in this statement.
         let __root = undefined;
-        if (typeof path !== 'string' || !(path instanceof Path)) {
+        if (typeof path !== 'string' && !(path instanceof Path)) {
             path = 'r:';
             __root = container;
         }
@@ -41,7 +41,6 @@ class Data {
             __container = undefined;
             __type = 'parent'; // Assume parent by default.
         }
-
 
         // State and position properties.
         this.path = (path instanceof Path) ? path : new Path(path);
@@ -198,15 +197,22 @@ class Data {
     setValue(value) {
 
         // If the value is an object, convert to an parent if not already.
-        if (typeof value === 'object' && value !== null && this.type !== 'parent')
+        if (typeof value === 'object' && value && this.type !== 'parent')
             this.convertToParent();
 
         // If the value is not an object, convert to a value if not already.
-        if (typeof value !== 'object' && this.type !== 'value')
+        else if (typeof value !== 'object' && this.type !== 'value')
             this.convertToValue();
 
         // Set the value for this data object.
-        if (value)
+        if (this.container === this.root) {
             this.container = value;
+            this.root = value;
+        }
+        else {
+            this.parent[this.name] = value;
+            if (this.container !== value)
+                this.container = value;
+        }
     }
 } module.exports = Data;
