@@ -113,16 +113,29 @@
     z-index: 1;
 }
 .tileInfoOverlay_header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 5px 10px;
     background-color: #151A1E;
 }
 .tileInfoOverlay_header > * {
     display: inline-block;
 }
-.tileInfoOverlay_header_unitCount {}
-.tileInfoOverlay_header_tileName {}
-.tileInfoOverlay_header_actions {}
+.tileInfoOverlay_header_unitCount {
+    margin-right: 10px;
+}
+.tileInfoOverlay_header_tileName {
+    margin-right: 10px;
+}
+.tileInfoOverlay_header_actions {
+    flex: auto;
+    text-align: right;
+}
 .tileInfoOverlay_header_actions_button {
     display: inline-block;
+    margin-left: 5px;
 }
 .tileInfoOverlay_body {
     background-color: #151A1E;
