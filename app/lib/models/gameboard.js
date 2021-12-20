@@ -130,7 +130,7 @@ const tile_onclick_handler = function(tile) {
         }
 
         // Right Click.
-        else if (mouse_button === 3) {
+        else if (mouse_button === 2) {
             if (selected_tile instanceof Tile)
                 selected_tile.deselect();
         }
