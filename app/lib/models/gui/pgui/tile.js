@@ -56,8 +56,7 @@ export default class Tile extends PGUI {
     }
 
     select() {
-        var test = localData.navigate('selected_tile')
-        test.setValue(this);
+        localData.navigate('selected_tile').setValue(this);
         this.setState('backgroundColor', '0xDBBD77');
     }
 

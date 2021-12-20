@@ -8,7 +8,7 @@ page.setPage(function() {
         m('div#game.game_canvas'),
         m('div.game_overlay', [
             m('div.tileInfoOverlay', {
-                    onmousedown: function(e) {debugger; e.stopPropagation(); e.preventDefault();},
+                    onmousedown: function(e) {e.stopPropagation(); e.preventDefault();},
                     onmouseup: function(e) {e.stopPropagation(); e.preventDefault();}
                 }, [
                 m('div.tileInfoOverlay_header', [

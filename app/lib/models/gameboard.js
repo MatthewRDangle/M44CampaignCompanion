@@ -46,6 +46,7 @@ class Scene extends Phaser.Scene {
     create() {
         const map = new PGUI(this);
         const scenario_data = new Data(scenario);
+        this.input.dragDistanceThreshold = 16;
 
         const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
         for (let idx_columns = 0; idx_columns < scenario_data.getValue('columns'); idx_columns++) {
@@ -65,6 +66,8 @@ class Scene extends Phaser.Scene {
                 state.event = {
                     onclick: tile_onclick_handler(tile),
                     onmousescroll: tile_mouseWheel_handler(map, tile),
+                    ondragstart: tile_onDragStart_handler(map, tile),
+                    ondrag: tile_drag_handler(map)
                 }
 
                 if (scenario_data.getValue('devMode')) {
@@ -130,6 +133,11 @@ const tile_onclick_handler = function(tile) {
             }
         }
 
+        // Middle Wheel Click
+        else if (mouse_button === 1) {
+
+        }
+
         // Right Click.
         else if (mouse_button === 2) {
             if (selected_tile instanceof Tile)
@@ -138,12 +146,37 @@ const tile_onclick_handler = function(tile) {
     }
 }
 
-const tile_mouseWheel_handler = function(map, tile) {
+const tile_mouseWheel_handler = function(pgui) {
     return (pointer, dx, dy, dz) => {
-        const scale = map.state.scale;
+        const scale = pgui.state.scale;
         if (dy > 0 && scale > 0.5)
-            map.setState('scale', scale - 0.1);
+            pgui.setState('scale', scale - 0.1);
         else if (dy < 0 && scale < 1.5)
-            map.setState('scale', scale + 0.1);
+            pgui.setState('scale', scale + 0.1);
+    }
+}
+
+const tile_onDragStart_handler = function(map, tile) {
+    return () => {
+        const geo = map.state.geo;
+        map.state.container.setData("x_start", geo.x);
+        map.state.container.setData("y_start", geo.y);
+        console.log('Start => x: ' + geo.x + ' y: ' + geo.y);
+    }
+
+}
+
+const tile_drag_handler = function(map) {
+   return (pointer, dragX, dragY) => {
+        console.log('Dragging => dx: ' + dragX + ' dy: ' + dragY);
+        const container = map.state.container;
+        let mapX = container.getData("x_start") + dragX;
+        let mapY = container.getData("y_start") + dragY;
+        console.log('Dragging => x: ' + mapX + ' y: ' + mapY);
+        map.setState('geo', {
+            x: mapX,
+            y: mapY,
+            z: 0
+        })
     }
 }

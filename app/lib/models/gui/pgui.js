@@ -43,8 +43,7 @@ export default class PGUI extends GUI {
             ondragstart: undefined,
             ondrag: undefined,
             onmousescroll: undefined,
-            preventBubbling: false,
-            update: []
+            preventBubbling: false
         }
     }
 
@@ -235,7 +234,7 @@ export default class PGUI extends GUI {
                 state.backgroundPoly.setInteractive({ cursor: 'pointer' }); // Allow it to be interactive.
 
                 // Enable Click Events.
-                state.backgroundPoly.on('pointerdown', state.event.onclick, state);
+                state.backgroundPoly.on('pointerup', state.event.onclick, state);
             }
 
             // Attach ondrag events.
