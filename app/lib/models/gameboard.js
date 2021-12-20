@@ -1,3 +1,4 @@
+const m = require('mithril');
 const Phaser = require('phaser');
 const Data = require("../api/data");
 import Unit from './unit.js';

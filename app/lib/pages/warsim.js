@@ -6,7 +6,34 @@ export const page = new Page('/warSim');
 page.setPage(function() {
     return m('div.game', [
         m('div#game.game_canvas'),
-        m('div.game_overlay')
+        m('div.game_overlay', [
+            m('div.tileInfoOverlay', {
+                    onmousedown: function(e) {debugger; e.stopPropagation(); e.preventDefault();},
+                    onmouseup: function(e) {e.stopPropagation(); e.preventDefault();}
+                }, [
+                m('div.tileInfoOverlay_header', [
+                    m('div.tileInfoOverlay_header_unitCount',
+                        m('badge', '22')
+                    ),
+                    m('div.tileInfoOverlay_header_tileName', 'Grassland'),
+                    m('div.tileInfoOverlay_header_actions', [
+                        m('div.tileInfoOverlay_header_actions_button', [
+                            m('button.button', 'Preview')
+                        ]),
+                        m('div.tileInfoOverlay_header_actions_button', [
+                            m('button.button', 'Merge')
+                        ]),
+                        m('div.tileInfoOverlay_header_actions_button', [
+                            m('button.button', 'Split')
+                        ]),
+                        m('div.tileInfoOverlay_header_actions_button', [
+                            m('button.button', 'Revert')
+                        ])
+                    ])
+                ]),
+                m('div.tileInfoOverlay_body')
+            ])
+        ])
     ])
 });
 page.oncreate = () => {

@@ -1,3 +1,7 @@
+.badge {}
+
+.button {}
+
 .campaignSelector {
     position: absolute;
         bottom: 40px;
@@ -99,4 +103,27 @@
 .scenarioDetails_text h3 {
     font-size: 1.1em;
     margin-top: 2em;
+}
+
+.tileInfoOverlay {
+    position: absolute;
+        left: 30px;
+        bottom: 30px;
+    width: 600px;
+    z-index: 1;
+}
+.tileInfoOverlay_header {
+    background-color: #151A1E;
+}
+.tileInfoOverlay_header > * {
+    display: inline-block;
+}
+.tileInfoOverlay_header_unitCount {}
+.tileInfoOverlay_header_tileName {}
+.tileInfoOverlay_header_actions {}
+.tileInfoOverlay_header_actions_button {
+    display: inline-block;
+}
+.tileInfoOverlay_body {
+    background-color: #151A1E;
 }
