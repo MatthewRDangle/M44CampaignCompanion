@@ -59,12 +59,12 @@ class Scene extends Phaser.Scene {
                 let state = {};
                 state.geo = {
                     x: (idx_columns > 0) ? idx_columns * (tile.state.width * 0.75) : idx_columns * tile.state.width,
-                    // x: (idx_columns > 0) ? idx_columns * (2/3 * tile.state.width) : idx_columns * tile.state.width,
                     y: (idx_columns % 2 * (tile.state.height / 2)) + (idx_rows * tile.state.height),
                     z: 0
                 };
                 state.event = {
-                    onclick: tile_onclick_handler(tile)
+                    onclick: tile_onclick_handler(tile),
+                    onmousescroll: tile_mouseWheel_handler(map, tile),
                 }
 
                 if (scenario_data.getValue('devMode')) {
@@ -135,5 +135,15 @@ const tile_onclick_handler = function(tile) {
             if (selected_tile instanceof Tile)
                 selected_tile.deselect();
         }
+    }
+}
+
+const tile_mouseWheel_handler = function(map, tile) {
+    return (pointer, dx, dy, dz) => {
+        const scale = map.state.scale;
+        if (dy > 0 && scale > 0.5)
+            map.setState('scale', scale - 0.1);
+        else if (dy < 0 && scale < 1.5)
+            map.setState('scale', scale + 0.1);
     }
 }
