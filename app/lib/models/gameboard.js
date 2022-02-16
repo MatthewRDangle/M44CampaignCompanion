@@ -57,8 +57,25 @@ class Scene extends Phaser.Scene {
                 let tile = new Tile(this, map);
                 const alphabet_length = alphabet.length;
                 const id_series = (idx_columns % alphabet_length);
-                const id_column =  alphabet[idx_columns % alphabet_length];
+                const id_column = alphabet[idx_columns % alphabet_length];
                 tile.setID(id_series + '-' + id_column + '-' + (idx_rows + 1));
+
+                // Get Adjacent ID's.
+                let previous_column = (idx_columns % 2) ? alphabet[ idx_columns % alphabet_length ] : alphabet[ (idx_columns - 1) % alphabet_length ];
+                let previous_series = ( (idx_columns - 1) % alphabet_length );
+                let current_row = idx_rows + 1;
+                let current_column = alphabet[ idx_columns % alphabet_length ];
+                let current_series = id_series;
+                let next_column = (idx_columns % 2) ? alphabet[ (idx_columns + 1) % alphabet_length ] : alphabet[ idx_columns % alphabet_length ];
+                let next_series = ( (idx_columns + 1) % alphabet_length );
+                let adj_row = (idx_columns % 2) ? idx_rows + 2 : idx_rows;
+                tile.adjacentTiles.push(previous_series + '-' + previous_column + '-' + current_row); // Left
+                tile.adjacentTiles.push(previous_series + '-' + previous_column + '-' + adj_row); // Left
+                tile.adjacentTiles.push(current_series + '-' + current_column + '-' + current_row - 1); // Middle
+                tile.adjacentTiles.push(current_series + '-' + current_column + '-' + current_row + 1); // Middle
+                tile.adjacentTiles.push(next_series + '-' + next_column + '-' + current_row); // Right
+                tile.adjacentTiles.push(next_series + '-' + next_column + '-' + adj_row); // Right
+
 
                 let state = {};
                 state.geo = {

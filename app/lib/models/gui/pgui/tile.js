@@ -23,6 +23,9 @@ export default class Tile extends PGUI {
         this.state.textColor = '0x000000';
         this.state.backgroundShape = 'hex';
         this.state.backgroundColor = '0xD2E2BB';
+
+        // Relative Positioning.
+        this.adjacentTiles = [];
     }
 
     contest() {}
@@ -41,6 +44,16 @@ export default class Tile extends PGUI {
             const selected_tile = localData.getValue('selected_tile');
             map.onTileSelect(selected_tile);
         }
+    }
+
+    adjacentMovementCost() {
+        const map = localData.getValue('gameboard');
+        const movement_info = {};
+        this.adjacentTiles.forEach(function (tileid) {
+            const tile = map.getElementById(tileid);
+            movement_info[tileid] = tile.terrain.movement_cost;
+        });
+        return movement_info;
     }
 
     deselect() {
