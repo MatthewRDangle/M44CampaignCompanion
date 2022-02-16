@@ -6,6 +6,7 @@ export const scenario = {
     factions: ['United States', 'Germany'],
 
     tiles: {
+        '*': {},
         '0-A-1': {
             'United States': {
                 infantry: 12

@@ -1,5 +1,6 @@
 import PGUI from "../pgui.js";
 import Unit from "../../unit.js";
+import Terrain from "../../terrain.js";
 import {localData} from '../../../../localdata.js';
 
 export default class Tile extends PGUI {
@@ -12,7 +13,7 @@ export default class Tile extends PGUI {
         this.state.isContested = false;
 
         // Terrain, Overlay, Units & Fortifications
-        this.state.terrain = 'Grassland';
+        this.state.terrain = undefined;
         this.state.overlay = undefined;
         this.state.units = [];
 
@@ -84,6 +85,11 @@ export default class Tile extends PGUI {
         this.setState('backgroundColor', '0xDBBD77');
         const map = localData.navigate('gameboard').getValue();
         map.onTileSelect(this);
+    }
+
+    setTerrain(terrain) {
+        if (terrain instanceof Terrain)
+            this.setState('terrain', terrain);
     }
 
     splitUnit(unit) {

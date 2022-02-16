@@ -1,6 +1,7 @@
 const m = require('mithril');
 const Phaser = require('phaser');
 const Data = require("../api/data");
+import Terrain from "./terrain.js";
 import Unit from './unit.js';
 import PGUI from './gui/pgui.js';
 import Tile from './gui/pgui/tile.js';
@@ -83,6 +84,10 @@ class Scene extends Phaser.Scene {
                     const instructions_data = scenario_data.navigate('tiles/' + tile.id);
                     tile_scenario_api(tile, instructions_data);
                 }
+                else if (scenario_tiles && (scenario_tiles.hasOwnProperty('*') || scenario_tiles.hasOwnProperty('*-*'))) {
+                    const instructions_data = scenario_data.navigate('tiles/*');
+                    tile_scenario_api(tile, instructions_data);
+                }
 
                 tile.setState(state);
                 map.addChild(tile);
@@ -98,6 +103,8 @@ const tile_scenario_api = function(tile, instructions_data) {
     factions_list.forEach(function(name) {
         localData.navigate('factions').addChild(name, new Faction(name));
     });
+
+    tile.setTerrain(new Terrain());
 
     for (let key in instructions) {
         const factions_container = localData.navigate('factions').getValue();

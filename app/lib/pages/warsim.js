@@ -41,7 +41,7 @@ const renderTileInfoOverlay = function(tile) {
                 m('div.tileInfoOverlay_header_unitCount',
                     m('div.badge', unit_count || '')
                 ),
-                m('div.tileInfoOverlay_header_tileName', tile.state.terrain),
+                m('div.tileInfoOverlay_header_tileName', (tile.state.terrain) ? tile.state.terrain.name : 'Unknown'),
                 m('div.tileInfoOverlay_header_actions', [
                     m('div.tileInfoOverlay_header_actions_button', [
                         m('button.button', {onclick: tile.preview}, 'Preview')
