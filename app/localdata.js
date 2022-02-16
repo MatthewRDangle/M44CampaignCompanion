@@ -4,4 +4,5 @@ export const localData = new Data({
     selected_tile: undefined,
     selected_unit: undefined,
     factions: {},
+    gameboard: undefined
 });

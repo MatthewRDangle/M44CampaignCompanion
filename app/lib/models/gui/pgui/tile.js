@@ -12,7 +12,7 @@ export default class Tile extends PGUI {
         this.state.isContested = false;
 
         // Terrain, Overlay, Units & Fortifications
-        this.state.terrain = undefined;
+        this.state.terrain = 'Grassland';
         this.state.overlay = undefined;
         this.state.units = [];
 
@@ -30,16 +30,31 @@ export default class Tile extends PGUI {
         if (unit instanceof Unit) {
             let units = [...this.state.units];
             units.push(unit);
-            this.setState(unit);
+            this.setState('units', units);
+            unit.tile = this;
             if (!unit.pgui)
                 unit.draw(this.state.scene);
             this.addChild(unit.pgui);
+
+            const map = localData.getValue('gameboard');
+            const selected_tile = localData.getValue('selected_tile');
+            map.onTileSelect(selected_tile);
         }
     }
 
     deselect() {
         localData.navigate('selected_tile').setValue(undefined);
         this.setState('backgroundColor', '0xD2E2BB');
+        const map = localData.navigate('gameboard').getValue();
+        map.onTileSelect();
+    }
+
+    mergeUnit(unit) {
+        console.log('merge clicked.');
+    }
+
+    preview() {
+        console.log('preview clicked.');
     }
 
     removeUnit(unit) {
@@ -47,20 +62,31 @@ export default class Tile extends PGUI {
             let state = this.state;
             let idx = state.units.indexOf(unit);
             if (idx >= 0) {
-                let units = {...state.units};
+                let units = [...state.units];
                 units.splice(idx, 1);
                 this.setState('units', units);
                 this.removeChild(unit.pgui);
+                unit.tile = undefined;
+
+                const map = localData.getValue('gameboard');
+                const selected_tile = localData.getValue('selected_tile');
+                map.onTileSelect(selected_tile);
             }
         }
+    }
+
+    revertCommand() {
+        console.log('revert clicked.');
     }
 
     select() {
         localData.navigate('selected_tile').setValue(this);
         this.setState('backgroundColor', '0xDBBD77');
+        const map = localData.navigate('gameboard').getValue();
+        map.onTileSelect(this);
     }
 
-    setTerrain() {}
-    setOverlay() {}
-    setOwner() {}
+    splitUnit(unit) {
+        console.log('split clicked.');
+    }
 }

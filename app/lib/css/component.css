@@ -87,6 +87,24 @@
     background-color: var(--Highlight);
 }
 
+.unitCard {
+    color: var(--Background);
+    background-color: var(--Highlight);
+    padding: 2px 5px;
+    cursor: pointer;
+}
+.unitCard:hover {
+    color: var(--Highlight);
+    background-color: var(--Background);
+}
+.unitCard_count {
+    display: inline-block;
+    margin-right: 2px;
+}
+.unitCard_name {
+    display: inline-block;
+}
+
 .scenarioDetails {
     position: absolute;
     right: 100px;
@@ -139,4 +157,7 @@
 }
 .tileInfoOverlay_body {
     background-color: #151A1E;
+    display: flex;
+    padding: 10px;
+    gap: 10px;
 }

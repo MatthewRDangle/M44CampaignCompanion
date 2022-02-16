@@ -17,6 +17,8 @@ export default class GameBoard {
         if (!isFinite(width) || !isFinite(height))
             throw Error('GameBoard requires a width an height to draw the tiles.');
 
+        this.onTileSelect = undefined;
+
         let phaser_canvas = new Phaser.Game({
             dom: { parent: element.id },
             title: 'WWII Campaign Companion',

@@ -1,5 +1,6 @@
 import Faction from './faction.js';
 import PGUI from "./gui/pgui.js";
+import {localData} from '../../localdata.js';
 
 export default class Unit {
     constructor(owner) {
@@ -13,6 +14,11 @@ export default class Unit {
 
         this.pgui = undefined;
         this.tile = undefined;
+    }
+
+    deselect() {
+        localData.navigate('selected_unit').setValue(undefined);
+        localData.navigate('viewMode').setValue('view');
     }
 
     draw(scene) {
@@ -98,6 +104,18 @@ export default class Unit {
     }
 
     moveTo(tile) {
+        if (this.tile)
+            this.tile.removeUnit(this);
+        tile.addUnit(this);
+        this.deselect();
+    }
+
+    select() {
+        localData.navigate('selected_unit').setValue(this);
+        localData.navigate('viewMode').setValue('move');
+    }
+
+    warpTo(tile) {
         if (this.tile)
             tile.removeUnit();
         tile.addUnit(this);
