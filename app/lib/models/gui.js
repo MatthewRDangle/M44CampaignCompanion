@@ -35,7 +35,7 @@ export default class GUI {
     addChild(gui) {
         if (gui instanceof GUI) {
             gui.parent = this; // Set this GUI as a parent so it can be access later.
-            gui.children.push(gui); // Adds the gui to the array.
+            this.children.push(gui); // Adds the gui to the array.
 
             // Check if Child has a id or tag(s). If they do, index them.
             let gui_id = gui.id;

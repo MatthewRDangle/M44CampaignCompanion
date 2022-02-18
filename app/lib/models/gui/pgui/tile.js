@@ -47,11 +47,12 @@ export default class Tile extends PGUI {
     }
 
     adjacentMovementCost() {
-        const map = localData.getValue('gameboard');
+        const scene = localData.getValue('scene');
         const movement_info = {};
         this.adjacentTiles.forEach(function (tileid) {
-            const tile = map.getElementById(tileid);
-            movement_info[tileid] = tile.terrain.movement_cost;
+            const tile = scene.getChildByID(tileid);
+            if (tile)
+                movement_info[tileid] = tile.state.terrain.movement_cost;
         });
         return movement_info;
     }

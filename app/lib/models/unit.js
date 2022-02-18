@@ -30,25 +30,25 @@ export default class Unit {
             let movement_info = tile.adjacentMovementCost();
             for (let tileid in movement_info) {
                 const movement_cost = movement_info[tileid];
-                if ( movement_cost < available_movement) {
-                    available_movement = available_movement - movement_cost;
+                if ( movement_cost <= available_movement) {
+                    const remaining_movement = available_movement - movement_cost;
 
                     // Check if tile already exists. If it does overwrite it if the new route has the highest available_movement remaining.
-                    if (eligible_moves.hasOwnProperty(tileid) && eligible_moves[tileid] < available_movement)
-                        eligible_moves[tileid] = available_movement;
+                    if (eligible_moves.hasOwnProperty(tileid) && eligible_moves[tileid] < remaining_movement)
+                        eligible_moves[tileid] = remaining_movement;
 
                     // If it doesn't exist, add it.
                     else if (!eligible_moves.hasOwnProperty(tileid))
-                        eligible_moves[tileid] = available_movement;
+                        eligible_moves[tileid] = remaining_movement;
 
                     // Otherwise skip, because it shouldn't be added since it's a smaller number.
                     else
                         continue
 
                     // If their is any available movement left, repeat.
-                    if (available_movement > 0) {
+                    if (remaining_movement > 0) {
                         const tile = map.getElementById(tileid);
-                        checkMovement(tile, available_movement);
+                        checkMovement(tile, remaining_movement);
                     }
                 }
             }

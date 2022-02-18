@@ -48,31 +48,32 @@ class Scene extends Phaser.Scene {
 
     create() {
         const map = new PGUI(this);
+        localData.navigate('scene').setValue(map);
         const scenario_data = new Data(scenario);
         this.input.dragDistanceThreshold = 16;
 
         const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        for (let idx_columns = 0; idx_columns < scenario_data.getValue('columns'); idx_columns++) {
-            for (let idx_rows = 0; idx_rows < scenario_data.getValue('rows'); idx_rows++) {
+        for (let idx_columns = 1; idx_columns < scenario_data.getValue('columns') + 1; idx_columns++) {
+            for (let idx_rows = 0; idx_rows < scenario_data.getValue('rows') + 1; idx_rows++) {
                 let tile = new Tile(this, map);
                 const alphabet_length = alphabet.length;
-                const id_series = (idx_columns % alphabet_length);
-                const id_column = alphabet[idx_columns % alphabet_length];
+                const id_series = Math.ceil(idx_columns / alphabet_length);
+                const id_column = alphabet[(idx_columns - 1) % alphabet_length];
                 tile.setID(id_series + '-' + id_column + '-' + (idx_rows + 1));
 
                 // Get Adjacent ID's.
-                let previous_column = (idx_columns % 2) ? alphabet[ idx_columns % alphabet_length ] : alphabet[ (idx_columns - 1) % alphabet_length ];
-                let previous_series = ( (idx_columns - 1) % alphabet_length );
+                let previous_column = alphabet[ (idx_columns - 2) % alphabet_length ];
+                let previous_series = Math.ceil((idx_columns - 1) / alphabet_length);
                 let current_row = idx_rows + 1;
-                let current_column = alphabet[ idx_columns % alphabet_length ];
+                let current_column = id_column;
                 let current_series = id_series;
-                let next_column = (idx_columns % 2) ? alphabet[ (idx_columns + 1) % alphabet_length ] : alphabet[ idx_columns % alphabet_length ];
-                let next_series = ( (idx_columns + 1) % alphabet_length );
+                let next_column = alphabet[ (idx_columns) % alphabet_length ]
+                let next_series = Math.ceil((idx_columns) / alphabet_length);
                 let adj_row = (idx_columns % 2) ? idx_rows + 2 : idx_rows;
                 tile.adjacentTiles.push(previous_series + '-' + previous_column + '-' + current_row); // Left
                 tile.adjacentTiles.push(previous_series + '-' + previous_column + '-' + adj_row); // Left
-                tile.adjacentTiles.push(current_series + '-' + current_column + '-' + current_row - 1); // Middle
-                tile.adjacentTiles.push(current_series + '-' + current_column + '-' + current_row + 1); // Middle
+                tile.adjacentTiles.push(current_series + '-' + current_column + '-' + (current_row - 1)); // Middle
+                tile.adjacentTiles.push(current_series + '-' + current_column + '-' + (current_row + 1)); // Middle
                 tile.adjacentTiles.push(next_series + '-' + next_column + '-' + current_row); // Right
                 tile.adjacentTiles.push(next_series + '-' + next_column + '-' + adj_row); // Right
 
@@ -106,6 +107,7 @@ class Scene extends Phaser.Scene {
                     tile_scenario_api(tile, instructions_data);
                 }
 
+                tile.setTerrain(new Terrain());
                 tile.setState(state);
                 map.addChild(tile);
             }
@@ -120,8 +122,6 @@ const tile_scenario_api = function(tile, instructions_data) {
     factions_list.forEach(function(name) {
         localData.navigate('factions').addChild(name, new Faction(name));
     });
-
-    tile.setTerrain(new Terrain());
 
     for (let key in instructions) {
         const factions_container = localData.navigate('factions').getValue();
@@ -155,7 +155,12 @@ const tile_onclick_handler = function(tile) {
             }
             else if (viewMode === 'move') {
                 const selected_unit = localData.getValue('selected_unit');
-                selected_unit.moveTo(tile);
+                const eligibleMoves = selected_unit.eligibleMoves();
+                for(let key in eligibleMoves) {
+                    const movement_cost = eligibleMoves[key];
+                    if (tile.id === key && selected_unit.available_movement >= movement_cost)
+                        selected_unit.moveTo(tile);
+                }
             }
         }
 

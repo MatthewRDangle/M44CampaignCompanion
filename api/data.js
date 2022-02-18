@@ -210,7 +210,8 @@ class Data {
             this.root = value;
         }
         else {
-            this.parent[this.name] = value;
+            if (this.parent)
+                this.parent[this.name] = value;
             if (this.container !== value)
                 this.container = value;
         }

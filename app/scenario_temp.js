@@ -7,7 +7,7 @@ export const scenario = {
 
     tiles: {
         '*': {},
-        '0-A-1': {
+        '1-A-1': {
             'United States': {
                 infantry: 12
             }
