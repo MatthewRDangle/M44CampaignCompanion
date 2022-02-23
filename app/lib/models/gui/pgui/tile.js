@@ -1,3 +1,4 @@
+const m = require('mithril');
 import PGUI from "../pgui.js";
 import Unit from "../../unit.js";
 import Terrain from "../../terrain.js";
@@ -69,7 +70,7 @@ export default class Tile extends PGUI {
     }
 
     preview() {
-        console.log('preview clicked.');
+        m.route.set('/preview');
     }
 
     removeUnit(unit) {
