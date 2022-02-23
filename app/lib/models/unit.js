@@ -142,11 +142,21 @@ export default class Unit {
             this.pgui.destroy();
     }
 
+    refresh() {
+        this.available_movement = this.movement_cap;
+    }
+
     moveTo(tile) {
         if (this.tile) {
-            this.tile.removeUnit(this);
-            tile.addUnit(this);
-            this.deselect();
+            const eligibleMoves = this.eligibleMoves();
+            for(let key in eligibleMoves) {
+                const new_available_movement = eligibleMoves[key];
+                if (tile.id === key && this.available_movement >= new_available_movement) {
+                    this.warpTo(tile);
+                    this.deselect();
+                    this.available_movement = new_available_movement;
+                }
+            }
         }
     }
 
@@ -156,8 +166,9 @@ export default class Unit {
     }
 
     warpTo(tile) {
-        if (this.tile)
-            tile.removeUnit();
-        tile.addUnit(this);
+        if (this.tile) {
+            this.tile.removeUnit();
+            tile.addUnit(this);
+        }
     }
 }

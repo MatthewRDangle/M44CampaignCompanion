@@ -155,12 +155,7 @@ const tile_onclick_handler = function(tile) {
             }
             else if (viewMode === 'move') {
                 const selected_unit = localData.getValue('selected_unit');
-                const eligibleMoves = selected_unit.eligibleMoves();
-                for(let key in eligibleMoves) {
-                    const movement_cost = eligibleMoves[key];
-                    if (tile.id === key && selected_unit.available_movement >= movement_cost)
-                        selected_unit.moveTo(tile);
-                }
+                selected_unit.moveTo(tile);
             }
         }
 
@@ -171,8 +166,15 @@ const tile_onclick_handler = function(tile) {
 
         // Right Click.
         else if (mouse_button === 2) {
-            if (selected_tile instanceof Tile)
-                selected_tile.deselect();
+            const viewMode = localData.getValue('viewMode');
+            if (viewMode === 'move') {
+                const selected_unit = localData.getValue('selected_unit');
+                selected_unit.deselect();
+            }
+            else {
+                if (selected_tile instanceof Tile)
+                    selected_tile.deselect();
+            }
         }
     }
 }
