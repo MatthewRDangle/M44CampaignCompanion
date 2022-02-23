@@ -26,7 +26,7 @@ const renderTileInfoOverlay = function(tile) {
         tile.state.units.forEach(function(unit) {
             unit_count = unit_count + unit.health;
             unit_ui.push(
-                m('div.unitCard', {onclick: function(){ unit.select() }}, [
+                m('div.unitCard', {class: (unit.isSelected) ? '--selected' : '', onclick: function(){ unit.select() }}, [
                     m('div.unitCard_count', unit.health),
                     m('div.unitCard_name', unit.name)
                 ])

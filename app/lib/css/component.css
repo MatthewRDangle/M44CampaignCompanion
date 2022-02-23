@@ -112,6 +112,9 @@
     color: var(--Highlight);
     background-color: var(--Background);
 }
+.unitCard.--selected {
+    background-color: var(--Interaction);
+}
 .unitCard_count {
     display: inline-block;
     margin-right: 2px;

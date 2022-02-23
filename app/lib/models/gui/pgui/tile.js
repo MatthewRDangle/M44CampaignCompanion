@@ -8,6 +8,7 @@ export default class Tile extends PGUI {
     constructor(scene, map) {
         super(scene);
         this.state.map = map || undefined;
+        this.state.isSelected = false;
 
         // Ownership & Contest
         this.state.owner = undefined;
@@ -29,7 +30,12 @@ export default class Tile extends PGUI {
         this.adjacentTiles = [];
     }
 
-    contest() {}
+    contest() {
+        this.setState({
+            'backgroundColor': '0xF38463',
+            'isContested': true
+        });
+    }
 
     addUnit(unit) {
         if (unit instanceof Unit) {
@@ -40,6 +46,13 @@ export default class Tile extends PGUI {
             if (!unit.pgui)
                 unit.draw(this.state.scene);
             this.addChild(unit.pgui);
+
+            if (this.state.owner !== unit.faction) {
+                const owner_name = (this.state.owner) ? this.state.owner.name : '?';
+                const owner_units_array = this.getChildrenByTag(owner_name);
+                if (!owner_units_array || owner_units_array.length <= 0)
+                    this.setState('owner', unit.faction);
+            }
 
             const map = localData.getValue('gameboard');
             const selected_tile = localData.getValue('selected_tile');
@@ -60,7 +73,11 @@ export default class Tile extends PGUI {
 
     deselect() {
         localData.navigate('selected_tile').setValue(undefined);
-        this.setState('backgroundColor', '0xD2E2BB');
+        if (this.state.isContested)
+            this.setState('backgroundColor', '0xF38463');
+        else
+            this.setState('backgroundColor', '0xD2E2BB');
+        this.setState('isSelected', false);
         const map = localData.navigate('gameboard').getValue();
         map.onTileSelect();
     }
@@ -91,6 +108,10 @@ export default class Tile extends PGUI {
         }
     }
 
+    resolve() {
+        this.setState('backgroundColor', '0xD2E2BB');
+    }
+
     revertCommand() {
         console.log('revert clicked.');
     }
@@ -98,6 +119,7 @@ export default class Tile extends PGUI {
     select() {
         localData.navigate('selected_tile').setValue(this);
         this.setState('backgroundColor', '0xDBBD77');
+        this.setState('isSelected', true);
         const map = localData.navigate('gameboard').getValue();
         map.onTileSelect(this);
     }

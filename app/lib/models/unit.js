@@ -9,6 +9,7 @@ export default class Unit {
             throw Error('A unit must be assigned to a faction.');
 
         this.faction = owner;
+        this.isSelected = false;
         this.name = 'Unit';
         this.icon = undefined;
         this.health = 1;
@@ -27,6 +28,9 @@ export default class Unit {
         return eligible_moves; // All eligible moves w/ remaining movement after moving.
 
         function checkMovement(tile, available_movement) {
+            if (tile.state.isContested)
+                return
+
             let movement_info = tile.adjacentMovementCost();
             for (let tileid in movement_info) {
                 const movement_cost = movement_info[tileid];
@@ -56,6 +60,13 @@ export default class Unit {
     }
 
     deselect() {
+        this.isSelected = false;
+        if (this.pgui)
+            this.pgui.setState('backgroundColor', '0x151A1E');
+        if (this.tile) {
+            const map = localData.navigate('gameboard').getValue();
+            map.onTileSelect(this.tile);
+        }
         localData.navigate('selected_unit').setValue(undefined);
         localData.navigate('viewMode').setValue('view');
     }
@@ -73,7 +84,7 @@ export default class Unit {
             },
             width: 78,
             height: 60,
-            backgroundColor: '0x95B07E'
+            backgroundColor: this.faction.color
         });
 
         if (this.icon) {
@@ -96,11 +107,11 @@ export default class Unit {
         label.setState({
             geo: {
                 x: 2,
-                y: icon_parent.state.height,
+                y: icon_parent.state.height + 5,
                 z: 0
             },
             width: 78,
-            height: 31,
+            height: 26,
             textString: this.name,
             textHAlign: 'center',
             textVAlign: 'middle',
@@ -131,8 +142,9 @@ export default class Unit {
             },
             width: 82,
             height: 95,
-            backgroundColor: '0x151A1E'
+            backgroundColor: '0x151A1E',
         });
+        unit_pgui.addTag(this.faction.name);
         this.pgui = unit_pgui;
     }
 
@@ -155,19 +167,29 @@ export default class Unit {
                     this.warpTo(tile);
                     this.deselect();
                     this.available_movement = new_available_movement;
+
+                    if (tile.state.owner !== this.faction)
+                        tile.contest();
                 }
             }
         }
     }
 
     select() {
+        this.isSelected = true;
+        if (this.pgui)
+            this.pgui.setState('backgroundColor', '0x0DBBD77');
+        if (this.tile) {
+            const map = localData.navigate('gameboard').getValue();
+            map.onTileSelect(this.tile);
+        }
         localData.navigate('selected_unit').setValue(this);
         localData.navigate('viewMode').setValue('move');
     }
 
     warpTo(tile) {
         if (this.tile) {
-            this.tile.removeUnit();
+            this.tile.removeUnit(this);
             tile.addUnit(this);
         }
     }

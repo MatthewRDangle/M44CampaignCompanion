@@ -119,8 +119,8 @@ class Scene extends Phaser.Scene {
 const tile_scenario_api = function(tile, instructions_data) {
     const instructions = instructions_data.getValue();
     const factions_list = instructions_data.root.factions;
-    factions_list.forEach(function(name) {
-        localData.navigate('factions').addChild(name, new Faction(name));
+    factions_list.forEach(function(faction_config) {
+        localData.navigate('factions').addChild(faction_config.name, new Faction(faction_config.name, faction_config));
     });
 
     for (let key in instructions) {

@@ -43,7 +43,7 @@ export default class GUI {
                 this.__indexGUIID(gui, 'add', gui_id);
 
             let gui_tags = gui.tags;
-            if (gui_tags > 0) {
+            if (gui_tags.length > 0) {
                 this.__indexGUITags(gui, 'add', gui_tags);
             }
         }
@@ -64,7 +64,7 @@ export default class GUI {
         // Add the tags from the parent.
         let parent = this.parent;
         if (parent)
-            this.parent.__indexGUITags(this, 'a', value);
+            this.parent.__indexGUITags(this, 'add', value);
 
         // Add the tag(s) to the tags attribute.
         let tag_index = this.tags;
@@ -174,7 +174,7 @@ export default class GUI {
         let index = this.index.tags; // Index to use.
 
         // Add tags to index.
-        if (method === 'a' && typeof tags === 'array' && gui instanceof GUI) {
+        if (method === 'add' && tags instanceof Array && gui instanceof GUI) {
 
             // Loop through all tags.
             for (let idx = 0; idx < tags.length; idx++) {
@@ -195,7 +195,7 @@ export default class GUI {
         }
 
         // Remove tags from index.
-        else if (method === 'r' && typeof tags === 'array' && gui instanceof GUI) {
+        else if (method === 'rm' && tags instanceof Array && gui instanceof GUI) {
 
             // Loop through all tags.
             for (let idx = 0; idx < tags.length; idx++) {
@@ -227,7 +227,7 @@ export default class GUI {
             if (gui_id)
                 this.__indexGUIID(gui, 'rm', gui_id);
 
-            if (gui_tags > 0) {
+            if (gui_tags.length > 0) {
                 this.__indexGUITags(gui, 'rm', gui_tags);
             }
 
