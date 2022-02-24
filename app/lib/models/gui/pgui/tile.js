@@ -30,13 +30,6 @@ export default class Tile extends PGUI {
         this.adjacentTiles = [];
     }
 
-    contest() {
-        this.setState({
-            'backgroundColor': '0xF38463',
-            'isContested': true
-        });
-    }
-
     addUnit(unit) {
         if (unit instanceof Unit) {
             let units = [...this.state.units];
@@ -69,6 +62,17 @@ export default class Tile extends PGUI {
                 movement_info[tileid] = tile.state.terrain.movement_cost;
         });
         return movement_info;
+    }
+
+    battle() {
+        m.route.set('/battle');
+    }
+
+    contest() {
+        this.setState({
+            'backgroundColor': '0xF38463',
+            'isContested': true
+        });
     }
 
     deselect() {

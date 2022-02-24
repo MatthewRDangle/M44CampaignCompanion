@@ -42,8 +42,10 @@ const renderTileInfoOverlay = function(tile) {
                     m('div.badge', unit_count || '')
                 ),
                 m('div.tileInfoOverlay_header_tileName', (tile.state.terrain) ? tile.state.terrain.name : 'Unknown'),
-                m('div.tileInfoOverlay_header_actions', [
-                    m('div.tileInfoOverlay_header_actions_button', [
+                m('div.tileInfoOverlay_header_actions',
+                    (tile.state.isContested) ? m('div.tileInfoOverlay_header_actions_button', [
+                        m('button.button', {onclick: tile.battle}, 'Battle')
+                    ]) : [m('div.tileInfoOverlay_header_actions_button', [
                         m('button.button', {onclick: tile.preview}, 'Preview')
                     ]),
                     m('div.tileInfoOverlay_header_actions_button', [
@@ -54,8 +56,8 @@ const renderTileInfoOverlay = function(tile) {
                     ]),
                     m('div.tileInfoOverlay_header_actions_button', [
                         m('button.button', {onclick: tile.revertCommand}, 'Revert')
-                    ])
-                ])
+                    ])]
+                )
             ]),
             m('div.tileInfoOverlay_body', unit_ui)
         ]);
