@@ -2,18 +2,14 @@ const m = require('mithril');
 const fs = require('fs');
 import Page from './lib/models/page.js';
 
-try {
-    let pages = [];
-    await fs.readdir('app/lib/pages', (err, files) => {
-        files.forEach((file, index, array) => {
-            import('./lib/pages/' + file).then(module => {
-                pages.push(module.page);
-                if (index + 1 >= array.length)
-                    config_router(pages);
-            });
-        });
-    })
-} catch(err) { console.error(err); }
+fs.readdir('app/lib/pages', async (err, files) => {
+    const pages = await Promise.all(files.map(async slug => {
+        const module = await import('./lib/pages/' + slug);
+        if (module.page)
+            return module.page;
+    }));
+    config_router(pages);
+});
 
 const config_router = function(pages) {
     if (pages) {
@@ -23,6 +19,6 @@ const config_router = function(pages) {
         });
         if (!router.hasOwnProperty('/main'))
             router['/main'] = new Page('/main');
-        m.route(document.body, "/battle", router);
+        m.route(document.body, "/warSim", router);
     }
 }
