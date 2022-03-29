@@ -19,6 +19,6 @@ const config_router = function(pages) {
         });
         if (!router.hasOwnProperty('/main'))
             router['/main'] = new Page('/main');
-        m.route(document.body, "/warSim", router);
+        m.route(document.body, "/main", router);
     }
 }

@@ -1,18 +1,13 @@
 const m = require('mithril');
 import Page from '../models/page.js'
+import MainMenu from "../components/MainMenu.js"
 
 export const page = new Page('/campaign');
 page.setPage(function() {
-    return m('div.mainMenu', [
-        m('div.mainMenu_header', [
-            m('div.mainMenu_header_icon', m('img', {src: 'lib/images/logo.svg', alt: "A plane flying upward that's being targeted."})),
-            m('h1.mainMenu_header_label', 'Campaign Companion')
-        ]),
-        m('nav.mainMenu_nav', [
-            m('div.mainMenu_nav_link',
-                {onclick: function() { page.navigate('/warRoom') }}, 'Enter War Room >>'),
-            m('div.mainMenu_nav_link',
-                {onclick: function() { page.navigate('/main') }}, '<< Back')
+    return [
+        m(MainMenu, {currentPage: this, title: 'Campaign Companion'}, [
+            m('div', {onclick: () => {page.navigate('/warRoom')}}, 'Enter War Room >>'),
+            m('div', {onclick: () => {page.navigate('/main')}}, '<< Back'),
         ]),
         m('div.campaignSelector',[
             m('div.campaignSelector_nav', [
@@ -30,5 +25,5 @@ page.setPage(function() {
                 m('div.campaignSelector_details_date', 'June 6th, 1944')
             ])
         ])
-    ]);
+    ]
 });
