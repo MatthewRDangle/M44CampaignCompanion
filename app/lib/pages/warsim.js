@@ -2,12 +2,27 @@ const m = require('mithril');
 import Page from '../models/page.js';
 import GameBoard from "../models/gameboard.js";
 import {localData} from "../../localdata.js";
+import mainMenuButtonOverlay from "../components/mainMenuButtonOverlay.js";
+import nextTurnOverlay from "../components/nextTurnOverlay.js";
 
 export const page = new Page('/warSim');
 page.setPage(function() {
     return m('div.game', [
         m('div#game.game_canvas'),
-        m('div#gameOverlay.game_overlay')
+        m('div#gameOverlay.game_overlay', [
+            m('div#gameOverlay-tileInfo'),
+            m('div#gameOverlay-currentFaction'),
+            m('div#gameOverlay-mainMenu',
+                m(mainMenuButtonOverlay, {
+                    onclick: () => { console.log('Main Menu Clicked') }
+                })
+            ),
+            m('div#gameOverlay-nextTurn',
+                m(nextTurnOverlay, {
+                    onclick: () => { console.log('Next Turn Clicked') }
+                })
+            )
+        ])
     ])
 });
 page.oncreate = () => {
@@ -18,7 +33,7 @@ page.oncreate = () => {
 };
 
 const renderTileInfoOverlay = function(tile) {
-    const gameOverlay_element = document.getElementById('gameOverlay');
+    const overlay_parent = document.getElementById('gameOverlay-tileInfo');
 
     if (tile) {
         let unit_count = 0;
@@ -33,7 +48,7 @@ const renderTileInfoOverlay = function(tile) {
             );
         });
 
-        const overlay = m('div.tileInfoOverlay', {
+        const overlay_component = m('div.tileInfoOverlay', {
             onmousedown: function(e) {e.stopPropagation(); e.preventDefault();},
             onmouseup: function(e) {e.stopPropagation(); e.preventDefault();}
         }, [
@@ -61,6 +76,6 @@ const renderTileInfoOverlay = function(tile) {
             ]),
             m('div.tileInfoOverlay_body', unit_ui)
         ]);
-        m.render(gameOverlay_element, overlay);
-    } else { m.render(gameOverlay_element, ''); }
+        m.render(overlay_parent, overlay_component);
+    } else { m.render(overlay_parent, ''); }
 }
