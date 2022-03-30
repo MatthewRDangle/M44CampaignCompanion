@@ -1,13 +1,21 @@
-class Scenario {
-    constructor(scenario_config) {
-        if (!scenario_config || typeof scenario_config !== 'object')
-            scenario_config = {};
+import ScenarioConfig from "./ScenarioConfig.js";
 
-        this.devMode = scenario_config.devMode || false;
-        this.columns = scenario_config.columns || 1;
-        this.rows = scenario_config.rows || 1;
+export class Scenario {
+    constructor(scenarioConfig) {
+        if (!scenarioConfig || !(scenarioConfig instanceof ScenarioConfig))
+            scenarioConfig = new ScenarioConfig();
+        this.scenarioConfig = scenarioConfig;
 
-        this.factions = scenario_config.factions || [];
-        this.tiles = scenario_config.tiles || {};
+        this.devMode = false;
+        this.columns = 0;
+        this.rows = 0;
+
+        this.factions = [];
+        this.tiles = {};
+    }
+
+    generate(scene, map) {
+        const scenarioConfig = this.scenarioConfig;
+        this.tiles = scenarioConfig.constructTiles(scene, map);
     }
 }

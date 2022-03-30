@@ -1,12 +1,21 @@
 const m = require('mithril');
 import Page from '../models/page.js'
 import MainMenu from "../components/MainMenu.js";
+import {scenario} from "../../scenario_temp.js";
+import {Scenario} from "../models/scenario.js";
+import ScenarioConfig from "../models/ScenarioConfig.js";
+import {global} from '../../global.js';
 
 export const page = new Page('/warRoom');
 page.setPage(function() {
     return [
         m(MainMenu, {currentPage: this, title: 'Campaign Companion'}, [
-            m('div', {onclick: () => {page.navigate('/warSim')}}, 'Declare War'),
+            m('div', {onclick: () => {
+                global.navigate('activeScenario').setValue(
+                    new Scenario(new ScenarioConfig(scenario))
+                );
+                page.navigate('/warSim');
+            }}, 'Declare War'),
             m('div', {onclick: () => {page.navigate('/campaign')}}, '<< Back'),
         ]),
         m('div.scenarioDetails', [
