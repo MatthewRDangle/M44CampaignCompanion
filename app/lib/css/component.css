@@ -64,32 +64,37 @@
 .hexGrid {
     display: flex;
     flex-wrap: wrap;
-    --s: 100px;  /* size  */
-    --m: 4px;    /* margin */
-    --f: calc(var(--s) * 1.732 + 4 * var(--m) - 1px);
 }
 .hexGrid_row {
     flex: none;
     font-size: 0; /* disable white space between inline block element */
+    min-width: 100%;
 }
 .hexGrid_row:nth-child(even) {
-    margin-left: calc(var(--s) / 2 + var(--m));
+    margin-left: calc(var(--HexSize) / 2 + var(--HexMargin));
 }
 
 .hexTile {
-    width: var(--s);
-    margin: var(--m);
-    height: calc(var(--s) * 1.1547);
+    width: var(--HexSize);
+    margin: var(--HexMargin);
+    height: calc(var(--HexSize) * 1.1547);
     display: inline-block;
     font-size:initial;
     clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-    margin-bottom: calc(var(--m) - var(--s) * 0.2885);
-    background-color: white;
+    margin-bottom: calc(var(--HexMargin) - var(--HexSize) * 0.2885);
+    background-color: var(--Highlight);
 }
 .hexTile:hover {
     cursor: pointer;
     background-color: yellow;
 }
+.hexTile-canMoveTo {
+    background-color: var(--Highlight);
+}
+.hexTile-contested {
+    background-color: var(--Warning);
+}
+
 
 .mainMenu {}
 .mainMenu_header {

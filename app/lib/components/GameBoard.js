@@ -11,8 +11,8 @@ const GameBoard = (initialVnode) => {
 
             return (
                 m('div.gameBoard', [
-                    m('div.gameBoard_body', m(HexGrid)),
-                    m('div.gameBoard_overlay', {grid: grid})
+                    m('div.gameBoard_body', m(HexGrid, {grid: grid})),
+                    m('div.gameBoard_overlay')
                 ])
             )
         }

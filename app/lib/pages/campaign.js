@@ -1,5 +1,5 @@
 const m = require('mithril');
-import Page from '../classes/page.js'
+import Page from '../classes/Page.js'
 import MainMenu from "../components/MainMenu.js"
 
 export const page = new Page('/campaign');

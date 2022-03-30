@@ -1,7 +1,7 @@
 const m = require('mithril');
 import PGUI from "../pgui.js";
-import Unit from "../../unit.js";
-import Terrain from "../../terrain.js";
+import Unit from "../../Unit.js";
+import Terrain from "../../Terrain.js";
 import {localData} from '../../../../localdata.js';
 
 export default class Tile extends PGUI {

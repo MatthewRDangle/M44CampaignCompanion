@@ -1,6 +1,6 @@
 const m = require('mithril');
 const fs = require('fs');
-import Page from './lib/classes/page.js';
+import Page from './lib/classes/Page.js';
 
 fs.readdir('app/lib/pages', async (err, files) => {
     const pages = await Promise.all(files.map(async slug => {

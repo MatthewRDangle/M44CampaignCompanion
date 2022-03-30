@@ -1,9 +1,9 @@
 const Data = require("../api/data");
 import Tile from "./gui/pgui/tile.js";
-import Terrain from "./terrain.js";
+import Terrain from "./Terrain.js";
 import {localData} from "../../localdata.js";
-import Faction from "./faction.js";
-import Unit from "./unit.js";
+import Faction from "./Faction.js";
+import Unit from "./Unit.js";
 
 export default class ScenarioConfig {
     constructor(json) {
@@ -17,6 +17,8 @@ export default class ScenarioConfig {
         this.factions = json.factions || [];
         this.tiles = json.tiles || {};
     }
+
+    compileScenario() {}
 
     constructTiles(scene, map) {
         const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];

@@ -1,14 +1,14 @@
 const m = require('mithril');
 const Phaser = require('phaser');
 const Data = require("../api/data");
-import Terrain from "./terrain.js";
-import Unit from './unit.js';
+import Terrain from "./Terrain.js";
+import Unit from './Unit.js';
 import PGUI from './gui/pgui.js';
 import Tile from './gui/pgui/tile.js';
-import Faction from "./faction.js";
+import Faction from "./Faction.js";
 import {localData} from '../../localdata.js';
 import {scenario} from '../../scenario_temp.js';
-import {Scenario} from "./scenario.js";
+import {Scenario} from "./Scenario.js";
 import {global} from '../../global.js';
 
 export default class GameBoard {

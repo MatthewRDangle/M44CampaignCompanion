@@ -1,8 +1,8 @@
 const m = require('mithril');
-import Page from '../classes/page.js'
+import Page from '../classes/Page.js'
 import MainMenu from "../components/MainMenu.js";
 import {scenario} from "../../scenario_temp.js";
-import {Scenario} from "../classes/scenario.js";
+import {Scenario} from "../classes/Scenario.js";
 import ScenarioConfig from "../classes/ScenarioConfig.js";
 import {global} from '../../global.js';
 
