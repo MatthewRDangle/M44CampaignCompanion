@@ -7,7 +7,9 @@ const HexTile = (initialVnode) => {
             const {attrs} = vNode;
 
             return (
-                m('div.hexTile')
+                m('div.hexTile', {onclick: () => {
+                    console.log('clicked')
+                }})
             )
         }
     }

@@ -89,6 +89,7 @@
     background-color: white;
 }
 .hexTile:hover {
+    cursor: pointer;
     background-color: yellow;
 }
 
