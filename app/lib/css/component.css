@@ -63,19 +63,17 @@
 
 .hexGrid {
     display: flex;
+    flex-wrap: wrap;
     --s: 100px;  /* size  */
     --m: 4px;    /* margin */
     --f: calc(var(--s) * 1.732 + 4 * var(--m) - 1px);
 }
 .hexGrid_row {
+    flex: none;
     font-size: 0; /* disable white space between inline block element */
 }
-.hexGrid_row:before {
-    content: "";
-    width: calc(var(--s) / 2 + var(--m));
-    float: left;
-    height: 120%;
-    shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 3px), #000 0 var(--f));
+.hexGrid_row:nth-child(even) {
+    margin-left: calc(var(--s) / 2 + var(--m));
 }
 
 .hexTile {

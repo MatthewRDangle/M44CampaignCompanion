@@ -9,7 +9,10 @@ const GameBoard = (initialVnode) => {
             const {attrs} = vNode;
 
             return (
-                m('div.gameBoard', m(HexGrid))
+                m('div.gameBoard', [
+                    m('div.gameBoard_body', m(HexGrid)),
+                    m('div.gameBoard_overlay')
+                ])
             )
         }
     }
