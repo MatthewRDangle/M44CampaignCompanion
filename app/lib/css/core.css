@@ -48,13 +48,11 @@
   -moz-box-sizing: border-box;
 }
 html, body {
-  width: 100%;
   padding: 0;
   margin: 0; /* Aligns HTML and Body right up against the browser window. */
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   line-height: 1.75; /* Keep this number unitless to avoid overlap and inheritance issues. */
-  overflow-x: hidden; /* Hides any content outside the browser window (horizontally). */
   -webkit-text-size-adjust: 100%; /* Prevent adjustments of font size after orientation changes in iOS. */
   color: var(--Font);
   background-color: var(--Background);

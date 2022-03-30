@@ -10,8 +10,8 @@ export class Scenario {
         this.columns = 0;
         this.rows = 0;
 
-        this.factions = [];
-        this.tiles = {};
+        this.factions = undefined;
+        this.tiles = undefined;
     }
 
     generate(scene, map) {
