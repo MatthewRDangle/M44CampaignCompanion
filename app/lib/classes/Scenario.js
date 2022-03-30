@@ -81,7 +81,7 @@ export class Scenario {
                     tile_instructions_data = scenario_tiles_data.navigate(tile.id);
                 else if (raw.tiles && (raw.tiles.hasOwnProperty('*') || raw.tiles.hasOwnProperty('*-*')))
                     tile_instructions_data = scenario_tiles_data.navigate('*');
-                tile.compile(tile_instructions_data.getValue(), this)
+                tile.compile(tile_instructions_data.getValue(), this);
 
                 // Push tile into scenario.
                 if (Array.isArray(this.tiles[idx_rows]))

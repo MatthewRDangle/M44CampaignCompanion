@@ -4,18 +4,18 @@ import {localData} from '../../localdata.js';
 import Tile from "./gui/pgui/tile.js";
 
 export default class Unit {
-    constructor(owner) {
+    constructor(owner, {...options}) {
         if ( !(owner instanceof Faction) )
             throw Error('A unit must be assigned to a faction.');
 
         this.faction = owner;
         this.isSelected = false;
-        this.name = 'Unit';
-        this.icon = undefined;
-        this.health = 1;
+        this.name = options.name || 'Unit';
+        this.icon = options.icon || undefined;
+        this.health = options.health || 1;
 
-        this.available_movement = 1;
-        this.movement_cap = 1;
+        this.available_movement = options.available_movement || 1;
+        this.movement_cap = options.movement_cap || 1;
 
         this.tile = undefined;
     }

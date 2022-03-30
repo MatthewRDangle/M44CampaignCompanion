@@ -37,30 +37,15 @@ export default class Tile {
             if (owner_faction) {
                 const unitsToCreate = instructions.units;
                 if (Array.isArray(unitsToCreate)) {
-                    unitsToCreate.forEach((unit) => {
-                        if (typeof unit === 'string') {
-                            scenario
-                        }
+                    unitsToCreate.forEach((unit_template) => {
+                        if (typeof unit_template === 'string')
+                            unit_template = scenario.unit_templates[unit_template];
+                        this.addUnit(new Unit(owner_faction, unit_template));
                     })
                 }
             }
         }
-        // const factions_container = localData.navigate('factions').getValue();
-        // const faction = factions_container[key];
-        // if (faction) {
-        //     const faction_instructions = instructions[key];
-        //     for (let type in faction_instructions) {
-        //         const count = faction_instructions[type];
-        //         let unit = new Unit(faction);
-        //         unit.health = count;
-        //         unit.name = type;
-        //         tile.addUnit(unit);
-        //     }
-        // }
     }
-
-
-
 
     addUnit(unit) {
         if (unit instanceof Unit) {
@@ -68,6 +53,8 @@ export default class Tile {
                 this.units[unit.faction].push(unit);
         }
     }
+
+
 
     delselect() {
         this.isSelected = false;
