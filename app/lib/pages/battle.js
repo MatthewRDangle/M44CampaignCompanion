@@ -1,6 +1,6 @@
 const m = require('mithril');
-import Page from '../models/page.js';
-import GameBoard from "../models/gameboard.js";
+import Page from '../classes/page.js';
+import GameBoard from "../classes/gameboard.js";
 import {localData} from "../../localdata.js";
 
 export const page = new Page('/battle');

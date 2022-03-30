@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-const mainMenuButtonOverlay = (initialVnode) => {
+const MainMenuButtonOverlay = (initialVnode) => {
 
     return {
         view: (vNode) => {
@@ -19,4 +19,4 @@ const mainMenuButtonOverlay = (initialVnode) => {
     }
 }
 
-export default mainMenuButtonOverlay;
+export default MainMenuButtonOverlay;

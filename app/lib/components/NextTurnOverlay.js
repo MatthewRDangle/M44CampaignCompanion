@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-const nextTurnOverlay = (initialVnode) => {
+const NextTurnOverlay = (initialVnode) => {
 
     return {
         view: (vNode) => {
@@ -18,4 +18,4 @@ const nextTurnOverlay = (initialVnode) => {
     }
 }
 
-export default nextTurnOverlay;
+export default NextTurnOverlay;

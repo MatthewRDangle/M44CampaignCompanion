@@ -1,6 +1,6 @@
 const m = require('mithril');
 const {ipcRenderer} = require('electron');
-import Page from '../models/page.js'
+import Page from '../classes/page.js'
 import MainMenu from "../components/MainMenu.js";
 
 export const page = new Page('/main');

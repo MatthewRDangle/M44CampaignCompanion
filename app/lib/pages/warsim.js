@@ -1,10 +1,10 @@
 const m = require('mithril');
-import Page from '../models/page.js';
+import Page from '../classes/page.js';
 import GameBoard from "../components/GameBoard.js"
 // import GameBoard from "../models/gameboard.js";
 // import {localData} from "../../localdata.js";
-// import mainMenuButtonOverlay from "../components/mainMenuButtonOverlay.js";
-// import nextTurnOverlay from "../components/nextTurnOverlay.js";
+// import mainMenuButtonOverlay from "../components/MainMenuButtonOverlay.js";
+// import nextTurnOverlay from "../components/NextTurnOverlay.js";
 
 export const page = new Page('/warSim');
 page.setPage(function() {

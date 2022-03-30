@@ -1,9 +1,9 @@
 const m = require('mithril');
-import Page from '../models/page.js'
+import Page from '../classes/page.js'
 import MainMenu from "../components/MainMenu.js";
 import {scenario} from "../../scenario_temp.js";
-import {Scenario} from "../models/scenario.js";
-import ScenarioConfig from "../models/ScenarioConfig.js";
+import {Scenario} from "../classes/scenario.js";
+import ScenarioConfig from "../classes/ScenarioConfig.js";
 import {global} from '../../global.js';
 
 export const page = new Page('/warRoom');
