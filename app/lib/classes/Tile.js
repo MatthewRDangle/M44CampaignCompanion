@@ -55,6 +55,16 @@ export default class Tile {
         }
     }
 
+    calcTotalFactionHealth(factionName) {
+        if (typeof factionName === 'string') {
+            const units = this.units[factionName];
+            if (units)
+                return units.reduce((p, c) => (p + c.health), 0)
+            else
+                return 0;
+        }
+    }
+
     setId(id) {
         if (typeof id === 'string')
             this.id = id;

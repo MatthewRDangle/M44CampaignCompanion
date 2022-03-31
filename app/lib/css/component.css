@@ -133,13 +133,13 @@
     background-color: var(--Highlight);
 }
 
-.mainMenuButtonOverlay {
+.optionHud {
     position: absolute;
         top: 30px;
         right: 30px;
     z-index: 1;
 }
-.mainMenuButtonOverlay_button {
+.optionHud_button {
     background-color: #000000;
     border-radius: 30px;
     border: 1px solid white;
@@ -147,20 +147,20 @@
     height: 50px;
     cursor: pointer;
 }
-.mainMenuButtonOverlay_button_bar {
+.optionHud_button_bar {
     width: 25px;
     margin: 6px auto;
     background-color: #FFFFFF;
     height: 3px;
 }
 
-.nextTurnOverlay {
+.nextTurnHud {
     position: absolute;
     bottom: 30px;
     right: 30px;
     z-index: 1;
 }
-.nextTurnOverlay_button {
+.nextTurnHud_button {
     background-color: #000000;
     border-radius: 50px;
     border: 1px solid white;
@@ -168,13 +168,13 @@
     height: 75px;
     cursor: pointer;
 }
-.nextTurnOverlay_button_play {
+.nextTurnHud_button_play {
     width: 25px;
     height: 25px;
     margin: 0 auto;
     background-color: #FFFFFF;
 }
-.nextTurnOverlay_label {
+.nextTurnHud_label {
     background-color: #000000;
     color: #FFFFFF;
     padding: 10px;
@@ -258,14 +258,14 @@
     margin-top: 2em;
 }
 
-.tileInfoOverlay {
+.tileInfoHud {
     position: absolute;
         left: 30px;
         bottom: 30px;
     width: 600px;
     z-index: 1;
 }
-.tileInfoOverlay_header {
+.tileInfoHud_header {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -273,24 +273,24 @@
     padding: 5px 10px;
     background-color: #151A1E;
 }
-.tileInfoOverlay_header > * {
+.tileInfoHud_header > * {
     display: inline-block;
 }
-.tileInfoOverlay_header_unitCount {
+.tileInfoHud_header_unitCount {
     margin-right: 10px;
 }
-.tileInfoOverlay_header_tileName {
+.tileInfoHud_header_description {
     margin-right: 10px;
 }
-.tileInfoOverlay_header_actions {
+.tileInfoHud_header_actions {
     flex: auto;
     text-align: right;
 }
-.tileInfoOverlay_header_actions_button {
+.tileInfoHud_header_actions_button {
     display: inline-block;
     margin-left: 5px;
 }
-.tileInfoOverlay_body {
+.tileInfoHud_body {
     background-color: #151A1E;
     display: flex;
     padding: 10px;

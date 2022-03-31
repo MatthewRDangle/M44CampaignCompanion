@@ -22,6 +22,8 @@ export const scenario = {
         }
     },
 
+    currentTurn: 'United States',
+
     tiles: {
         '*': {},
         '1-A-1': {

@@ -16,7 +16,9 @@ export class Scenario {
         this.rows = 0;
 
         // Status Info
+        this.currentTurn = undefined;
         this.selectedTile = undefined;
+        this.interactionMode = 'view';
 
         if (json) this.compile(json);
     }
@@ -40,8 +42,11 @@ export class Scenario {
             })
         }
 
+        // Set Current Turn.
+        if (typeof raw.currentTurn === 'string')
+            this.currentTurn = this.factions[raw.currentTurn];
 
-        // This Columns
+        // This Column and Row Count.
         this.columns = raw.columns;
         this.rows = raw.rows;
 
@@ -90,6 +95,12 @@ export class Scenario {
                 this.tiles[idx_rows].push(tile);
             }
         }
+    }
+
+    setInteractionMode(mode) {
+        const available_modes = ['view', 'move'];
+        if (available_modes.indexOf(mode))
+            this.interactionMode = mode;
     }
 
     setSelectedTile(tile) {
