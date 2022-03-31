@@ -74,6 +74,8 @@ export default class Tile {
         this.isSelected = true;
         const activeScenario = global.getValue('activeScenario');
         if (activeScenario instanceof Scenario) {
+            if (activeScenario.selectedTile === this)
+                return
             if (activeScenario.selectedTile)
                 activeScenario.selectedTile.unselect();
             activeScenario.setSelectedTile(this);
