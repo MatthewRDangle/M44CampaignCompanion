@@ -1,7 +1,7 @@
 const m = require("mithril");
-import {global} from '../../global.js';
 import Terrain from "../classes/Terrain.js";
 import Button from "./Button.js";
+import UnitCard from "./UnitCard.js";
 
 const TileInfoHud = (initialVnode) => {
 
@@ -12,19 +12,21 @@ const TileInfoHud = (initialVnode) => {
     return {
         view: (vNode) => {
             const {attrs} = vNode;
-            const {faction, tile} = attrs;
+            const {currentTurn, tile} = attrs;
 
             return (
                 m('div.tileInfoHud', [
                     m('div.tileInfoHud_header', [
-                        m('div.tileInfoHud_header_unitCount', tile.calcTotalFactionHealth(faction.name)),
+                        m('div.tileInfoHud_header_unitCount', tile.calcTotalFactionHealth(currentTurn.name)),
                         m('div.tileInfoHud_header_description', (tile.terrain instanceof Terrain) ? tile.terrain.name : 'Unknown'),
                         m('div.tileInfoHud_header_actions', [
                             m('div.tileInfoHud_header_actions_button', m(Button, {onclick: handlePreview, text: 'Preview'}))
                         ])
                     ]),
                     m('div.tileInfoHud_body', [
-
+                        (tile.units[currentTurn.name]) ? tile.units[currentTurn.name].map((unit) => (
+                            m(UnitCard, {unit: unit})
+                        )) : ''
                     ])
                 ])
             )

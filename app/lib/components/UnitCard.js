@@ -8,7 +8,7 @@ const HexTile = (initialVnode) => {
             const unit = attrs.unit;
 
             return (
-                m('div.unitCard', {className: `${attrs.selectable ? 'unitCard-selectable' : undefined}`}, [
+                m('div.unitCard', {className: `${attrs.selectable ? 'unitCard-selectable' : ''}`}, [
                     m('div.unitCard_count', unit.health || 0),
                     m('div.unitCard_picture',
                         m('div.unitCard_picture_icon')

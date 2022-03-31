@@ -16,7 +16,7 @@ const GameBoard = (initialVnode) => {
                 m('div.hud', [
                     m('div.hud_faction', m(FactionHud)),
                     m('div.hud_game', m(OptionHud)),
-                    m('div.hud_tile', selectedTile ? m(TileInfoHud, {tile: selectedTile, faction: currentTurn}) : ''),
+                    m('div.hud_tile', selectedTile ? m(TileInfoHud, {tile: selectedTile, currentTurn: currentTurn}) : ''),
                     m('div.hud_nextTurn', m(NextTurnHud))
                 ])
             )
