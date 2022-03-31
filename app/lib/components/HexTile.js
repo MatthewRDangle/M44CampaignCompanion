@@ -9,9 +9,12 @@ const HexTile = (initialVnode) => {
             const hex = attrs.hex;
 
             return (
-                m('div.hexTile', {onclick: () => {
-                    console.log('clicked')
-                }}, m('div.hexTile_body', [
+                m('div.hexTile', {
+                    className: `${hex.isSelected ? 'hexTile-selected' : ''}`,
+                    onclick: (e) => {
+                        hex.select();
+                    }
+                }, m('div.hexTile_body', [
                     Object.keys(hex.units).map((faction_name) => {
                         return hex.units[faction_name].map((unit) => {
                             return m(UnitCard, {unit: unit})

@@ -1,4 +1,6 @@
 import Unit from "./Unit.js";
+import {global} from "../../global.js"
+import {Scenario} from "./Scenario.js";
 
 export default class Tile {
     constructor() {
@@ -60,9 +62,19 @@ export default class Tile {
 
     select() {
         this.isSelected = true;
+        const activeScenario = global.getValue('activeScenario');
+        if (activeScenario instanceof Scenario) {
+            if (activeScenario.selectedTile)
+                activeScenario.selectedTile.unselect();
+            activeScenario.setSelectedTile(this);
+        }
     }
 
     unselect() {
         this.isSelected = false;
+        const activeScenario = global.getValue('activeScenario');
+        if (activeScenario instanceof Scenario)
+            activeScenario.selectedTile = undefined;
+
     }
 }

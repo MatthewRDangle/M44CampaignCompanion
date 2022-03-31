@@ -15,6 +15,9 @@ export class Scenario {
         this.columns = 0;
         this.rows = 0;
 
+        // Status Info
+        this.selectedTile = undefined;
+
         if (json) this.compile(json);
     }
 
@@ -87,5 +90,10 @@ export class Scenario {
                 this.tiles[idx_rows].push(tile);
             }
         }
+    }
+
+    setSelectedTile(tile) {
+        if (tile instanceof Tile)
+            this.selectedTile = tile;
     }
 }

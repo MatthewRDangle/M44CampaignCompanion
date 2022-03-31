@@ -85,19 +85,19 @@
     background-color: var(--Highlight);
     vertical-align: top;
 }
-.hexTile_body {
-    padding-top: calc(var(--HexSize) / 3.5);
-    padding-bottom: calc(var(--HexSize) / 3.5);
-}
-.hexTile:hover {
+.hexTile:hover, .hexTile-selected {
     cursor: pointer;
-    background-color: yellow;
+    background-color: var(--Interaction);
 }
 .hexTile-canMoveTo {
     background-color: var(--Highlight);
 }
 .hexTile-contested {
     background-color: var(--Warning);
+}
+.hexTile_body {
+    padding-top: calc(var(--HexSize) / 3.5);
+    padding-bottom: calc(var(--HexSize) / 3.5);
 }
 
 
@@ -208,20 +208,34 @@
 .unitCard {
     color: var(--Background);
     background-color: var(--Highlight);
-    padding: 2px 5px;
-    cursor: pointer;
+    padding: 7px 7px 2px 7px;
+    width: 120px;
+    border: 1px solid var(--Background);
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
 }
-.unitCard:hover {
+.unitCard--selectable:hover {
+    cursor: pointer;
     color: var(--Highlight);
     background-color: var(--Background);
 }
-.unitCard.--selected {
-    background-color: var(--Interaction);
-}
 .unitCard_count {
-    display: inline-block;
-    margin-right: 2px;
+    position: absolute;
+    right: -15px;
+    top: 10px;
+    background-color: var(--Highlight);
+    width: 1.7em;
+    height: 1.65em;
+    color: var( --Background);
+    border: 1px solid var(--Background);
+    border-radius: 15px;
 }
+.unitCard_picture {
+    height: 70px;
+    background-color: var(--Background);
+}
+.unitCard_picture_icon {}
 .unitCard_name {
     display: inline-block;
 }

@@ -1,23 +1,7 @@
 /*
-* Stylesheet Semantics.
-------------------
-* * CSS Blocks: Every chunk of CSS is separated into modular blocks. Each with a Name, Type and Description, with occasional notes.
-* * * Title: A name for what is being stylized (ie. input, button, scrollbar, ect.)
-* * * Description: An explanation of what is being stylized.
-* * * Note: Thoughts or information other developers might find worthy of a read.
-------------------
-* * Selector Groups: How the CSS selectors are organized for better readability.
-* * * [Device Size Response]: How the element will respond to different device sizes.
-------------------
-* * Unique Classes: [.wrapper .subheader, .anchor, .selection]
+* * Title: Theme Properties.
+* * Description: Adjust global properties.
 */
-
-/*
-* * ==================================================
-* * ===================[Basic CSS]====================
-* * ==================================================
-*/
-
 :root {
   --Font:         #FFFFFF;
   --Background:   #151A1E;
@@ -43,10 +27,6 @@
   font-style: normal;
 }
 
-/*
-* * Title: Theme Properties.
-* * Description: Adjust global properties.
-*/
 * {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
