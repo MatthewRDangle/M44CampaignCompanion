@@ -26,9 +26,9 @@
   --Border:       #FFFFFF;
   --Warning:      red;
 
-  --HexSize:      100px;
-  --HexMargin:    4px;
-  --HexOffset:         calc(var(--HexSize) * 1.732 + 4 * var(--HexMargin) - 1px);
+  --HexSize:      200px;
+  --HexMargin:    -1px;
+  --HexOffset:    calc(var(--HexSize) * 1.732 + 4 * var(--HexMargin) - 1px);
 }
 @font-face {
   font-family: "Roboto";

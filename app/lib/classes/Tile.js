@@ -32,7 +32,7 @@ export default class Tile {
         for (let key in instructions.units) {
             const owner_faction = scenario.factions[key];
             if (owner_faction) {
-                const unitsToCreate = instructions.units;
+                const unitsToCreate = instructions.units[owner_faction.name];
                 if (Array.isArray(unitsToCreate)) {
                     unitsToCreate.forEach((unit_template) => {
                         if (typeof unit_template === 'string')
@@ -46,8 +46,10 @@ export default class Tile {
 
     addUnit(unit) {
         if (unit instanceof Unit) {
-            if (this.units.hasOwnProperty(unit.faction) && Array.isArray(this.units[unit.faction]))
-                this.units[unit.faction].push(unit);
+            if (!this.units.hasOwnProperty(unit.faction.name))
+                this.units[unit.faction.name] = [];
+            if (Array.isArray(this.units[unit.faction.name]))
+                this.units[unit.faction.name].push(unit);
         }
     }
 

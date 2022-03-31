@@ -24,20 +24,16 @@ export class Scenario {
         if (raw.unit_templates) {
             const unit_templates = raw.unit_templates
             for (let key in unit_templates) {
-                const raw_template = unit_templates[key];
-                this.unit_templates[key] = {
-                    name: key,
-                    health: raw_template.health,
-                    available_movement: raw_template.available_movement,
-                    movement_cap: raw_template.available_movement
-                }
+                let raw_template = {...unit_templates[key]};
+                raw_template.name = key;
+                this.unit_templates[key] = raw_template;
             }
         }
 
         // Set Factions
         if (Array.isArray(raw.factions)) {
             raw.factions.forEach((raw_faction) => {
-                raw.factions[raw_faction.name] = new Faction(raw_faction.name, raw_faction.color);
+                this.factions[raw_faction.name] = new Faction(raw_faction.name, raw_faction.color);
             })
         }
 
@@ -76,11 +72,14 @@ export class Scenario {
 
                 // Set the State of the Tile.
                 let tile_instructions_data;
-                if (raw.tiles && raw.tiles.hasOwnProperty(tile.id))
+                if (raw.tiles && raw.tiles.hasOwnProperty(tile.id)) {
                     tile_instructions_data = scenario_tiles_data.navigate(tile.id);
-                else if (raw.tiles && (raw.tiles.hasOwnProperty('*') || raw.tiles.hasOwnProperty('*-*')))
+                    tile.compile(tile_instructions_data.getValue(), this);
+                }
+                else if (raw.tiles && (raw.tiles.hasOwnProperty('*') || raw.tiles.hasOwnProperty('*-*'))) {
                     tile_instructions_data = scenario_tiles_data.navigate('*');
-                tile.compile(tile_instructions_data.getValue(), this);
+                    tile.compile(tile_instructions_data.getValue(), this);
+                }
 
                 // Push tile into scenario.
                 if (!Array.isArray(this.tiles[idx_rows]))

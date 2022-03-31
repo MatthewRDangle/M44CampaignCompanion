@@ -14,7 +14,7 @@ export const scenario = {
         }
     ],
 
-    units_templates: {
+    unit_templates: {
         infantry: {
             health: 4,
             available_movement: 1,
