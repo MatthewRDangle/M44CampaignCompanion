@@ -1,7 +1,4 @@
 import Faction from './Faction.js';
-import PGUI from "./gui/pgui.js";
-import {localData} from '../../localdata.js';
-import Tile from "./gui/pgui/tile.js";
 
 export default class Unit {
     constructor(owner, {...options}) {

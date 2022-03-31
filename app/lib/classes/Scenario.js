@@ -1,7 +1,6 @@
-import ScenarioConfig from "./ScenarioConfig.js";
+const Data = require("../api/data");
 import Tile from "./Tile.js";
-import Data from "../../../api/data";
-import Faction from "./Faction";
+import Faction from "./Faction.js";
 
 export class Scenario {
     constructor(json) {
@@ -16,7 +15,7 @@ export class Scenario {
         this.columns = 0;
         this.rows = 0;
 
-        if (json) this.compile(JSON.parse(json));
+        if (json) this.compile(json);
     }
 
     compile(raw) {
@@ -57,7 +56,7 @@ export class Scenario {
                 // Set Tile ID.
                 const id_series = Math.ceil(idx_columns / alphabet.length);
                 const id_column = alphabet[(idx_columns - 1) % alphabet.length];
-                tile.setID(id_series + '-' + id_column + '-' + (idx_rows + 1));
+                tile.setId(id_series + '-' + id_column + '-' + (idx_rows + 1));
 
                 // Get Adjacent ID's.
                 let previous_column = alphabet[ (idx_columns - 2) % alphabet.length ];
@@ -84,7 +83,7 @@ export class Scenario {
                 tile.compile(tile_instructions_data.getValue(), this);
 
                 // Push tile into scenario.
-                if (Array.isArray(this.tiles[idx_rows]))
+                if (!Array.isArray(this.tiles[idx_rows]))
                     this.tiles[idx_rows] = [];
                 this.tiles[idx_rows].push(tile);
             }

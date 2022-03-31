@@ -1,43 +1,14 @@
+import {global} from "../../global.js";
+
 const m = require('mithril');
 import Page from '../classes/Page.js';
 import GameBoard from "../components/GameBoard.js"
-// import GameBoard from "../models/GameBoard.js";
-// import {localData} from "../../localdata.js";
-// import mainMenuButtonOverlay from "../components/MainMenuButtonOverlay.js";
-// import nextTurnOverlay from "../components/NextTurnOverlay.js";
 
 export const page = new Page('/warSim');
 page.setPage(function() {
-    const grid = [
-        [{}, {}, {}, {}, {}, {}, {}],
-        [{}, {}, {}, {}, {}, {}, {}],
-        [{}, {}, {}, {}, {}, {}, {}]
-    ];
-    return m(GameBoard, {grid: grid});
-    // return m('div.game', [
-    //     m('div#game.game_canvas'),
-    //     m('div#gameOverlay.game_overlay', [
-    //         m('div#gameOverlay-tileInfo'),
-    //         m('div#gameOverlay-currentFaction'),
-    //         m('div#gameOverlay-mainMenu',
-    //             m(mainMenuButtonOverlay, {
-    //                 onclick: () => { console.log('Main Menu Clicked') }
-    //             })
-    //         ),
-    //         m('div#gameOverlay-nextTurn',
-    //             m(nextTurnOverlay, {
-    //                 onclick: () => { console.log('Next Turn Clicked') }
-    //             })
-    //         )
-    //     ])
-    // ])
+    const activeScenario = global.navigate('activeScenario').getValue();
+    return m(GameBoard, {activeScenario: activeScenario});
 });
-// page.oncreate = () => {
-//     let game_element = document.getElementById('game');
-//     const map = new GameBoard(game_element, 32, 32);
-//     localData.navigate('gameboard').setValue(map);
-//     map.onTileSelect = renderTileInfoOverlay;
-// };
 
 // const renderTileInfoOverlay = function(tile) {
 //     const overlay_parent = document.getElementById('gameOverlay-tileInfo');

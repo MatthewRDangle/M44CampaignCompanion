@@ -1,11 +1,8 @@
-import {localData} from "../../localdata";
-
-const m = require('mithril');
-import Unit from "../../Unit.js";
-import Faction from "./Faction";
+import Unit from "./Unit.js";
 
 export default class Tile {
     constructor() {
+        this.id = '';
 
         // Interaction
         this.isSelected = false;
@@ -54,13 +51,16 @@ export default class Tile {
         }
     }
 
-
-
-    delselect() {
-        this.isSelected = false;
+    setId(id) {
+        if (typeof id === 'string')
+            this.id = id;
     }
 
     select() {
         this.isSelected = true;
+    }
+
+    unselect() {
+        this.isSelected = false;
     }
 }

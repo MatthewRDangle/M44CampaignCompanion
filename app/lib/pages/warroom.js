@@ -3,7 +3,6 @@ import Page from '../classes/Page.js'
 import MainMenu from "../components/MainMenu.js";
 import {scenario} from "../../scenario_temp.js";
 import {Scenario} from "../classes/Scenario.js";
-import ScenarioConfig from "../classes/ScenarioConfig.js";
 import {global} from '../../global.js';
 
 export const page = new Page('/warRoom');
@@ -11,9 +10,7 @@ page.setPage(function() {
     return [
         m(MainMenu, {currentPage: this, title: 'Campaign Companion'}, [
             m('div', {onclick: () => {
-                global.navigate('activeScenario').setValue(
-                    new Scenario(new ScenarioConfig(scenario))
-                );
+                global.navigate('activeScenario').setValue(new Scenario(scenario));
                 page.navigate('/warSim');
             }}, 'Declare War'),
             m('div', {onclick: () => {page.navigate('/campaign')}}, '<< Back'),
