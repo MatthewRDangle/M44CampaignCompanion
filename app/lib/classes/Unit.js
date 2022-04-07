@@ -1,4 +1,6 @@
 import Faction from './Faction.js';
+import {activeScenario} from "../../global.js";
+import Tile from "./Tile.js";
 
 export default class Unit {
     constructor(owner, {...options}) {
@@ -13,47 +15,102 @@ export default class Unit {
 
         this.available_movement = options.available_movement || 1;
         this.movement_cap = options.movement_cap || 1;
+        this.canMoveTo = {};
 
         this.tile = undefined;
     }
 
-    // eligibleMoves() {
-    //     const eligible_moves = {};
-    //     if (this.tile instanceof Tile)
-    //         checkMovement(this.tile, this.available_movement);
-    //     return eligible_moves; // All eligible moves w/ remaining movement after moving.
-    //
-    //     function checkMovement(tile, available_movement) {
-    //         if (tile.state.isContested)
-    //             return
-    //
-    //         let movement_info = tile.adjacentMovementCost();
-    //         for (let tileid in movement_info) {
-    //             const movement_cost = movement_info[tileid];
-    //             if ( movement_cost <= available_movement) {
-    //                 const remaining_movement = available_movement - movement_cost;
-    //
-    //                 // Check if tile already exists. If it does overwrite it if the new route has the highest available_movement remaining.
-    //                 if (eligible_moves.hasOwnProperty(tileid) && eligible_moves[tileid] < remaining_movement)
-    //                     eligible_moves[tileid] = remaining_movement;
-    //
-    //                 // If it doesn't exist, add it.
-    //                 else if (!eligible_moves.hasOwnProperty(tileid))
-    //                     eligible_moves[tileid] = remaining_movement;
-    //
-    //                 // Otherwise skip, because it shouldn't be added since it's a smaller number.
-    //                 else
-    //                     continue
-    //
-    //                 // If their is any available movement left, repeat.
-    //                 if (remaining_movement > 0) {
-    //                     const tile = map.getElementById(tileid);
-    //                     checkMovement(tile, remaining_movement);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    attachTile(tile) {
+        if (tile instanceof Tile)
+            this.tile = tile;
+    }
+
+    eligibleMoves() {
+        const eligible_moves = {};
+        if (this.tile instanceof Tile)
+            checkMovement(this.tile, this.available_movement);
+        this.canMoveTo = eligible_moves;
+        return eligible_moves; // All eligible moves w/ remaining movement after moving.
+
+        function checkMovement(tile, available_movement) {
+            if (tile.isContested)
+                return
+
+            let movement_info = tile.adjacentMovementCost();
+            for (let tileId in movement_info) {
+                const movement_cost = movement_info[tileId];
+                if ( movement_cost <= available_movement) {
+                    const remaining_movement = available_movement - movement_cost;
+
+                    // Check if tile already exists. If it does overwrite it if the new route has the highest available_movement remaining.
+                    if (eligible_moves.hasOwnProperty(tileId) && eligible_moves[tileId] < remaining_movement)
+                        eligible_moves[tileId] = remaining_movement;
+
+                    // If it doesn't exist, add it.
+                    else if (!eligible_moves.hasOwnProperty(tileId))
+                        eligible_moves[tileId] = remaining_movement;
+
+                    // Otherwise skip, because it shouldn't be added since it's a smaller number.
+                    else
+                        continue
+
+                    // If there is any available movement left, repeat.
+                    if (remaining_movement > 0) {
+                        const [series, column, row] = tileId.split('-');
+                        if (row - 1 >= 0) {
+                            const tile = activeScenario.tiles[row - 1][tileId];
+                            checkMovement(tile, remaining_movement);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    detachTile() {
+        this.tile = undefined;
+    }
+
+    deselect() {
+        this.isSelected = false;
+        this.canMoveTo = {};
+        if (activeScenario.selectedUnit instanceof Unit && activeScenario.selectedUnit === this)
+            activeScenario.selectedUnit = undefined;
+    }
+
+    moveTo(tile) {
+        if (this.tile) {
+            const eligibleMoves = this.canMoveTo;
+            for(let key in eligibleMoves) {
+                const new_available_movement = eligibleMoves[key];
+                if (tile.id === key && this.available_movement >= new_available_movement) {
+                    this.warpTo(tile);
+                    this.deselect();
+                    this.available_movement = new_available_movement;
+
+                    if (tile.owner !== this.faction)
+                        tile.contest();
+                }
+            }
+        }
+    }
+
+    select() {
+        this.isSelected = true;
+        this.eligibleMoves();
+        if (activeScenario.selectedUnit instanceof Unit && activeScenario.selectedUnit !== this)
+            activeScenario.selectedUnit.deselect();
+        activeScenario.selectedUnit = this;
+    }
+
+    warpTo(tile) {
+        if (tile instanceof Tile && tile !== this.tile) {
+            this.tile.removeUnit(this);
+            tile.addUnit(this);
+        }
+    }
+
+
     //
     // deselect() {
     //     this.isSelected = false;

@@ -1,5 +1,4 @@
 const m = require("mithril");
-import {global} from "../../global.js";
 import NextTurnHud from "./NextTurnHud.js";
 import OptionHud from "./OptionHud.js";
 import TileInfoHud from "./TileInfoHud.js";

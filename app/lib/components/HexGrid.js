@@ -12,11 +12,9 @@ const HexGrid = (initialVnode) => {
             return (
                 m('div.hexGrid', [
                     grid.map((row) => {
-                        if (Array.isArray(row)) {
-                            return m('div.hexGrid_row', row.map((tile) => {
-                                return m(HexTile, {hex: tile})
-                            }))
-                        }
+                        return m('div.hexGrid_row', Object.values(row).map((tile) => {
+                            return m(HexTile, {hex: tile})
+                        }))
                     })
                 ])
             )

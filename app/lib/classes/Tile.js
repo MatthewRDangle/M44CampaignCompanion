@@ -1,10 +1,12 @@
 import Unit from "./Unit.js";
-import {global} from "../../global.js"
-import {Scenario} from "./Scenario.js";
+import {activeScenario} from "../../global.js"
+import Scenario from "./Scenario.js";
+import Terrain from "./Terrain.js";
 
 export default class Tile {
     constructor() {
         this.id = '';
+        this.row = '';
 
         // Interaction
         this.isSelected = false;
@@ -14,19 +16,45 @@ export default class Tile {
         this.isContested = false;
 
         // Terrain, Overlay, Units & Fortifications
-        this.terrain = undefined;
-        this.overlay = undefined;
+        this.terrain = new Terrain();
         this.units = {};
-
-        // Create Default Hex
-        this.width = 20 * 10;
-        this.height = 14 * 10;
-        this.textColor = '0x000000';
-        this.backgroundShape = 'hex';
-        this.backgroundColor = '0xD2E2BB';
 
         // Relative Positioning.
         this.adjacentTiles = [];
+    }
+
+    adjacentMovementCost() {
+        const movement_info = {};
+        this.adjacentTiles.forEach(function (tileId) {
+            const [series, column, row] = tileId.split('-');
+            if (row - 1 >= 0) {
+                const tile = activeScenario.tiles[row - 1][tileId];
+                if (tile)
+                    movement_info[tileId] = tile.terrain.movement_cost;
+            }
+        });
+        return movement_info;
+    }
+
+    addUnit(unit) {
+        if (unit instanceof Unit) {
+            if (!this.units.hasOwnProperty(unit.faction.name))
+                this.units[unit.faction.name] = [];
+            if (Array.isArray(this.units[unit.faction.name])) {
+                this.units[unit.faction.name].push(unit);
+                unit.attachTile(this);
+            }
+        }
+    }
+
+    calcTotalFactionHealth(factionName) {
+        if (typeof factionName === 'string') {
+            const units = this.units[factionName];
+            if (units)
+                return units.reduce((p, c) => (p + c.health), 0)
+            else
+                return 0;
+        }
     }
 
     compile(instructions, scenario) {
@@ -46,23 +74,29 @@ export default class Tile {
         }
     }
 
-    addUnit(unit) {
+    contest() {
+        this.isContested = true;
+    }
+
+    deselect() {
+        this.isSelected = false;
+        if (activeScenario instanceof Scenario)
+            activeScenario.selectedTile = undefined;
+
+    }
+
+    removeUnit(unit) {
         if (unit instanceof Unit) {
-            if (!this.units.hasOwnProperty(unit.faction.name))
-                this.units[unit.faction.name] = [];
-            if (Array.isArray(this.units[unit.faction.name]))
-                this.units[unit.faction.name].push(unit);
+            const unitArrayByFaction = this.units[unit.faction.name];
+            if (Array.isArray(unitArrayByFaction) && unitArrayByFaction.includes(unit)) {
+                unitArrayByFaction.splice(unitArrayByFaction.indexOf(unit), 1);
+                unit.detachTile();
+            }
         }
     }
 
-    calcTotalFactionHealth(factionName) {
-        if (typeof factionName === 'string') {
-            const units = this.units[factionName];
-            if (units)
-                return units.reduce((p, c) => (p + c.health), 0)
-            else
-                return 0;
-        }
+    resolve() {
+        this.isContested = false;
     }
 
     setId(id) {
@@ -70,23 +104,20 @@ export default class Tile {
             this.id = id;
     }
 
+    setRow(int) {
+        if (Number.isInteger(int))
+            this.row = int;
+    }
+
     select() {
         this.isSelected = true;
-        const activeScenario = global.getValue('activeScenario');
         if (activeScenario instanceof Scenario) {
             if (activeScenario.selectedTile === this)
                 return
-            if (activeScenario.selectedTile)
-                activeScenario.selectedTile.unselect();
+
+            if (activeScenario.selectedTile instanceof Tile)
+                activeScenario.selectedTile.deselect();
             activeScenario.setSelectedTile(this);
         }
-    }
-
-    unselect() {
-        this.isSelected = false;
-        const activeScenario = global.getValue('activeScenario');
-        if (activeScenario instanceof Scenario)
-            activeScenario.selectedTile = undefined;
-
     }
 }

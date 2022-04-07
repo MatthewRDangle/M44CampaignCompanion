@@ -2,7 +2,7 @@ const Data = require("../api/data");
 import Tile from "./Tile.js";
 import Faction from "./Faction.js";
 
-export class Scenario {
+export default class Scenario {
     constructor(json) {
         this.devMode = false;
 
@@ -18,7 +18,7 @@ export class Scenario {
         // Status Info
         this.currentTurn = undefined;
         this.selectedTile = undefined;
-        this.interactionMode = 'view';
+        this.selectedUnit = undefined;
 
         if (json) this.compile(json);
     }
@@ -61,6 +61,7 @@ export class Scenario {
                 const id_series = Math.ceil(idx_columns / alphabet.length);
                 const id_column = alphabet[(idx_columns - 1) % alphabet.length];
                 tile.setId(id_series + '-' + id_column + '-' + (idx_rows + 1));
+                tile.setRow(idx_rows);
 
                 // Get Adjacent ID's.
                 let previous_column = alphabet[ (idx_columns - 2) % alphabet.length ];
@@ -90,17 +91,11 @@ export class Scenario {
                 }
 
                 // Push tile into scenario.
-                if (!Array.isArray(this.tiles[idx_rows]))
-                    this.tiles[idx_rows] = [];
-                this.tiles[idx_rows].push(tile);
+                if (!this.tiles[idx_rows])
+                    this.tiles[idx_rows] = {};
+                this.tiles[idx_rows][tile.id] = tile;
             }
         }
-    }
-
-    setInteractionMode(mode) {
-        const available_modes = ['view', 'move'];
-        if (available_modes.indexOf(mode))
-            this.interactionMode = mode;
     }
 
     setSelectedTile(tile) {

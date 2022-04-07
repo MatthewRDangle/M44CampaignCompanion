@@ -90,8 +90,8 @@
     cursor: pointer;
     background-color: var(--Interaction);
 }
-.hexTile-canMoveTo {
-    background-color: var(--Highlight);
+.hexTile-eligibleMove {
+    background-color: var(--Interaction);
 }
 .hexTile-contested {
     background-color: var(--Warning);
@@ -216,7 +216,8 @@
     margin: 0 auto;
     position: relative;
 }
-.unitCard--selectable:hover {
+.unitCard--selectable:hover,
+.unitCard--selected {
     cursor: pointer;
     color: var(--Highlight);
     background-color: var(--Background);

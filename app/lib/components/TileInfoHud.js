@@ -9,6 +9,10 @@ const TileInfoHud = (initialVnode) => {
         console.log('preview clicked');
     }
 
+    const handleUnitSelect = (unit) => {
+        unit.select();
+    }
+
     return {
         view: (vNode) => {
             const {attrs} = vNode;
@@ -25,7 +29,7 @@ const TileInfoHud = (initialVnode) => {
                     ]),
                     m('div.tileInfoHud_body', [
                         (tile.units[currentTurn.name]) ? tile.units[currentTurn.name].map((unit) => (
-                            m(UnitCard, {unit: unit})
+                            m(UnitCard, {unit: unit, onclick: () => {handleUnitSelect(unit)}})
                         )) : ''
                     ])
                 ])

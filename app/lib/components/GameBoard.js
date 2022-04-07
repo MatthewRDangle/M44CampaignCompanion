@@ -1,23 +1,26 @@
 const m = require("mithril");
 import HexGrid from "./HexGrid.js";
 import Hud from "./Hud.js";
-import {global} from "../../global.js";
+import Unit from "../classes/Unit.js";
 import Tile from "../classes/Tile.js";
+import {activeScenario} from "../../global.js";
 
 const GameBoard = (initialVnode) => {
+
+    const handleRightClick = (e) => {
+        if (activeScenario.selectedUnit instanceof Unit)
+            activeScenario.selectedUnit.deselect();
+        else if (activeScenario.selectedTile instanceof Tile)
+            activeScenario.selectedTile.deselect();
+    }
 
     return {
         view: (vNode) => {
             const {attrs} = vNode;
-            const activeScenario = attrs.activeScenario;
 
             return (
                 m('div.gameBoard', {
-                    oncontextmenu: (e) => {
-                        const activeScenario = global.getValue('activeScenario')
-                        if (activeScenario.selectedTile instanceof Tile)
-                            activeScenario.selectedTile.unselect();
-                    }
+                    oncontextmenu: handleRightClick
                 }, [
                     m('div.gameBoard_body', m(HexGrid, {grid: activeScenario.tiles})),
                     m('div.gameBoard_hud', [
