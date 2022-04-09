@@ -226,7 +226,7 @@
     position: absolute;
     right: -15px;
     top: 10px;
-    background-color: var(--Highlight);
+    background-color: inherit;
     width: 1.7em;
     height: 1.65em;
     color: var( --Background);

@@ -3,18 +3,18 @@ import {activeScenario} from "../../global.js";
 import Tile from "./Tile.js";
 
 export default class Unit {
-    constructor(owner, {...options}) {
+    constructor(owner, options) {
         if ( !(owner instanceof Faction) )
             throw Error('A unit must be assigned to a faction.');
 
         this.faction = owner;
         this.isSelected = false;
-        this.name = options.name || 'Unit';
-        this.icon = options.icon || undefined;
-        this.health = options.health || 1;
+        this.name = options?.name || 'Unit';
+        this.icon = options?.icon || undefined;
+        this.health = options?.health || 1;
 
-        this.available_movement = options.available_movement || 1;
-        this.movement_cap = options.movement_cap || 1;
+        this.available_movement = options?.available_movement || 1;
+        this.movement_cap = options?.movement_cap || 1;
         this.canMoveTo = {};
 
         this.tile = undefined;

@@ -6,11 +6,17 @@ export const scenario = {
     factions: [
         {
             name: 'United States',
-            color: '95B07E'
+            color: {
+                color: '#151A1E',
+                backgroundColor: '#95B07E'
+            },
         },
         {
             name: 'Germany',
-            color: '9BADB7'
+            color: {
+                color: '#151A1E',
+                backgroundColor: '#9BADB7'
+            },
         }
     ],
 
@@ -29,6 +35,16 @@ export const scenario = {
         '1-A-1': {
             units: {
                 'United States': ['infantry']
+            }
+        },
+        '1-B-1': {
+            units: {
+                'United States': ['infantry', 'infantry', 'infantry']
+            }
+        },
+        '1-A-2': {
+            units: {
+                'Germany': ['infantry', 'infantry', 'infantry']
             }
         }
     }

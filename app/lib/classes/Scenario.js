@@ -38,13 +38,30 @@ export default class Scenario {
         // Set Factions
         if (Array.isArray(raw.factions)) {
             raw.factions.forEach((raw_faction) => {
-                this.factions[raw_faction.name] = new Faction(raw_faction.name, raw_faction.color);
+                this.factions[raw_faction.name] = new Faction(raw_faction.name, raw_faction);
             })
         }
 
         // Set Current Turn.
         if (typeof raw.currentTurn === 'string')
             this.currentTurn = this.factions[raw.currentTurn];
+        else {
+            let firstFactionInList; // Used later as failsafe.
+
+            // If no current turn is found. Loop through all factions to search for the first current turn indicator.
+            Object.values(this.factions).forEach((faction, index) => {
+                if (index === 0) firstFactionInList = faction;
+                if (faction.currentTurn)
+                    this.currentTurn = faction;
+            })
+
+            // Still no current turn ? grab first faction available. No faction available, then error.
+            if (!!firstFactionInList)
+                this.currentTurn = firstFactionInList;
+            else
+                throw Error('No factions available to configure scenario. Please add factions.');
+
+        }
 
         // This Column and Row Count.
         this.columns = raw.columns;

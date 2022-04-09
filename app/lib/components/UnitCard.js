@@ -6,10 +6,12 @@ const HexTile = (initialVnode) => {
         view: (vNode) => {
             const {attrs} = vNode;
             const unit = attrs.unit;
+            const factionColors = unit.faction?.color;
 
             return (
                 m('div.unitCard', {
                     className: `${attrs.onclick ? 'unitCard--selectable' : ''} ${unit.isSelected ? 'unitCard--selected' : ''}`,
+                    style: `background-color: ${factionColors?.backgroundColor}; color: ${factionColors?.color};`,
                     onclick: attrs.onclick
                 }, [
                     m('div.unitCard_count', unit.health || 0),
