@@ -8,6 +8,7 @@
   --Interaction:  #DBBD77;
   --Highlight:	  #C5D6B7;
   --Border:       #FFFFFF;
+  --Disabled:     #A9A9A9;
   --Warning:      red;
 
   --HexSize:      200px;
@@ -453,6 +454,10 @@ button, [type="submit"], [type="reset"], [type="button"] {
 button:hover, [type="submit"]:hover, [type="reset"]:hover, [type="button"]:hover {
   color: inherit;
   background-color: transparent;
+}
+button:disabled {
+  cursor: not-allowed;
+  background: var(--Disabled)
 }
 
 /*

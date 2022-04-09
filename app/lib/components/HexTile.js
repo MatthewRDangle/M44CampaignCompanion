@@ -1,4 +1,5 @@
 const m = require("mithril");
+const classNames = require("classnames");
 import UnitCard from './UnitCard.js';
 import {activeScenario} from "../../global.js";
 import Unit from "../classes/Unit.js";
@@ -20,7 +21,11 @@ const HexTile = (initialVnode) => {
 
             return (
                 m('div.hexTile', {
-                    className: `${hex.isSelected ? 'hexTile-selected' : '' } ${(selectedUnit?.canMoveTo[hex.id] >= 0) ? 'hexTile-eligibleMove' : ''}`,
+                    className: classNames(
+                        {'hexTile-isSelected': hex.isSelected},
+                        {'hexTile-eligibleMove': selectedUnit?.canMoveTo[hex.id] >= 0},
+                        {'hexTile-contested': hex.isContested}
+                    ),
                     onclick: (e) => {handleOnClick(hex)}
                 }, m('div.hexTile_body', [
                     Object.keys(hex.units).map((faction_name) => {

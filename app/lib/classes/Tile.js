@@ -2,6 +2,7 @@ import Unit from "./Unit.js";
 import {activeScenario} from "../../global.js"
 import Scenario from "./Scenario.js";
 import Terrain from "./Terrain.js";
+import Faction from "./Faction.js";
 
 export default class Tile {
     constructor() {
@@ -43,6 +44,9 @@ export default class Tile {
             if (Array.isArray(this.units[unit.faction.name])) {
                 this.units[unit.faction.name].push(unit);
                 unit.attachTile(this);
+
+                if (this.owner !== unit.faction)
+                    this.contest(unit.faction)
             }
         }
     }
@@ -74,8 +78,13 @@ export default class Tile {
         }
     }
 
-    contest() {
-        this.isContested = true;
+    contest(invader) {
+        if (invader instanceof Faction) {
+            if (!!this.units[this.owner?.name])
+                this.isContested = true;
+            else
+                this.owner = invader;
+        }
     }
 
     deselect() {

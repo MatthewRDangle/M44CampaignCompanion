@@ -5,8 +5,12 @@ import UnitCard from "./UnitCard.js";
 
 const TileInfoHud = (initialVnode) => {
 
+    const handleBattle = () => {
+        m.route.set('/battle')
+    }
+
     const handlePreview = () => {
-        console.log('preview clicked');
+        m.route.set('/preview')
     }
 
     const handleUnitSelect = (unit) => {
@@ -24,7 +28,8 @@ const TileInfoHud = (initialVnode) => {
                         m('div.tileInfoHud_header_unitCount', tile.calcTotalFactionHealth(currentTurn.name)),
                         m('div.tileInfoHud_header_description', (tile.terrain instanceof Terrain) ? tile.terrain.name : 'Unknown'),
                         m('div.tileInfoHud_header_actions', [
-                            m('div.tileInfoHud_header_actions_button', m(Button, {onclick: handlePreview, text: 'Preview'}))
+                            m('div.tileInfoHud_header_actions_button', m(Button, {onclick: handleBattle, disabled: !tile.isContested}, 'Battle')),
+                            m('div.tileInfoHud_header_actions_button', m(Button, {onclick: handlePreview}, 'Preview'))
                         ])
                     ]),
                     m('div.tileInfoHud_body', [

@@ -86,7 +86,7 @@
     background-color: var(--Highlight);
     vertical-align: top;
 }
-.hexTile:hover, .hexTile-selected {
+.hexTile:hover, .hexTile-isSelected {
     cursor: pointer;
     background-color: var(--Interaction);
 }
@@ -219,8 +219,11 @@
 .unitCard--selectable:hover,
 .unitCard--selected {
     cursor: pointer;
-    color: var(--Highlight);
-    background-color: var(--Background);
+    color: var(--Highlight) !important;
+    background-color: var(--Background) !important;
+}
+.unitCard--exhausted {
+    opacity: 0.5;
 }
 .unitCard_count {
     position: absolute;

@@ -15,7 +15,7 @@ const config_router = function(pages) {
     if (pages) {
         let router = {};
         pages.forEach((page) => {
-            router[page.path] = page;
+            router[page.path] = page.component;
         });
         if (!router.hasOwnProperty('/main'))
             router['/main'] = new Page('/main');

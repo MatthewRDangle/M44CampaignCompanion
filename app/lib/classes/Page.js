@@ -1,29 +1,19 @@
 const m = require('mithril');
 
-let __pages = {};
+const __pages = {};
 
 export default class Page {
-    constructor(name) {
+    constructor(name, component) {
         if (!name || typeof name !== 'string')
             throw Error('Unable to build a page without a name.');
-        this.path = name;
-        this.loadPage = undefined;
+        if (!component)
+            throw Error('Unable to build a page without a mithril component.');
 
         if (__pages.hasOwnProperty(name))
             throw Error('Page ' + name + 'already exists.');
         __pages[name] = this;
-    }
 
-    view() {
-        return m('div.view', (this.loadPage) ? this.loadPage() : '')
-    }
-    setPage(func) {
-        if (func && typeof func === 'function')
-            this.loadPage = func;
-    }
-
-    navigate(path) {
-        if (path && typeof path === 'string')
-            m.route.set(path);
+        this.path = name;
+        this.component = component;
     }
 }

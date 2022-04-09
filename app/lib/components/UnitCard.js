@@ -1,4 +1,5 @@
 const m = require("mithril");
+const classNames = require("classnames");
 
 const HexTile = (initialVnode) => {
 
@@ -7,10 +8,14 @@ const HexTile = (initialVnode) => {
             const {attrs} = vNode;
             const unit = attrs.unit;
             const factionColor = unit.faction?.color;
-            console.log(factionColor);
+
             return (
                 m('div.unitCard', {
-                    className: `${attrs.onclick ? 'unitCard--selectable' : ''} ${unit.isSelected ? 'unitCard--selected' : ''}`,
+                    className: classNames(
+                        {'unitCard--selectable': attrs.onclick},
+                        {'unitCard--selected': unit.isSelected},
+                        {'unitCard--exhausted': !unit.available_movement}
+                    ),
                     style: {color: factionColor?.text, 'background-color': factionColor?.background},
                     onclick: attrs.onclick
                 }, [
