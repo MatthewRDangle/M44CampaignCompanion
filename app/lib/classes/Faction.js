@@ -5,8 +5,8 @@ export default class Faction {
 
         this.name = name;
         this.color = {
-            color: options?.color || '#151A1E',
-            backgroundColor: options?.backgroundColor || '#95B07E'
+            text: options?.color?.text || '#151A1E',
+            background: options?.color?.background || '#95B07E'
         };
         this.currentTurn = options?.currentTurn || false;
     }

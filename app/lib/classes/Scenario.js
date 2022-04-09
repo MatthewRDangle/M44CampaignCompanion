@@ -23,28 +23,28 @@ export default class Scenario {
         if (json) this.compile(json);
     }
 
-    compile(raw) {
+    compile(definition) {
 
         // Set Unit Templates
-        if (raw.unit_templates) {
-            const unit_templates = raw.unit_templates
+        if (definition.unit_templates) {
+            const unit_templates = definition.unit_templates
             for (let key in unit_templates) {
-                let raw_template = {...unit_templates[key]};
-                raw_template.name = key;
-                this.unit_templates[key] = raw_template;
+                let unit_definition_template = {...unit_templates[key]};
+                unit_definition_template.name = key;
+                this.unit_templates[key] = unit_definition_template;
             }
         }
 
         // Set Factions
-        if (Array.isArray(raw.factions)) {
-            raw.factions.forEach((raw_faction) => {
-                this.factions[raw_faction.name] = new Faction(raw_faction.name, raw_faction);
+        if (Array.isArray(definition.factions)) {
+            definition.factions.forEach((definition_faction) => {
+                this.factions[definition_faction.name] = new Faction(definition_faction.name, definition_faction);
             })
         }
 
         // Set Current Turn.
-        if (typeof raw.currentTurn === 'string')
-            this.currentTurn = this.factions[raw.currentTurn];
+        if (typeof definition.currentTurn === 'string')
+            this.currentTurn = this.factions[definition.currentTurn];
         else {
             let firstFactionInList; // Used later as failsafe.
 
@@ -64,14 +64,14 @@ export default class Scenario {
         }
 
         // This Column and Row Count.
-        this.columns = raw.columns;
-        this.rows = raw.rows;
+        this.columns = definition.columns;
+        this.rows = definition.rows;
 
         // Construct Tiles
-        const scenario_tiles_data = new Data(raw.tiles);
+        const scenario_tiles_data = new Data(definition.tiles);
         const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        for (let idx_rows = 0; idx_rows < raw.rows + 1; idx_rows++) {
-            for (let idx_columns = 1; idx_columns < raw.columns + 1; idx_columns++) {
+        for (let idx_rows = 0; idx_rows < definition.rows + 1; idx_rows++) {
+            for (let idx_columns = 1; idx_columns < definition.columns + 1; idx_columns++) {
                 const tile = new Tile();
 
                 // Set Tile ID.
@@ -98,11 +98,11 @@ export default class Scenario {
 
                 // Set the State of the Tile.
                 let tile_instructions_data;
-                if (raw.tiles && raw.tiles.hasOwnProperty(tile.id)) {
+                if (definition.tiles && definition.tiles.hasOwnProperty(tile.id)) {
                     tile_instructions_data = scenario_tiles_data.navigate(tile.id);
                     tile.compile(tile_instructions_data.getValue(), this);
                 }
-                else if (raw.tiles && (raw.tiles.hasOwnProperty('*') || raw.tiles.hasOwnProperty('*-*'))) {
+                else if (definition.tiles && (definition.tiles.hasOwnProperty('*') || definition.tiles.hasOwnProperty('*-*'))) {
                     tile_instructions_data = scenario_tiles_data.navigate('*');
                     tile.compile(tile_instructions_data.getValue(), this);
                 }

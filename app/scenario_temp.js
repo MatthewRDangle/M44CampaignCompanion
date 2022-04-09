@@ -7,15 +7,15 @@ export const scenario = {
         {
             name: 'United States',
             color: {
-                color: '#151A1E',
-                backgroundColor: '#95B07E'
+                text: '#151A1E',
+                background: '#95B07E'
             },
         },
         {
             name: 'Germany',
             color: {
-                color: '#151A1E',
-                backgroundColor: '#9BADB7'
+                text: '#151A1E',
+                background: '#9BADB7'
             },
         }
     ],
