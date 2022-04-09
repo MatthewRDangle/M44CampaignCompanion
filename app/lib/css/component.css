@@ -200,7 +200,6 @@
 .results {}
 .results_header {}
 .results_counters {
-    margin: 30px auto 0 auto;
     width: min-content;
 }
 
