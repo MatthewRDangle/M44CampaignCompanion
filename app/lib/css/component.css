@@ -51,6 +51,15 @@
 }
 .flex_item {}
 
+.factionHud {
+    position: absolute;
+        top: 30px;
+        left: 20px;
+    padding: 15px;
+    background-color: var(--Background);
+    border-radius: 10px;
+}
+
 .gameBoard {
     width: 100vw;
     height: 100vh;
@@ -134,27 +143,6 @@
     background-color: var(--Highlight);
 }
 
-.optionHud {
-    position: absolute;
-        top: 30px;
-        right: 30px;
-    z-index: 1;
-}
-.optionHud_button {
-    background-color: #000000;
-    border-radius: 30px;
-    border: 1px solid white;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-}
-.optionHud_button_bar {
-    width: 25px;
-    margin: 6px auto;
-    background-color: #FFFFFF;
-    height: 3px;
-}
-
 .nextTurnHud {
     position: absolute;
     bottom: 30px;
@@ -180,6 +168,38 @@
     color: #FFFFFF;
     padding: 10px;
     border-radius: 10px;
+}
+
+.optionHud {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 1;
+}
+.optionHud_button {
+    background-color: #000000;
+    border-radius: 30px;
+    border: 1px solid white;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+.optionHud_button_bar {
+    width: 25px;
+    margin: 6px auto;
+    background-color: #FFFFFF;
+    height: 3px;
+}
+
+.optionOverlay {
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    background-color: var(--Background);
+    position: fixed;
+        top: 0;
+        left: 0;
+    z-index: 2;
 }
 
 .preview {

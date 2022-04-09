@@ -1,4 +1,5 @@
 const m = require("mithril");
+import {activeScenario} from "../../global.js";
 
 const FactionHud = (initialVnode) => {
 
@@ -7,7 +8,7 @@ const FactionHud = (initialVnode) => {
             const {attrs} = vNode;
 
             return (
-                m('div.factionHud')
+                m('div.factionHud', activeScenario.currentTurn.name)
             )
         }
     }
