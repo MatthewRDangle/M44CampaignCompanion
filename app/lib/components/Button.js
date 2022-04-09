@@ -7,7 +7,7 @@ const Button = (initialVnode) => {
             const {attrs} = vNode;
 
             return (
-                m('button.button', {onclick: attrs.onclick, disabled: attrs.disabled}, vNode.children)
+                m('button.button', attrs, vNode.children)
             )
         }
     }

@@ -9,6 +9,3 @@ export const page = new Page('/warSim', {
         return m(GameBoard)
     }
 });
-// page.setPage(function() {
-//     return m(GameBoard);
-// });

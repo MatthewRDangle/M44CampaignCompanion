@@ -198,9 +198,7 @@
 }
 
 .results {}
-.results_header {
-    text-align: center;
-}
+.results_header {}
 .results_counters {
     margin: 30px auto 0 auto;
     width: min-content;

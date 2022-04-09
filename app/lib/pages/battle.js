@@ -1,10 +1,14 @@
 const m = require('mithril');
 import Page from '../classes/Page.js';
-import Button from "../components/Button.js";
+import BattleResultCalc from "../components/BattleResultCalc.js";
+import {activeScenario} from "../../global.js";
 
-export const page = new Page('/battle', {
+export const page = new Page('/battle/:tileId', {
     view: (vNode) => {
         const {attrs} = vNode;
+        const tileId = attrs.tileId;
+        const [series, column, row] = tileId.split('-');
+        const tile = activeScenario.tiles[row - 1][tileId];
 
         const handleSetup = () => {
             m.route.set('/preview');
@@ -12,10 +16,7 @@ export const page = new Page('/battle', {
 
         return [
             m('h1', 'Battle Results'),
-            m(Button, {onclick: handleSetup}, 'Setup'),
-            m('div.results', [
-                m('h2.results_header', 'Attacker')
-            ])
+            m(BattleResultCalc, {tile: tile})
         ]
     }
 });

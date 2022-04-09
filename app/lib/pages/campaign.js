@@ -30,6 +30,3 @@ export const page = new Page('/campaign', {
         ]
     }
 });
-// page.setPage(function() {
-//
-// });

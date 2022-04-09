@@ -67,6 +67,12 @@ export default class Unit {
         }
     }
 
+    death() {
+        if (activeScenario.selectedUnit === this)
+            activeScenario.selectedUnit = undefined;
+        this.tile.removeUnit(this);
+    }
+
     detachTile() {
         this.tile = undefined;
     }
@@ -92,6 +98,18 @@ export default class Unit {
                         tile.contest();
                 }
             }
+        }
+    }
+
+    reduceHealth(int) {
+        if (int < this.health) {
+            this.health -= int;
+            return 0;
+        }
+        else {
+            const preHealth = this.health;
+            this.death();
+            return int - preHealth;
         }
     }
 

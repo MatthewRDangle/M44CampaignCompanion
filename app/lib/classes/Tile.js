@@ -11,6 +11,10 @@ export default class Tile {
 
         // Interaction
         this.isSelected = false;
+        this.preview = {
+            src: 'lib/images/placeholder.PNG',
+            alt: ''
+        };
 
         // Ownership & Contest
         this.owner = undefined;
@@ -81,7 +85,7 @@ export default class Tile {
     contest(invader) {
         if (invader instanceof Faction) {
             if (!!this.units[this.owner?.name])
-                this.isContested = true;
+                this.isContested = invader;
             else
                 this.owner = invader;
         }
@@ -100,12 +104,16 @@ export default class Tile {
             if (Array.isArray(unitArrayByFaction) && unitArrayByFaction.includes(unit)) {
                 unitArrayByFaction.splice(unitArrayByFaction.indexOf(unit), 1);
                 unit.detachTile();
+                if (unitArrayByFaction.length === 0)
+                    delete this.units[unit.faction.name];
             }
         }
     }
 
     resolve() {
-        this.isContested = false;
+        if (Object.keys(this.units).length === 1)
+            this.isContested = false;
+        return !this.isContested;
     }
 
     setId(id) {

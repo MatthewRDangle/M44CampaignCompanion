@@ -5,12 +5,12 @@ import UnitCard from "./UnitCard.js";
 
 const TileInfoHud = (initialVnode) => {
 
-    const handleBattle = () => {
-        m.route.set('/battle')
+    const handleBattle = (tile) => {
+        m.route.set('/battle/:tileId', {tileId: tile.id})
     }
 
-    const handlePreview = () => {
-        m.route.set('/preview')
+    const handlePreview = (tile) => {
+        m.route.set('/preview/:tileId', {tileId: tile.id})
     }
 
     const handleUnitSelect = (unit) => {
@@ -28,8 +28,8 @@ const TileInfoHud = (initialVnode) => {
                         m('div.tileInfoHud_header_unitCount', tile.calcTotalFactionHealth(currentTurn.name)),
                         m('div.tileInfoHud_header_description', (tile.terrain instanceof Terrain) ? tile.terrain.name : 'Unknown'),
                         m('div.tileInfoHud_header_actions', [
-                            m('div.tileInfoHud_header_actions_button', m(Button, {onclick: handleBattle, disabled: !tile.isContested}, 'Battle')),
-                            m('div.tileInfoHud_header_actions_button', m(Button, {onclick: handlePreview}, 'Preview'))
+                            m('div.tileInfoHud_header_actions_button', m(Button, {onclick: () => {handleBattle(tile)}, disabled: !tile.isContested}, 'Battle')),
+                            m('div.tileInfoHud_header_actions_button', m(Button, {onclick: () => {handlePreview(tile)}}, 'Preview'))
                         ])
                     ]),
                     m('div.tileInfoHud_body', [
