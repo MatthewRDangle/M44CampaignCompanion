@@ -91,6 +91,7 @@ export default class Unit {
                 const new_available_movement = eligibleMoves[key];
                 if (tile.id === key && this.available_movement >= new_available_movement) {
                     this.warpTo(tile);
+                    activeScenario.unitMoved(this);
                     this.deselect();
                     this.available_movement = new_available_movement;
 
@@ -111,6 +112,10 @@ export default class Unit {
             this.death();
             return int - preHealth;
         }
+    }
+
+    replenish() {
+        this.available_movement = this.movement_cap;
     }
 
     select() {

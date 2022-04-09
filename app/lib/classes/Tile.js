@@ -84,8 +84,10 @@ export default class Tile {
 
     contest(invader) {
         if (invader instanceof Faction) {
-            if (!!this.units[this.owner?.name])
+            if (!!this.units[this.owner?.name]) {
                 this.isContested = invader;
+                activeScenario.appendContest(this);
+            }
             else
                 this.owner = invader;
         }
@@ -111,8 +113,10 @@ export default class Tile {
     }
 
     resolve() {
-        if (Object.keys(this.units).length === 1)
+        if (Object.keys(this.units).length === 1) {
             this.isContested = false;
+            activeScenario.resolveContest(this);
+        }
         return !this.isContested;
     }
 

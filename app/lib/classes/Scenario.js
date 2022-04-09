@@ -1,6 +1,7 @@
 const Data = require("../api/data");
 import Tile from "./Tile.js";
 import Faction from "./Faction.js";
+import Unit from "./Unit.js";
 
 export default class Scenario {
     constructor(json) {
@@ -9,6 +10,7 @@ export default class Scenario {
         // Scenario Defined Data
         this.factions = {};
         this.unit_templates = {};
+        this.turnOrder = []
 
         // Map Builder
         this.tiles = [];
@@ -19,8 +21,15 @@ export default class Scenario {
         this.currentTurn = undefined;
         this.selectedTile = undefined;
         this.selectedUnit = undefined;
+        this.contests = [];
+        this.unitsThatMoved = [];
 
         if (json) this.compile(json);
+    }
+
+    appendContest(tile) {
+        if (tile instanceof Tile)
+            this.contests.push(tile);
     }
 
     compile(definition) {
@@ -42,24 +51,35 @@ export default class Scenario {
             })
         }
 
+        // Set Turn Order.
+        if (Array.isArray(definition.turnOrder))
+            this.turnOrder = definition.turnOrder;
+
         // Set Current Turn.
         if (typeof definition.currentTurn === 'string')
             this.currentTurn = this.factions[definition.currentTurn];
         else {
-            let firstFactionInList; // Used later as failsafe.
 
             // If no current turn is found. Loop through all factions to search for the first current turn indicator.
+            let firstFactionInList; // Used later as a last ditch failsafe.
             Object.values(this.factions).forEach((faction, index) => {
                 if (index === 0) firstFactionInList = faction;
                 if (faction.currentTurn)
                     this.currentTurn = faction;
             })
 
-            // Still no current turn ? grab first faction available. No faction available, then error.
-            if (!!firstFactionInList)
-                this.currentTurn = firstFactionInList;
-            else
-                throw Error('No factions available to configure scenario. Please add factions.');
+            if (!!this.currentTurn) {
+
+                // Still none... use first faction in turn order.
+                if (typeof this.turnOrder[0] === 'string' && this.factions[this.turnOrder[0]] instanceof Faction)
+                    this.currentTurn = this.factions[this.turnOrder[0]];
+
+                // Still no current turn ? grab first faction available. No faction available, then error.
+                else if (!!firstFactionInList)
+                    this.currentTurn = firstFactionInList;
+                else
+                    throw Error('No factions available to configure scenario. Please add factions.');
+            }
 
         }
 
@@ -115,8 +135,36 @@ export default class Scenario {
         }
     }
 
+    nextTurn() {
+        if (this.contests.length === 0) {
+            const idx = this.turnOrder.indexOf(this.currentTurn.name);
+            const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
+            this.currentTurn = this.factions[factionName];
+            this.replenishMoveUnits();
+            this.unitsThatMoved = [];
+        }
+    }
+
+    replenishMoveUnits() {
+        this.unitsThatMoved.forEach((unit) => {
+            unit.replenish();
+        });
+    }
+
+    resolveContest(tile) {
+        if (tile instanceof Tile)
+            this.contests.splice(this.contests.indexOf(tile), 1);
+    }
+
     setSelectedTile(tile) {
         if (tile instanceof Tile)
             this.selectedTile = tile;
+        else
+            this.selectedTile = undefined;
+    }
+
+    unitMoved(unit) {
+        if (unit instanceof Unit && !this.unitsThatMoved.includes(unit))
+            this.unitsThatMoved.push(unit);
     }
 }
