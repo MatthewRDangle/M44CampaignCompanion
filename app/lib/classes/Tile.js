@@ -7,7 +7,8 @@ import Faction from "./Faction.js";
 export default class Tile {
     constructor() {
         this.id = '';
-        this.row = '';
+        this.row = 0;
+        this.column = 0;
 
         // Interaction
         this.isSelected = false;
@@ -30,10 +31,11 @@ export default class Tile {
 
     adjacentMovementCost() {
         const movement_info = {};
+        const row = this.row;
         this.adjacentTiles.forEach(function (tileId) {
-            const [series, column, row] = tileId.split('-');
-            if (row - 1 >= 0) {
-                const tile = activeScenario.tiles[row - 1][tileId];
+            const [row, column] = tileId.split('-');
+            if (row > 0) {
+                const tile = activeScenario.tiles[row][tileId];
                 if (tile)
                     movement_info[tileId] = tile.terrain.movement_cost;
             }
@@ -100,6 +102,18 @@ export default class Tile {
 
     }
 
+    generateAdjacentTiles() {
+        const adjacentColumn = this.row % 2 ? this.column - 1 : this.column + 1;
+
+        this.adjacentTiles.push(`${this.row - 1}-${this.column}`) // Top
+        this.adjacentTiles.push(`${this.row}-${this.column - 1}`) // Middle
+        this.adjacentTiles.push(`${this.row + 1}-${this.column}`) // Bottom
+
+        this.adjacentTiles.push(`${this.row - 1}-${adjacentColumn}`) // Top
+        this.adjacentTiles.push(`${this.row}-${this.column + 1}`) // Middle
+        this.adjacentTiles.push(`${this.row + 1}-${adjacentColumn}`) // Right
+    }
+
     removeUnit(unit) {
         if (unit instanceof Unit) {
             const unitArrayByFaction = this.units[unit.faction.name];
@@ -113,21 +127,21 @@ export default class Tile {
     }
 
     resolve() {
+        const tileFactions = Object.keys(this.units);
         if (Object.keys(this.units).length === 1) {
             this.isContested = false;
+            this.owner = activeScenario.factions[tileFactions[0]];
             activeScenario.resolveContest(this);
         }
         return !this.isContested;
     }
 
-    setId(id) {
-        if (typeof id === 'string')
-            this.id = id;
-    }
-
-    setRow(int) {
-        if (Number.isInteger(int))
-            this.row = int;
+    setId(row, column) {
+        if (Number.isInteger(row) && Number.isInteger(column)) {
+            this.row = row;
+            this.column = column;
+            this.id = `${row}-${column}`;
+        }
     }
 
     select() {

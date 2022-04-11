@@ -8,8 +8,8 @@ export const page = new Page('/preview/:tileId', (initialVnode) => {
         view: (vNode) => {
             const {attrs} = vNode;
             const tileId = attrs.tileId;
-            const [series, column, row] = tileId.split('-');
-            const tile = activeScenario.tiles[row - 1][tileId];
+            const [row, column] = tileId.split('-');
+            const tile = activeScenario.tiles[row][tileId];
 
             return [
                 m('div', {style: 'width: 100vw; height: 100vh;'},

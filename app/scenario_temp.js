@@ -23,8 +23,13 @@ export const scenario = {
     unit_templates: {
         infantry: {
             health: 4,
-            available_movement: 1,
-            movement_cap: 1
+            available_movement: 2,
+            movement_cap: 2
+        },
+        tank: {
+            health: 4,
+            available_movement: 6,
+            movement_cap: 6
         }
     },
 
@@ -33,19 +38,29 @@ export const scenario = {
 
     tiles: {
         '*': {},
-        '1-A-1': {
+        '1-1': {
             units: {
-                'United States': ['infantry']
+                'United States': ['infantry', 'tank']
             }
         },
-        '1-B-1': {
+        '1-2': {
             units: {
                 'United States': ['infantry', 'infantry', 'infantry']
             }
         },
-        '1-A-2': {
+        '2-1': {
             units: {
                 'Germany': ['infantry', 'infantry', 'infantry']
+            }
+        },
+        '2-2': {
+            units: {
+                'Germany': ['infantry']
+            }
+        },
+        '2-3': {
+            units: {
+                'Germany': ['infantry', 'tank']
             }
         }
     }

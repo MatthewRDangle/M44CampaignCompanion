@@ -89,32 +89,14 @@ export default class Scenario {
 
         // Construct Tiles
         const scenario_tiles_data = new Data(definition.tiles);
-        const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        for (let idx_rows = 0; idx_rows < definition.rows + 1; idx_rows++) {
+        // const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        for (let idx_rows = 1; idx_rows < definition.rows + 1; idx_rows++) {
             for (let idx_columns = 1; idx_columns < definition.columns + 1; idx_columns++) {
                 const tile = new Tile();
 
-                // Set Tile ID.
-                const id_series = Math.ceil(idx_columns / alphabet.length);
-                const id_column = alphabet[(idx_columns - 1) % alphabet.length];
-                tile.setId(id_series + '-' + id_column + '-' + (idx_rows + 1));
-                tile.setRow(idx_rows);
-
-                // Get Adjacent ID's.
-                let previous_column = alphabet[ (idx_columns - 2) % alphabet.length ];
-                let previous_series = Math.ceil((idx_columns - 1) / alphabet.length);
-                let current_row = idx_rows + 1;
-                let current_column = id_column;
-                let current_series = id_series;
-                let next_column = alphabet[ (idx_columns) % alphabet.length ]
-                let next_series = Math.ceil((idx_columns) / alphabet.length);
-                let adj_row = (idx_columns % 2) ? idx_rows + 2 : idx_rows;
-                tile.adjacentTiles.push(previous_series + '-' + previous_column + '-' + current_row); // Left
-                tile.adjacentTiles.push(previous_series + '-' + previous_column + '-' + adj_row); // Left
-                tile.adjacentTiles.push(current_series + '-' + current_column + '-' + (current_row - 1)); // Middle
-                tile.adjacentTiles.push(current_series + '-' + current_column + '-' + (current_row + 1)); // Middle
-                tile.adjacentTiles.push(next_series + '-' + next_column + '-' + current_row); // Right
-                tile.adjacentTiles.push(next_series + '-' + next_column + '-' + adj_row); // Right
+                // Set Tile ID and Adjacent Tiles.
+                tile.setId(idx_rows, idx_columns);
+                tile.generateAdjacentTiles();
 
                 // Set the State of the Tile.
                 let tile_instructions_data;

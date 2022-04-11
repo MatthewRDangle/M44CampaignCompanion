@@ -27,6 +27,7 @@ export default class Unit {
 
     eligibleMoves() {
         const eligible_moves = {};
+        const unitOwner = this.faction;
         if (this.tile instanceof Tile)
             checkMovement(this.tile, this.available_movement);
         this.canMoveTo = eligible_moves;
@@ -54,11 +55,11 @@ export default class Unit {
                     else
                         continue
 
-                    // If there is any available movement left, repeat.
+                    // If there is any available movement left, repeat; unless it's an enemy unit is preventing movement.
                     if (remaining_movement > 0) {
-                        const [series, column, row] = tileId.split('-');
-                        if (row - 1 >= 0) {
-                            const tile = activeScenario.tiles[row - 1][tileId];
+                        const [row, column] = tileId.split('-');
+                        const tile = activeScenario.tiles[row][tileId];
+                        if (row > 0 && (tile.owner === unitOwner || tile.owner === undefined)) {
                             checkMovement(tile, remaining_movement);
                         }
                     }
@@ -132,141 +133,4 @@ export default class Unit {
             tile.addUnit(this);
         }
     }
-
-
-    //
-    // deselect() {
-    //     this.isSelected = false;
-    //     if (this.pgui)
-    //         this.pgui.setState('backgroundColor', '0x151A1E');
-    //     if (this.tile) {
-    //         const map = localData.navigate('gameboard').getValue();
-    //         map.onTileSelect(this.tile);
-    //     }
-    //     localData.navigate('selected_unit').setValue(undefined);
-    //     localData.navigate('viewMode').setValue('view');
-    // }
-    //
-    // draw(scene) {
-    //     const unit_pgui = new PGUI(scene);
-    //
-    //     const icon_parent = new PGUI(scene);
-    //     unit_pgui.addChild(icon_parent);
-    //     icon_parent.setState({
-    //         geo: {
-    //             x: 2,
-    //             y: 2,
-    //             z: 0
-    //         },
-    //         width: 78,
-    //         height: 60,
-    //         backgroundColor: this.faction.color
-    //     });
-    //
-    //     if (this.icon) {
-    //         const icon = new PGUI(scene);
-    //         icon_parent.addChild(icon);
-    //         icon.setState({
-    //             geo: {
-    //                 x: icon_parent.width / 2,
-    //                 y: icon_parent.height / 2,
-    //                 z: 0
-    //             },
-    //             width: 78,
-    //             height: 60,
-    //             backgroundImage: this.icon
-    //         });
-    //     }
-    //
-    //     const label = new PGUI(scene);
-    //     unit_pgui.addChild(label);
-    //     label.setState({
-    //         geo: {
-    //             x: 2,
-    //             y: icon_parent.state.height + 5,
-    //             z: 0
-    //         },
-    //         width: 78,
-    //         height: 26,
-    //         textString: this.name,
-    //         textHAlign: 'center',
-    //         textVAlign: 'middle',
-    //         backgroundColor: '0x151A1E'
-    //     });
-    //
-    //     const badge = new PGUI(scene);
-    //     unit_pgui.addChild(badge);
-    //     badge.setState({
-    //         geo: {
-    //             x: 69,
-    //             y: 23,
-    //             z: 0
-    //         },
-    //         height: 25,
-    //         width: 25,
-    //         textString: this.health,
-    //         textHAlign: 'center',
-    //         textVAlign: 'middle',
-    //         backgroundColor: '0x151A1E'
-    //     })
-    //
-    //     unit_pgui.setState({
-    //         geo: {
-    //             x: 42.5,
-    //             y: 10,
-    //             z: 0
-    //         },
-    //         width: 82,
-    //         height: 95,
-    //         backgroundColor: '0x151A1E',
-    //     });
-    //     unit_pgui.addTag(this.faction.name);
-    //     this.pgui = unit_pgui;
-    // }
-    //
-    // erase() {
-    //     const pgui = this.pgui;
-    //     if (pgui)
-    //         this.pgui.destroy();
-    // }
-    //
-    // refresh() {
-    //     this.available_movement = this.movement_cap;
-    // }
-    //
-    // moveTo(tile) {
-    //     if (this.tile) {
-    //         const eligibleMoves = this.eligibleMoves();
-    //         for(let key in eligibleMoves) {
-    //             const new_available_movement = eligibleMoves[key];
-    //             if (tile.id === key && this.available_movement >= new_available_movement) {
-    //                 this.warpTo(tile);
-    //                 this.deselect();
-    //                 this.available_movement = new_available_movement;
-    //
-    //                 if (tile.state.owner !== this.faction)
-    //                     tile.contest();
-    //             }
-    //         }
-    //     }
-    // }
-    //
-    // select() {
-    //     this.isSelected = true;
-    //     if (this.pgui)
-    //         this.pgui.setState('backgroundColor', '0x0DBBD77');
-    //     if (this.tile) {
-    //         const map = localData.navigate('gameboard').getValue();
-    //         map.onTileSelect(this.tile);
-    //     }
-    //     localData.navigate('selected_unit').setValue(this);
-    //     localData.navigate('viewMode').setValue('move');
-    // }
-    //
-    // warpTo(tile) {
-    //     if (this.tile) {
-    //         this.tile.removeUnit(this);
-    //         tile.addUnit(this);
-    //     }
-    // }
 }
