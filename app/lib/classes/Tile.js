@@ -1,7 +1,6 @@
 import Unit from "./Unit.js";
 import {activeScenario} from "../../global.js"
 import Scenario from "./Scenario.js";
-import Terrain from "./Terrain.js";
 import Faction from "./Faction.js";
 
 export default class Tile {
@@ -22,7 +21,7 @@ export default class Tile {
         this.isContested = false;
 
         // Terrain, Overlay, Units & Fortifications
-        this.terrain = new Terrain();
+        this.terrain = {};
         this.units = {};
 
         // Relative Positioning.
@@ -69,6 +68,8 @@ export default class Tile {
 
     compile(instructions, scenario) {
         if (!instructions) return
+
+        // Add Units.
         for (let key in instructions.units) {
             const owner_faction = scenario.factions[key];
             if (owner_faction) {
@@ -81,6 +82,11 @@ export default class Tile {
                     })
                 }
             }
+        }
+
+        // Apply Terrain
+        if (instructions.terrain) {
+            this.terrain = scenario.terrains[instructions.terrain];
         }
     }
 

@@ -21,6 +21,7 @@ const HexTile = (initialVnode) => {
 
             return (
                 m('div.hexTile', {
+                    style: {'background-color': `${hex.terrain?.color}`},
                     className: classNames(
                         {'hexTile-isSelected': hex.isSelected},
                         {'hexTile-eligibleMove': selectedUnit?.canMoveTo[hex.id] >= 0},

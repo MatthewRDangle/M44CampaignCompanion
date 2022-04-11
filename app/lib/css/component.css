@@ -97,13 +97,13 @@
 }
 .hexTile:hover, .hexTile-isSelected {
     cursor: pointer;
-    background-color: var(--Interaction);
+    background-color: var(--Interaction) !important;
 }
 .hexTile-eligibleMove {
-    background-color: var(--Interaction);
+    background-color: var(--Interaction) !important;
 }
 .hexTile-contested {
-    background-color: var(--Warning);
+    background-color: var(--Warning) !important;
 }
 .hexTile_body {
     padding-top: calc(var(--HexSize) / 3.5);

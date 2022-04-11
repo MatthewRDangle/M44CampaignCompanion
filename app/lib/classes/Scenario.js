@@ -2,6 +2,7 @@ const Data = require("../api/data");
 import Tile from "./Tile.js";
 import Faction from "./Faction.js";
 import Unit from "./Unit.js";
+import Terrain from "./Terrain.js";
 
 export default class Scenario {
     constructor(json) {
@@ -10,6 +11,7 @@ export default class Scenario {
         // Scenario Defined Data
         this.factions = {};
         this.unit_templates = {};
+        this.terrains = {};
         this.turnOrder = []
 
         // Map Builder
@@ -42,6 +44,13 @@ export default class Scenario {
                 unit_definition_template.name = key;
                 this.unit_templates[key] = unit_definition_template;
             }
+        }
+
+        // Set Terrains
+        if (Array.isArray(definition.terrains)) {
+            definition.terrains.forEach((definition_terrain) => {
+                this.terrains[definition_terrain.name] = new Terrain(definition_terrain);
+            })
         }
 
         // Set Factions
@@ -104,7 +113,7 @@ export default class Scenario {
                     tile_instructions_data = scenario_tiles_data.navigate(tile.id);
                     tile.compile(tile_instructions_data.getValue(), this);
                 }
-                else if (definition.tiles && (definition.tiles.hasOwnProperty('*') || definition.tiles.hasOwnProperty('*-*'))) {
+                if (definition.tiles && (definition.tiles.hasOwnProperty('*') || definition.tiles.hasOwnProperty('*-*'))) {
                     tile_instructions_data = scenario_tiles_data.navigate('*');
                     tile.compile(tile_instructions_data.getValue(), this);
                 }
