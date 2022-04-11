@@ -109,12 +109,12 @@ export default class Scenario {
 
                 // Set the State of the Tile.
                 let tile_instructions_data;
-                if (definition.tiles && definition.tiles.hasOwnProperty(tile.id)) {
-                    tile_instructions_data = scenario_tiles_data.navigate(tile.id);
-                    tile.compile(tile_instructions_data.getValue(), this);
-                }
                 if (definition.tiles && (definition.tiles.hasOwnProperty('*') || definition.tiles.hasOwnProperty('*-*'))) {
                     tile_instructions_data = scenario_tiles_data.navigate('*');
+                    tile.compile(tile_instructions_data.getValue(), this);
+                }
+                if (definition.tiles && definition.tiles.hasOwnProperty(tile.id)) {
+                    tile_instructions_data = scenario_tiles_data.navigate(tile.id);
                     tile.compile(tile_instructions_data.getValue(), this);
                 }
 
