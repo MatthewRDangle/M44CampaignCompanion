@@ -108,14 +108,32 @@ export default class Scenario {
                 tile.generateAdjacentTiles();
 
                 // Set the State of the Tile.
-                let tile_instructions_data;
-                if (definition.tiles && (definition.tiles.hasOwnProperty('*') || definition.tiles.hasOwnProperty('*-*'))) {
-                    tile_instructions_data = scenario_tiles_data.navigate('*');
-                    tile.compile(tile_instructions_data.getValue(), this);
-                }
-                if (definition.tiles && definition.tiles.hasOwnProperty(tile.id)) {
-                    tile_instructions_data = scenario_tiles_data.navigate(tile.id);
-                    tile.compile(tile_instructions_data.getValue(), this);
+                let tile_definition;
+                if (definition.tiles) {
+                    if (definition.tiles.hasOwnProperty('*')) {
+                        tile_definition = definition.tiles['*'];
+                        tile.compile(tile_definition, this);
+                    }
+                    if (!!definition.tiles[`${tile.row}-`]) {
+                        const epic_definition = definition.tiles[`${tile.row}-`];
+                        Object.entries(epic_definition).forEach(([key, value]) => {
+                            const columns = key.replaceAll(' ', '').split(',');
+                            if (columns.includes(`${tile.column}`))
+                                tile.compile(value, this)
+                        })
+                    }
+                    if (!!definition.tiles[`-${tile.column}`]) {
+                        const epic_definition = definition.tiles[`-${tile.column}`];
+                        Object.entries(epic_definition).forEach(([key, value]) => {
+                            const rows = key.replaceAll(' ', '').split(',');
+                            if (rows.includes(`${tile.row}`))
+                                tile.compile(value, this)
+                        })
+                    }
+                    if (definition.tiles.hasOwnProperty(tile.id)) {
+                        tile_definition = definition.tiles[tile.id];
+                        tile.compile(tile_definition, this);
+                    }
                 }
 
                 // Push tile into scenario.

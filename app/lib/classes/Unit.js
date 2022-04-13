@@ -1,6 +1,7 @@
 import Faction from './Faction.js';
 import {activeScenario} from "../../global.js";
 import Tile from "./Tile.js";
+import Terrain from "./Terrain.js";
 
 export default class Unit {
     constructor(owner, options) {
@@ -10,6 +11,7 @@ export default class Unit {
         this.faction = owner;
         this.isSelected = false;
         this.name = options?.name || 'Unit';
+        this.type = options?.type || '';
         this.icon = options?.icon || undefined;
         this.health = options?.health || 1;
 
@@ -28,6 +30,7 @@ export default class Unit {
     eligibleMoves() {
         const eligible_moves = {};
         const unitOwner = this.faction;
+        const unitType = this.type;
         if (this.tile instanceof Tile)
             checkMovement(this.tile, this.available_movement);
         this.canMoveTo = eligible_moves;
@@ -41,7 +44,17 @@ export default class Unit {
             for (let tileId in movement_info) {
                 const movement_cost = movement_info[tileId];
                 if ( movement_cost <= available_movement) {
-                    const remaining_movement = available_movement - movement_cost;
+                    const [row] = tileId.split('-');
+                    const adjTile = activeScenario.tiles[row][tileId];
+
+                    // Check if terrain is accessible by this unit type.
+                    if (!!adjTile.terrain?.inaccessible_by.includes(unitType))
+                        continue
+
+                    // Apply movement modifiers.
+                    let remaining_movement = available_movement - movement_cost;
+                    if (adjTile.terrain instanceof Terrain && !!adjTile.terrain?.movement_cost_modifiers_by_type[unitType])
+                        remaining_movement =- adjTile.terrain?.movement_cost_modifiers_by_type[unitType];
 
                     // Check if tile already exists. If it does overwrite it if the new route has the highest available_movement remaining.
                     if (eligible_moves.hasOwnProperty(tileId) && eligible_moves[tileId] < remaining_movement)
@@ -57,10 +70,8 @@ export default class Unit {
 
                     // If there is any available movement left, repeat; unless it's an enemy unit is preventing movement.
                     if (remaining_movement > 0) {
-                        const [row, column] = tileId.split('-');
-                        const tile = activeScenario.tiles[row][tileId];
-                        if (row > 0 && (tile.owner === unitOwner || tile.owner === undefined)) {
-                            checkMovement(tile, remaining_movement);
+                        if (row > 0 && (adjTile.owner === unitOwner || adjTile.owner === undefined)) {
+                            checkMovement(adjTile, remaining_movement);
                         }
                     }
                 }

@@ -33,7 +33,7 @@ export default class Tile {
         const row = this.row;
         this.adjacentTiles.forEach(function (tileId) {
             const [row, column] = tileId.split('-');
-            if (row > 0) {
+            if (row > 0 && row <= activeScenario.rows) {
                 const tile = activeScenario.tiles[row][tileId];
                 if (tile)
                     movement_info[tileId] = tile.terrain.movement_cost;

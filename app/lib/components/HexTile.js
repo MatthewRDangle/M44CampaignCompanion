@@ -29,6 +29,7 @@ const HexTile = (initialVnode) => {
                     ),
                     onclick: (e) => {handleOnClick(hex)}
                 }, m('div.hexTile_body', [
+                    activeScenario.devMode || m('span', hex.id),
                     Object.keys(hex.units).map((faction_name) => {
                         return hex.units[faction_name].map((unit) => {
                             return m(UnitCard, {unit: unit})
