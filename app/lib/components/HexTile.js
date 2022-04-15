@@ -32,7 +32,7 @@ const HexTile = (initialVnode) => {
                     activeScenario.devMode || m('span', hex.id),
                     Object.keys(hex.units).map((faction_name) => {
                         return hex.units[faction_name].map((unit) => {
-                            return m(UnitCard, {unit: unit})
+                            return m('div.hexTile_body_unit', m(UnitCard, {unit: unit}))
                         })
                     })
                 ]))

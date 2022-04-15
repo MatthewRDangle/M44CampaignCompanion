@@ -108,6 +108,13 @@
 .hexTile_body {
     padding-top: calc(var(--HexSize) / 3.5);
     padding-bottom: calc(var(--HexSize) / 3.5);
+    position: relative;
+}
+.hexTile_body_unit {
+    position: absolute;
+        top: 50%;
+        left: 50%;
+    transform: translate(-50%);
 }
 
 
@@ -230,7 +237,6 @@
     width: 120px;
     border: 1px solid var(--Background);
     text-align: center;
-    margin: 0 auto;
     position: relative;
 }
 .unitCard--selectable:hover,
