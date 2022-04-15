@@ -235,6 +235,22 @@ export const scenario = {
             units: {
                 'United States': ['Infantry', 'Infantry', 'Infantry', 'Tank']
             }
+        },
+
+        '1-15': {
+            units: {
+                'Germany': ['Infantry', 'Infantry', 'Infantry', 'Tank']
+            }
+        },
+        '2-14': {
+            units: {
+                'Germany': ['Infantry', 'Infantry', 'Infantry', 'Tank']
+            }
+        },
+        '5-26': {
+            units: {
+                'Germany': ['Infantry', 'Infantry', 'Infantry', 'Tank']
+            }
         }
     }
 }
