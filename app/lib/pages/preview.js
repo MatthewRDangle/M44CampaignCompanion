@@ -1,21 +1,29 @@
 const m = require('mithril');
-import Page from '../models/page.js';
-import GameBoard from "../models/gameboard.js";
-import {localData} from "../../localdata.js";
+import Page from '../classes/Page.js';
+import {activeScenario} from "../singletons/ActiveScenarioManager.js";
 
-export const page = new Page('/preview');
-page.setPage(function() {
-    return [
-        m('div', {style: 'width: 100vw; height: 100vh;'},
-            m('div.preview',
-                m('img.preview_img', {
-                    src: 'lib/images/placeholder.PNG',
-                    alt: '',
-                    onclick: function() {
-                        m.route.set('/warSim')
-                    }
-                })
-            )
-        )
-    ]
+export const page = new Page('/preview/:tileId', (initialVnode) => {
+
+    return {
+        view: (vNode) => {
+            const {attrs} = vNode;
+            const tileId = attrs.tileId;
+            const [row, column] = tileId.split('-');
+            const tile = activeScenario.tiles[row][tileId];
+
+            return [
+                m('div', {style: 'width: 100vw; height: 100vh;'},
+                    m('div.preview',
+                        m('img.preview_img', {
+                            src: tile.preview?.src || '',
+                            alt: tile.preview?.alt || '',
+                            onclick: function() {
+                                m.route.set('/warSim')
+                            }
+                        })
+                    )
+                )
+            ]
+        }
+    }
 });

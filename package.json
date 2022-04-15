@@ -21,7 +21,7 @@
     "electron": "^16.0.4"
   },
   "dependencies": {
-    "mithril": "^2.0.4",
-    "phaser": "^3.55.2"
+    "classnames": "^2.3.1",
+    "mithril": "^2.0.4"
   }
 }

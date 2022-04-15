@@ -1,29 +1,19 @@
 /*
-* Stylesheet Semantics.
-------------------
-* * CSS Blocks: Every chunk of CSS is separated into modular blocks. Each with a Name, Type and Description, with occasional notes.
-* * * Title: A name for what is being stylized (ie. input, button, scrollbar, ect.)
-* * * Description: An explanation of what is being stylized.
-* * * Note: Thoughts or information other developers might find worthy of a read.
-------------------
-* * Selector Groups: How the CSS selectors are organized for better readability.
-* * * [Device Size Response]: How the element will respond to different device sizes.
-------------------
-* * Unique Classes: [.wrapper .subheader, .anchor, .selection]
+* * Title: Theme Properties.
+* * Description: Adjust global properties.
 */
-
-/*
-* * ==================================================
-* * ===================[Basic CSS]====================
-* * ==================================================
-*/
-
 :root {
   --Font:         #FFFFFF;
   --Background:   #151A1E;
   --Interaction:  #DBBD77;
   --Highlight:	  #C5D6B7;
   --Border:       #FFFFFF;
+  --Disabled:     #A9A9A9;
+  --Warning:      red;
+
+  --HexSize:      200px;
+  --HexMargin:    -1px;
+  --HexOffset:    calc(var(--HexSize) * 1.732 + 4 * var(--HexMargin) - 1px);
 }
 @font-face {
   font-family: "Roboto";
@@ -38,23 +28,17 @@
   font-style: normal;
 }
 
-/*
-* * Title: Theme Properties.
-* * Description: Adjust global properties.
-*/
 * {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
 html, body {
-  width: 100%;
   padding: 0;
   margin: 0; /* Aligns HTML and Body right up against the browser window. */
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   line-height: 1.75; /* Keep this number unitless to avoid overlap and inheritance issues. */
-  overflow-x: hidden; /* Hides any content outside the browser window (horizontally). */
   -webkit-text-size-adjust: 100%; /* Prevent adjustments of font size after orientation changes in iOS. */
   color: var(--Font);
   background-color: var(--Background);
@@ -125,42 +109,42 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 3em;
   line-height: 0.95em;
 }
 
 h2 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 2.5em;
   line-height: 0.95em;
 }
 
 h3 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 2em;
   line-height: 0.95em;
 }
 
 h4 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 2em;
   line-height: 0.95em;
 }
 
 h5 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 1.5em;
   line-height: 0.95em;
 }
 
 h6 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 1em;
   line-height: 0.95em;
 }
@@ -470,6 +454,10 @@ button, [type="submit"], [type="reset"], [type="button"] {
 button:hover, [type="submit"]:hover, [type="reset"]:hover, [type="button"]:hover {
   color: inherit;
   background-color: transparent;
+}
+button:disabled {
+  cursor: not-allowed;
+  background: var(--Disabled)
 }
 
 /*
