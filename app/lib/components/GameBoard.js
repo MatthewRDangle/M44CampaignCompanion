@@ -3,7 +3,7 @@ import HexGrid from "./HexGrid.js";
 import Hud from "./Hud.js";
 import Unit from "../classes/Unit.js";
 import Tile from "../classes/Tile.js";
-import {activeScenario} from "../../global.js";
+import {activeScenario} from "../singletons/ActiveScenarioManager.js";
 
 const GameBoard = (initialVnode) => {
 

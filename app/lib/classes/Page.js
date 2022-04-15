@@ -1,5 +1,3 @@
-const m = require('mithril');
-
 const __pages = {};
 
 export default class Page {

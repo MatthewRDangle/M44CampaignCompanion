@@ -109,42 +109,42 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 3em;
   line-height: 0.95em;
 }
 
 h2 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 2.5em;
   line-height: 0.95em;
 }
 
 h3 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 2em;
   line-height: 0.95em;
 }
 
 h4 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 2em;
   line-height: 0.95em;
 }
 
 h5 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 1.5em;
   line-height: 0.95em;
 }
 
 h6 {
   padding: 0 0 0 0;
-  margin: 1em 0em 0.25em 0em;
+  margin: 1em 0 0.25em 0;
   font-size: 1em;
   line-height: 0.95em;
 }

@@ -1,9 +1,9 @@
 const m = require('mithril');
 import Page from '../classes/Page.js'
 import MainMenu from "../components/MainMenu.js";
-import {scenario} from "../../scenario_temp.js";
+import {scenario} from "../../../scenarios/scenario_temp.js";
 import Scenario from "../classes/Scenario.js";
-import {setActiveScenario} from '../../global.js';
+import {activeScenarioManager} from '../singletons/ActiveScenarioManager.js';
 
 export const page = new Page('/warRoom', (initialVnode) => {
 
@@ -14,7 +14,7 @@ export const page = new Page('/warRoom', (initialVnode) => {
             return [
                 m(MainMenu, {currentPage: this, title: 'Campaign Companion'}, [
                     m('div', {onclick: () => {
-                            setActiveScenario(new Scenario(scenario));
+                            activeScenarioManager.set( new Scenario(scenario) );
                             m.route.set('/warSim');
                         }}, 'Declare War'),
                     m('div', {onclick: () => {m.route.set('/campaign')}}, '<< Back'),

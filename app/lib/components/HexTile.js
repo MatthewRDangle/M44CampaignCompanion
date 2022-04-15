@@ -1,7 +1,7 @@
 const m = require("mithril");
 const classNames = require("classnames");
 import UnitCard from './UnitCard.js';
-import {activeScenario} from "../../global.js";
+import {activeScenario} from "../singletons/ActiveScenarioManager.js";
 import Unit from "../classes/Unit.js";
 
 const HexTile = (initialVnode) => {

@@ -1,5 +1,5 @@
 import Unit from "./Unit.js";
-import {activeScenario} from "../../global.js"
+import {activeScenario} from "../singletons/ActiveScenarioManager.js"
 import Scenario from "./Scenario.js";
 import Faction from "./Faction.js";
 

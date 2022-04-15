@@ -1,5 +1,5 @@
 const m = require("mithril");
-import {activeScenario} from "../../global.js";
+import {activeScenario} from "../singletons/ActiveScenarioManager.js";
 
 const NextTurnHud = (initialVnode) => {
 

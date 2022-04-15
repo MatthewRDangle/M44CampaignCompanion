@@ -1,5 +1,5 @@
 import Faction from './Faction.js';
-import {activeScenario} from "../../global.js";
+import {activeScenario} from "../singletons/ActiveScenarioManager.js";
 import Tile from "./Tile.js";
 import Terrain from "./Terrain.js";
 

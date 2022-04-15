@@ -1,4 +1,3 @@
-const Data = require("../api/data");
 import Tile from "./Tile.js";
 import Faction from "./Faction.js";
 import Unit from "./Unit.js";
@@ -97,8 +96,6 @@ export default class Scenario {
         this.rows = definition.rows;
 
         // Construct Tiles
-        const scenario_tiles_data = new Data(definition.tiles);
-        // const alphabet = ['A','B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
         for (let idx_rows = 1; idx_rows < definition.rows + 1; idx_rows++) {
             for (let idx_columns = 1; idx_columns < definition.columns + 1; idx_columns++) {
                 const tile = new Tile();

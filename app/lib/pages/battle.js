@@ -1,7 +1,7 @@
 const m = require('mithril');
 import Page from '../classes/Page.js';
 import BattleResultCalc from "../components/BattleResultCalc.js";
-import {activeScenario} from "../../global.js";
+import {activeScenario} from "../singletons/ActiveScenarioManager.js";
 
 export const page = new Page('/battle/:tileId', (initialVnode) => {
 
