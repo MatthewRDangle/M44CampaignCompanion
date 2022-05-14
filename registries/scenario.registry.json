@@ -1,0 +1,7 @@
+{
+  "test": {
+    "displayName": "Test Scenario",
+    "slug": "scenario_definition.js",
+    "path": "test/scenario_definition.js"
+  }
+}

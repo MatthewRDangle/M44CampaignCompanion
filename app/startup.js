@@ -1,24 +1,24 @@
 const m = require('mithril');
-const fs = require('fs');
-import Page from './lib/classes/Page.js';
+import {pageService} from './lib/services/page.service.js'
+import Page from "./lib/classes/Page.js";
 
-fs.readdir('app/lib/pages', async (err, files) => {
-    const pages = await Promise.all(files.map(async slug => {
-        const module = await import('./lib/pages/' + slug);
-        if (module.page)
-            return module.page;
+
+const fetchPages = async () => {
+    const pageList = await pageService.getAll();
+    const pageModules = await Promise.all(pageList.map(async location => {
+        const module = await import(location);
+        const {page} = module;
+
+        if (page)
+            return page;
     }));
-    config_router(pages);
-});
 
-const config_router = function(pages) {
-    if (pages) {
-        let router = {};
-        pages.forEach((page) => {
-            router[page.path] = page.component;
-        });
-        if (!router.hasOwnProperty('/main'))
-            router['/main'] = new Page('/main');
-        m.route(document.body, "/main", router);
-    }
+    let router = {};
+    pageModules.forEach((module) => {
+        router[module.path] = module.component;
+    });
+    if (!router.hasOwnProperty('/main'))
+        router['/main'] = new Page('/main', {view: () => {return ''}});
+    m.route(document.body, "/main", router);
 }
+fetchPages();

@@ -1,4 +1,4 @@
-export const scenario = {
+export const scenarioDefinition = {
     devMode: true,
     columns: 26,
     rows: 12,

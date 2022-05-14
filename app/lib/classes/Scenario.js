@@ -4,7 +4,7 @@ import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
 
 export default class Scenario {
-    constructor(json) {
+    constructor(definition) {
         this.devMode = false;
 
         // Scenario Defined Data
@@ -25,7 +25,7 @@ export default class Scenario {
         this.contests = [];
         this.unitsThatMoved = [];
 
-        if (json) this.compile(json);
+        if (definition) this.compile(definition);
     }
 
     appendContest(tile) {
