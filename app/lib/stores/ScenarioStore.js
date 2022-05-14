@@ -21,7 +21,6 @@ class ScenarioStore {
         finally {
             if (tmpRegistry)
                 this.registry = tmpRegistry;
-            debugger;
         }
     }
 }
