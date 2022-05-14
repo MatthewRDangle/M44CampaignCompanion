@@ -17,8 +17,8 @@ const fetchPages = async () => {
     pageModules.forEach((module) => {
         router[module.path] = module.component;
     });
-    if (!router.hasOwnProperty('/main'))
-        router['/main'] = new Page('/main', {view: () => {return ''}});
-    m.route(document.body, "/main", router);
+    if (!router.hasOwnProperty('/mainMenu'))
+        router['/mainMenu'] = new Page('/mainMenu', {view: () => {return ''}});
+    m.route(document.body, "/mainMenu", router);
 }
 fetchPages();

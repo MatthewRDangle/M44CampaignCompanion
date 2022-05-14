@@ -8,7 +8,7 @@ export default class Page {
             throw Error('Unable to build a page without a mithril component.');
 
         if (__pages.hasOwnProperty(path))
-            throw Error('Page ' + path + 'already exists.');
+            throw Error(`Page ${path} already exists.`);
         __pages[path] = this;
 
         this.path = path;
