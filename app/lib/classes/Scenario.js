@@ -96,8 +96,8 @@ export default class Scenario {
         this.rows = definition.rows;
 
         // Construct Tiles
-        for (let idx_rows = 1; idx_rows < definition.rows + 1; idx_rows++) {
-            for (let idx_columns = 1; idx_columns < definition.columns + 1; idx_columns++) {
+        for (let idx_rows = 1; idx_rows < Number(definition.rows) + 1; idx_rows++) {
+            for (let idx_columns = 1; idx_columns < Number(definition.columns) + 1; idx_columns++) {
                 const tile = new Tile();
 
                 // Set Tile ID and Adjacent Tiles.

@@ -1,5 +1,9 @@
 const fs = require ("fs");
 const path = require ("path");
+const {ipcRenderer} = require('electron');
+
+
+export const appDir = await ipcRenderer.invoke('getAppPath');
 
 export const recursiveReaddir = (dir) => {
     if (!dir)

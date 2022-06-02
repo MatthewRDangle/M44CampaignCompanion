@@ -1,7 +1,8 @@
 {
   "test": {
-    "displayName": "Test Scenario",
-    "slug": "scenario_definition.js",
-    "path": "test/scenario_definition.js"
+    "id": "42baa135-d5b2-4f87-97eb-5ab5bd2ab363",
+    "slug": "scenario_definition.json",
+    "path": "test/scenario_definition.json",
+    "displayName": "Test Scenario"
   }
 }

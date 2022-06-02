@@ -38,3 +38,7 @@ app.on('window-all-closed', () => {
 ipcMain.on('close-app', (evt, arg) => {
     if (process.platform !== 'darwin') app.quit()
 })
+
+ipcMain.handle('getAppPath', () => {
+    return global.appdir;
+});
