@@ -1,9 +1,10 @@
 const m = require('mithril');
-import Page from '../classes/Page.js';
-import BattleResultCalc from "../components/BattleResultCalc.js";
-import {activeScenario} from "../singletons/ActiveScenarioManager.js";
+import Page from '../../classes/Page.js';
+import BattleResultCalc from "../../components/BattleResultCalc.js";
+import {activeScenario} from "../../singletons/ActiveScenarioManager.js";
 
-export const page = new Page('/battle/:tileId', (initialVnode) => {
+
+export const page = new Page('/scenario?:key/battle?:tileId', (initialVnode) => {
 
     return {
         view: (vNode) => {

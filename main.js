@@ -2,9 +2,10 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 const appArguments = process.argv;
-console.log(appArguments);
 
 const createWindow = () => {
+    global.appdir = __dirname;
+
     const win = new BrowserWindow({
         width: 800,
         height: 600,
@@ -37,3 +38,7 @@ app.on('window-all-closed', () => {
 ipcMain.on('close-app', (evt, arg) => {
     if (process.platform !== 'darwin') app.quit()
 })
+
+ipcMain.handle('getAppPath', () => {
+    return global.appdir;
+});

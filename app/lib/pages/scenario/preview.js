@@ -1,8 +1,9 @@
 const m = require('mithril');
-import Page from '../classes/Page.js';
-import {activeScenario} from "../singletons/ActiveScenarioManager.js";
+import Page from '../../classes/Page.js';
+import {activeScenario} from "../../singletons/ActiveScenarioManager.js";
 
-export const page = new Page('/preview/:tileId', (initialVnode) => {
+
+export const page = new Page('/scenario?:key/preview?:tileId', (initialVnode) => {
 
     return {
         view: (vNode) => {

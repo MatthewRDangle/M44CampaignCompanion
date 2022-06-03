@@ -4,7 +4,7 @@ import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
 
 export default class Scenario {
-    constructor(json) {
+    constructor(definition) {
         this.devMode = false;
 
         // Scenario Defined Data
@@ -25,7 +25,7 @@ export default class Scenario {
         this.contests = [];
         this.unitsThatMoved = [];
 
-        if (json) this.compile(json);
+        if (definition) this.compile(definition);
     }
 
     appendContest(tile) {
@@ -96,8 +96,8 @@ export default class Scenario {
         this.rows = definition.rows;
 
         // Construct Tiles
-        for (let idx_rows = 1; idx_rows < definition.rows + 1; idx_rows++) {
-            for (let idx_columns = 1; idx_columns < definition.columns + 1; idx_columns++) {
+        for (let idx_rows = 1; idx_rows < Number(definition.rows) + 1; idx_rows++) {
+            for (let idx_columns = 1; idx_columns < Number(definition.columns) + 1; idx_columns++) {
                 const tile = new Tile();
 
                 // Set Tile ID and Adjacent Tiles.
