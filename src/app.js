@@ -1,9 +1,10 @@
 const m = require('mithril');
-import {pageService} from './lib/services/page.service.js'
-import Page from "./lib/classes/Page.js";
+
+import {pageService} from './services/page.service.js'
+import Page from "./classes/Page.js";
 
 
-const fetchPages = async () => {
+(async () => {
     const pageList = await pageService.getAll();
     const pageModules = await Promise.all(pageList.map(async location => {
         const module = await import(location);
@@ -20,5 +21,4 @@ const fetchPages = async () => {
     if (!router.hasOwnProperty('/mainMenu'))
         router['/mainMenu'] = new Page('/mainMenu', {view: () => {return ''}});
     m.route(document.body, "/mainMenu", router);
-}
-fetchPages();
+})();

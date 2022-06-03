@@ -12,14 +12,13 @@ const createWindow = () => {
         webPreferences: {
             devTools: appArguments.includes('dev'),
             nodeIntegration: true,
-            contextIsolation: false,
-            preload: path.join(__dirname, 'preload.js')
+            contextIsolation: false
         }
     });
     win.setIcon(path.join(__dirname, 'assets', 'icon', 'favicon-32x32.png'))
     win.webContents.openDevTools();
     win.setMenu(null);
-    win.loadFile('app/index.html');
+    win.loadFile(path.join(global.appdir, 'index.html'));
     win.maximize();
 }
 

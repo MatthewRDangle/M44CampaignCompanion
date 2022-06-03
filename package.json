@@ -2,7 +2,7 @@
   "name": "battlecry",
   "version": "1.0.0",
   "description": "War Digital Campaign Companion.",
-  "main": "main.js",
+  "main": "startup.js",
   "scripts": {
     "start": "electron .",
     "dev": "electron . dev"
@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/MatthewRDangle/battlecry#readme",
   "devDependencies": {
-    "electron": "^16.0.6"
+    "autoprefixer": "^10.4.7",
+    "electron": "^16.0.6",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.0.24"
   },
   "dependencies": {
     "classnames": "^2.3.1",
