@@ -6,23 +6,24 @@ const {ipcRenderer} = require('electron');
 export const appDir = await ipcRenderer.invoke('getAppPath');
 
 export const recursiveReaddir = (dir) => {
-    if (!dir)
-        return
+    if (!dir) return
 
     return new Promise(resolve => {
-        const fileNames = [];
+        const localFileNames = [];
         fs.readdir(dir, async (error, tmpFilesNames) => {
             for (const name of tmpFilesNames) {
                 const location = path.join(dir, name);
                 const stats = await fs.statSync(location);
 
-                if (stats.isDirectory())
-                    fileNames.concat(await recursiveReaddir(location))
+                if (stats.isDirectory()) {
+                    const tmpSubFilesNames = await recursiveReaddir(location);
+                    tmpSubFilesNames.forEach((tmpSubFileName) => {localFileNames.push(tmpSubFileName)})
+                }
                 else
-                    fileNames.push(location);
+                    localFileNames.push(location);
             }
 
-            resolve(fileNames);
+            resolve(localFileNames);
         })
     })
 }

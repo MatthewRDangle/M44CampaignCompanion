@@ -1,13 +1,16 @@
-import HexTile from "./HexTile.js";
-
 const m = require("mithril");
 
+import HexTile from "./HexTile.js";
+
+
 const HexGrid = (initialVnode) => {
+
 
     return {
         view: (vNode) => {
             const {attrs} = vNode;
             const grid = attrs.grid || [];
+
 
             return (
                 m('div.hexGrid', [

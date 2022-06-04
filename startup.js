@@ -15,7 +15,7 @@ const createWindow = () => {
             contextIsolation: false
         }
     });
-    win.setIcon(path.join(__dirname, 'assets', 'icon', 'favicon-32x32.png'))
+    win.setIcon(path.join(__dirname, 'src', 'images', 'icon', 'favicon-32x32.png'))
     win.webContents.openDevTools();
     win.setMenu(null);
     win.loadFile(path.join(global.appdir, 'index.html'));

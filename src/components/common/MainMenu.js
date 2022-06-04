@@ -2,10 +2,12 @@ const m = require("mithril");
 
 const MainMenu = (initialVnode) => {
 
+
     return {
         view: (vNode) => {
             const {attrs} = vNode;
             const currentPage = attrs.currentPage || {};
+
 
             return (
                 m('div.mainMenu', [

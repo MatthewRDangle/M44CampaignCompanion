@@ -1,17 +1,18 @@
 const m = require('mithril');
 
 import Page from '../classes/Page.js';
-import GameBoard from "../components/GameBoard.js"
+import GameBoard from "../components/scenario/GameBoard.js"
+import scenarioStore from "../stores/ScenarioStore.js";
 
 
-export const page = new Page('/scenario?:id', (initialVnode) => {
+export const page = new Page('/scenario', (initialVnode) => {
+
 
     return {
         view: (vNode) => {
-            const {attrs} = vNode;
-            const {id} = attrs;
+            const {activeScenario} = scenarioStore;
 
-            return m(GameBoard)
+            return m(GameBoard, {scenario: activeScenario})
         }
     }
 });

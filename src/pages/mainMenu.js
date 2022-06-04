@@ -1,10 +1,12 @@
 const m = require('mithril');
 const {ipcRenderer} = require('electron');
+
 import Page from '../classes/Page.js';
-import MainMenu from "../components/MainMenu.js";
+import MainMenu from "../components/common/MainMenu.js";
 
 
 export const page = new Page('/mainMenu', (initialVnode) => {
+
 
     return {
         view: (vNode) => {

@@ -1,6 +1,8 @@
 const m = require("mithril");
-import Button from "./Button.js";
-import Tile from "../classes/Tile.js";
+
+import Button from "../common/Button.js";
+import Tile from "../../classes/Tile.js";
+
 
 const BattleResultCalc = (initialVnode) => {
 
@@ -27,7 +29,7 @@ const BattleResultCalc = (initialVnode) => {
     }
 
     const handlePostpone = (e) => {
-        m.route.set('/warSim')
+        m.route.set('/scenario')
     }
 
     const handleOnSubmit = (e, tile) => {
@@ -46,10 +48,12 @@ const BattleResultCalc = (initialVnode) => {
 
     const results = {};
 
+
     return {
         view: (vNode) => {
             const {attrs} = vNode;
             const tile = attrs.tile || {};
+
 
             return ( !(tile instanceof Tile) ||
                 m('form', {onsubmit: (e) => {handleOnSubmit(e, tile)}}, [

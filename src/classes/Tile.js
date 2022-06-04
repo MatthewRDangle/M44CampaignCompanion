@@ -1,9 +1,10 @@
 import Unit from "./Unit.js";
-import {activeScenario} from "../singletons/ActiveScenarioManager.js"
 import Scenario from "./Scenario.js";
 import Faction from "./Faction.js";
+import scenarioStore from "../stores/ScenarioStore.js";
 
 export default class Tile {
+
     constructor() {
         this.id = '';
         this.row = 0;
@@ -12,7 +13,7 @@ export default class Tile {
         // Interaction
         this.isSelected = false;
         this.preview = {
-            src: 'lib/images/placeholder.PNG',
+            src: 'src/images/placeholder.PNG',
             alt: ''
         };
 
@@ -28,13 +29,18 @@ export default class Tile {
         this.adjacentTiles = [];
     }
 
+    get activeScenario() {
+        return scenarioStore.activeScenario;
+    }
+
+
     adjacentMovementCost() {
         const movement_info = {};
-        const row = this.row;
+        const activeScenarios = this.activeScenario;
         this.adjacentTiles.forEach(function (tileId) {
-            const [row, column] = tileId.split('-');
-            if (row > 0 && row <= activeScenario.rows) {
-                const tile = activeScenario.tiles[row][tileId];
+            const [row] = tileId.split('-');
+            if (row > 0 && row <= activeScenarios.rows) {
+                const tile = activeScenarios.tiles[row][tileId];
                 if (tile)
                     movement_info[tileId] = tile.terrain.movement_cost;
             }
@@ -94,7 +100,7 @@ export default class Tile {
         if (invader instanceof Faction) {
             if (!!this.units[this.owner?.name]) {
                 this.isContested = invader;
-                activeScenario.appendContest(this);
+                this.activeScenario.appendContest(this);
             }
             else
                 this.owner = invader;
@@ -103,8 +109,8 @@ export default class Tile {
 
     deselect() {
         this.isSelected = false;
-        if (activeScenario instanceof Scenario)
-            activeScenario.selectedTile = undefined;
+        if (this.activeScenario instanceof Scenario)
+            this.activeScenario.selectedTile = undefined;
 
     }
 
@@ -136,8 +142,8 @@ export default class Tile {
         const tileFactions = Object.keys(this.units);
         if (Object.keys(this.units).length === 1) {
             this.isContested = false;
-            this.owner = activeScenario.factions[tileFactions[0]];
-            activeScenario.resolveContest(this);
+            this.owner = this.activeScenario.factions[tileFactions[0]];
+            this.activeScenario.resolveContest(this);
         }
         return !this.isContested;
     }
@@ -152,13 +158,13 @@ export default class Tile {
 
     select() {
         this.isSelected = true;
-        if (activeScenario instanceof Scenario) {
-            if (activeScenario.selectedTile === this)
+        if (this.activeScenario instanceof Scenario) {
+            if (this.activeScenario.selectedTile === this)
                 return
 
-            if (activeScenario.selectedTile instanceof Tile)
-                activeScenario.selectedTile.deselect();
-            activeScenario.setSelectedTile(this);
+            if (this.activeScenario.selectedTile instanceof Tile)
+                this.activeScenario.selectedTile.deselect();
+            this.activeScenario.setSelectedTile(this);
         }
     }
 }

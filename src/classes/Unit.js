@@ -1,9 +1,11 @@
 import Faction from './Faction.js';
-import {activeScenario} from "../singletons/ActiveScenarioManager.js";
 import Tile from "./Tile.js";
 import Terrain from "./Terrain.js";
+import scenarioStore from "../stores/ScenarioStore.js";
+
 
 export default class Unit {
+
     constructor(owner, options) {
         if ( !(owner instanceof Faction) )
             throw Error('A unit must be assigned to a faction.');
@@ -22,12 +24,18 @@ export default class Unit {
         this.tile = undefined;
     }
 
+    get activeScenario() {
+        return scenarioStore.activeScenario;
+    }
+
+
     attachTile(tile) {
         if (tile instanceof Tile)
             this.tile = tile;
     }
 
     eligibleMoves() {
+        const activeScenario = this.activeScenario;
         const eligible_moves = {};
         const unitOwner = this.faction;
         const unitType = this.type;
@@ -80,8 +88,8 @@ export default class Unit {
     }
 
     death() {
-        if (activeScenario.selectedUnit === this)
-            activeScenario.selectedUnit = undefined;
+        if (this.activeScenario.selectedUnit === this)
+            this.activeScenario.selectedUnit = undefined;
         this.tile.removeUnit(this);
     }
 
@@ -92,8 +100,8 @@ export default class Unit {
     deselect() {
         this.isSelected = false;
         this.canMoveTo = {};
-        if (activeScenario.selectedUnit instanceof Unit && activeScenario.selectedUnit === this)
-            activeScenario.selectedUnit = undefined;
+        if (this.activeScenario.selectedUnit instanceof Unit && this.activeScenario.selectedUnit === this)
+            this.activeScenario.selectedUnit = undefined;
     }
 
     moveTo(tile) {
@@ -103,7 +111,7 @@ export default class Unit {
                 const new_available_movement = eligibleMoves[key];
                 if (tile.id === key && this.available_movement >= new_available_movement) {
                     this.warpTo(tile);
-                    activeScenario.unitMoved(this);
+                    this.activeScenario.unitMoved(this);
                     this.deselect();
                     this.available_movement = new_available_movement;
 
@@ -133,9 +141,9 @@ export default class Unit {
     select() {
         this.isSelected = true;
         this.eligibleMoves();
-        if (activeScenario.selectedUnit instanceof Unit && activeScenario.selectedUnit !== this)
-            activeScenario.selectedUnit.deselect();
-        activeScenario.selectedUnit = this;
+        if (this.activeScenario.selectedUnit instanceof Unit && this.activeScenario.selectedUnit !== this)
+            this.activeScenario.selectedUnit.deselect();
+        this.activeScenario.selectedUnit = this;
     }
 
     warpTo(tile) {

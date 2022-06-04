@@ -1,11 +1,15 @@
 const m = require("mithril");
-import {activeScenario} from "../singletons/ActiveScenarioManager.js";
+
+import scenarioStore from "../../stores/ScenarioStore.js";
+
 
 const FactionHud = (initialVnode) => {
 
+
     return {
         view: (vNode) => {
-            const {attrs} = vNode;
+            const {activeScenario} = scenarioStore;
+
 
             return (
                 m('div.factionHud', activeScenario.currentTurn.name)

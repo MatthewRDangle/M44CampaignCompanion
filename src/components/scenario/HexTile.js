@@ -1,23 +1,29 @@
 const m = require("mithril");
 const classNames = require("classnames");
+
 import UnitCard from './UnitCard.js';
-import {activeScenario} from "../singletons/ActiveScenarioManager.js";
-import Unit from "../classes/Unit.js";
+import Unit from "../../classes/Unit.js";
+import scenarioStore from "../../stores/ScenarioStore.js";
+
 
 const HexTile = (initialVnode) => {
 
-    const handleOnClick = (tile) => {
-        if (activeScenario.selectedUnit instanceof Unit)
-            activeScenario.selectedUnit.moveTo(tile);
+    const handleOnClick = (tile, scenario) => {
+        if (scenario.selectedUnit instanceof Unit)
+            scenario.selectedUnit.moveTo(tile);
         else
             tile.select();
     }
 
+
     return {
         view: (vNode) => {
             const {attrs} = vNode;
+            const {activeScenario} = scenarioStore;
+
             const hex = attrs.hex;
             const selectedUnit = activeScenario.selectedUnit;
+
 
             return (
                 m('div.hexTile', {
@@ -27,7 +33,7 @@ const HexTile = (initialVnode) => {
                         {'hexTile-eligibleMove': selectedUnit?.canMoveTo[hex.id] >= 0},
                         {'hexTile-contested': hex.isContested}
                     ),
-                    onclick: (e) => {handleOnClick(hex)}
+                    onclick: () => handleOnClick(hex, activeScenario)
                 }, m('div.hexTile_body', [
                     activeScenario.devMode || m('span', hex.id),
                     Object.keys(hex.units).map((faction_name) => {

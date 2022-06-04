@@ -3,11 +3,13 @@ const classNames = require("classnames");
 
 const HexTile = (initialVnode) => {
 
+
     return {
         view: (vNode) => {
             const {attrs} = vNode;
             const unit = attrs.unit;
             const factionColor = unit.faction?.color;
+
 
             return (
                 m('div.unitCard', {

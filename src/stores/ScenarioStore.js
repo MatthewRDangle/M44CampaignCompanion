@@ -1,19 +1,25 @@
 import {scenarioService} from "../services/scenario.service.js";
 import Scenario from "../classes/Scenario.js";
-import {activeScenarioManager} from "../singletons/ActiveScenarioManager.js";
 
+
+let scenarioStore;
 
 class ScenarioStore {
 
     constructor() {
-        this.setActiveScenario = this.setActiveScenario.bind(this);
-        this.clearScenarioFileRegistry = this.clearScenarioFileRegistry.bind(this);
-        this.loadScenarioFileRegistry = this.loadScenarioFileRegistry.bind(this);
-        this.loadScenarioDefinition = this.loadScenarioDefinition.bind(this);
+        if (!scenarioStore) {
+            this.setActiveScenario = this.setActiveScenario.bind(this);
+            this.clearScenarioFileRegistry = this.clearScenarioFileRegistry.bind(this);
+            this.loadScenarioFileRegistry = this.loadScenarioFileRegistry.bind(this);
+            this.loadScenarioDefinition = this.loadScenarioDefinition.bind(this);
+            return this;
+        } else
+            return scenarioStore;
     }
 
     fileRegistry = {};
     definitionRegistry = {};
+    activeScenario = undefined;
 
 
     get fileRegistryList() {
@@ -24,7 +30,7 @@ class ScenarioStore {
     setActiveScenario(id) {
         (async () => {
             await this.loadScenarioDefinition(this.fileRegistry[id]);
-            activeScenarioManager.set(new Scenario(this.definitionRegistry[id]));
+            this.activeScenario = new Scenario(this.definitionRegistry[id]);
         })()
     }
 
@@ -61,5 +67,5 @@ class ScenarioStore {
     }
 }
 
-const scenarioStore = new ScenarioStore();
+scenarioStore = new ScenarioStore();
 export default scenarioStore;

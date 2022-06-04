@@ -1,5 +1,7 @@
 const m = require("mithril");
-import Button from "./Button.js";
+
+import Button from "../common/Button.js";
+
 
 const OptionHud = (initialVnode) => {
 
@@ -13,9 +15,11 @@ const OptionHud = (initialVnode) => {
         m.route.set('/mainMenu');
     }
 
+
     return {
         view: (vNode) => {
             const {attrs} = vNode;
+
 
             return ([
                 __optionsOpened ? m('div.optionOverlay', [
