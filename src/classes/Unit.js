@@ -41,8 +41,10 @@ export default class Unit {
         const unitType = this.type;
         if (this.tile instanceof Tile)
             checkMovement(this.tile, this.available_movement);
+
         this.canMoveTo = eligible_moves;
         return eligible_moves; // All eligible moves w/ remaining movement after moving.
+
 
         function checkMovement(tile, available_movement) {
             if (tile.isContested)
@@ -61,8 +63,11 @@ export default class Unit {
 
                     // Apply movement modifiers.
                     let remaining_movement = available_movement - movement_cost;
-                    if (adjTile.terrain instanceof Terrain && !!adjTile.terrain?.movement_cost_modifiers_by_type[unitType])
+                    if (adjTile.terrain instanceof Terrain && !!adjTile.terrain?.movement_cost_modifiers_by_type[unitType]) {
                         remaining_movement =- adjTile.terrain?.movement_cost_modifiers_by_type[unitType];
+                        if (remaining_movement < 0)
+                            continue
+                    }
 
                     // Check if tile already exists. If it does overwrite it if the new route has the highest available_movement remaining.
                     if (eligible_moves.hasOwnProperty(tileId) && eligible_moves[tileId] < remaining_movement)

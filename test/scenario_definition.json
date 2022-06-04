@@ -1,7 +1,7 @@
 {
     "devMode": "false",
-    "columns": "26",
-    "rows": "12",
+    "columns": 26,
+    "rows": 12,
     "currentTurn": "United States",
     "turnOrder": ["United States", "Germany"],
     "factions": [
