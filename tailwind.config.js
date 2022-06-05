@@ -4,6 +4,18 @@ module.exports = {
     colors: {
       'transparent': 'transparent',
       'currentColor': 'currentColor',
+      'interaction': {
+        DEFAULT: '#DBBD77',
+        100: '#DBBD77',
+        200: '#DBBD77',
+        300: '#DBBD77',
+        400: '#DBBD77',
+        500: '#DBBD77',
+        600: '#DBBD77',
+        700: '#DBBD77',
+        800: '#DBBD77',
+        900: '#DBBD77'
+      },
       'primary': {
         DEFAULT: '#C5D6B7',
         100: '#C5D6B7',
@@ -92,6 +104,11 @@ module.exports = {
     },
     fontFamily: {
       'sans': ['Roboto', 'sans-serif']
+    },
+    extend: {
+      spacing: {
+        none: '0'
+      }
     }
   },
   plugins: [],

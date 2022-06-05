@@ -12,7 +12,7 @@ export const page = new Page('/scenario', (initialVnode) => {
         view: (vNode) => {
             const {activeScenario} = scenarioStore;
 
-            return m(GameBoard, {scenario: activeScenario})
+            return m('div', {className: 'w-screen h-screen'}, m(GameBoard, {scenario: activeScenario}))
         }
     }
 });

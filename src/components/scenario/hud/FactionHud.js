@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import scenarioStore from "../../stores/ScenarioStore.js";
+import scenarioStore from "../../../stores/ScenarioStore.js";
 
 
 const FactionHud = (initialVnode) => {
@@ -12,7 +12,7 @@ const FactionHud = (initialVnode) => {
 
 
             return (
-                m('div.factionHud', activeScenario.currentTurn.name)
+                m('div', {className: 'absolute top-4 left-4 p-4 bg-background rounded'}, activeScenario.currentTurn.name)
             )
         }
     }
