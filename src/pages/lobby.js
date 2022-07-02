@@ -17,6 +17,11 @@ export const page = new Page('/lobby', (initialVnode) => {
 
 
     return {
+        oninit: async () => {
+            const {setTestData} = scenarioStore;
+            await setTestData();
+        },
+
         view: (vNode) => {
             const {fileRegistryList} = scenarioStore;
 
