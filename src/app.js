@@ -1,11 +1,11 @@
 const m = require('mithril');
 
-import {pageService} from './services/page.service.js'
 import Page from "./classes/Page.js";
+import routeStore from "./stores/RouteStore.js";
 
 
 (async () => {
-    const pageList = await pageService.getAll();
+    const pageList = await routeStore.loadAllRoutes();
     const pageModules = await Promise.all(pageList.map(async location => {
         const module = await import(location);
         const {page} = module;

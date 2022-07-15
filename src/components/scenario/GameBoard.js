@@ -1,7 +1,7 @@
 const m = require("mithril");
 
 import HexGrid from "./HexGrid.js";
-import Hud from "../hud/Hud.js";
+import Hud from "./hud/Hud.js";
 import Unit from "../../classes/Unit.js";
 import Tile from "../../classes/Tile.js";
 
@@ -23,11 +23,11 @@ const GameBoard = (initialVnode) => {
 
 
             return (
-                m('div.gameBoard', {
+                m('div', {className: 'w-full h-full',
                     oncontextmenu: () => handleRightClick(scenario)
                 }, [
-                    m('div.gameBoard_body', m(HexGrid, {grid: scenario.tiles})),
-                    m('div.gameBoard_hud', [
+                    m('div', {className: 'w-full h-full overflow-auto'}, m(HexGrid, {grid: scenario.tiles})),
+                    m('div', [
                         m(Hud, {scenario: scenario})
                     ])
                 ])

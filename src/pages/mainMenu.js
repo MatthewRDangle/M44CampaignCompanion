@@ -1,8 +1,7 @@
 const m = require('mithril');
-const {ipcRenderer} = require('electron');
 
 import Page from '../classes/Page.js';
-import MainMenu from "../components/common/MainMenu.js";
+import Body from "../components/Body.js";
 
 
 export const page = new Page('/mainMenu', (initialVnode) => {
@@ -12,10 +11,8 @@ export const page = new Page('/mainMenu', (initialVnode) => {
         view: (vNode) => {
             const {attrs} = vNode;
 
-            return m(MainMenu, {currentPage: this, title: 'Campaign Companion'}, [
-                m('div', {onclick: () => {m.route.set('/lobby')}}, 'Skirmish'),
-                m('div', {onclick: () => {ipcRenderer.send('close-app')}}, 'Exit to Desktop')
-            ]);
+
+            return m(Body)
         }
     }
 });

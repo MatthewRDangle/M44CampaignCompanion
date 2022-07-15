@@ -1,0 +1,80 @@
+{
+    "devMode": "false",
+    "columns": 10,
+    "rows": 10,
+    "currentTurn": "United States",
+    "turnOrder": ["United States", "Germany"],
+    "factions": [
+        {
+            "name": "United States",
+            "color": {
+                "text": "#151A1E",
+                "background": "#95B07E"
+            }
+        },
+        {
+            "name": "Germany",
+            "color": {
+                "text": "#151A1E",
+                "background": "#9BADB7"
+            }
+        }
+    ],
+    "terrains": [
+        {
+            "name": "Grassland",
+            "color": "#C5D6B7",
+            "movement_cost": 2
+        },
+        {
+            "name": "Forest",
+            "color": "#5F7251",
+            "movement_cost": 4,
+            "movement_cost_modifiers_by_type": {
+                "Vehicle": 4
+            }
+        },
+        {
+            "name": "Water",
+            "color": "#55B6CC",
+            "movement_cost": 2,
+            "inaccessible_by": [
+                "Infantry",
+                "Vehicle"
+            ]
+        },
+        {
+            "name": "Road",
+            "color": "#CBCBCB",
+            "movement_cost": 1
+        },
+        {
+            "name": "Town",
+            "color": "#868686",
+            "movement_cost": 4,
+            "movement_cost_modifiers_by_type": {
+                "Vehicle": 4
+            }
+        }
+    ],
+    "unit_templates": {
+        "Infantry": {
+            "health": 4,
+                "available_movement": 4,
+                "movement_cap": 4,
+                "type": "Infantry"
+        },
+        "Tank": {
+            "health": 4,
+                "available_movement": 8,
+                "movement_cap": 8,
+                "type": "Vehicle"
+        }
+    },
+
+    "tiles": {
+        "*": {
+            "terrain": "Grassland"
+        }
+    }
+}

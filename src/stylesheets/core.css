@@ -428,37 +428,37 @@ optgroup {
   line-height: inherit;
 }
 
-button, [type="submit"], [type="reset"], [type="button"] {
-  display: block;
-  width: auto;
-  padding: 2px 5px;
-  margin: 0;
-  border-width: 1px;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  overflow: visible;
-  cursor: pointer;
-  color: var(--Background);
-  background-color: var(--Highlight);
-  border-style: solid;
-  border-color: transparent;
-  -webkit-appearance: button; /* Correct the inability to style clickable types in iOS and Safari. */
-}
+/*button, [type="submit"], [type="reset"], [type="button"] {*/
+/*  display: block;*/
+/*  width: auto;*/
+/*  padding: 2px 5px;*/
+/*  margin: 0;*/
+/*  border-width: 1px;*/
+/*  font-family: inherit;*/
+/*  font-size: inherit;*/
+/*  line-height: inherit;*/
+/*  overflow: visible;*/
+/*  cursor: pointer;*/
+/*  color: var(--Background);*/
+/*  background-color: var(--Highlight);*/
+/*  border-style: solid;*/
+/*  border-color: transparent;*/
+/*  -webkit-appearance: button; !* Correct the inability to style clickable types in iOS and Safari. *!*/
+/*}*/
 
-::-webkit-file-upload-button {
-  -webkit-appearance: button; /* Correct the inability to style clickable types in iOS and Safari. */
-  font: inherit; /* Change font properties to `inherit` in Safari. */
-}
+/*::-webkit-file-upload-button {*/
+/*  -webkit-appearance: button; !* Correct the inability to style clickable types in iOS and Safari. *!*/
+/*  font: inherit; !* Change font properties to `inherit` in Safari. *!*/
+/*}*/
 
-button:hover, [type="submit"]:hover, [type="reset"]:hover, [type="button"]:hover {
-  color: inherit;
-  background-color: transparent;
-}
-button:disabled {
-  cursor: not-allowed;
-  background: var(--Disabled)
-}
+/*button:hover, [type="submit"]:hover, [type="reset"]:hover, [type="button"]:hover {*/
+/*  color: inherit;*/
+/*  background-color: transparent;*/
+/*}*/
+/*button:disabled {*/
+/*  cursor: not-allowed;*/
+/*  background: var(--Disabled)*/
+/*}*/
 
 /*
 * * Title: Unordered List.
