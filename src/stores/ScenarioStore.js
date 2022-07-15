@@ -95,14 +95,14 @@ class ScenarioStore {
         this.fileRegistry = {
             "test1": {
                 "id": "42baa135-d5b2-4f87-97eb-5ab5bd2ab363",
-                "slug": "scenario_definition.json",
-                "path": "test/scenario_definition_1.json",
-                "displayName": "Random Road"
+                "slug": "scenario_definition_2.json",
+                "path": "test/scenario_definition_2.json",
+                "displayName": "Training Grounds"
             },
             "test2": {
                 "id": "35ca6e80-2f12-4d40-aab2-6720367aa7e8",
-                "slug": "scenario_definition_2.json",
-                "path": "test/scenario_definition_2.json",
+                "slug": "scenario_definition_1.json",
+                "path": "test/scenario_definition_1.json",
                 "displayName": "Water Cross Bridge"
             }
         }
