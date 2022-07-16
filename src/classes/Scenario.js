@@ -2,28 +2,32 @@ import Tile from "./Tile.js";
 import Faction from "./Faction.js";
 import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
+import BattleMap from "./BattleMap.js";
 
 export default class Scenario {
     constructor(definition) {
         this.devMode = false;
 
-        // Scenario Defined Data
+        // References
         this.factions = {};
-        this.unit_templates = {};
         this.terrains = {};
-        this.turnOrder = []
+        this.battleMaps = {};
 
-        // Map Builder
-        this.tiles = [];
-        this.columns = 0;
-        this.rows = 0;
+        // Templates
+        this.unit_templates = {};
 
-        // Status Info
+        // Gameplay
+        this.turnOrder = [];
         this.currentTurn = undefined;
-        this.selectedTile = undefined;
-        this.selectedUnit = undefined;
         this.contests = [];
         this.unitsThatMoved = [];
+        this.selectedTile = undefined;
+        this.selectedUnit = undefined;
+
+        // Grid Builder
+        this.columns = 0;
+        this.rows = 0;
+        this.tiles = [];
 
         if (definition) this.compile(definition);
     }
@@ -35,14 +39,17 @@ export default class Scenario {
 
     compile(definition) {
 
-        // Set Unit Templates
-        if (definition.unit_templates) {
-            const unit_templates = definition.unit_templates
-            for (let key in unit_templates) {
-                let unit_definition_template = {...unit_templates[key]};
-                unit_definition_template.name = key;
-                this.unit_templates[key] = unit_definition_template;
-            }
+        /*
+        * ===================================
+        * ======== Compile References =======
+        * ===================================
+        */
+
+        // Set Factions
+        if (Array.isArray(definition.factions)) {
+            definition.factions.forEach((definition_faction) => {
+                this.factions[definition_faction.name] = new Faction(definition_faction.name, definition_faction);
+            })
         }
 
         // Set Terrains
@@ -52,12 +59,36 @@ export default class Scenario {
             })
         }
 
-        // Set Factions
-        if (Array.isArray(definition.factions)) {
-            definition.factions.forEach((definition_faction) => {
-                this.factions[definition_faction.name] = new Faction(definition_faction.name, definition_faction);
+        // Set Battle Maps
+        if (definition.battleMaps) {
+            definition.battleMaps.forEach((definition_battleMap) => {
+                this.battleMaps[definition_battleMap.name] = new BattleMap(definition_battleMap.name, definition_battleMap.src, definition_battleMap.alt);
             })
         }
+
+
+        /*
+        * ===================================
+        * ======== Compile Templates ========
+        * ===================================
+        */
+
+        // Set Units
+        if (definition.unit_templates) {
+            const unit_templates = definition.unit_templates
+            for (let key in unit_templates) {
+                let unit_definition_template = {...unit_templates[key]};
+                unit_definition_template.name = key;
+                this.unit_templates[key] = unit_definition_template;
+            }
+        }
+
+
+        /*
+        * ===================================
+        * =========== Compile Gameplay ==========
+        * ===================================
+        */
 
         // Set Turn Order.
         if (Array.isArray(definition.turnOrder))
@@ -90,6 +121,13 @@ export default class Scenario {
             }
 
         }
+
+
+        /*
+        * ===================================
+        * =========== Compile Grid ==========
+        * ===================================
+        */
 
         // This Column and Row Count.
         this.columns = definition.columns;

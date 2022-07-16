@@ -20,8 +20,8 @@ export const page = new Page('/scenario/preview?:tileId', (initialVnode) => {
                 m('div', {style: 'width: 100vw; height: 100vh;'},
                     m('div.preview',
                         m('img.preview_img', {
-                            src: tile.preview?.src || '',
-                            alt: tile.preview?.alt || '',
+                            src: tile.battleMap?.src || '',
+                            alt: tile.battleMap?.alt || '',
                             onclick: function() {
                                 m.route.set('/scenario')
                             }

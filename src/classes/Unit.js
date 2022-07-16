@@ -37,6 +37,7 @@ export default class Unit {
     eligibleMoves() {
         const activeScenario = this.activeScenario;
         const eligible_moves = {};
+        const unitTileId = this.tile.id;
         const unitOwner = this.faction;
         const unitType = this.type;
         if (this.tile instanceof Tile)
@@ -64,22 +65,26 @@ export default class Unit {
                     // Apply movement modifiers.
                     let remaining_movement = available_movement - movement_cost;
                     if (adjTile.terrain instanceof Terrain && !!adjTile.terrain?.movement_cost_modifiers_by_type[unitType]) {
-                        remaining_movement =- adjTile.terrain?.movement_cost_modifiers_by_type[unitType];
+                        remaining_movement = remaining_movement - adjTile.terrain?.movement_cost_modifiers_by_type[unitType];
                         if (remaining_movement < 0)
                             continue
                     }
 
-                    // Check if tile already exists. If it does overwrite it if the new route has the highest available_movement remaining.
-                    if (eligible_moves.hasOwnProperty(tileId) && eligible_moves[tileId] < remaining_movement)
-                        eligible_moves[tileId] = remaining_movement;
+                    // Only add tile if it not the current unit tile.
+                    if (unitTileId !== tileId) {
 
-                    // If it doesn't exist, add it.
-                    else if (!eligible_moves.hasOwnProperty(tileId))
-                        eligible_moves[tileId] = remaining_movement;
+                        // Check if tile already exists. If it does overwrite it if the new route has the highest available_movement remaining.
+                        if (eligible_moves.hasOwnProperty(tileId) && eligible_moves[tileId] < remaining_movement && unitTileId)
+                            eligible_moves[tileId] = remaining_movement;
 
-                    // Otherwise skip, because it shouldn't be added since it's a smaller number.
-                    else
-                        continue
+                        // If it doesn't exist, add it.
+                        else if (!eligible_moves.hasOwnProperty(tileId))
+                            eligible_moves[tileId] = remaining_movement;
+
+                        // Otherwise skip, because it shouldn't be added since it's a smaller number.
+                        else
+                            continue
+                    }
 
                     // If there is any available movement left, repeat; unless it's an enemy unit is preventing movement.
                     if (remaining_movement > 0) {
