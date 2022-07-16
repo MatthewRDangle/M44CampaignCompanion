@@ -96,8 +96,8 @@ class ScenarioStore {
             "test1": {
                 "id": "42baa135-d5b2-4f87-97eb-5ab5bd2ab363",
                 "slug": "scenario_definition_2.json",
-                "path": "test/scenario_definition_2.json",
-                "displayName": "Training Grounds"
+                "path": "test/Winter Storm/scenario_definition_2.json",
+                "displayName": "Winter Storm"
             },
             "test2": {
                 "id": "35ca6e80-2f12-4d40-aab2-6720367aa7e8",

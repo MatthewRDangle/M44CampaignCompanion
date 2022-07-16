@@ -43,7 +43,7 @@ const BattleResultCalc = (initialVnode) => {
         })
 
         if (tile.resolve())
-            m.route.set('/warSim');
+            m.route.set('/scenario');
     }
 
     const results = {};
@@ -56,7 +56,7 @@ const BattleResultCalc = (initialVnode) => {
 
 
             return ( !(tile instanceof Tile) ||
-                m('form', {onsubmit: (e) => {handleOnSubmit(e, tile)}}, [
+                m('form', {}, [
                     m('div.results', [
                         m('h2.results_header', `${tile.owner.name} (Defender)`),
                         m('div.results_counters', m('div.flex', groupUnits(tile.units, tile.owner).map(([groupKey, groupedUnits]) => {
@@ -78,7 +78,7 @@ const BattleResultCalc = (initialVnode) => {
                         ))
                     ]),
                     m(Button, {type: 'button', onclick: handlePostpone}, 'Postpone'),
-                    m(Button, {type: 'submit'}, 'Resolve')
+                    m(Button, {type: 'button', onclick: (e) => handleOnSubmit(e, tile)}, 'Resolve')
                 ])
             )
         }

@@ -12,8 +12,8 @@ export default class Tile {
 
         // Interaction
         this.isSelected = false;
-        this.preview = {
-            src: 'src/images/placeholder.PNG',
+        this.battleMap = {
+            src: '',
             alt: ''
         };
 
@@ -91,8 +91,16 @@ export default class Tile {
         }
 
         // Apply Terrain
-        if (instructions.terrain) {
-            this.terrain = scenario.terrains[instructions.terrain];
+        if (instructions.terrain)
+            this.terrain = scenario.terrains[instructions.terrain]
+
+        // Apply Preview
+        if (instructions.battleMap) {
+            if (typeof instructions.battleMap === 'string') {
+                this.battleMap = scenario.battleMaps[instructions.battleMap];
+            }
+            else if (typeof instructions.battleMap === 'object' && instructions.battleMap.hasOwnProperty('src') && instructions.battleMap.hasOwnProperty('alt'))
+                this.battleMap = instructions.battleMap;
         }
     }
 
