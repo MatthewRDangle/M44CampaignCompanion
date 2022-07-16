@@ -2,8 +2,8 @@ const m = require('mithril');
 
 import Page from '../classes/Page.js';
 import Button from "../components/common/Button.js";
-import scenarioStore from "../stores/ScenarioStore.js";
 import Body from "../components/Body.js";
+import scenarioStore from "../stores/ScenarioStore.js";
 
 
 export const page = new Page('/lobby', (initialVnode) => {
@@ -17,11 +17,6 @@ export const page = new Page('/lobby', (initialVnode) => {
 
 
     return {
-        oninit: async () => {
-            const {setTestData} = scenarioStore;
-            await setTestData();
-        },
-
         view: (vNode) => {
             const {fileRegistryList} = scenarioStore;
 
