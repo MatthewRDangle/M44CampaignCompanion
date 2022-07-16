@@ -5,7 +5,9 @@
   "main": "startup.js",
   "scripts": {
     "start": "electron .",
-    "dev": "electron . dev"
+    "dev": "electron . dev && npm run watch:tailwindcss",
+    "build:tailwindcss": "tailwindcss build -i src/stylesheets/_tailwind.css -o src/stylesheets/tailwind.css",
+    "watch:tailwindcss": "tailwindcss build -i src/stylesheets/_tailwind.css -o src/stylesheets/tailwind.css --watch"
   },
   "repository": {
     "type": "git",
