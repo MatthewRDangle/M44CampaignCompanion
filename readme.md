@@ -18,4 +18,4 @@ documentation make it even easier.
 
 ## Legality
 BattleCry is open source and free. You do not need to pay to download a copy of this software. However, there are 
-still limitations as to what you may do with it. Please see our licence located in the repository.
+still limitations as to what you may do with it. Please see our license located in the repository.
