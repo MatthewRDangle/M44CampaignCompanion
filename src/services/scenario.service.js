@@ -5,22 +5,34 @@ import {appDir} from '../utilities/readdir.js';
 
 export const scenarioService = {
     getAll: () => {
-        const json = localStorage.getItem('scenarioFiles');
+        const json = localStorage.getItem('scenarioManifestFiles');
         if (json)
             return JSON.parse(json);
         else
             return [];
     },
 
-    set: (files) => {
-        localStorage.setItem('scenarioFiles', JSON.stringify(files));
+    set: (manifests) => {
+        localStorage.setItem('scenarioManifestFiles', JSON.stringify(manifests));
     },
 
-    add: (file) => {
+    add: (manifest) => {
         let scenarioFiles = this.getAll();
-        scenarioFiles.push(file);
+        scenarioFiles.push(manifest);
         this.set(scenarioFiles);
         return scenarioFiles;
+    },
+
+    delete: (manifest) => {
+        const json = localStorage.getItem('scenarioManifestFiles');
+        try {
+            const allScenarioManifestFiles = JSON.parse(json);
+            delete manifest.UUID;
+            localStorage.setItem('scenarioManifestFiles', JSON.stringify(allScenarioManifestFiles));
+            return allScenarioManifestFiles;
+        } catch(err) {
+            console.error(err);
+        }
     },
 
     loadFile: (file) => {

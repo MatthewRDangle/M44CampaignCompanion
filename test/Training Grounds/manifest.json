@@ -1,0 +1,10 @@
+{
+  "UUID": "45fa49c1-6138-4018-b6c9-ab7ce770078a",
+  "Name": "Training Grounds",
+  "Factions" : "United States vs. Germany",
+  "Size": {
+    "columns": 26,
+    "rows": 12
+  },
+  "Version": [1,0,0]
+}
