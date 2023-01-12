@@ -11,7 +11,7 @@ export const page = new Page('/settings', (initialVnode) => {
     loadScenarioManifestRegistry().then(() => m.redraw());
 
     const handleUpload = () => {
-        m.route.set('/upload')
+        m.route.set('/settings/upload')
     }
 
     const handleDelete = (manifest) => {

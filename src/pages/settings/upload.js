@@ -1,12 +1,12 @@
 const m = require('mithril');
 
-import Page from '../classes/Page.js';
-import Body from "../components/Body.js";
-import Button from "../components/common/Button.js";
-import scenarioManifestStore from "../stores/ScenarioManifest.store.js";
+import Page from '../../classes/Page.js';
+import Body from "../../components/Body.js";
+import Button from "../../components/common/Button.js";
+import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
 
 
-export const page = new Page('/upload', (initialVnode) => {
+export const page = new Page('/settings/upload', (initialVnode) => {
     const {addOneScenarioManifest, getContentsFromScenarioManifestFile} = scenarioManifestStore;
 
 
