@@ -1,15 +1,17 @@
-const path = require('path');
-
-import {appDir} from '../utilities/readdir.js';
+const {ipcRenderer} = require('electron');
 
 
-export const scenarioService = {
+export const scenarioManifestService = {
     getAll: () => {
         const json = localStorage.getItem('scenarioManifestFiles');
         if (json)
             return JSON.parse(json);
         else
-            return [];
+            return {};
+    },
+
+    getFileContent: async (path) => {
+        return await ipcRenderer.invoke("/api/systemFiles/getFileContent", path)
     },
 
     set: (manifests) => {
@@ -17,9 +19,14 @@ export const scenarioService = {
     },
 
     add: (manifest) => {
-        let scenarioFiles = this.getAll();
-        scenarioFiles.push(manifest);
-        this.set(scenarioFiles);
+        const json = localStorage.getItem('scenarioManifestFiles');
+        let scenarioFiles = {};
+
+        if (json)
+            scenarioFiles = JSON.parse(json);
+
+        scenarioFiles[manifest.UUID] = manifest;
+        localStorage.setItem('scenarioManifestFiles', JSON.stringify(scenarioFiles));
         return scenarioFiles;
     },
 
@@ -27,19 +34,11 @@ export const scenarioService = {
         const json = localStorage.getItem('scenarioManifestFiles');
         try {
             const allScenarioManifestFiles = JSON.parse(json);
-            delete manifest.UUID;
+            delete allScenarioManifestFiles[manifest.UUID];
             localStorage.setItem('scenarioManifestFiles', JSON.stringify(allScenarioManifestFiles));
             return allScenarioManifestFiles;
         } catch(err) {
             console.error(err);
         }
-    },
-
-    loadFile: (file) => {
-        return new Promise(async resolve => {
-            const response = await fetch(path.join(appDir, file.path));
-            const json = await response.text();
-            resolve(JSON.parse(json));
-        })
     }
 }

@@ -1,7 +1,7 @@
 import Faction from './Faction.js';
 import Tile from "./Tile.js";
 import Terrain from "./Terrain.js";
-import scenarioStore from "../stores/ScenarioStore.js";
+import scenarioManifestStore from "../stores/ScenarioManifest.store.js";
 
 
 export default class Unit {
@@ -25,7 +25,7 @@ export default class Unit {
     }
 
     get activeScenario() {
-        return scenarioStore.activeScenario;
+        return scenarioManifestStore.activeScenario;
     }
 
 

@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import scenarioStore from '../../../stores/ScenarioStore.js';
+import scenarioManifestStore from '../../../stores/ScenarioManifest.store.js';
 
 
 const NextTurnHud = (initialVnode) => {
@@ -13,7 +13,7 @@ const NextTurnHud = (initialVnode) => {
     return {
         view: (vNode) => {
             const {attrs} = vNode;
-            const {activeScenario} = scenarioStore;
+            const {activeScenario} = scenarioManifestStore;
 
 
             return (

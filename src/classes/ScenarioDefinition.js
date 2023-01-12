@@ -4,7 +4,7 @@ import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
 import BattleMap from "./BattleMap.js";
 
-export default class Scenario {
+export default class ScenarioDefinition {
     constructor(definition) {
         this.devMode = false;
 

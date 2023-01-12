@@ -3,23 +3,27 @@ const m = require('mithril');
 import Page from '../classes/Page.js';
 import Body from "../components/Body.js";
 import Button from "../components/common/Button.js";
-import scenarioStore from "../stores/ScenarioStore.js";
+import scenarioManifestStore from "../stores/ScenarioManifest.store.js";
 
 
 export const page = new Page('/upload', (initialVnode) => {
-    const {addOneScenarioManifest} = scenarioStore;
+    const {addOneScenarioManifest, getContentsFromScenarioManifestFile} = scenarioManifestStore;
 
 
     let file = undefined;
 
 
     const handleFileOnChange = (e) => {
-        file = e.target.value;
-        console.log(file);
+        file = e.target.files[0];
     };
 
-    const handleUpload = (e) => {
-        addOneScenarioManifest(file);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const scenarioManifest = await getContentsFromScenarioManifestFile(file.path);
+        if (!!scenarioManifest)
+            addOneScenarioManifest(JSON.parse(scenarioManifest));
+
+        m.route.set('settings');
     };
 
 
@@ -28,10 +32,10 @@ export const page = new Page('/upload', (initialVnode) => {
 
 
             return m(Body, [
-                m('form', [
+                m('form', {onsubmit: (e) => handleSubmit(e)}, [
                     m('label', 'Select Manifest File'),
                     m('input', {type: 'file', onchange: handleFileOnChange}),
-                    m(Button, {type: 'button', onclick: handleUpload}, 'Upload')
+                    m(Button, {button: 'submit'}, 'Upload')
                 ])
             ])
         }

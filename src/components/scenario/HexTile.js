@@ -3,7 +3,7 @@ const classNames = require("classnames");
 
 import UnitCard from './UnitCard.js';
 import Unit from "../../classes/Unit.js";
-import scenarioStore from "../../stores/ScenarioStore.js";
+import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
 
 
 const HexTile = (initialVnode) => {
@@ -19,7 +19,7 @@ const HexTile = (initialVnode) => {
     return {
         view: (vNode) => {
             const {attrs} = vNode;
-            const {activeScenario} = scenarioStore;
+            const {activeScenario} = scenarioManifestStore;
 
             const {hex, size, margin} = attrs;
             const height = size * 1.1547;

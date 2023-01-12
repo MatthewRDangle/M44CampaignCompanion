@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import scenarioStore from "../../../stores/ScenarioStore.js";
+import scenarioManifestStore from "../../../stores/ScenarioManifest.store.js";
 
 
 const FactionHud = (initialVnode) => {
@@ -8,7 +8,7 @@ const FactionHud = (initialVnode) => {
 
     return {
         view: (vNode) => {
-            const {activeScenario} = scenarioStore;
+            const {activeScenario} = scenarioManifestStore;
 
 
             return (

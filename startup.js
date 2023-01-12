@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const { getFileContent } = require('./api/systemFiles');
 const path = require('path');
 
 const appArguments = process.argv;
@@ -30,12 +31,18 @@ app.whenReady().then(() => {
     })
 })
 
+
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
 
 ipcMain.on('close-app', (evt, arg) => {
     if (process.platform !== 'darwin') app.quit()
+})
+
+
+ipcMain.handle('/api/systemFiles/getFileContent', async (e, path) => {
+    return await getFileContent(path);
 })
 
 ipcMain.handle('getAppPath', () => {

@@ -1,12 +1,16 @@
 export default class ScenarioManifest {
     constructor(manifest) {
+        this.format_version = manifest.format_version ?? 1;
+
         this.UUID = manifest.UUID;
-        this.Name = manifest.Name;
-        this.Factions = manifest.Factions;
-        this.Size = {
-            columns: manifest.Size?.columns,
-            rows: manifest.Size?.rows
+        this.name = manifest.name;
+        this.factions = manifest.factions;
+        this.size = {
+            columns: manifest.size?.columns,
+            rows: manifest.size?.rows
         }
-        this.Version = manifest.Version
+
+        this.scenario_definition = manifest.scenario_definition;
+        this.version = manifest.version
     }
 }
