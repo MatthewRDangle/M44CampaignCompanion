@@ -1,0 +1,14 @@
+{
+  "format_version": 1,
+
+  "UUID": "45fa49c1-6138-4018-b6c9-ab7ce770078a",
+  "name": "Training Grounds",
+  "factions" : "United States vs. Germany",
+  "size": {
+    "columns": 26,
+    "rows": 12
+  },
+
+  "scenarioDefinition": "scenario.json",
+  "version": "1.0.0"
+}

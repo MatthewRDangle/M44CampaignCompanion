@@ -1,4 +1,5 @@
 const m = require("mithril");
+const {ipcRenderer} = require('electron');
 
 import routeStore from "../../stores/RouteStore.js";
 
@@ -21,7 +22,14 @@ const Page = (initialVnode) => {
                                     className: 'flex items-center p-2 text-base font-normal text-font-900 rounded-lg hover:bg-foreground-100'
                                 }, item.label)
                             ])
-                        ))
+                        )),
+                        m('li',
+                            {
+                                className: 'flex items-center p-2 text-base font-normal text-font-900 rounded-lg hover:bg-foreground-100',
+                                onclick: async () => { await ipcRenderer.invoke('/api/app/quitApplication') }
+                            },
+                            'To Desktop'
+                        )
                     ])
                 )
             )

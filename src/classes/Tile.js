@@ -1,7 +1,8 @@
 import Unit from "./Unit.js";
-import Scenario from "./Scenario.js";
+import ScenarioDefinition from "./ScenarioDefinition.js";
 import Faction from "./Faction.js";
-import scenarioStore from "../stores/ScenarioStore.js";
+import ScenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
+
 
 export default class Tile {
 
@@ -30,7 +31,7 @@ export default class Tile {
     }
 
     get activeScenario() {
-        return scenarioStore.activeScenario;
+        return ScenarioDefinitionStore.activeScenarioDefinition;
     }
 
 
@@ -117,7 +118,7 @@ export default class Tile {
 
     deselect() {
         this.isSelected = false;
-        if (this.activeScenario instanceof Scenario)
+        if (this.activeScenario instanceof ScenarioDefinition)
             this.activeScenario.selectedTile = undefined;
 
     }
@@ -166,7 +167,7 @@ export default class Tile {
 
     select() {
         this.isSelected = true;
-        if (this.activeScenario instanceof Scenario) {
+        if (this.activeScenario instanceof ScenarioDefinition) {
             if (this.activeScenario.selectedTile === this)
                 return
 

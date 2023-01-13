@@ -10,7 +10,7 @@ export const nav = [
     },
     {
         label: 'Settings',
-        path: '/',
-        disabled: true
+        path: '/settings',
+        disabled: false
     }
 ]
