@@ -1,5 +1,5 @@
 import {scenarioManifestService} from "../services/scenarioManifest.service.js";
-import File from "../classes/ScenarioManifest.js";
+import ScenarioManifest from "../classes/ScenarioManifest.js";
 
 
 let scenarioManifestStore;
@@ -21,7 +21,7 @@ class ScenarioManifestStore {
 
 
     get manifestRegistryList() {
-        return Object.values(this.manifestRegistry).map(manifest => new File(manifest));
+        return Object.values(this.manifestRegistry).map(manifest => new ScenarioManifest(manifest));
     };
 
 
@@ -68,10 +68,13 @@ class ScenarioManifestStore {
         }
     }
 
-    async getContentsFromScenarioManifestFile(path) {
+    async getContentsFromScenarioManifestFile(file) {
         let tmpManifest;
         try {
-            tmpManifest = scenarioManifestService.getFileContent(path)
+            tmpManifest = await scenarioManifestService.getFileContent(file.path);
+            tmpManifest = JSON.parse(tmpManifest);
+            tmpManifest.pathToDir = file.path.replaceAll(file.name, "");
+            tmpManifest.fileName = file.name;
         } catch(err) {console.error(err)}
 
         return tmpManifest;

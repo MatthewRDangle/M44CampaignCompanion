@@ -3,10 +3,16 @@ import Faction from "./Faction.js";
 import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
 import BattleMap from "./BattleMap.js";
+import Session from "./Session.js";
 
 export default class ScenarioDefinition {
     constructor(definition) {
+        // Development
+        this.UUID = undefined;
         this.devMode = false;
+
+        // Session
+        this.session = new Session();
 
         // References
         this.factions = {};

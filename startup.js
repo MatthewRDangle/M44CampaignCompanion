@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { getFileContent } = require('./api/systemFiles');
+const { quitApplication } = require('./api/app.js')
 const path = require('path');
 
 const appArguments = process.argv;
@@ -43,6 +44,10 @@ ipcMain.on('close-app', (evt, arg) => {
 
 ipcMain.handle('/api/systemFiles/getFileContent', async (e, path) => {
     return await getFileContent(path);
+})
+
+ipcMain.handle('/api/app/quitApplication', async (e, path) => {
+    quitApplication(path);
 })
 
 ipcMain.handle('getAppPath', () => {

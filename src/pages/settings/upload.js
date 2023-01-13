@@ -19,9 +19,9 @@ export const page = new Page('/settings/upload', (initialVnode) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const scenarioManifest = await getContentsFromScenarioManifestFile(file.path);
-        if (!!scenarioManifest)
-            addOneScenarioManifest(JSON.parse(scenarioManifest));
+        let tmpScenarioManifest = await getContentsFromScenarioManifestFile(file);
+        if (!!tmpScenarioManifest)
+            addOneScenarioManifest(tmpScenarioManifest);
 
         m.route.set('settings');
     };

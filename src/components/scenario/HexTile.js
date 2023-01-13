@@ -3,7 +3,7 @@ const classNames = require("classnames");
 
 import UnitCard from './UnitCard.js';
 import Unit from "../../classes/Unit.js";
-import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
+import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 
 const HexTile = (initialVnode) => {
@@ -19,12 +19,12 @@ const HexTile = (initialVnode) => {
     return {
         view: (vNode) => {
             const {attrs} = vNode;
-            const {activeScenario} = scenarioManifestStore;
+            const {activeScenarioDefinition} = scenarioDefinitionStore;
 
             const {hex, size, margin} = attrs;
             const height = size * 1.1547;
             const marginBottom = margin - size * 0.2885;
-            const selectedUnit = activeScenario.selectedUnit;
+            const selectedUnit = activeScenarioDefinition.selectedUnit;
 
 
             return (
@@ -39,12 +39,12 @@ const HexTile = (initialVnode) => {
                         'margin-bottom': `${marginBottom}px`,
                         'clip-path': 'polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%)'
                     },
-                    onclick: () => handleOnClick(hex, activeScenario)
+                    onclick: () => handleOnClick(hex, activeScenarioDefinition)
                 }, m('div', {
                     className: 'relative',
                     style: {'padding-top': `${size / 3.5}px`, 'padding-bottom': `${size / 3.5}px`}
                 }, [
-                    activeScenario.devMode || m('span', hex.id),
+                    activeScenarioDefinition.devMode || m('span', hex.id),
                     Object.keys(hex.units).map((faction_name) => {
                         return hex.units[faction_name].map((unit) => {
                             return m('div', {className: 'absolute top-1/2 left-1/2 -translate-x-1/2'}, m(UnitCard, {unit: unit}))

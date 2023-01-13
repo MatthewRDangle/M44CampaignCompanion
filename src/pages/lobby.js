@@ -9,13 +9,13 @@ import scenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
 
 export const page = new Page('/lobby', (initialVnode) => {
     const {loadScenarioManifestRegistry} = scenarioManifestStore;
-    const {setActiveDefinition} = scenarioDefinitionStore;
+    const {setActiveScenarioDefinition} = scenarioDefinitionStore;
     loadScenarioManifestRegistry().then(() => m.redraw());
 
 
-    const handleOnClick = (manifest) => {
-        setActiveDefinition(manifest.UUID)
-        m.route.set('/scenario');
+    const handleOnClick = async (manifest) => {
+        await setActiveScenarioDefinition(manifest);
+        m.route.set('/session');
     }
 
 

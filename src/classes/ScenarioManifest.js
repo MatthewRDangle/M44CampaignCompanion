@@ -10,7 +10,10 @@ export default class ScenarioManifest {
             rows: manifest.size?.rows
         }
 
-        this.scenario_definition = manifest.scenario_definition;
-        this.version = manifest.version
+        this.scenarioDefinition = manifest.scenarioDefinition;
+        this.version = manifest.version;
+
+        this.fileName = manifest.fileName;
+        this.pathToDir = manifest.pathToDir;
     }
 }

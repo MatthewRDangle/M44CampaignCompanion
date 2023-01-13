@@ -8,35 +8,52 @@ class ScenarioDefinitionStore {
 
     constructor() {
         if (!scenarioDefinitionStore) {
-            this.setActiveDefinition = this.setActiveDefinition.bind(this);
+            this.setActiveScenarioDefinition = this.setActiveScenarioDefinition.bind(this);
             this.loadScenarioDefinition = this.loadScenarioDefinition.bind(this);
+            this.getContentsFromScenarioDefinitionFile = this.getContentsFromScenarioDefinitionFile.bind(this);
             return this;
         } else
             return scenarioDefinitionStore;
     }
 
-    definitionRegistry = {};
-    activeDefinition = undefined;
+    scenarioDefinitionRegistry = {};
+    activeScenarioDefinition = undefined;
 
 
-    setActiveDefinition(id) {
-        (async () => {
-            await this.loadScenarioDefinition(this.definitionRegistry[id]);
-            this.activeDefinition = new ScenarioDefinition(this.definitionRegistry[id]);
-        })()
+    async setActiveScenarioDefinition(manifest) {
+        let rawScenarioDefinition = undefined;
+        if (typeof manifest.scenarioDefinition === 'string') { // Assume path to file.
+            const pathToScenarioDefinition = manifest.pathToDir + manifest.scenarioDefinition;
+            rawScenarioDefinition = await this.getContentsFromScenarioDefinitionFile(pathToScenarioDefinition);
+        } else if (typeof manifest.scenarioDefinition === 'object') { // Assume definition is baked into file.
+            rawScenarioDefinition = manifest.scenarioDefinition;
+        }
+
+        if (!!rawScenarioDefinition) {
+            const scenarioDefinition = new ScenarioDefinition(rawScenarioDefinition);
+            this.activeScenarioDefinition = scenarioDefinition;
+        }
     }
-
 
     async loadScenarioDefinition(registryItem) {
         let tmpDefinition;
         try {
             tmpDefinition = await scenarioDefinitionService.getFileContent(registryItem.path);
-            console.log(tmpDefinition);
         } catch(e) {throw Error(e)}
         finally {
             if (!!tmpDefinition)
-                this.definitionRegistry[registryItem.id] = tmpDefinition;
+                this.scenarioDefinitionRegistry[registryItem.id] = tmpDefinition;
         }
+        return tmpDefinition;
+    }
+
+    async getContentsFromScenarioDefinitionFile(path) {
+        let tmpDefinition;
+        try {
+            tmpDefinition = await scenarioDefinitionService.getFileContent(path);
+            tmpDefinition = JSON.parse(tmpDefinition);
+        } catch(err) {console.error(err)}
+
         return tmpDefinition;
     }
 }
