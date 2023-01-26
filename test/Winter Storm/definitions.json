@@ -1,4 +1,9 @@
 {
+    "scripts": [
+        "lib/scripts/germany_victory.js",
+        "lib/scripts/ussr_victory.js"
+    ],
+
     "factions": [
         {
             "name": "USSR",
@@ -77,17 +82,17 @@
     "battleMaps": [
         {
             "name": "Snow",
-            "src": "test/Winter Storm/snow.PNG",
+            "src": "test/Winter Storm/lib/battleMaps/snow.PNG",
             "alt": "Placeholder"
         },
         {
             "name": "Road",
-            "src": "test/Winter Storm/road.PNG",
+            "src": "test/Winter Storm/lib/battleMaps/road.PNG",
             "alt": "Placeholder"
         },
         {
             "name": "Forest",
-            "src": "test/Winter Storm/forest.PNG",
+            "src": "test/Winter Storm/lib/battleMaps/forest.PNG",
             "alt": "Placeholder"
         }
     ],

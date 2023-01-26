@@ -4,9 +4,11 @@ import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
 import BattleMap from "./BattleMap.js";
 import Session from "./Session.js";
+import Script from "./Script.js";
+import scenarioDefinitionStore from "../stores/ScenarioDefinition.store";
 
 export default class ScenarioDefinition {
-    constructor(definition) {
+    async constructor(definition) {
         // Development
         this.UUID = undefined;
         this.devMode = false;
@@ -15,12 +17,13 @@ export default class ScenarioDefinition {
         this.session = new Session();
 
         // References
+        this.scripts = {};
         this.factions = {};
-        this.terrains = {};
-        this.battleMaps = {};
 
         // Templates
         this.unit_templates = {};
+        this.terrains = {};
+        this.battleMaps = {};
 
         // Gameplay
         this.turnOrder = [];
@@ -35,7 +38,7 @@ export default class ScenarioDefinition {
         this.rows = 0;
         this.tiles = [];
 
-        if (definition) this.compile(definition);
+        if (definition) await this.compile(definition);
     }
 
     appendContest(tile) {
@@ -43,7 +46,7 @@ export default class ScenarioDefinition {
             this.contests.push(tile);
     }
 
-    compile(definition) {
+    async compile(definition) {
 
         /*
         * ===================================
@@ -181,6 +184,23 @@ export default class ScenarioDefinition {
                 if (!this.tiles[idx_rows])
                     this.tiles[idx_rows] = {};
                 this.tiles[idx_rows][tile.id] = tile;
+            }
+        }
+
+
+        /*
+        * ===================================
+        * ========= Compile Scripts =========
+        * ===================================
+        */
+
+        // Load Script Files.
+        if (!!definition.scripts) {
+            const rawScripts = await scenarioDefinitionStore.getContentsFromScenarioDefinitionFile(definition.scripts);
+            for (let rawScript of rawScripts) {
+                const script = new Script(rawScript);
+                script.scenarioDefinition = this;
+                this.scripts[script.name] = script;
             }
         }
     }

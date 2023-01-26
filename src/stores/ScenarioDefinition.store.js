@@ -9,14 +9,14 @@ class ScenarioDefinitionStore {
     constructor() {
         if (!scenarioDefinitionStore) {
             this.setActiveScenarioDefinition = this.setActiveScenarioDefinition.bind(this);
-            this.loadScenarioDefinition = this.loadScenarioDefinition.bind(this);
+            // this.loadScenarioDefinition = this.loadScenarioDefinition.bind(this);
             this.getContentsFromScenarioDefinitionFile = this.getContentsFromScenarioDefinitionFile.bind(this);
             return this;
         } else
             return scenarioDefinitionStore;
     }
 
-    scenarioDefinitionRegistry = {};
+    // scenarioDefinitionRegistry = {};
     activeScenarioDefinition = undefined;
 
 
@@ -30,31 +30,31 @@ class ScenarioDefinitionStore {
         }
 
         if (!!rawScenarioDefinition) {
-            const scenarioDefinition = new ScenarioDefinition(rawScenarioDefinition);
+            const scenarioDefinition = await new ScenarioDefinition(rawScenarioDefinition);
             this.activeScenarioDefinition = scenarioDefinition;
         }
     }
 
-    async loadScenarioDefinition(registryItem) {
-        let tmpDefinition;
-        try {
-            tmpDefinition = await scenarioDefinitionService.getFileContent(registryItem.path);
-        } catch(e) {throw Error(e)}
-        finally {
-            if (!!tmpDefinition)
-                this.scenarioDefinitionRegistry[registryItem.id] = tmpDefinition;
-        }
-        return tmpDefinition;
-    }
+    // async loadScenarioDefinition(registryItem) {
+    //     let tmpDefinition;
+    //     try {
+    //         tmpDefinition = await scenarioDefinitionService.getFileContent(registryItem.path);
+    //     } catch(e) {throw Error(e)}
+    //     finally {
+    //         if (!!tmpDefinition)
+    //             this.scenarioDefinitionRegistry[registryItem.id] = tmpDefinition;
+    //     }
+    //     return tmpDefinition;
+    // }
 
     async getContentsFromScenarioDefinitionFile(path) {
-        let tmpDefinition;
+        let tmpContents;
         try {
-            tmpDefinition = await scenarioDefinitionService.getFileContent(path);
-            tmpDefinition = JSON.parse(tmpDefinition);
+            tmpContents = await scenarioDefinitionService.getFileContent(path);
+            tmpContents = JSON.parse(tmpContents);
         } catch(err) {console.error(err)}
 
-        return tmpDefinition;
+        return tmpContents;
     }
 }
 
