@@ -27,19 +27,11 @@ class ScenarioDefinitionStore {
             } else if (typeof manifest.scenarioDefinition === 'object') { // Assume definition is baked into file.
                 rawScenarioDefinition = manifest.scenarioDefinition;
             }
-
-            if (!!rawScenarioDefinition && !!rawScenarioDefinition.scripts) {
-                const pathToScripts = [];
-                for (let relativeScriptPath of rawScenarioDefinition.scripts)
-                    pathToScripts.push(manifest.pathToDir + relativeScriptPath)
-                if (!!pathToScripts.length)
-                    rawScenarioDefinition.scripts = await scenarioDefinitionService.importScript(pathToScripts);
-            }
         } catch (err) { console.error(err) }
 
         if (!!rawScenarioDefinition) {
             const scenarioDefinition = new ScenarioDefinition();
-            await scenarioDefinition.import(rawScenarioDefinition);
+            await scenarioDefinition.compile(rawScenarioDefinition);
             this.activeScenarioDefinition = scenarioDefinition;
         }
     }

@@ -13,7 +13,7 @@ export default class ScenarioDefinition {
 
         // References
         this.scripts = {
-            endTurn: {}
+            end_of_turn: []
         };
         this.factions = {};
 
@@ -42,7 +42,7 @@ export default class ScenarioDefinition {
             this.contests.push(tile);
     }
 
-    async import(definition) {
+    compile(definition) {
 
         /*
         * ===================================
@@ -192,19 +192,26 @@ export default class ScenarioDefinition {
 
         // Load Script Files.
         for (let rawScript of definition.scripts) {
-            const script = new Script();
-            script.import(rawScript);
-            script.scenarioDefinition = this;
-            this.scripts[script.type][script.name] = script;
+            const script = new Script(this);
+            script.compile(rawScript);
+            this.scripts[script.when].push(script);
         }
+    }
+
+    enableFailure(factions) {
+
+    }
+
+    enableVictory(factions) {
+
     }
 
     nextTurn() {
         if (this.contests.length === 0) {
 
-            // Run EndTurn Scripts
-            for (let script in this.scripts.endTurn)
-                script.execute();
+            // Run End of Turn Scripts
+            if (!!this.scripts.end_of_turn)
+                this.scripts.end_of_turn.forEach(script => script.run())
 
             // Initiate Next Factions Turn
             const idx = this.turnOrder.indexOf(this.currentTurn.name);

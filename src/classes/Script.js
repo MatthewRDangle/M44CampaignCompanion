@@ -1,53 +1,62 @@
+import runners from "../runners/index.js";
+import Runner from "./Runner.js";
+
+
 export default class Script {
-    constructor() {
-        this.scenarioDefinition = undefined;
+    constructor(scenarioDefinition) {
+        this.scenarioDefinition = scenarioDefinition;
 
-        this.name = undefined;
-        this.type = undefined;
-        this.factions = [];
+        this.interval = 1;
+
+        this.when = "end_of_turn";
         this.conditions = [];
-        this.onSuccess = undefined;
-        this.onFailure = undefined;
-    }
+        this.then = {
+            onSuccess: undefined,
+            onFailure: undefined,
+        }
+    };
 
-    import(script) {
+    compile(rawScript) {
         try {
-            this.name = script.name ?? "";
-            this.type = script.type ?? "";
+            if (!Number.isInteger(rawScript.interval))
+                this.interval = rawScript.interval;
 
-            if (!!this.factions) {
-                this.factions = script.factions.map(
-                    name => this.scenarioDefinition.factions[name]
-                );
+            if (typeof rawScript.when === 'string')
+                this.when = rawScript.when;
+
+            this.conditions = [];
+            for (let key in rawScript.conditions) {
+                const runner = new Runner(this.scenarioDefinition);
+                runner.compile(runners[key], rawScript.conditions[key]);
+                this.conditions.push(runner);
             }
 
-            if (!!script.conditions) {
-                this.conditions = script.conditions.map(
-                    condition => {
-                        condition.bind(this.scenarioDefinition);
-                        return condition;
-                    }
-                );
-            }
+            if (!!rawScript?.then?.onSuccess) {
+                this.then.onSuccess = [];
+                for (let key in rawScript.then.onSuccess) {
+                    const runner = new Runner(this.scenarioDefinition);
+                    runner.compile(runners[key], rawScript.then.onSuccess[key]);
+                    this.then.onSuccess.push(runner);
+                }
+            } else this.then.onSuccess = undefined;
 
-            if (!!script.onSuccess) {
-                this.onSuccess = script.onSuccess;
-                this.onSuccess.bind(this.scenarioDefinition);
-            }
-
-            if (!!script.onFailure) {
-                this.onFailure = script.onFailure;
-                this.onFailure.bind(this.scenarioDefinition);
-            }
+            if (!!rawScript?.then?.onFailure) {
+                this.then.onFailure = [];
+                for (let key in rawScript.then.onFailure) {
+                    const runner = new Runner(this.scenarioDefinition);
+                    runner.compile(runners[key], rawScript.then.onFailure[key]);
+                    this.then.onFailure.push(runner);
+                }
+            } else this.then.onFailure = undefined;
         } catch (err) { console.error(err) }
     }
 
     evaluate() {
         const isSuccess = this.conditions
-            .map((condition) => {
+            .map((runner) => {
                 let conditionsMet = false;
                 try {
-                    conditionsMet = condition();
+                    conditionsMet = runner.run();
                 } catch(e) { console.error(e) }
 
                 return !!conditionsMet ? 0 : 1;
@@ -57,11 +66,11 @@ export default class Script {
         return isSuccess === 0;
     }
 
-    execute() {
+    run() {
         const isSuccess = this.evaluate();
-        if (isSuccess && !!this.onSuccess)
-            this.onSuccess()
-        if (!isSuccess && !!this.onFailure)
-            this.onFailure()
+        if (isSuccess && !!this.then.onSuccess)
+            this.then.onSuccess.forEach(runner => runner.run())
+        if (!isSuccess && !!this.then.onFailure)
+            this.then.onFailure.forEach(runner => runner.run())
     }
 }
