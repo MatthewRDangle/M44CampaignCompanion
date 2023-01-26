@@ -3,21 +3,18 @@ import Faction from "./Faction.js";
 import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
 import BattleMap from "./BattleMap.js";
-import Session from "./Session.js";
 import Script from "./Script.js";
-import scenarioDefinitionStore from "../stores/ScenarioDefinition.store";
 
 export default class ScenarioDefinition {
-    async constructor(definition) {
+    constructor() {
         // Development
         this.UUID = undefined;
         this.devMode = false;
 
-        // Session
-        this.session = new Session();
-
         // References
-        this.scripts = {};
+        this.scripts = {
+            endTurn: {}
+        };
         this.factions = {};
 
         // Templates
@@ -26,6 +23,7 @@ export default class ScenarioDefinition {
         this.battleMaps = {};
 
         // Gameplay
+        this.turnCounter = 1;
         this.turnOrder = [];
         this.currentTurn = undefined;
         this.contests = [];
@@ -37,8 +35,6 @@ export default class ScenarioDefinition {
         this.columns = 0;
         this.rows = 0;
         this.tiles = [];
-
-        if (definition) await this.compile(definition);
     }
 
     appendContest(tile) {
@@ -46,7 +42,7 @@ export default class ScenarioDefinition {
             this.contests.push(tile);
     }
 
-    async compile(definition) {
+    async import(definition) {
 
         /*
         * ===================================
@@ -195,23 +191,28 @@ export default class ScenarioDefinition {
         */
 
         // Load Script Files.
-        if (!!definition.scripts) {
-            const rawScripts = await scenarioDefinitionStore.getContentsFromScenarioDefinitionFile(definition.scripts);
-            for (let rawScript of rawScripts) {
-                const script = new Script(rawScript);
-                script.scenarioDefinition = this;
-                this.scripts[script.name] = script;
-            }
+        for (let rawScript of definition.scripts) {
+            const script = new Script();
+            script.import(rawScript);
+            script.scenarioDefinition = this;
+            this.scripts[script.type][script.name] = script;
         }
     }
 
     nextTurn() {
         if (this.contests.length === 0) {
+
+            // Run EndTurn Scripts
+            for (let script in this.scripts.endTurn)
+                script.execute();
+
+            // Initiate Next Factions Turn
             const idx = this.turnOrder.indexOf(this.currentTurn.name);
             const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
             this.currentTurn = this.factions[factionName];
             this.replenishMoveUnits();
             this.unitsThatMoved = [];
+            this.turnCounter++;
         }
     }
 

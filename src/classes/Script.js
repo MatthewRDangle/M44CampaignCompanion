@@ -1,5 +1,5 @@
 export default class Script {
-    constructor(script) {
+    constructor() {
         this.scenarioDefinition = undefined;
 
         this.name = undefined;
@@ -8,11 +8,9 @@ export default class Script {
         this.conditions = [];
         this.onSuccess = undefined;
         this.onFailure = undefined;
-
-        if (!!script) this.compile(script);
     }
 
-    compile(script) {
+    import(script) {
         try {
             this.name = script.name ?? "";
             this.type = script.type ?? "";
