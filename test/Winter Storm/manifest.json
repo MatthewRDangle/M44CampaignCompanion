@@ -9,6 +9,6 @@
     "rows": 10
   },
 
-  "scenarioDefinition": "scenario.json",
+  "scenarioDefinition": "definitions.json",
   "version": "1.0.0"
 }

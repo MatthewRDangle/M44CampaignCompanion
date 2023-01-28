@@ -3,39 +3,39 @@ import Faction from "./Faction.js";
 import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
 import BattleMap from "./BattleMap.js";
-import Session from "./Session.js";
+import Script from "./Script.js";
 
 export default class ScenarioDefinition {
-    constructor(definition) {
+    constructor() {
         // Development
         this.UUID = undefined;
         this.devMode = false;
 
-        // Session
-        this.session = new Session();
-
         // References
+        this.scripts = {
+            end_of_turn: []
+        };
         this.factions = {};
-        this.terrains = {};
-        this.battleMaps = {};
 
         // Templates
         this.unit_templates = {};
+        this.terrains = {};
+        this.battleMaps = {};
 
         // Gameplay
+        this.turnCounter = 1;
         this.turnOrder = [];
         this.currentTurn = undefined;
         this.contests = [];
         this.unitsThatMoved = [];
         this.selectedTile = undefined;
         this.selectedUnit = undefined;
+        this.isGameOver = false;
 
         // Grid Builder
         this.columns = 0;
         this.rows = 0;
         this.tiles = [];
-
-        if (definition) this.compile(definition);
     }
 
     appendContest(tile) {
@@ -183,15 +183,62 @@ export default class ScenarioDefinition {
                 this.tiles[idx_rows][tile.id] = tile;
             }
         }
+
+
+        /*
+        * ===================================
+        * ========= Compile Scripts =========
+        * ===================================
+        */
+
+        // Load Script Files.
+        for (let rawScript of definition.scripts) {
+            const script = new Script(this);
+            script.compile(rawScript);
+            this.scripts[script.when].push(script);
+        }
+    }
+
+    factionsAreDefeated(factions) {
+        for (let key in this.factions) {
+            const faction = this.factions[key];
+            if (factions.includes(faction))
+                faction.isDefeated();
+            else
+                faction.isVictorious();
+        }
+
+        this.isGameOver = true;
+    }
+
+    factionsAreVictorious(factions) {
+        for (let key in this.factions) {
+            const faction = this.factions[key];
+            if (factions.includes(faction))
+                faction.isVictorious();
+            else
+                faction.isDefeated();
+        }
+
+        this.isGameOver = true;
     }
 
     nextTurn() {
         if (this.contests.length === 0) {
-            const idx = this.turnOrder.indexOf(this.currentTurn.name);
-            const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
-            this.currentTurn = this.factions[factionName];
-            this.replenishMoveUnits();
-            this.unitsThatMoved = [];
+
+            // Run End of Turn Scripts
+            if (!!this.scripts.end_of_turn)
+                this.scripts.end_of_turn.forEach(script => script.run())
+
+            // Initiate Next Factions Turn
+            if (!this.isGameOver) {
+                const idx = this.turnOrder.indexOf(this.currentTurn.name);
+                const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
+                this.currentTurn = this.factions[factionName];
+                this.replenishMoveUnits();
+                this.unitsThatMoved = [];
+                this.turnCounter++;
+            }
         }
     }
 

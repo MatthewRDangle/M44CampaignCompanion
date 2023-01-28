@@ -9,5 +9,14 @@ export default class Faction {
             background: options?.color?.background || '#95B07E'
         };
         this.currentTurn = options?.currentTurn || false;
+        this.gameOverMessage = undefined;
+    }
+
+    isVictorious() {
+        this.gameOverMessage = "Victorious";
+    }
+
+    isDefeated () {
+        this.gameOverMessage = "Defeated";
     }
 }
