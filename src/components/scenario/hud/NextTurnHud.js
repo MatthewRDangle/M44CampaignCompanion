@@ -18,9 +18,13 @@ const NextTurnHud = (initialVnode) => {
 
             return (
                 m('div', {className: 'absolute bottom-8 right-8 z-1'},
-                    m('button', {className: 'block bg-background rounded-full border-border w-16 h-16 m-auto mb-2 cursor-pointer', onclick: () => handleNextTurn(activeScenarioDefinition)}, [
-                        m('div', {className: 'w-6 h-6 m-auto bg-font'})
-                    ]),
+                    m('button', {
+                        className: 'block bg-background rounded-full border-border w-16 h-16 m-auto mb-2 cursor-pointer',
+                        disabled: activeScenarioDefinition?.isGameOver,
+                        onclick: () => handleNextTurn(activeScenarioDefinition)}, [
+                            m('div', {className: 'w-6 h-6 m-auto bg-font'})
+                        ]
+                    ),
                     m('span', {className: 'block bg-background text-fond p-1 rounded-3'}, attrs.label || 'Next Turn')
                 )
             )

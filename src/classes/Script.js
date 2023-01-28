@@ -25,26 +25,26 @@ export default class Script {
                 this.when = rawScript.when;
 
             this.conditions = [];
-            for (let key in rawScript.conditions) {
+            for (let rawRunner of rawScript.conditions) {
                 const runner = new Runner(this.scenarioDefinition);
-                runner.compile(runners[key], rawScript.conditions[key]);
+                runner.compile(runners.conditions[rawRunner.name], rawRunner.params);
                 this.conditions.push(runner);
             }
 
             if (!!rawScript?.then?.onSuccess) {
                 this.then.onSuccess = [];
-                for (let key in rawScript.then.onSuccess) {
+                for (let rawRunner of rawScript.then.onSuccess) {
                     const runner = new Runner(this.scenarioDefinition);
-                    runner.compile(runners[key], rawScript.then.onSuccess[key]);
+                    runner.compile(runners.then[rawRunner.name], rawRunner.params);
                     this.then.onSuccess.push(runner);
                 }
             } else this.then.onSuccess = undefined;
 
             if (!!rawScript?.then?.onFailure) {
                 this.then.onFailure = [];
-                for (let key in rawScript.then.onFailure) {
+                for (let rawRunner of rawScript.then.onFailure) {
                     const runner = new Runner(this.scenarioDefinition);
-                    runner.compile(runners[key], rawScript.then.onFailure[key]);
+                    runner.compile(runners.then[rawRunner.name], rawRunner.params);
                     this.then.onFailure.push(runner);
                 }
             } else this.then.onFailure = undefined;

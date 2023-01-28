@@ -1,13 +1,11 @@
-export default ({factions}) => {
-    if (!!factions && Array.isArray(factions)) {
-        this.enableFailure(factions)
-        const allFactions = this.factions;
+import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
-        const victoryFactions = [];
-        allFactions.forEach(faction => {
-            if (factions.includes(faction))
-                victoryFactions.push(faction);
-        });
-        this.enableVictory(victoryFactions);
+export default ({factions}) => {
+    const { activeScenarioDefinition } = scenarioDefinitionStore;
+
+    if (!!factions && Array.isArray(factions)) {
+        try {
+            activeScenarioDefinition.factionsAreDefeated(factions);
+        } catch(err) { console.error(err) }
     }
 }

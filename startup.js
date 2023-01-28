@@ -20,7 +20,7 @@ const createWindow = () => {
     win.setIcon(path.join(__dirname, 'src', 'images', 'icon', 'favicon-32x32.png'))
     win.webContents.openDevTools();
     win.setMenu(null);
-    win.loadFile(path.join(global.appdir, 'index.html'));
+    win.loadFile(path.join(global.appdir, 'src/index.html'));
     win.maximize();
 }
 

@@ -30,6 +30,7 @@ export default class ScenarioDefinition {
         this.unitsThatMoved = [];
         this.selectedTile = undefined;
         this.selectedUnit = undefined;
+        this.isGameOver = false;
 
         // Grid Builder
         this.columns = 0;
@@ -198,12 +199,28 @@ export default class ScenarioDefinition {
         }
     }
 
-    enableFailure(factions) {
+    factionsAreDefeated(factions) {
+        for (let key in this.factions) {
+            const faction = this.factions[key];
+            if (factions.includes(faction))
+                faction.isDefeated();
+            else
+                faction.isVictorious();
+        }
 
+        this.isGameOver = true;
     }
 
-    enableVictory(factions) {
+    factionsAreVictorious(factions) {
+        for (let key in this.factions) {
+            const faction = this.factions[key];
+            if (factions.includes(faction))
+                faction.isVictorious();
+            else
+                faction.isDefeated();
+        }
 
+        this.isGameOver = true;
     }
 
     nextTurn() {
@@ -214,12 +231,14 @@ export default class ScenarioDefinition {
                 this.scripts.end_of_turn.forEach(script => script.run())
 
             // Initiate Next Factions Turn
-            const idx = this.turnOrder.indexOf(this.currentTurn.name);
-            const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
-            this.currentTurn = this.factions[factionName];
-            this.replenishMoveUnits();
-            this.unitsThatMoved = [];
-            this.turnCounter++;
+            if (!this.isGameOver) {
+                const idx = this.turnOrder.indexOf(this.currentTurn.name);
+                const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
+                this.currentTurn = this.factions[factionName];
+                this.replenishMoveUnits();
+                this.unitsThatMoved = [];
+                this.turnCounter++;
+            }
         }
     }
 
