@@ -103,17 +103,17 @@
     "battleMaps": [
         {
             "name": "Snow",
-            "src": "test/Winter Storm/lib/battleMaps/snow.PNG",
+            "src": "lib/battleMaps/snow.PNG",
             "alt": "Placeholder"
         },
         {
             "name": "Road",
-            "src": "test/Winter Storm/lib/battleMaps/road.PNG",
+            "src": "lib/battleMaps/road.PNG",
             "alt": "Placeholder"
         },
         {
             "name": "Forest",
-            "src": "test/Winter Storm/lib/battleMaps/forest.PNG",
+            "src": "lib/battleMaps/forest.PNG",
             "alt": "Placeholder"
         }
     ],

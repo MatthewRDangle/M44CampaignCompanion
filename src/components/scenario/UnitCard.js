@@ -23,7 +23,10 @@ const HexTile = (initialVnode) => {
                 }, [
                     m('div.unitCard_count', unit.health || 0),
                     m('div.unitCard_picture',
-                        m('div.unitCard_picture_icon')
+                        m('img.unitCard_picture_icon', {
+                            src: unit.icon.src,
+                            alt: unit.icon.alt
+                        })
                     ),
                     m('div.unitCard_name', unit.name)
                 ])

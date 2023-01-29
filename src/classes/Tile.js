@@ -149,9 +149,12 @@ export default class Tile {
 
     resolve() {
         const tileFactions = Object.keys(this.units);
-        if (Object.keys(this.units).length === 1) {
+        if (Object.keys(this.units).length <= 1) {
             this.isContested = false;
-            this.owner = this.activeScenario.factions[tileFactions[0]];
+            if (tileFactions.length > 0) // @Todo how to determine ownership if more than one faction survivor (think teams).
+                this.owner = this.activeScenario.factions[tileFactions[0]];
+            else
+                this.owner = undefined;
             this.activeScenario.resolveContest(this);
         }
         return !this.isContested;

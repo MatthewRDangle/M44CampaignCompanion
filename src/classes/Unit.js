@@ -14,8 +14,11 @@ export default class Unit {
         this.isSelected = false;
         this.name = options?.name || 'Unit';
         this.type = options?.type || '';
-        this.icon = options?.icon || undefined;
         this.health = options?.health || 1;
+        this.icon = {
+            src: options?.icon?.src ?? undefined,
+            alt: options?.icon?.alt ?? undefined
+        };
 
         this.available_movement = options?.available_movement || 1;
         this.movement_cap = options?.movement_cap || 1;

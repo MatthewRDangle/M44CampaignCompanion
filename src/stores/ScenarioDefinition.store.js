@@ -27,6 +27,28 @@ class ScenarioDefinitionStore {
             } else if (typeof manifest.scenarioDefinition === 'object') { // Assume definition is baked into file.
                 rawScenarioDefinition = manifest.scenarioDefinition;
             }
+
+            // Convert all URLS into absolute paths.
+            if (!!rawScenarioDefinition) {
+
+                // Unit Templates
+                if (!!rawScenarioDefinition?.unit_templates) {
+                    for (let key in rawScenarioDefinition?.unit_templates) {
+                    const unit_template = rawScenarioDefinition?.unit_templates[key];
+                        if (!!unit_template?.icon?.src && typeof !!unit_template?.icon?.src === 'string')
+                            unit_template.icon.src = manifest.pathToDir = unit_template.icon.src;
+                    }
+                }
+
+                // Battle Maps
+                if (!!rawScenarioDefinition?.battleMaps.length) {
+                    rawScenarioDefinition?.battleMaps.forEach(battleMap => {
+                        if (!!battleMap.src && typeof battleMap.src === 'string')
+                            battleMap.src = manifest.pathToDir + battleMap.src;
+                    })
+                }
+
+            }
         } catch (err) { console.error(err) }
 
         if (!!rawScenarioDefinition) {
