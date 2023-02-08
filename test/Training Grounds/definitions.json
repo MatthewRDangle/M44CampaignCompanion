@@ -122,8 +122,22 @@
             "battleMap": "Open Field"
         },
         "1-": {
-            "terrain": "Grass",
-            "battleMap": "Grass"
+            "4, 5, 9, 10": {
+                "terrain": "Forest",
+                "battleMap": "Forest"
+            }
+        },
+        "2-": {
+            "3, 4, 5, 8, 9, 10": {
+                "terrain": "Forest",
+                "battleMap": "Forest"
+            }
+        },
+        "3-": {
+            "6, 7, 8, 9, 10": {
+                "terrain": "Forest",
+                "battleMap": "Forest"
+            }
         },
         "3-3": {
             "terrain": "Hill",
@@ -134,7 +148,9 @@
         },
         "4-": {
             "2, 3": {
-                "Germany": ["Infantry", "Infantry", "Tank"]
+                "units": {
+                    "Germany": ["Infantry", "Infantry", "Tank"]
+                }
             },
             "6": {
                 "terrain": "Forest",
@@ -143,7 +159,9 @@
             "7, 8": {
                 "terrain": "Forest",
                 "battleMap": "Forest",
-                "Germany": ["Infantry", "Infantry", "Infantry"]
+                "units": {
+                    "Germany": ["Infantry", "Infantry", "Infantry", "Tank"]
+                }
             }
         },
         "5-": {
@@ -196,9 +214,17 @@
                 "United States": ["Infantry", "Infantry", "Infantry", "Infantry"]
             }
         },
+        "9-": {
+            "5, 6, 7, 8, 9, 10": {
+                "terrain": "Forest",
+                "battleMap": "Forest"
+            }
+        },
         "10-": {
-            "terrain": "Grass",
-            "battleMap": "Dirt"
+            "7, 8, 9, 10": {
+                "terrain": "Forest",
+                "battleMap": "Forest"
+            }
         }
     },
 
@@ -251,6 +277,6 @@
         }
     ],
 
-    "currentTurn": "United States",
+    "currentTurn": "Germany",
     "turnOrder": ["United States", "Germany"]
 }
