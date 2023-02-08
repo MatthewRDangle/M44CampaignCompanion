@@ -1,0 +1,215 @@
+{
+    "factions": [
+        {
+            "name": "United States",
+            "color": {
+                "text": "#151A1E",
+                "background": "#335C33"
+            }
+        },
+        {
+            "name": "Germany",
+            "color": {
+                "text": "#151A1E",
+                "background": "#9BADB7"
+            }
+        }
+    ],
+    "unit_templates": {
+        "Infantry": {
+            "health": 4,
+            "available_movement": 4,
+            "movement_cap": 4,
+            "type": "Infantry"
+        },
+        "Tank": {
+            "health": 3,
+            "available_movement": 6,
+            "movement_cap": 6,
+            "type": "Armor"
+        },
+        "Artillery": {
+            "health": 2,
+            "available_movement": 2,
+            "movement_cap": 2,
+            "type": "Armor"
+        },
+        "Air Fighter": {
+            "health": 1,
+            "available_movement": 12,
+            "movement_cap": 12,
+            "type": "Aircraft"
+        }
+    },
+    "terrains": [
+        {
+            "name": "Water",
+            "color": "#567D46",
+            "movement_cost": 3,
+            "inaccessible_by": ["Infantry", "Armor"],
+            "movement_cost_modifiers_by_type": {
+                "Aircraft": -1
+            }
+        },
+        {
+            "name": "Dirt",
+            "color": "#567D46",
+            "movement_cost": 3,
+            "movement_cost_modifiers_by_type": {
+                "Aircraft": -1
+            }
+        },
+        {
+            "name": "Grass",
+            "color": "#567D46",
+            "movement_cost": 2
+        },
+        {
+            "name": "Forest",
+            "color": "#567D46",
+            "movement_cost": 3,
+            "movement_cost_modifiers_by_type": {
+                "Vehicle": 6,
+                "Aircraft": -1
+            }
+        },
+        {
+            "name": "Hills",
+            "color": "#567D46",
+            "movement_cost": 3,
+            "movement_cost_modifiers_by_type": {
+                "Vehicle": 4,
+                "Aircraft": -1
+            }
+        },
+        {
+            "name": "Bridge",
+            "color": "#567D46",
+            "movement_cost": 2
+        }
+    ],
+    "battleMaps": [
+        {
+            "name": "Water",
+            "src": "lib/battleMaps/water.png",
+            "alt": "Placeholder"
+        },
+        {
+            "name": "Dirt",
+            "src": "lib/battleMaps/dirt.png",
+            "alt": "Placeholder"
+        },
+        {
+            "name": "Open Field",
+            "src": "lib/battleMaps/open_field.png",
+            "alt": "Placeholder"
+        },
+        {
+            "name": "Bridge",
+            "src": "lib/battleMaps/bridge.png",
+            "alt": "Placeholder"
+        },
+        {
+            "name": "Forest",
+            "src": "lib/battleMaps/forest.png",
+            "alt": "Placeholder"
+        },
+        {
+            "name": "Hill 121",
+            "src": "lib/battleMaps/hill121.png",
+            "alt": "Placeholder"
+        },
+        {
+            "name": "Hill 122",
+            "src": "lib/battleMaps/hill122.png",
+            "alt": "Placeholder"
+        }
+    ],
+
+    "columns": 10,
+    "rows": 10,
+    "tiles": {
+        "*": {
+            "terrain": "Grass",
+            "battleMap": "Open Field"
+        },
+        "1-": {
+            "terrain": "Grass",
+            "battleMap": "Dirt"
+        },
+        "3-3": {
+            "terrain": "Hill",
+            "battleMap": "Hill 121"
+        },
+        "5-": {
+            "1, 2, 4, 5, 6": {
+                "terrain": "Water",
+                "battleMap": "Water"
+            },
+            "3": {
+                "terrain": "Bridge",
+                "battleMap": "Bridge"
+            },
+            "9": {
+                "terrain": "Hill",
+                "battleMap": "Hill 122"
+            }
+        },
+        "10-": {
+            "terrain": "Grass",
+            "battleMap": "Dirt"
+        }
+    },
+
+    "scripts": [
+        {
+            "when": "end_of_turn",
+            "interval": 1,
+            "conditions": [
+                {
+                    "name": "faction_owns_tiles",
+                    "params": {
+                        "faction": "United States",
+                        "tiles": ["4-3"]
+                    }
+                }
+            ],
+            "then": {
+                "onSuccess": [
+                    {
+                        "name": "victory",
+                        "params": {
+                            "factions": ["United States"]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "when": "end_of_turn",
+            "interval": 1,
+            "conditions": [
+                {
+                    "name": "faction_owns_tiles",
+                    "params": {
+                        "faction": "Germany",
+                        "tiles": ["6-3"]
+                    }
+                }
+            ],
+            "then": {
+                "onSuccess": [
+                    {
+                        "name": "victory",
+                        "params": {
+                            "factions": ["Germany"]
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+
+    "currentTurn": "United States",
+    "turnOrder": ["United States", "Germany"]
+}
