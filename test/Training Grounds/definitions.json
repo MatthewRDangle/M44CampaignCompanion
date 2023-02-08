@@ -4,7 +4,7 @@
             "name": "United States",
             "color": {
                 "text": "#151A1E",
-                "background": "#335C33"
+                "background": "#8AAD70"
             }
         },
         {
@@ -20,44 +20,34 @@
             "health": 4,
             "available_movement": 4,
             "movement_cap": 4,
-            "type": "Infantry"
+            "type": "Infantry",
+            "icon": {
+                "src": "lib/icons/infantry.svg",
+                "alt": "Helmet"
+            }
         },
         "Tank": {
             "health": 3,
             "available_movement": 6,
             "movement_cap": 6,
-            "type": "Armor"
-        },
-        "Artillery": {
-            "health": 2,
-            "available_movement": 2,
-            "movement_cap": 2,
-            "type": "Armor"
-        },
-        "Air Fighter": {
-            "health": 1,
-            "available_movement": 12,
-            "movement_cap": 12,
-            "type": "Aircraft"
+            "type": "Armor",
+            "icon": {
+                "src": "lib/icons/tank.svg",
+                "alt": "Tank"
+            }
         }
     },
     "terrains": [
         {
             "name": "Water",
-            "color": "#567D46",
+            "color": "#00FFFF",
             "movement_cost": 3,
-            "inaccessible_by": ["Infantry", "Armor"],
-            "movement_cost_modifiers_by_type": {
-                "Aircraft": -1
-            }
+            "inaccessible_by": ["Infantry", "Armor"]
         },
         {
             "name": "Dirt",
-            "color": "#567D46",
-            "movement_cost": 3,
-            "movement_cost_modifiers_by_type": {
-                "Aircraft": -1
-            }
+            "color": "#9B7653",
+            "movement_cost": 3
         },
         {
             "name": "Grass",
@@ -66,25 +56,23 @@
         },
         {
             "name": "Forest",
-            "color": "#567D46",
+            "color": "#023020",
             "movement_cost": 3,
             "movement_cost_modifiers_by_type": {
-                "Vehicle": 6,
-                "Aircraft": -1
+                "Vehicle": 6
             }
         },
         {
-            "name": "Hills",
-            "color": "#567D46",
+            "name": "Hill",
+            "color": "#7DC8B5",
             "movement_cost": 3,
             "movement_cost_modifiers_by_type": {
-                "Vehicle": 4,
-                "Aircraft": -1
+                "Vehicle": 4
             }
         },
         {
             "name": "Bridge",
-            "color": "#567D46",
+            "color": "#5A5A5A",
             "movement_cost": 2
         }
     ],
@@ -96,7 +84,7 @@
         },
         {
             "name": "Dirt",
-            "src": "lib/battleMaps/dirt.png",
+            "src": "lib/battleMaps/Open Field.png",
             "alt": "Placeholder"
         },
         {
@@ -135,11 +123,28 @@
         },
         "1-": {
             "terrain": "Grass",
-            "battleMap": "Dirt"
+            "battleMap": "Grass"
         },
         "3-3": {
             "terrain": "Hill",
-            "battleMap": "Hill 121"
+            "battleMap": "Hill 121",
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Infantry"]
+            }
+        },
+        "4-": {
+            "2, 3": {
+                "Germany": ["Infantry", "Infantry", "Tank"]
+            },
+            "6": {
+                "terrain": "Forest",
+                "battleMap": "Forest"
+            },
+            "7, 8": {
+                "terrain": "Forest",
+                "battleMap": "Forest",
+                "Germany": ["Infantry", "Infantry", "Infantry"]
+            }
         },
         "5-": {
             "1, 2, 4, 5, 6": {
@@ -149,10 +154,46 @@
             "3": {
                 "terrain": "Bridge",
                 "battleMap": "Bridge"
+            }
+        },
+        "6-": {
+            "4, 5, 6, 10": {
+                "terrain": "Forest",
+                "battleMap": "Forest"
             },
-            "9": {
-                "terrain": "Hill",
-                "battleMap": "Hill 122"
+            "7, 8, 9": {
+                "units": {
+                    "United States": ["Infantry", "Infantry"]
+                }
+            }
+        },
+        "7-": {
+            "5, 6": {
+                "terrain": "Forest",
+                "battleMap": "Forest"
+            }
+        },
+        "8-": {
+            "3": {
+                "units": {
+                    "United States": ["Infantry", "Infantry", "Tank"]
+                }
+            },
+            "2, 4": {
+                "units": {
+                    "United States": ["Infantry", "Infantry", "Infantry"]
+                }
+            },
+            "5, 6": {
+                "terrain": "Forest",
+                "battleMap": "Forest"
+            }
+        },
+        "8-8": {
+            "terrain": "Hill",
+            "battleMap": "Hill 122",
+            "units": {
+                "United States": ["Infantry", "Infantry", "Infantry", "Infantry"]
             }
         },
         "10-": {

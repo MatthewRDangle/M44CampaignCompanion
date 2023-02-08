@@ -34,9 +34,9 @@ class ScenarioDefinitionStore {
                 // Unit Templates
                 if (!!rawScenarioDefinition?.unit_templates) {
                     for (let key in rawScenarioDefinition?.unit_templates) {
-                    const unit_template = rawScenarioDefinition?.unit_templates[key];
-                        if (!!unit_template?.icon?.src && typeof !!unit_template?.icon?.src === 'string')
-                            unit_template.icon.src = manifest.pathToDir = unit_template.icon.src;
+                        const unit_template = rawScenarioDefinition?.unit_templates[key];
+                        if (!!unit_template?.icon?.src && typeof unit_template?.icon?.src === 'string')
+                            unit_template.icon.src = manifest.pathToDir + unit_template.icon.src;
                     }
                 }
 
