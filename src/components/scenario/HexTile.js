@@ -29,7 +29,8 @@ const HexTile = (initialVnode) => {
 
             return (
                 m('div.', {
-                    className: classNames('inline-block text-base bg-primary align-top hover:!cursor-pointer hover:!bg-interaction disabled:opacity-50', {
+                    className: classNames('inline-block text-base align-top disabled:opacity-50', {
+                        'hover:!cursor-pointer hover:!bg-interaction': hex.render,
                         '!cursor-pointer !bg-interaction': hex.isSelected,
                         '!bg-interaction': selectedUnit?.canMoveTo[hex.id] >= 0,
                         '!bg-warning': hex.isContested
@@ -44,7 +45,7 @@ const HexTile = (initialVnode) => {
                     className: 'relative',
                     style: {'padding-top': `${size / 3.5}px`, 'padding-bottom': `${size / 3.5}px`}
                 }, [
-                    activeScenarioDefinition.devMode || m('span', hex.id),
+                    !!activeScenarioDefinition.devMode ? m('span', hex.id) : '',
                     Object.keys(hex.units).map((faction_name) => {
                         return hex.units[faction_name].map((unit) => {
                             return m('div', {className: 'absolute top-1/2 left-1/2 -translate-x-1/2'}, m(UnitCard, {unit: unit}))

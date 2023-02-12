@@ -44,6 +44,7 @@ export default class ScenarioDefinition {
     }
 
     compile(definition) {
+        this.devMode = !!definition.devMode;
 
         /*
         * ===================================
@@ -61,7 +62,9 @@ export default class ScenarioDefinition {
         // Set Terrains
         if (Array.isArray(definition.terrains)) {
             definition.terrains.forEach((definition_terrain) => {
-                this.terrains[definition_terrain.name] = new Terrain(definition_terrain);
+                const newTerrain = new Terrain();
+                newTerrain.compile(definition_terrain);
+                this.terrains[definition_terrain.name] = newTerrain;
             })
         }
 
