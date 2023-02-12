@@ -2,24 +2,34 @@ const m = require('mithril');
 
 import Page from '../classes/Page.js';
 import Body from "../components/Body.js";
+import Quotes from "../components/templates/Quotes.js";
+import LoadingStatus from "../components/templates/LoadingStatus.js";
 
 
 export const page = new Page('/splash', (initialVnode) => {
-
-    const quote = '“Success in not final, failure is not fatal. It is the courage to continue that counts.” ~ Winston Churchill';
 
 
     return {
         view: (vNode) => {
             const {attrs} = vNode;
 
+            setTimeout(() => {
+                m.route.set("mainmenu")
+            }, 5000)
+
 
             return m(Body, [
-                m('div', {className: 'text-center py-4'}, 'Loading'),
-                m('div', {className: 'bg-primary h-1'}),
-                m('h1', {className: 'text-center text-xl py-6'}, 'BattleCry'),
-                m('div', {className: 'bg-primary h-1'}),
-                m('div', {className: 'text-center py-4'}, quote)
+                m('img', {
+                    className: 'absolute top-0 left-0 object-cover w-full h-full',
+                    src: 'src/images/loading.png',
+                    alt: 'BattleCry'
+                }),
+                m('div', {className: 'absolute top-1/2'}, [
+                    m('div', {className: 'relative w-screen'}, [
+                        m(LoadingStatus, {className: 'absolute -top-[250px] left-1/2 -translate-x-1/2 text-center text-xl'}),
+                        m(Quotes, {className: 'absolute -bottom-[275px] left-1/2 -translate-x-1/2 text-center w-3/2'})
+                    ])
+                ])
             ])
         }
     }

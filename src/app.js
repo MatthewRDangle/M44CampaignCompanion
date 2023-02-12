@@ -18,7 +18,7 @@ import routeStore from "./stores/RouteStore.js";
     pageModules.forEach((module) => {
         router[module.path] = module.component;
     });
-    if (!router.hasOwnProperty('/mainMenu'))
-        router['/mainMenu'] = new Page('/mainMenu', {view: () => {return ''}});
-    m.route(document.body, "/mainMenu", router);
+    if (!router.hasOwnProperty('/mainmenu'))
+        router['/mainmenu'] = new Page('/mainmenu', {view: () => {return ''}});
+    m.route(document.body, "/splash", router);
 })();
