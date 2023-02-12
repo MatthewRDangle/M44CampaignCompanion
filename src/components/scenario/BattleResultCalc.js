@@ -29,7 +29,7 @@ const BattleResultCalc = (initialVnode) => {
     }
 
     const handlePostpone = (e) => {
-        m.route.set('/scenario')
+        m.route.set('/session')
     }
 
     const handleOnSubmit = (e, tile) => {
@@ -43,7 +43,7 @@ const BattleResultCalc = (initialVnode) => {
         })
 
         if (tile.resolve())
-            m.route.set('/scenario');
+            m.route.set('/session');
     }
 
     const results = {};

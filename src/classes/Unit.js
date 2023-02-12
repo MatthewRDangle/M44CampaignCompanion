@@ -1,7 +1,7 @@
 import Faction from './Faction.js';
 import Tile from "./Tile.js";
 import Terrain from "./Terrain.js";
-import scenarioStore from "../stores/ScenarioStore.js";
+import ScenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
 
 
 export default class Unit {
@@ -14,8 +14,11 @@ export default class Unit {
         this.isSelected = false;
         this.name = options?.name || 'Unit';
         this.type = options?.type || '';
-        this.icon = options?.icon || undefined;
         this.health = options?.health || 1;
+        this.icon = {
+            src: options?.icon?.src ?? undefined,
+            alt: options?.icon?.alt ?? undefined
+        };
 
         this.available_movement = options?.available_movement || 1;
         this.movement_cap = options?.movement_cap || 1;
@@ -25,7 +28,7 @@ export default class Unit {
     }
 
     get activeScenario() {
-        return scenarioStore.activeScenario;
+        return ScenarioDefinitionStore.activeScenarioDefinition;
     }
 
 

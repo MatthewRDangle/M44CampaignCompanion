@@ -15,11 +15,13 @@ const MainMenu = (initialVnode) => {
                         m('div.mainMenu_header_icon', m('img', {src: 'src/images/logo.svg', alt: "A plane flying upward that's being targeted."})),
                         m('h1.mainMenu_header_label', attrs.title || 'Page Title')
                     ]),
-                    m('nav.mainMenu_nav', vNode.children.map((child_vNode) => {
-                        child_vNode.tag = 'div';
-                        child_vNode.attrs.className = 'mainMenu_nav_link';
-                        return child_vNode;
-                    }))
+                    m('nav.mainMenu_nav',
+                        vNode.children.map((child_vNode) => {
+                            child_vNode.tag = 'div';
+                            child_vNode.attrs.className = 'mainMenu_nav_link';
+                            return child_vNode;
+                        }),
+                    )
                 ])
             )
         }

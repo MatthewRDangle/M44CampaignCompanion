@@ -1,0 +1,14 @@
+{
+  "format_version": 1,
+
+  "UUID": "e9acae27-df81-4d20-a57a-cc0d010b4835",
+  "name": "Winter Storm",
+  "factions" : "USSR vs. Germany",
+  "size": {
+    "columns": 10,
+    "rows": 10
+  },
+
+  "scenarioDefinition": "definitions.json",
+  "version": "1.0.0"
+}

@@ -1,7 +1,8 @@
 import Unit from "./Unit.js";
-import Scenario from "./Scenario.js";
+import ScenarioDefinition from "./ScenarioDefinition.js";
 import Faction from "./Faction.js";
-import scenarioStore from "../stores/ScenarioStore.js";
+import ScenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
+
 
 export default class Tile {
 
@@ -30,7 +31,7 @@ export default class Tile {
     }
 
     get activeScenario() {
-        return scenarioStore.activeScenario;
+        return ScenarioDefinitionStore.activeScenarioDefinition;
     }
 
 
@@ -41,7 +42,7 @@ export default class Tile {
             const [row] = tileId.split('-');
             if (row > 0 && row <= activeScenarios.rows) {
                 const tile = activeScenarios.tiles[row][tileId];
-                if (tile)
+                if (tile && !!tile?.terrain?.render)
                     movement_info[tileId] = tile.terrain.movement_cost;
             }
         });
@@ -72,14 +73,14 @@ export default class Tile {
         }
     }
 
-    compile(instructions, scenario) {
-        if (!instructions) return
+    compile(tileDefinition, scenario) {
+        if (!tileDefinition) return
 
         // Add Units.
-        for (let key in instructions.units) {
+        for (let key in tileDefinition.units) {
             const owner_faction = scenario.factions[key];
             if (owner_faction) {
-                const unitsToCreate = instructions.units[owner_faction.name];
+                const unitsToCreate = tileDefinition.units[owner_faction.name];
                 if (Array.isArray(unitsToCreate)) {
                     unitsToCreate.forEach((unit_template) => {
                         if (typeof unit_template === 'string')
@@ -91,16 +92,16 @@ export default class Tile {
         }
 
         // Apply Terrain
-        if (instructions.terrain)
-            this.terrain = scenario.terrains[instructions.terrain]
+        if (tileDefinition.terrain)
+            this.terrain = scenario.terrains[tileDefinition.terrain]
 
         // Apply Preview
-        if (instructions.battleMap) {
-            if (typeof instructions.battleMap === 'string') {
-                this.battleMap = scenario.battleMaps[instructions.battleMap];
+        if (tileDefinition.battleMap) {
+            if (typeof tileDefinition.battleMap === 'string') {
+                this.battleMap = scenario.battleMaps[tileDefinition.battleMap];
             }
-            else if (typeof instructions.battleMap === 'object' && instructions.battleMap.hasOwnProperty('src') && instructions.battleMap.hasOwnProperty('alt'))
-                this.battleMap = instructions.battleMap;
+            else if (typeof tileDefinition.battleMap === 'object' && tileDefinition.battleMap.hasOwnProperty('src') && tileDefinition.battleMap.hasOwnProperty('alt'))
+                this.battleMap = tileDefinition.battleMap;
         }
     }
 
@@ -117,7 +118,7 @@ export default class Tile {
 
     deselect() {
         this.isSelected = false;
-        if (this.activeScenario instanceof Scenario)
+        if (this.activeScenario instanceof ScenarioDefinition)
             this.activeScenario.selectedTile = undefined;
 
     }
@@ -148,9 +149,12 @@ export default class Tile {
 
     resolve() {
         const tileFactions = Object.keys(this.units);
-        if (Object.keys(this.units).length === 1) {
+        if (Object.keys(this.units).length <= 1) {
             this.isContested = false;
-            this.owner = this.activeScenario.factions[tileFactions[0]];
+            if (tileFactions.length > 0) // @Todo how to determine ownership if more than one faction survivor (think teams).
+                this.owner = this.activeScenario.factions[tileFactions[0]];
+            else
+                this.owner = undefined;
             this.activeScenario.resolveContest(this);
         }
         return !this.isContested;
@@ -166,7 +170,7 @@ export default class Tile {
 
     select() {
         this.isSelected = true;
-        if (this.activeScenario instanceof Scenario) {
+        if (this.activeScenario instanceof ScenarioDefinition) {
             if (this.activeScenario.selectedTile === this)
                 return
 

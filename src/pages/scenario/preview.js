@@ -1,19 +1,19 @@
 const m = require('mithril');
 
 import Page from '../../classes/Page.js';
-import scenarioStore from "../../stores/ScenarioStore.js";
+import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
-export const page = new Page('/scenario/preview?:tileId', (initialVnode) => {
+export const page = new Page('/session/preview?:tileId', (initialVnode) => {
 
 
     return {
         view: (vNode) => {
             const {attrs} = vNode;
-            const {activeScenario} = scenarioStore;
+            const {activeScenarioDefinition} = ScenarioDefinitionStore;
 
             const tileId = attrs.tileId;
             const [row, column] = tileId.split('-');
-            const tile = activeScenario.tiles[row][tileId];
+            const tile = activeScenarioDefinition.tiles[row][tileId];
 
 
             return [
@@ -23,7 +23,7 @@ export const page = new Page('/scenario/preview?:tileId', (initialVnode) => {
                             src: tile.battleMap?.src || '',
                             alt: tile.battleMap?.alt || '',
                             onclick: function() {
-                                m.route.set('/scenario')
+                                m.route.set('/session')
                             }
                         })
                     )
