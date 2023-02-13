@@ -1,602 +1,602 @@
-/*
-* * Title: Theme Properties.
-* * Description: Adjust global properties.
-*/
-:root {
-  --Font:         #FFFFFF;
-  --Background:   #151A1E;
-  --Interaction:  #DBBD77;
-  --Highlight:	  #C5D6B7;
-  --Border:       #FFFFFF;
-  --Disabled:     #A9A9A9;
-  --Warning:      red;
+/*!**/
+/** * Title: Theme Properties.*/
+/** * Description: Adjust global properties.*/
+/**!*/
+/*:root {*/
+/*  --Font:         #FFFFFF;*/
+/*  --Background:   #151A1E;*/
+/*  --Interaction:  #DBBD77;*/
+/*  --Highlight:	  #C5D6B7;*/
+/*  --Border:       #FFFFFF;*/
+/*  --Disabled:     #A9A9A9;*/
+/*  --Warning:      red;*/
 
-  --HexSize:      200px;
-  --HexMargin:    -1px;
-  --HexOffset:    calc(var(--HexSize) * 1.732 + 4 * var(--HexMargin) - 1px);
-}
-@font-face {
-  font-family: "Roboto";
-  src: url("../fonts/Roboto-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Roboto";
-  src: url("../fonts/Roboto-Medium.ttf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-}
+/*  --HexSize:      200px;*/
+/*  --HexMargin:    -1px;*/
+/*  --HexOffset:    calc(var(--HexSize) * 1.732 + 4 * var(--HexMargin) - 1px);*/
+/*}*/
+/*@font-face {*/
+/*  font-family: "Roboto";*/
+/*  src: url("../fonts/Roboto-Regular.ttf") format("truetype");*/
+/*  font-weight: normal;*/
+/*  font-style: normal;*/
+/*}*/
+/*@font-face {*/
+/*  font-family: "Roboto";*/
+/*  src: url("../fonts/Roboto-Medium.ttf") format("truetype");*/
+/*  font-weight: bold;*/
+/*  font-style: normal;*/
+/*}*/
 
-* {
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-}
-html, body {
-  padding: 0;
-  margin: 0; /* Aligns HTML and Body right up against the browser window. */
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
-  line-height: 1.75; /* Keep this number unitless to avoid overlap and inheritance issues. */
-  -webkit-text-size-adjust: 100%; /* Prevent adjustments of font size after orientation changes in iOS. */
-  color: var(--Font);
-  background-color: var(--Background);
-}
+/** {*/
+/*  box-sizing: border-box;*/
+/*  -webkit-box-sizing: border-box;*/
+/*  -moz-box-sizing: border-box;*/
+/*}*/
+/*html, body {*/
+/*  padding: 0;*/
+/*  margin: 0; !* Aligns HTML and Body right up against the browser window. *!*/
+/*  font-family: 'Roboto', sans-serif;*/
+/*  font-size: 16px;*/
+/*  line-height: 1.75; !* Keep this number unitless to avoid overlap and inheritance issues. *!*/
+/*  -webkit-text-size-adjust: 100%; !* Prevent adjustments of font size after orientation changes in iOS. *!*/
+/*  color: var(--Font);*/
+/*  background-color: var(--Background);*/
+/*}*/
 
-/*
-** Title: Wrapper.
-** Description: Controls whether an HTML element receives website margins or extends to the full width of the page (technically, wrapper container).
-*/
+/*!**/
+/*** Title: Wrapper.*/
+/*** Description: Controls whether an HTML element receives website margins or extends to the full width of the page (technically, wrapper container).*/
+/**!*/
 
-/* [Device Size Response] : Extra Small Devices - Small Cell Phones. */
-@media only screen and (max-width: 480px) {
-  .wrapper {
-    padding-left: 5%;
-    padding-right: 5%;
-  }
-}
+/*!* [Device Size Response] : Extra Small Devices - Small Cell Phones. *!*/
+/*@media only screen and (max-width: 480px) {*/
+/*  .wrapper {*/
+/*    padding-left: 5%;*/
+/*    padding-right: 5%;*/
+/*  }*/
+/*}*/
 
-/* [Device Size Response] : Small Devices - Large Cell Phones and Extra Small Tablets.*/
-@media only screen and (min-width: 480px) {
-  .wrapper {
-    padding-left: 6%;
-    padding-right: 6%;
-  }
-}
+/*!* [Device Size Response] : Small Devices - Large Cell Phones and Extra Small Tablets.*!*/
+/*@media only screen and (min-width: 480px) {*/
+/*  .wrapper {*/
+/*    padding-left: 6%;*/
+/*    padding-right: 6%;*/
+/*  }*/
+/*}*/
 
-/* [Device Size Response] : Medium Devices - Small Tablets.*/
-@media only screen and (min-width: 760px) {
-  .wrapper {
-    padding-left: 8%;
-    padding-right: 8%;
-  }
-}
+/*!* [Device Size Response] : Medium Devices - Small Tablets.*!*/
+/*@media only screen and (min-width: 760px) {*/
+/*  .wrapper {*/
+/*    padding-left: 8%;*/
+/*    padding-right: 8%;*/
+/*  }*/
+/*}*/
 
-/* [Device Size Response] : Medium Devices - Large Tablets Small Laptops.*/
-@media only screen and (min-width: 920px) {
-  .wrapper {
-    padding-left: 9%;
-    padding-right: 9%;
-  }
-}
+/*!* [Device Size Response] : Medium Devices - Large Tablets Small Laptops.*!*/
+/*@media only screen and (min-width: 920px) {*/
+/*  .wrapper {*/
+/*    padding-left: 9%;*/
+/*    padding-right: 9%;*/
+/*  }*/
+/*}*/
 
-/* [Device Size Response] : Medium Devices - Large Laptops and Small Desktops.*/
-@media only screen and (min-width: 1100px) {
-  .wrapper {
-    padding-left: 10%;
-    padding-right: 10%;
-  }
-}
+/*!* [Device Size Response] : Medium Devices - Large Laptops and Small Desktops.*!*/
+/*@media only screen and (min-width: 1100px) {*/
+/*  .wrapper {*/
+/*    padding-left: 10%;*/
+/*    padding-right: 10%;*/
+/*  }*/
+/*}*/
 
-/* [Device Size Response] : Medium Devices - Large Desktops.*/
-@media only screen and (min-width: 1400px) {
-  .wrapper {
-    padding-left: 12%;
-    padding-right: 12%;
-  }
-}
+/*!* [Device Size Response] : Medium Devices - Large Desktops.*!*/
+/*@media only screen and (min-width: 1400px) {*/
+/*  .wrapper {*/
+/*    padding-left: 12%;*/
+/*    padding-right: 12%;*/
+/*  }*/
+/*}*/
 
-/*
-* * Title: Font Properties.
-* * Description: Controls how the text will scale. Using only (em's) ensures the font size only needs to be entered once.
-*/
-h1, h2, h3, h4, h5, h6 {
-  display: block;
-  font-family: inherit;
-  font-weight: bolder;
-}
-
-h1 {
-  padding: 0 0 0 0;
-  margin: 1em 0 0.25em 0;
-  font-size: 3em;
-  line-height: 0.95em;
-}
-
-h2 {
-  padding: 0 0 0 0;
-  margin: 1em 0 0.25em 0;
-  font-size: 2.5em;
-  line-height: 0.95em;
-}
-
-h3 {
-  padding: 0 0 0 0;
-  margin: 1em 0 0.25em 0;
-  font-size: 2em;
-  line-height: 0.95em;
-}
-
-h4 {
-  padding: 0 0 0 0;
-  margin: 1em 0 0.25em 0;
-  font-size: 2em;
-  line-height: 0.95em;
-}
-
-h5 {
-  padding: 0 0 0 0;
-  margin: 1em 0 0.25em 0;
-  font-size: 1.5em;
-  line-height: 0.95em;
-}
-
-h6 {
-  padding: 0 0 0 0;
-  margin: 1em 0 0.25em 0;
-  font-size: 1em;
-  line-height: 0.95em;
-}
-
-.subheader {
-  display: block;
-  padding: 0 0 0 0;
-  margin: 1em 0 1.25em 0;
-  font-size: inherit;
-}
-
-h1 + .subheader, h2 + .subheader, h3 + .subheader, h4 + .subheader, h5 + .subheader, h6 + .subheader {
-  padding: 0 0 0 0;
-  margin: 0.5em 0 2em 0;
-}
-
-hr {
-  display: block;
-  height: 1px;
-  padding: 0;
-  margin: 1.25em 0;
-  border-width: 0;
-  border-top-width: 1px; /* Change this value for horizontal line thickness. */
-  border-style: solid;
-  border-color: var(--Font); /* Works for modern browsers. */
-}
-
-h1 + hr, h2 + hr, h3 + hr, h4 + hr, h5 + hr, h6 + hr {
-  margin: 0.5em 0 1.25em 0;
-}
-
-p {
-  display: block;
-  padding: 0 0 0 0;
-  margin: 1.25em 0;
-}
-
-span {
-  display: inline;
-}
-
-em, i {
-  font-style: italic;
-}
-
-strong, b {
-  font-weight: bolder;
-}
-
-del, s {
-  text-decoration: line-through;
-}
-
-ins, u {
-  text-decoration: underline;
-}
-
-cite {
-  font-style: italic;
-}
-
-small {
-  font-size: 80%;
-}
-
-sup {
-  vertical-align: super;
-}
-sub {
-  vertical-align: sub;
-}
-sub, sup {
-  display: inline;
-  font-size: 80%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-
-/*
-* * Title: Anchors.
-* * Description: Changes the display of anchor tags.
-*/
-a, .anchor {
-  display: inline;
-  cursor: pointer;
-  color: var(--Highlight);
-  background-color: transparent; /* Remove the gray background on active links in IE 10. */
-}
-
-a:hover, .anchor:hover,
-a:focus, .anchor:focus {
-  color: var(--Highlight);
-}
-
-/*
- * * Title: Blockquote.
- * * Description: Wrap large quotes around some text.
- */
-blockquote {
-  display: block;
-  position: relative;
-  padding: 0 0 0 0;
-  margin: 1em 40px;
-}
-
-blockquote::before {
-  position: absolute;
-  top: -6px;
-  left: -25px;
-  content: open-quote;
-  font-size: 3em;
-}
-blockquote::after {
-  position: absolute;
-  bottom: -6px;
-  right: -25px;
-  content: close-quote;
-  font-size: 3em;
-}
-
-/*
-* * Title: Inline Quote.
-* * Description: Wraps quotations around inline-text.
-*/
-q {
-  display: inline;
-}
-q::before {
-  content: open-quote;
-}
-q::after {
-  content: close-quote;
-}
-
-/*
-* * Title: Image.
-* * Description: Changes display of an generic image.
-*/
-img {
-  border-style: none; /* Removes forced border from IE 10. */
-}
-
-/*
-* * Title: User selection.
-* * Description: Modifies the highlight color of the website.
-* * Note: .section is intended to be used with inline elements only.
-* * Note: Compatibility for IE9 and higher.
-* * Note: Can't combine multiple "::selection" psuedo classes, otherwise it wont work.
-*/
-*::selection {
-  color: var(--Background);
-  background-color: var(--Highlight);
-}
-
-*::-moz-selection {
-  color: var(--Background);
-  background-color: var(--Highlight);
-}
-
-.selection {
-  color: var(--Background);
-  background-color: var(--Highlight);
-}
-
-/*
-* * Title: Scrollbar Properties
-* * Description: Changes the look and feel of the scrollbar.
-* * Note: As of October 16, 2018, this does not work with firefox or edge.
-* * Note: https://css-tricks.com/custom-scrollbars-in-webkit/
-* * Note: http://almaer.com/blog/creating-custom-scrollbars-with-css-how-css-isnt-great-for-every-task
-*/
-::-webkit-scrollbar {
-  width: 15px;
-  height: 15px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: transparent;
-  box-shadow: inset 0 0 0 0 transparent;
-  border-radius: 20px;
-}
-
-::-webkit-scrollbar-thumb {
-  border-width: 3px;
-  background-color: var(--Highlight);
-  background-clip: padding-box;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0);
-  border-radius: 20px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--Highlight);
-}
-
-/*
-* * Title: Form Elements
-* * Description: Color and display properties for input boxes and textareas.
-*/
-form {
-  display: block;
-}
-
-fieldset {
-  display: block;
-  padding: 1em 2.5%;
-  margin: 0 0;
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--Font);
-}
-
-legend {
-  display: table;
-  max-width: 100%;
-  padding: 0;
-  margin: 0;
-  white-space: normal;
-  color: inherit;
-}
-
-label {
-  display: block;
-  margin: 0;
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: bold;
-}
-
-input, select, textarea {
-  display: block;
-  padding: 0; /* Generally best not to touch this. If you want padding, remove the borders and apply it to a div. Then give the div padding. */
-  margin: 0;
-  border: 1px;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  background-color: transparent;
-  border-style: solid;
-  border-color: inherit;
-}
-
-textarea {
-  overflow: auto; /* Removes the forced scroll bar for some browsers. */
-}
-
-input[type="radio"], input[type="checkbox"] {
-  box-sizing: border-box; /* Normalizes look for IE 10. */
-  display: inline-block;
-  width: initial;
-  padding: 0;
-  cursor: pointer;
-}
-
-input[type="color"], input[type="date"] {
-  cursor: pointer;
-}
-
-input[type="search"] {
-  -webkit-appearance: textfield; /* Correct the odd appearance in Chrome and Safari. */
-  outline-offset: -2px; /* Correct the outline style in Safari. */
-}
-
-input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none; /* Remove the inner padding in Chrome and Safari on macOS. */
-}
-
-input:focus {
-  outline-color: var(--Highlight);
-}
-
-select[multiple] {
-  height: auto;
-}
-
-optgroup {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-/*button, [type="submit"], [type="reset"], [type="button"] {*/
+/*!**/
+/** * Title: Font Properties.*/
+/** * Description: Controls how the text will scale. Using only (em's) ensures the font size only needs to be entered once.*/
+/**!*/
+/*h1, h2, h3, h4, h5, h6 {*/
 /*  display: block;*/
-/*  width: auto;*/
-/*  padding: 2px 5px;*/
-/*  margin: 0;*/
+/*  font-family: inherit;*/
+/*  font-weight: bolder;*/
+/*}*/
+
+/*h1 {*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 1em 0 0.25em 0;*/
+/*  font-size: 3em;*/
+/*  line-height: 0.95em;*/
+/*}*/
+
+/*h2 {*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 1em 0 0.25em 0;*/
+/*  font-size: 2.5em;*/
+/*  line-height: 0.95em;*/
+/*}*/
+
+/*h3 {*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 1em 0 0.25em 0;*/
+/*  font-size: 2em;*/
+/*  line-height: 0.95em;*/
+/*}*/
+
+/*h4 {*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 1em 0 0.25em 0;*/
+/*  font-size: 2em;*/
+/*  line-height: 0.95em;*/
+/*}*/
+
+/*h5 {*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 1em 0 0.25em 0;*/
+/*  font-size: 1.5em;*/
+/*  line-height: 0.95em;*/
+/*}*/
+
+/*h6 {*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 1em 0 0.25em 0;*/
+/*  font-size: 1em;*/
+/*  line-height: 0.95em;*/
+/*}*/
+
+/*.subheader {*/
+/*  display: block;*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 1em 0 1.25em 0;*/
+/*  font-size: inherit;*/
+/*}*/
+
+/*h1 + .subheader, h2 + .subheader, h3 + .subheader, h4 + .subheader, h5 + .subheader, h6 + .subheader {*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 0.5em 0 2em 0;*/
+/*}*/
+
+/*hr {*/
+/*  display: block;*/
+/*  height: 1px;*/
+/*  padding: 0;*/
+/*  margin: 1.25em 0;*/
+/*  border-width: 0;*/
+/*  border-top-width: 1px; !* Change this value for horizontal line thickness. *!*/
+/*  border-style: solid;*/
+/*  border-color: var(--Font); !* Works for modern browsers. *!*/
+/*}*/
+
+/*h1 + hr, h2 + hr, h3 + hr, h4 + hr, h5 + hr, h6 + hr {*/
+/*  margin: 0.5em 0 1.25em 0;*/
+/*}*/
+
+/*p {*/
+/*  display: block;*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 1.25em 0;*/
+/*}*/
+
+/*span {*/
+/*  display: inline;*/
+/*}*/
+
+/*em, i {*/
+/*  font-style: italic;*/
+/*}*/
+
+/*strong, b {*/
+/*  font-weight: bolder;*/
+/*}*/
+
+/*del, s {*/
+/*  text-decoration: line-through;*/
+/*}*/
+
+/*ins, u {*/
+/*  text-decoration: underline;*/
+/*}*/
+
+/*cite {*/
+/*  font-style: italic;*/
+/*}*/
+
+/*small {*/
+/*  font-size: 80%;*/
+/*}*/
+
+/*sup {*/
+/*  vertical-align: super;*/
+/*}*/
+/*sub {*/
+/*  vertical-align: sub;*/
+/*}*/
+/*sub, sup {*/
+/*  display: inline;*/
+/*  font-size: 80%;*/
+/*  line-height: 0;*/
+/*  position: relative;*/
+/*  vertical-align: baseline;*/
+/*}*/
+
+/*!**/
+/** * Title: Anchors.*/
+/** * Description: Changes the display of anchor tags.*/
+/**!*/
+/*a, .anchor {*/
+/*  display: inline;*/
+/*  cursor: pointer;*/
+/*  color: var(--Highlight);*/
+/*  background-color: transparent; !* Remove the gray background on active links in IE 10. *!*/
+/*}*/
+
+/*a:hover, .anchor:hover,*/
+/*a:focus, .anchor:focus {*/
+/*  color: var(--Highlight);*/
+/*}*/
+
+/*!**/
+/* * * Title: Blockquote.*/
+/* * * Description: Wrap large quotes around some text.*/
+/* *!*/
+/*blockquote {*/
+/*  display: block;*/
+/*  position: relative;*/
+/*  padding: 0 0 0 0;*/
+/*  margin: 1em 40px;*/
+/*}*/
+
+/*blockquote::before {*/
+/*  position: absolute;*/
+/*  top: -6px;*/
+/*  left: -25px;*/
+/*  content: open-quote;*/
+/*  font-size: 3em;*/
+/*}*/
+/*blockquote::after {*/
+/*  position: absolute;*/
+/*  bottom: -6px;*/
+/*  right: -25px;*/
+/*  content: close-quote;*/
+/*  font-size: 3em;*/
+/*}*/
+
+/*!**/
+/** * Title: Inline Quote.*/
+/** * Description: Wraps quotations around inline-text.*/
+/**!*/
+/*q {*/
+/*  display: inline;*/
+/*}*/
+/*q::before {*/
+/*  content: open-quote;*/
+/*}*/
+/*q::after {*/
+/*  content: close-quote;*/
+/*}*/
+
+/*!**/
+/** * Title: Image.*/
+/** * Description: Changes display of an generic image.*/
+/**!*/
+/*img {*/
+/*  border-style: none; !* Removes forced border from IE 10. *!*/
+/*}*/
+
+/*!**/
+/** * Title: User selection.*/
+/** * Description: Modifies the highlight color of the website.*/
+/** * Note: .section is intended to be used with inline elements only.*/
+/** * Note: Compatibility for IE9 and higher.*/
+/** * Note: Can't combine multiple "::selection" psuedo classes, otherwise it wont work.*/
+/**!*/
+/**::selection {*/
+/*  color: var(--Background);*/
+/*  background-color: var(--Highlight);*/
+/*}*/
+
+/**::-moz-selection {*/
+/*  color: var(--Background);*/
+/*  background-color: var(--Highlight);*/
+/*}*/
+
+/*.selection {*/
+/*  color: var(--Background);*/
+/*  background-color: var(--Highlight);*/
+/*}*/
+
+/*!**/
+/** * Title: Scrollbar Properties*/
+/** * Description: Changes the look and feel of the scrollbar.*/
+/** * Note: As of October 16, 2018, this does not work with firefox or edge.*/
+/** * Note: https://css-tricks.com/custom-scrollbars-in-webkit/*/
+/** * Note: http://almaer.com/blog/creating-custom-scrollbars-with-css-how-css-isnt-great-for-every-task*/
+/**!*/
+/*::-webkit-scrollbar {*/
+/*  width: 15px;*/
+/*  height: 15px;*/
+/*}*/
+
+/*::-webkit-scrollbar-track {*/
+/*  background-color: transparent;*/
+/*  box-shadow: inset 0 0 0 0 transparent;*/
+/*  border-radius: 20px;*/
+/*}*/
+
+/*::-webkit-scrollbar-thumb {*/
+/*  border-width: 3px;*/
+/*  background-color: var(--Highlight);*/
+/*  background-clip: padding-box;*/
+/*  border-style: solid;*/
+/*  border-color: rgba(0, 0, 0, 0);*/
+/*  border-radius: 20px;*/
+/*}*/
+/*::-webkit-scrollbar-thumb:hover {*/
+/*  background-color: var(--Highlight);*/
+/*}*/
+
+/*!**/
+/** * Title: Form Elements*/
+/** * Description: Color and display properties for input boxes and textareas.*/
+/**!*/
+/*form {*/
+/*  display: block;*/
+/*}*/
+
+/*fieldset {*/
+/*  display: block;*/
+/*  padding: 1em 2.5%;*/
+/*  margin: 0 0;*/
 /*  border-width: 1px;*/
+/*  border-style: solid;*/
+/*  border-color: var(--Font);*/
+/*}*/
+
+/*legend {*/
+/*  display: table;*/
+/*  max-width: 100%;*/
+/*  padding: 0;*/
+/*  margin: 0;*/
+/*  white-space: normal;*/
+/*  color: inherit;*/
+/*}*/
+
+/*label {*/
+/*  display: block;*/
+/*  margin: 0;*/
+/*  font-size: inherit;*/
+/*  line-height: inherit;*/
+/*  font-weight: bold;*/
+/*}*/
+
+/*input, select, textarea {*/
+/*  display: block;*/
+/*  padding: 0; !* Generally best not to touch this. If you want padding, remove the borders and apply it to a div. Then give the div padding. *!*/
+/*  margin: 0;*/
+/*  border: 1px;*/
 /*  font-family: inherit;*/
 /*  font-size: inherit;*/
 /*  line-height: inherit;*/
-/*  overflow: visible;*/
-/*  cursor: pointer;*/
-/*  color: var(--Background);*/
-/*  background-color: var(--Highlight);*/
-/*  border-style: solid;*/
-/*  border-color: transparent;*/
-/*  -webkit-appearance: button; !* Correct the inability to style clickable types in iOS and Safari. *!*/
-/*}*/
-
-/*::-webkit-file-upload-button {*/
-/*  -webkit-appearance: button; !* Correct the inability to style clickable types in iOS and Safari. *!*/
-/*  font: inherit; !* Change font properties to `inherit` in Safari. *!*/
-/*}*/
-
-/*button:hover, [type="submit"]:hover, [type="reset"]:hover, [type="button"]:hover {*/
 /*  color: inherit;*/
 /*  background-color: transparent;*/
-/*}*/
-/*button:disabled {*/
-/*  cursor: not-allowed;*/
-/*  background: var(--Disabled)*/
+/*  border-style: solid;*/
+/*  border-color: inherit;*/
 /*}*/
 
-/*
-* * Title: Unordered List.
-* * Description: A bullet next to text reflecting a visual hierarchy of information.
-*/
-ul {
-  display: block;
-  padding: 0 0 0 40px;
-  margin: 1em 0;
-  list-style-type: disc;
-}
+/*textarea {*/
+/*  overflow: auto; !* Removes the forced scroll bar for some browsers. *!*/
+/*}*/
 
-li {
-  display: list-item;
-}
+/*input[type="radio"], input[type="checkbox"] {*/
+/*  box-sizing: border-box; !* Normalizes look for IE 10. *!*/
+/*  display: inline-block;*/
+/*  width: initial;*/
+/*  padding: 0;*/
+/*  cursor: pointer;*/
+/*}*/
 
-/*
-* * Title: Ordered List.
-* * Description: A number next to text reflecting a visual hierarchy of information.
-*/
-ol {
-  display: block;
-  padding: 0 0 0 40px;
-  margin: 1em 0;
-  list-style-type: decimal;
-}
+/*input[type="color"], input[type="date"] {*/
+/*  cursor: pointer;*/
+/*}*/
 
-li {
-  display: list-item;
-}
+/*input[type="search"] {*/
+/*  -webkit-appearance: textfield; !* Correct the odd appearance in Chrome and Safari. *!*/
+/*  outline-offset: -2px; !* Correct the outline style in Safari. *!*/
+/*}*/
 
-/*
-* * Title: A Table.
-* * Description: Information represented through a visual chart of rows and columns.
-*/
-table {
-  display: table;
-  border-width: 1px;
-  text-align: left;
-  border-color: var(--Font);
-  border-style: solid;
-}
+/*input[type="search"]::-webkit-search-decoration {*/
+/*  -webkit-appearance: none; !* Remove the inner padding in Chrome and Safari on macOS. *!*/
+/*}*/
 
-caption {
-  display: table-caption;
-  padding: 5px;
-  border-width: inherit;
-  text-align: center;
-  font-weight: bold;
-  border-color: inherit;
-  border-style: inherit;
-}
+/*input:focus {*/
+/*  outline-color: var(--Highlight);*/
+/*}*/
 
-thead {
-  display: table-header-group;
-  padding: 5px;
-  margin: 0;
-  border-width: inherit;
-  text-align: inherit;
-  vertical-align: middle;
-  border-color: inherit;
-  border-style: inherit;
-}
+/*select[multiple] {*/
+/*  height: auto;*/
+/*}*/
 
-tbody {
-  display: table-row-group;
-  padding: 5px;
-  margin: 0;
-  border-width: inherit;
-  text-align: inherit;
-  vertical-align: middle;
-  border-color: inherit;
-  border-style: inherit;
-}
+/*optgroup {*/
+/*  margin: 0;*/
+/*  font-family: inherit;*/
+/*  font-size: inherit;*/
+/*  line-height: inherit;*/
+/*}*/
 
-tfoot {
-  display: table-footer-group;
-  padding: 5px;
-  margin: 0;
-  border-width: inherit;
-  text-align: inherit;
-  vertical-align: middle;
-  border-color: inherit;
-  border-style: inherit;
-}
+/*!*button, [type="submit"], [type="reset"], [type="button"] {*!*/
+/*!*  display: block;*!*/
+/*!*  width: auto;*!*/
+/*!*  padding: 2px 5px;*!*/
+/*!*  margin: 0;*!*/
+/*!*  border-width: 1px;*!*/
+/*!*  font-family: inherit;*!*/
+/*!*  font-size: inherit;*!*/
+/*!*  line-height: inherit;*!*/
+/*!*  overflow: visible;*!*/
+/*!*  cursor: pointer;*!*/
+/*!*  color: var(--Background);*!*/
+/*!*  background-color: var(--Highlight);*!*/
+/*!*  border-style: solid;*!*/
+/*!*  border-color: transparent;*!*/
+/*!*  -webkit-appearance: button; !* Correct the inability to style clickable types in iOS and Safari. *!*!*/
+/*!*}*!*/
 
-tr {
-  display: table-row;
-  padding: 5px;
-  margin: 0;
-  border-width: inherit;
-  border-color: inherit;
-  border-style: inherit;
-}
+/*!*::-webkit-file-upload-button {*!*/
+/*!*  -webkit-appearance: button; !* Correct the inability to style clickable types in iOS and Safari. *!*!*/
+/*!*  font: inherit; !* Change font properties to `inherit` in Safari. *!*!*/
+/*!*}*!*/
 
-th {
-  display: table-cell;
-  padding: 5px;
-  margin: 0;
-  border-width: inherit;
-  text-align: inherit;
-  font-weight: bold;
-  border-color: inherit;
-  border-style: inherit;
-}
+/*!*button:hover, [type="submit"]:hover, [type="reset"]:hover, [type="button"]:hover {*!*/
+/*!*  color: inherit;*!*/
+/*!*  background-color: transparent;*!*/
+/*!*}*!*/
+/*!*button:disabled {*!*/
+/*!*  cursor: not-allowed;*!*/
+/*!*  background: var(--Disabled)*!*/
+/*!*}*!*/
 
-td {
-  display: table-cell;
-  padding: 5px;
-  margin: 0;
-  border-width: inherit;
-  text-align: inherit;
-  border-color: inherit;
-  border-style: inherit;
-}
+/*!**/
+/** * Title: Unordered List.*/
+/** * Description: A bullet next to text reflecting a visual hierarchy of information.*/
+/**!*/
+/*ul {*/
+/*  display: block;*/
+/*  padding: 0 0 0 40px;*/
+/*  margin: 1em 0;*/
+/*  list-style-type: disc;*/
+/*}*/
 
-colgroup {
-  display: table-column-group;
-}
+/*li {*/
+/*  display: list-item;*/
+/*}*/
 
-col {
-  display: table-column;
-}
+/*!**/
+/** * Title: Ordered List.*/
+/** * Description: A number next to text reflecting a visual hierarchy of information.*/
+/**!*/
+/*ol {*/
+/*  display: block;*/
+/*  padding: 0 0 0 40px;*/
+/*  margin: 1em 0;*/
+/*  list-style-type: decimal;*/
+/*}*/
 
-/*
-* * Title: Tag Normalize
-* * Description: Sets the input on modern HTMl elements. (Generally for IE <= 10).
-*/
-main, nav, aside, section, details, summary {
-  display: block; /* Required for display in IE */
-}
-summary {
-  display: list-item;
-}
-template, [type="hidden"] {
-  display: none;
-}
-pre, code, kbd, samp {
-  font-family: monospace, monospace;
-  font-size: 1em;
-}
+/*li {*/
+/*  display: list-item;*/
+/*}*/
+
+/*!**/
+/** * Title: A Table.*/
+/** * Description: Information represented through a visual chart of rows and columns.*/
+/**!*/
+/*table {*/
+/*  display: table;*/
+/*  border-width: 1px;*/
+/*  text-align: left;*/
+/*  border-color: var(--Font);*/
+/*  border-style: solid;*/
+/*}*/
+
+/*caption {*/
+/*  display: table-caption;*/
+/*  padding: 5px;*/
+/*  border-width: inherit;*/
+/*  text-align: center;*/
+/*  font-weight: bold;*/
+/*  border-color: inherit;*/
+/*  border-style: inherit;*/
+/*}*/
+
+/*thead {*/
+/*  display: table-header-group;*/
+/*  padding: 5px;*/
+/*  margin: 0;*/
+/*  border-width: inherit;*/
+/*  text-align: inherit;*/
+/*  vertical-align: middle;*/
+/*  border-color: inherit;*/
+/*  border-style: inherit;*/
+/*}*/
+
+/*tbody {*/
+/*  display: table-row-group;*/
+/*  padding: 5px;*/
+/*  margin: 0;*/
+/*  border-width: inherit;*/
+/*  text-align: inherit;*/
+/*  vertical-align: middle;*/
+/*  border-color: inherit;*/
+/*  border-style: inherit;*/
+/*}*/
+
+/*tfoot {*/
+/*  display: table-footer-group;*/
+/*  padding: 5px;*/
+/*  margin: 0;*/
+/*  border-width: inherit;*/
+/*  text-align: inherit;*/
+/*  vertical-align: middle;*/
+/*  border-color: inherit;*/
+/*  border-style: inherit;*/
+/*}*/
+
+/*tr {*/
+/*  display: table-row;*/
+/*  padding: 5px;*/
+/*  margin: 0;*/
+/*  border-width: inherit;*/
+/*  border-color: inherit;*/
+/*  border-style: inherit;*/
+/*}*/
+
+/*th {*/
+/*  display: table-cell;*/
+/*  padding: 5px;*/
+/*  margin: 0;*/
+/*  border-width: inherit;*/
+/*  text-align: inherit;*/
+/*  font-weight: bold;*/
+/*  border-color: inherit;*/
+/*  border-style: inherit;*/
+/*}*/
+
+/*td {*/
+/*  display: table-cell;*/
+/*  padding: 5px;*/
+/*  margin: 0;*/
+/*  border-width: inherit;*/
+/*  text-align: inherit;*/
+/*  border-color: inherit;*/
+/*  border-style: inherit;*/
+/*}*/
+
+/*colgroup {*/
+/*  display: table-column-group;*/
+/*}*/
+
+/*col {*/
+/*  display: table-column;*/
+/*}*/
+
+/*!**/
+/** * Title: Tag Normalize*/
+/** * Description: Sets the input on modern HTMl elements. (Generally for IE <= 10).*/
+/**!*/
+/*main, nav, aside, section, details, summary {*/
+/*  display: block; !* Required for display in IE *!*/
+/*}*/
+/*summary {*/
+/*  display: list-item;*/
+/*}*/
+/*template, [type="hidden"] {*/
+/*  display: none;*/
+/*}*/
+/*pre, code, kbd, samp {*/
+/*  font-family: monospace, monospace;*/
+/*  font-size: 1em;*/
+/*}*/

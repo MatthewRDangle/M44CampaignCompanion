@@ -3,7 +3,7 @@ const m = require("mithril");
 import LoadingSymbol from "./LoadingSymbol.js";
 
 
-const Body = (initialVnode) => {
+const LoadingStatus = (initialVnode) => {
 
 
     return {
@@ -20,4 +20,4 @@ const Body = (initialVnode) => {
     }
 }
 
-export default Body;
+export default LoadingStatus;

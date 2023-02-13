@@ -3,7 +3,7 @@ const m = require("mithril");
 import LoadingSymbol from "./LoadingSymbol.js";
 
 
-const Body = (initialVnode) => {
+const Quotes = (initialVnode) => {
 
     const quote = {
         message: '“Success in not final, failure is not fatal. It is the courage to continue that counts.”',
@@ -26,4 +26,4 @@ const Body = (initialVnode) => {
     }
 }
 
-export default Body;
+export default Quotes;

@@ -21,7 +21,7 @@ export const page = new Page('/splash', (initialVnode) => {
             return m(Body, [
                 m('img', {
                     className: 'absolute top-0 left-0 object-cover w-full h-full',
-                    src: 'src/images/loading.png',
+                    src: 'images/loading.png',
                     alt: 'BattleCry'
                 }),
                 m('div', {className: 'absolute top-1/2'}, [

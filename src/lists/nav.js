@@ -1,3 +1,6 @@
+const {ipcRenderer} = require('electron');
+
+
 export const nav = [
     {
         label: 'Skirmish',
@@ -5,12 +8,23 @@ export const nav = [
         disabled: false,
     }, {
         label: 'Multiplayer',
-        path: '/',
+        path: '/multiplayer',
+        disabled: true
+    },
+    {
+        label: 'Scenarios',
+        path: '/scenarios',
         disabled: true
     },
     {
         label: 'Settings',
         path: '/settings',
         disabled: false
+    },
+    {
+        label: 'Exit to Desktop',
+        onclick: async () => {
+            await ipcRenderer.invoke('/api/app/quitApplication')
+        }
     }
 ]

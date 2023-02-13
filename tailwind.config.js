@@ -1,6 +1,15 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
+    fontSize: {
+      sm: '0.8rem',
+      base: '1rem',
+      xl: '1.25rem',
+      '2xl': '1.563rem',
+      '3xl': '1.953rem',
+      '4xl': '2.441rem',
+      '5xl': '3.052rem',
+    },
     colors: {
       'transparent': 'transparent',
       'currentColor': 'currentColor',
@@ -28,6 +37,30 @@ module.exports = {
         800: '#C5D6B7',
         900: '#C5D6B7'
       },
+      'secondary': {
+        DEFAULT: '#86482C',
+        100: '#86482C',
+        200: '#86482C',
+        300: '#86482C',
+        400: '#86482C',
+        500: '#86482C',
+        600: '#CB8260',
+        700: '#CB8260',
+        800: '#CB8260',
+        900: '#CB8260'
+      },
+      'tertiary': {
+        DEFAULT: '#571819',
+        100: '#571819',
+        200: '#571819',
+        300: '#571819',
+        400: '#571819',
+        500: '#571819',
+        600: '#571819',
+        700: '#571819',
+        800: '#571819',
+        900: '#571819'
+      },
       'font': {
         DEFAULT: '#FFFFFF',
         100: '#FFFFFF',
@@ -53,16 +86,16 @@ module.exports = {
         900: '#1f2937'
       },
       'background': {
-        DEFAULT: '#151A1E',
-        100: '#151A1E',
-        200: '#151A1E',
-        300: '#151A1E',
-        400: '#151A1E',
-        500: '#151A1E',
-        600: '#151A1E',
-        700: '#151A1E',
-        800: '#151A1E',
-        900: '#151A1E'
+        DEFAULT: '#13131B',
+        100: '#13131B',
+        200: '#13131B',
+        300: '#13131B',
+        400: '#13131B',
+        500: '#13131B',
+        600: '#13131B',
+        700: '#13131B',
+        800: '#13131B',
+        900: '#13131B'
       },
       'border': {
         DEFAULT: '#FFFFFF',
@@ -103,7 +136,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      'sans': ['Roboto', 'sans-serif']
+      'sans': ['Gunplay', 'Roboto', 'sans-serif']
     },
     extend: {
       spacing: {

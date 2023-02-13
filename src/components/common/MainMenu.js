@@ -12,7 +12,7 @@ const MainMenu = (initialVnode) => {
             return (
                 m('div.mainMenu', [
                     m('div.mainMenu_header', [
-                        m('div.mainMenu_header_icon', m('img', {src: 'src/images/logo.svg', alt: "A plane flying upward that's being targeted."})),
+                        m('div.mainMenu_header_icon', m('img', {src: 'images/logo.svg', alt: "A plane flying upward that's being targeted."})),
                         m('h1.mainMenu_header_label', attrs.title || 'Page Title')
                     ]),
                     m('nav.mainMenu_nav',

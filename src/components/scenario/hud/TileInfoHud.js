@@ -1,7 +1,7 @@
 const m = require("mithril");
 
 import Terrain from "../../../classes/Terrain.js";
-import Button from "../../common/Button.js";
+import Button from "../../templates/Button.js";
 import UnitCard from "../UnitCard.js";
 
 
