@@ -13,6 +13,7 @@ module.exports = {
     colors: {
       'transparent': 'transparent',
       'currentColor': 'currentColor',
+      'selected': 'rgba(255,255,255,0.10)',
       'interaction': {
         DEFAULT: '#DBBD77',
         100: '#DBBD77',

@@ -15,7 +15,7 @@ export const page = new Page('/mainmenu', (initialVnode) => {
 
             return m(Body, [
                 m('img', {
-                    className: 'absolute top-0 left-0 object-cover w-full h-full',
+                    className: 'absolute top-0 left-0 object-cover w-full h-full -z-10',
                     src: 'images/background.png',
                     role: 'presentation'
                 }),
