@@ -5,7 +5,6 @@ export const nav = [
     {
         label: 'Skirmish',
         path: '/lobby',
-        disabled: false,
     }, {
         label: 'Multiplayer',
         path: '/multiplayer',
@@ -14,12 +13,11 @@ export const nav = [
     {
         label: 'Scenarios',
         path: '/scenarios',
-        disabled: true
     },
     {
         label: 'Settings',
         path: '/settings',
-        disabled: false
+        disabled: true
     },
     {
         label: 'Exit to Desktop',
