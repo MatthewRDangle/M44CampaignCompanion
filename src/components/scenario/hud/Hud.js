@@ -18,11 +18,16 @@ const GameBoard = (initialVnode) => {
 
             return (
                 m('div.hud', [
-                    !!isGameOver ? m('div.hud_game', m(GameOverHud, {currentTurn: currentTurn})) : '',
-                    m('div.hud_faction', m(FactionHud)),
-                    m('div.hud_game', m(OptionHud)),
-                    m('div.hud_tile', selectedTile ? m(TileInfoHud, {tile: selectedTile, currentTurn: currentTurn}) : ''),
-                    m('div.hud_nextTurn', m(NextTurnHud))
+                    !!isGameOver
+                        ? m('div', {className: ''},
+                            m(GameOverHud, {currentTurn: currentTurn}))
+                        : '',
+                    m('div', m(FactionHud)),
+                    m('div', m(OptionHud)),
+                    !!selectedTile
+                        ? m('div', m(TileInfoHud, {tile: selectedTile, currentTurn: currentTurn}))
+                        : '',
+                    m('div', m(NextTurnHud))
                 ])
             )
         }
