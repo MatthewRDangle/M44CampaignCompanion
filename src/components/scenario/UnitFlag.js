@@ -15,12 +15,13 @@ const UnitFlag = (initialVnode) => {
             const factionSVGFilter = unit.faction?.filter;
 
             return (
-                m('div', {className: 'relative z-10'}, [
+                m('div', {className: classNames('relative z-10', {
+                        'opacity-50': !unit.available_movement
+                    })}, [
                     m('div', {
                         className: classNames('w-16 h-24', {
                             'cursor-pointer !hover:text-background !hover:bg-interaction': !!attrs.onclick,
                             '!text-interaction !bg-interaction': unit.isSelected,
-                            'opacity-50': !unit.available_movement
                         }),
                         style: {
                             color: factionColor?.text,
