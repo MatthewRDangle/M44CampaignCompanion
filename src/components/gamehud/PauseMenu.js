@@ -19,7 +19,7 @@ const PauseMenu = (initialVnode) => {
 
 
             return ([
-                m('div', {className: 'w-screen h-screen bg-background opacity-25 fixed top-0 left-0 z-10'}),
+                m('div', {className: 'w-screen h-screen bg-background opacity-50 fixed top-0 left-0 z-10'}),
                 m('div', {className: 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] bg-background border-[1px] border-solid border-secondary z-10 rounded-lg shadow-lg shadow-background-500/50'}, [
                     m('div', {className: 'text-4xl mt-4 align-center'}, [
                         m('div', {className: 'inline-block h-1 w-1/3 bg-secondary-500', role: 'presentation'}),

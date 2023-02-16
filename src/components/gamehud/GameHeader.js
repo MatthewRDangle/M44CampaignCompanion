@@ -21,7 +21,7 @@ const GameHeader = (initialVnode) => {
 
             return ([
                 __optionsOpened ? m(PauseMenu, {onResume: handleOptionsOverlay}) : '',
-                m('div', {className: 'absolute top-0 left-0 flex justify-between w-full pt-2 pb-2 pl-5 pr-5 bg-background border-b-[1px] border-solid border-secondary-500 shadow-lg shadow-background-500/25'}, [
+                m('div', {className: 'absolute top-0 left-0 flex justify-between w-full pt-2 pb-2 pl-5 pr-5 bg-background border-b-[1px] border-solid border-secondary-500 shadow-lg shadow-background-500/50'}, [
                     m('span', activeScenarioDefinition.currentTurn.name),
                     m('button', {onclick: handleOptionsOverlay}, [
                         m('div', {className: 'w-6 h-1 bg-font mt-1 mb-1'}),

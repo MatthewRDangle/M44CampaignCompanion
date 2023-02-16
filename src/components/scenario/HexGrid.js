@@ -17,7 +17,7 @@ const HexGrid = (initialVnode) => {
 
 
             return (
-                m('div', {className: 'flex flex-wrap'}, [
+                m('div', {className: 'flex flex-wrap scale-50'}, [
                     grid.map((row, idx) => {
                         return m('div', {
                             className: `flex-none text-none min-w-full`,
