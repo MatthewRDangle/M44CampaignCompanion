@@ -1,9 +1,9 @@
 const m = require("mithril");
 
-import ScenarioDefinitionStore from "../../../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 
-const NextTurnHud = (initialVnode) => {
+const NextTurn = (initialVnode) => {
 
     const handleNextTurn = (scenario) => {
         scenario.nextTurn();
@@ -32,4 +32,4 @@ const NextTurnHud = (initialVnode) => {
     }
 }
 
-export default NextTurnHud;
+export default NextTurn;

@@ -11,7 +11,7 @@ const Divider = (initialVnode) => {
 
             return (
                 !!attrs.fancy
-                    ? m('div')
+                    ? m('div', {className: 'w-full h-px bg-secondary'})
                     : m('hr')
             )
         }

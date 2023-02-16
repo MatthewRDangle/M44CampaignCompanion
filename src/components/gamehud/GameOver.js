@@ -1,9 +1,9 @@
 const m = require("mithril");
 
-import Button from "../../templates/Button.js";
+import Button from "../templates/Button.js";
 
 
-const GameOverHud = (initialVnode) => {
+const GameOver = (initialVnode) => {
 
     const handleBackToMainMenu = (e) => {
         m.route.set('/mainMenu');
@@ -26,4 +26,4 @@ const GameOverHud = (initialVnode) => {
     }
 }
 
-export default GameOverHud;
+export default GameOver;

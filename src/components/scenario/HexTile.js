@@ -1,7 +1,7 @@
 const m = require("mithril");
 const classNames = require("classnames");
 
-import UnitCard from './UnitCard.js';
+import UnitCard from './UnitFlag.js';
 import Unit from "../../classes/Unit.js";
 import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
