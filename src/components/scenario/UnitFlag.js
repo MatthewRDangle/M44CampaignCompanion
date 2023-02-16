@@ -1,6 +1,8 @@
 const m = require("mithril");
 const classNames = require("classnames");
 
+import Color from "../../classes/Color.js";
+
 
 const UnitFlag = (initialVnode) => {
 
@@ -10,7 +12,7 @@ const UnitFlag = (initialVnode) => {
             const {attrs} = vNode;
             const unit = attrs.unit;
             const factionColor = unit.faction?.color;
-
+            const factionSVGFilter = unit.faction?.filter;
 
             return (
                 m('div', {className: 'relative z-10'}, [
@@ -32,9 +34,9 @@ const UnitFlag = (initialVnode) => {
                     }, [
                         m('img', {
                             className: 'w-full px-1 py-3',
-                            style: {color: factionColor?.text},
+                            style: `filter: ${factionSVGFilter?.text}`,
                             src: unit.icon.src,
-                            alt: unit.icon.alt
+                            alt: unit.icon.alt,
                         })
                     ]),
                     m('div', {

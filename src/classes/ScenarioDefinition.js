@@ -55,7 +55,9 @@ export default class ScenarioDefinition {
         // Set Factions
         if (Array.isArray(definition.factions)) {
             definition.factions.forEach((definition_faction) => {
-                this.factions[definition_faction.name] = new Faction(definition_faction.name, definition_faction);
+                const newFaction = new Faction();
+                newFaction.compile(definition_faction);
+                this.factions[definition_faction.name] = newFaction;
             })
         }
 
