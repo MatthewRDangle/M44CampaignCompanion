@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import HexTile from "./HexTile.js";
+import HexTile from "./templates/HexTile.js";
 
 
 const HexGrid = (initialVnode) => {
@@ -12,7 +12,7 @@ const HexGrid = (initialVnode) => {
             const grid = attrs.grid || [];
 
             let hexSize = 200;
-            let hexMargin = -1;
+            let hexMargin = 1;
             let rowEvenOffset = hexSize / 2 + hexMargin;
 
 

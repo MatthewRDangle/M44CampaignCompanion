@@ -1,5 +1,8 @@
 const m = require('mithril');
 
+import Body from "../../components/Body.js";
+import Button from "../../components/templates/Button.js";
+import Background from "../../components/Background.js";
 import Page from '../../classes/Page.js';
 import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
@@ -16,19 +19,25 @@ export const page = new Page('/session/preview?:tileId', (initialVnode) => {
             const tile = activeScenarioDefinition.tiles[row][tileId];
 
 
-            return [
-                m('div', {style: 'width: 100vw; height: 100vh;'},
-                    m('div.preview',
-                        m('img.preview_img', {
-                            src: tile.battleMap?.src || '',
-                            alt: tile.battleMap?.alt || '',
-                            onclick: function() {
-                                m.route.set('/session')
-                            }
-                        })
-                    )
+            return m(Body, [
+                m(Background),
+                m('div', {className: 'w-full h-full p-12'},
+                    m('img', {
+                        className: 'w-full h-full object-cover shadow-lg shadow-background-500/50',
+                        src: tile.battleMap?.src || '',
+                        alt: tile.battleMap?.alt || ''
+                    })
+                ),
+                m('div', {className: 'absolute top-16 right-16'},
+                    m(Button, {
+                        shadow: true,
+                        inverse: true,
+                        onclick: function() {
+                            m.route.set('/session')
+                        }
+                    }, 'Close')
                 )
-            ]
+            ])
         }
     }
 });

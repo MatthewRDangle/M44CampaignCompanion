@@ -1,9 +1,9 @@
 const m = require("mithril");
 
 import HexGrid from "./HexGrid.js";
-import Hud from "../GameHud.js";
-import Unit from "../../classes/Unit.js";
-import Tile from "../../classes/Tile.js";
+import Hud from "./GameHud.js";
+import Unit from "../classes/Unit.js";
+import Tile from "../classes/Tile.js";
 
 
 const GameBoard = (initialVnode) => {

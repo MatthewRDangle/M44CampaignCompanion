@@ -2,7 +2,7 @@ const m = require("mithril");
 
 import Terrain from "../../classes/Terrain.js";
 import Button from "../templates/Button.js";
-import UnitCard from "../scenario/UnitFlag.js";
+import UnitCard from "../templates/UnitFlag.js";
 
 
 const TileInfo = (initialVnode) => {

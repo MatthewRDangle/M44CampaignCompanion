@@ -15,16 +15,16 @@ module.exports = {
       'currentColor': 'currentColor',
       'selected': 'rgba(255,255,255,0.10)',
       'interaction': {
-        DEFAULT: '#DBBD77',
-        100: '#DBBD77',
-        200: '#DBBD77',
-        300: '#DBBD77',
-        400: '#DBBD77',
-        500: '#DBBD77',
-        600: '#DBBD77',
-        700: '#DBBD77',
-        800: '#DBBD77',
-        900: '#DBBD77'
+        DEFAULT: '#86482C',
+        100: '#86482C',
+        200: '#86482C',
+        300: '#86482C',
+        400: '#86482C',
+        500: '#86482C',
+        600: '#CB8260',
+        700: '#CB8260',
+        800: '#CB8260',
+        900: '#CB8260'
       },
       'primary': {
         DEFAULT: '#C5D6B7',

@@ -1,7 +1,7 @@
 const m = require("mithril");
 const classNames = require("classnames");
 
-import UnitCard from './UnitFlag.js';
+import PlayableUnit from "./PlayableUnit.js";
 import Unit from "../../classes/Unit.js";
 import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
@@ -42,15 +42,16 @@ const HexTile = (initialVnode) => {
                     },
                     onclick: () => handleOnClick(hex, activeScenarioDefinition)
                 }, m('div', {
-                    className: 'relative',
-                    style: {'padding-top': `${size / 3.5}px`, 'padding-bottom': `${size / 3.5}px`}
+                    className: 'relative w-full h-full overflow-hidden',
+                    // style: {'padding-top': `${size / 3.5}px`, 'padding-bottom': `${size / 3.5}px`}
                 }, [
                     !!activeScenarioDefinition.devMode ? m('span', hex.id) : '',
-                    Object.keys(hex.units).map((faction_name) => {
-                        return hex.units[faction_name].map((unit) => {
-                            return m('div', {className: 'absolute top-1/2 left-1/2 -translate-x-1/2'}, m(UnitCard, {unit: unit}))
-                        })
-                    })
+                    Object.keys(hex.units).map((faction_name) =>
+                        m('div', {className: 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'}, m(PlayableUnit, {
+                            faction: activeScenarioDefinition.factions[faction_name],
+                            units: hex.units[faction_name]
+                        }))
+                    )
                 ]))
             )
         }
