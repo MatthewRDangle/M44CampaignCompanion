@@ -24,7 +24,9 @@ export const page = new Page('/session/battle?:tileId', (initialVnode) => {
             return m(Body, [
                 m(Background),
                 m(TitleBar, 'Battle Results'),
-                m(BattleResultCalc, {tile: tile})
+                m('div', {className: 'mt-8'},
+                    m(BattleResultCalc, {tile: tile})
+                )
             ])
         }
     }

@@ -39,9 +39,9 @@ const GameHeader = (initialVnode) => {
                         m('span', {className: 'inline-block ml-20 mt-1'}, activeScenarioDefinition.currentTurn.name)
                     ]),
                     m('button', {onclick: handleOptionsOverlay}, [
-                        m('div', {className: 'w-6 h-1 bg-interaction mt-1 mb-1 rounded-full'}),
-                        m('div', {className: 'w-6 h-1 bg-interaction mt-1 mb-1 rounded-full'}),
-                        m('div', {className: 'w-6 h-1 bg-interaction mt-1 mb-1 rounded-full'}),
+                        m('div', {className: 'w-6 h-1 bg-interaction-700 mt-1 mb-1 rounded-full'}),
+                        m('div', {className: 'w-6 h-1 bg-interaction-700 mt-1 mb-1 rounded-full'}),
+                        m('div', {className: 'w-6 h-1 bg-interaction-700 mt-1 mb-1 rounded-full'}),
                     ]),
                 ])
             ])

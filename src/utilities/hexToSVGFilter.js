@@ -12,3 +12,5 @@ export function hexToSVGFilter(hex) {
     const result = solver.solve();
     return result.filter.inline;
 }
+
+export const whiteSVGFilter = hexToSVGFilter('#FFFFFF');

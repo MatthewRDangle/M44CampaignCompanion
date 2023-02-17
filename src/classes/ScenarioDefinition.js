@@ -39,7 +39,7 @@ export default class ScenarioDefinition {
     }
 
     appendContest(tile) {
-        if (tile instanceof Tile)
+        if (tile instanceof Tile && !this.contests.includes(tile))
             this.contests.push(tile);
     }
 
@@ -256,6 +256,7 @@ export default class ScenarioDefinition {
     resolveContest(tile) {
         if (tile instanceof Tile)
             this.contests.splice(this.contests.indexOf(tile), 1);
+        debugger;
     }
 
     setSelectedTile(tile) {
