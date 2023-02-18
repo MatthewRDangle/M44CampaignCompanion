@@ -18,15 +18,24 @@ const GameBoard = (initialVnode) => {
     }
 
     let isBeingDragged = false
+    let scale = 0.5;
     const position = {
-        top: 0,
-        left: 0
+        top: -300,
+        left: -300
     }
     const mouse = {
         ix: 0,
         iy: 0,
         nx: 0,
         ny: 0
+    }
+
+    const handleScale = (e) => {
+        const delta = Math.sign(e.deltaY);
+        if (delta > 0)
+            scale = scale + .01;
+        else if (delta < 0)
+            scale = scale - .01;
     }
 
     const handleDragStart = (e) => {
@@ -61,22 +70,22 @@ const GameBoard = (initialVnode) => {
 
             return (
                 m('div', {className: 'relative w-full h-full overflow-hidden',
+                    onwheel: handleScale,
                     oncontextmenu: () => handleRightClick(scenario)
                 }, [
-                    m('div', {className: ''}, [
-                        m('div', {
-                            className: classnames('absolute',{
-                                '!cursor-grabbing': !!isBeingDragged
-                            }),
-                            style: {
-                                top: position.top + 'px',
-                                left: position.left +'px'
-                            },
-                            onmousedown: handleDragStart,
-                            onmousemove: handleDragging,
-                            onmouseup: handleDragEnd
-                        }, m(HexGrid, {grid: scenario.tiles})),
-                    ]),
+                    m('div', {
+                        className: classnames('absolute',{
+                            '!cursor-grabbing': !!isBeingDragged
+                        }),
+                        style: {
+                            transform: `scale(${scale})`,
+                            top: position.top + 'px',
+                            left: position.left +'px'
+                        },
+                        onmousedown: handleDragStart,
+                        onmousemove: handleDragging,
+                        onmouseup: handleDragEnd
+                    }, m(HexGrid, {grid: scenario.tiles})),
                     m('div', [
                         m(Hud, {scenario: scenario})
                     ])
