@@ -4,6 +4,9 @@ import HexTile from "./templates/HexTile.js";
 
 
 const HexGrid = (initialVnode) => {
+    const hexSize = 200;
+    const hexMargin = 1;
+    const rowEvenOffset = hexSize / 2 + hexMargin;
 
 
     return {
@@ -11,16 +14,12 @@ const HexGrid = (initialVnode) => {
             const {attrs} = vNode;
             const grid = attrs.grid || [];
 
-            let hexSize = 200;
-            let hexMargin = 1;
-            let rowEvenOffset = hexSize / 2 + hexMargin;
-
 
             return (
-                m('div', {className: 'flex flex-wrap scale-50'}, [
+                m('div', {className: 'flex flex-wrap'}, [
                     grid.map((row, idx) => {
                         return m('div', {
-                            className: `flex-none text-none min-w-full`,
+                            className: 'flex-none text-none min-w-full',
                             style: (() => !(idx % 2) && {
                                 'margin-left': `${rowEvenOffset}px`
                             })()
