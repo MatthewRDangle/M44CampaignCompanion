@@ -19,6 +19,7 @@ export default class ScenarioDefinition {
 
         // Templates
         this.unit_templates = {};
+        this.overlays = {};
         this.terrains = {};
         this.battleMaps = {};
 
@@ -58,6 +59,15 @@ export default class ScenarioDefinition {
                 const newFaction = new Faction();
                 newFaction.compile(definition_faction);
                 this.factions[definition_faction.name] = newFaction;
+            })
+        }
+
+        // Set Overlays
+        if (Array.isArray(definition.overlays)) {
+            definition.overlays.forEach((definition_overlay) => {
+                const newOverlay = newOverlay();
+                newOverlay.compile(definition_overlay);
+                this.overlays[definition_overlay.name] = newOverlay;
             })
         }
 
@@ -256,7 +266,6 @@ export default class ScenarioDefinition {
     resolveContest(tile) {
         if (tile instanceof Tile)
             this.contests.splice(this.contests.indexOf(tile), 1);
-        debugger;
     }
 
     setSelectedTile(tile) {

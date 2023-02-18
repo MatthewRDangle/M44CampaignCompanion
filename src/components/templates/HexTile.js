@@ -22,6 +22,7 @@ const HexTile = (initialVnode) => {
             const {activeScenarioDefinition} = scenarioDefinitionStore;
 
             const {hex, size, margin} = attrs;
+            const overlays = Object.values(hex.overlays);
             const height = size * 1.1547;
             const marginBottom = margin - size * 0.2885;
             const selectedUnit = activeScenarioDefinition.selectedUnit;
@@ -41,18 +42,22 @@ const HexTile = (initialVnode) => {
                         'clip-path': 'polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%)'
                     },
                     onclick: () => handleOnClick(hex, activeScenarioDefinition)
-                }, m('div', {
-                    className: 'relative w-full h-full overflow-hidden',
-                    // style: {'padding-top': `${size / 3.5}px`, 'padding-bottom': `${size / 3.5}px`}
-                }, [
-                    !!activeScenarioDefinition.devMode ? m('span', hex.id) : '',
-                    Object.keys(hex.units).map((faction_name) =>
-                        m('div', {className: 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'}, m(PlayableUnit, {
-                            faction: activeScenarioDefinition.factions[faction_name],
-                            units: hex.units[faction_name]
-                        }))
-                    )
-                ]))
+                    }, [
+                        m('div', {className: 'relative w-full h-full overflow-hidden'}, [
+                            !!activeScenarioDefinition.devMode
+                                ? m('span', hex.id)
+                                : '',
+                            Object.keys(hex.units).map((faction_name) =>
+                                m('div', {className: 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'}, [
+                                    m(PlayableUnit, {
+                                        faction: activeScenarioDefinition.factions[faction_name],
+                                        units: hex.units[faction_name]
+                                    })
+                                ])
+                            )
+                        ])
+                    ]
+                )
             )
         }
     }
