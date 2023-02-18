@@ -30,9 +30,9 @@ const HexTile = (initialVnode) => {
             return (
                 m('div.', {
                     className: classNames('inline-block text-base align-top disabled:opacity-50', {
-                        'hover:!cursor-pointer hover:!bg-interaction': hex.render,
-                        '!cursor-pointer !bg-interaction': hex.isSelected,
-                        '!bg-interaction': selectedUnit?.canMoveTo[hex.id] >= 0,
+                        'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.render || hex.render === undefined,
+                        '!cursor-pointer !bg-interaction-900': hex.isSelected,
+                        '!bg-interaction-900': selectedUnit?.canMoveTo[hex.id] >= 0,
                         '!bg-warning': hex.isContested
                     }),
                     style: {width: `${size}px`, height: `${height}px`, margin: `${margin}px`,
