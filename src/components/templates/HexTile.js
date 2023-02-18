@@ -43,6 +43,13 @@ const HexTile = (initialVnode) => {
                     },
                     onclick: () => handleOnClick(hex, activeScenarioDefinition)
                     }, [
+                        overlays.map(overlay => overlay.images.map(image =>
+                            m('img', {
+                                className: 'w-full h-full object-cover',
+                                src: image.src,
+                                alt: image.alt,
+                            })
+                        )),
                         m('div', {className: 'relative w-full h-full overflow-hidden'}, [
                             !!activeScenarioDefinition.devMode
                                 ? m('span', hex.id)
