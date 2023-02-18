@@ -52,7 +52,7 @@ const HexTile = (initialVnode) => {
                         )),
                         m('div', {className: 'relative w-full h-full overflow-hidden'}, [
                             !!activeScenarioDefinition.devMode
-                                ? m('span', hex.id)
+                                ? m('span', {className: 'block w-full text-5xl text-center'}, hex.id)
                                 : '',
                             Object.keys(hex.units).map((faction_name) =>
                                 m('div', {className: 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'}, [
