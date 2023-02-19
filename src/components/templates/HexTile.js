@@ -9,13 +9,12 @@ import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 const HexTile = (initialVnode) => {
 
     const handleOnClick = (tile, scenario) => {
-        if (!!tile.terrain?.render || tile.terrain?.render)
-            return;
-
-        if (scenario.selectedUnit instanceof Unit)
-            scenario.selectedUnit.moveTo(tile);
-        else
-            tile.select();
+        if (!!tile.terrain?.render || tile.terrain?.render === undefined) {
+            if (scenario.selectedUnit instanceof Unit)
+                scenario.selectedUnit.moveTo(tile);
+            else
+                tile.select();
+        }
     }
 
 
