@@ -17,11 +17,15 @@ const GameBoard = (initialVnode) => {
             scenario.selectedTile.deselect();
     }
 
+    const hexSize = 200;
+    const hexMargin = 1;
+    const rowEvenOffset = hexSize / 2 + hexMargin;
+
     let isBeingDragged = false
     let scale = 0.5;
     const position = {
-        top: -300,
-        left: -300
+        top: 0,
+        left: 0
     }
     const mouse = {
         ix: 0,
@@ -63,6 +67,13 @@ const GameBoard = (initialVnode) => {
 
 
     return {
+        oninit: function(vNode) {
+            const {scenario} = vNode.attrs;
+            const width = hexSize * scenario.columns + hexSize / 2 + hexMargin * 2 * scenario.columns;
+            const height = hexSize * scenario.rows + hexSize / 2 + hexMargin * 2 * scenario.rows;
+            position.top = -height / 3;
+            position.left = -width / 3;
+        },
         view: (vNode) => {
             const {attrs} = vNode;
             const scenario = attrs.scenario;
@@ -85,7 +96,7 @@ const GameBoard = (initialVnode) => {
                         onmousedown: handleDragStart,
                         onmousemove: handleDragging,
                         onmouseup: handleDragEnd
-                    }, m(HexGrid, {grid: scenario.tiles})),
+                    }, m(HexGrid, {grid: scenario.tiles, hexSize: hexSize, hexMargin: hexMargin, rowEvenOffset: rowEvenOffset})),
                     m('div', [
                         m(Hud, {scenario: scenario})
                     ])

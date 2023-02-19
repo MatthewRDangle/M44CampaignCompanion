@@ -5,15 +5,13 @@ import ScenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
 
 
 const HexGrid = (initialVnode) => {
-    const hexSize = 200;
-    const hexMargin = 1;
-    const rowEvenOffset = hexSize / 2 + hexMargin;
 
 
     return {
         view: (vNode) => {
             const {activeScenarioDefinition} = ScenarioDefinitionStore;
             const {attrs} = vNode;
+            const {hexSize, hexMargin, rowEvenOffset} = attrs;
             const grid = attrs.grid || [];
             const columns = activeScenarioDefinition.columns;
             const width = hexSize * columns + hexSize / 2 + hexMargin * 2 * columns;

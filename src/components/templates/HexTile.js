@@ -9,6 +9,9 @@ import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 const HexTile = (initialVnode) => {
 
     const handleOnClick = (tile, scenario) => {
+        if (!!tile.terrain?.render || tile.terrain?.render)
+            return;
+
         if (scenario.selectedUnit instanceof Unit)
             scenario.selectedUnit.moveTo(tile);
         else
@@ -31,7 +34,7 @@ const HexTile = (initialVnode) => {
             return (
                 m('div.', {
                     className: classNames('inline-block text-base align-top disabled:opacity-50', {
-                        'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.render || hex.render === undefined,
+                        'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.terrain?.render || hex.terrain?.render === undefined,
                         '!cursor-pointer !bg-interaction-900': hex.isSelected,
                         '!bg-interaction-900': selectedUnit?.canMoveTo[hex.id] >= 0,
                         '!bg-warning': hex.isContested
