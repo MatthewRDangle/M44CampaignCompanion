@@ -1,0 +1,142 @@
+{
+    "devMode": true,
+
+    "factions": [
+        {
+            "name": "USSR",
+            "color": {
+                "text": "#151A1E",
+                "background": "#95B07E"
+            }
+        },
+        {
+            "name": "Germany",
+            "color": {
+                "text": "#151A1E",
+                "background": "#9BADB7"
+            }
+        }
+    ],
+
+    "unit_templates": {
+        "Infantry": {
+            "health": 4,
+            "available_movement": 10,
+            "movement_cap": 10,
+            "type": "Infantry"
+        },
+        "Tank": {
+            "health": 3,
+            "available_movement": 25,
+            "movement_cap": 25,
+            "type": "Armour"
+        },
+        "Artillery": {
+            "health": 2,
+            "available_movement": 5,
+            "movement_cap": 5,
+            "type": "Infantry"
+        },
+        "Fighter": {
+            "health": 1,
+            "available_movement": 50,
+            "movement_cap": 50,
+            "type": "Aircraft"
+        },
+        "Tactical Bomber": {
+            "health": 1,
+            "available_movement": 50,
+            "movement_cap": 50,
+            "type": "Aircraft"
+        },
+        "Heavy Bomber": {
+            "health": 1,
+            "available_movement": 50,
+            "movement_cap": 50,
+            "type": "Aircraft"
+        }
+    },
+    "terrains": [
+        {
+            "name": "empty",
+            "color": "transparent",
+            "render": false
+        },
+        {
+            "name": "Open Field",
+            "color": "#ACC6A1",
+            "movement_cost": 5
+        }
+    ],
+    "battleMaps": [
+        {
+            "name": "Open Grassland",
+            "src": "lib/battleMaps/open_grassland.png",
+            "alt": "placeholder"
+        }
+    ],
+
+    "turnOrder": ["Germany", "USSR"],
+    "currentTurn": "Germany",
+
+    "rows": 29,
+    "columns": 24,
+    "tiles": {
+        "*": {
+            "terrain": "Open Field",
+            "battleMap": "Open Grassland"
+        },
+        "1-": {
+            "1,2,3,4,5,6,7,8,9,10,11,13,14,15,,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "2-": {
+            "1,2,3,4,5,6,7,8,9,10,14,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "3-": {
+            "1,2,3,4,5,6,7,8,9,10,14,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "4-": {
+            "1,2,3,4,5,6,7,8,9,14,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "5-": {
+            "1,2,3,4,5,6,7,8,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "6-": {
+            "1,2,3,4,5,6,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "7-": {
+            "1,2,3,4,5,6,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "8-": {
+            "1,2,3,4,5,6,7,8,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "9-": {
+            "1,2,3,4,5,6,7,8,9,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "10-": {
+            "1,2,3,4,5,6,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        }
+    },
+
+    "scripts": []
+}
