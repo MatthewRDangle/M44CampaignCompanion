@@ -36,10 +36,12 @@ const GameBoard = (initialVnode) => {
 
     const handleScale = (e) => {
         const delta = Math.sign(e.deltaY);
-        if (delta > 0)
+        if (delta < 0)
             scale = scale + .01;
-        else if (delta < 0)
-            scale = scale - .01;
+        else if (delta > 0) {
+            if (!(scale <= 0.05))
+                scale = scale - .01;
+        }
     }
 
     const handleDragStart = (e) => {
