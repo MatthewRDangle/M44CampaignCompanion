@@ -1,5 +1,5 @@
 {
-    "devMode": true,
+    "devMode": false,
 
     "factions": [
         {
@@ -66,6 +66,38 @@
             "name": "Open Field",
             "color": "#ACC6A1",
             "movement_cost": 5
+        },
+        {
+            "name": "Ocean",
+            "color": "#B9CDEB",
+            "movement_cost": 5,
+            "inaccessible_by": ["Infantry", "Armour"]
+        },
+        {
+            "name": "River",
+            "color": "#D3E5F3",
+            "movement_cost": 5,
+            "inaccessible_by": ["Infantry", "Armour"]
+        },
+        {
+            "name": "Bridge",
+            "color": "#FFFFFF",
+            "movement_cost": 5
+        },
+        {
+            "name": "Road",
+            "color": "#FFFFFF",
+            "movement_cost": 5
+        },
+        {
+            "name": "City",
+            "color": "#CBCBCB",
+            "movement_cost": 5
+        },
+        {
+            "name": "Victory City",
+            "color": "#FBE9A9",
+            "movement_cost": 5
         }
     ],
     "battleMaps": [
@@ -97,43 +129,360 @@
             }
         },
         "3-": {
-            "1,2,3,4,5,6,7,8,9,10,14,15,16,17,18,19,20,21,22,23,24": {
+            "1,2,3,4,5,6,7,8,9,10,11,15,16,17,18,19,20,21,22,23,24": {
                 "terrain": "empty"
+            },
+            "13": {
+                "terrain": "Road"
             }
         },
         "4-": {
             "1,2,3,4,5,6,7,8,9,14,15,16,17,18,19,20,21,22,23,24": {
                 "terrain": "empty"
+            },
+            "13": {
+                "terrain": "Road"
             }
         },
         "5-": {
             "1,2,3,4,5,6,7,8,16,17,18,19,20,21,22,23,24": {
                 "terrain": "empty"
+            },
+            "10,14": {
+                "terrain": "River"
+            },
+            "13": {
+                "terrain": "Road"
             }
         },
         "6-": {
             "1,2,3,4,5,6,17,18,19,20,21,22,23,24": {
                 "terrain": "empty"
+            },
+            "9": {
+                "terrain": "River"
+            },
+            "13": {
+                "terrain": "Bridge"
+            },
+            "11,12,14": {
+                "terrain": "Road"
             }
         },
         "7-": {
             "1,2,3,4,5,6,18,19,20,21,22,23,24": {
                 "terrain": "empty"
+            },
+            "9,13": {
+                "terrain": "River"
+            },
+            "11,15": {
+                "terrain": "Road"
             }
         },
         "8-": {
-            "1,2,3,4,5,6,7,8,17,18,19,20,21,22,23,24": {
+            "1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,24": {
                 "terrain": "empty"
+            },
+            "9,12": {
+                "terrain": "River"
+            },
+            "14": {
+                "terrain": "Road"
+            },
+            "10,11,13": {
+                "terrain": "City"
             }
         },
         "9-": {
-            "1,2,3,4,5,6,7,8,9,16,17,18,19,20,21,22,23,24": {
+            "1,2,3,4,5,6,7,8,16,17,18,19,20,21,22,23,24": {
                 "terrain": "empty"
+            },
+            "12": {
+                "terrain": "River"
+            },
+            "10,14": {
+                "terrain": "Road"
+            },
+            "11,13": {
+                "terrain": "Victory City"
             }
         },
         "10-": {
             "1,2,3,4,5,6,15,16,17,18,19,20,21,22,23,24": {
                 "terrain": "empty"
+            },
+            "10,11": {
+                "terrain": "River"
+            },
+            "9,13": {
+                "terrain": "Road"
+            },
+            "12": {
+                "terrain": "City"
+            }
+        },
+        "11-": {
+            "1,2,3,4,5,6,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "11": {
+                "terrain": "River"
+            },
+            "9,14": {
+                "terrain": "Road"
+            },
+            "10": {
+                "terrain": "City"
+            }
+        },
+        "12-": {
+            "1,2,3,4,5,6,15,16,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "17": {
+                "terrain": "Ocean"
+            },
+            "10": {
+                "terrain": "River"
+            },
+            "8,14": {
+                "terrain": "Road"
+            }
+        },
+        "13-": {
+            "1,2,3,4,5,6,20,21,22,23": {
+                "terrain": "empty"
+            },
+            "17": {
+                "terrain": "Ocean"
+            },
+            "10": {
+                "terrain": "River"
+            },
+            "8,14,24": {
+                "terrain": "Road"
+            }
+        },
+        "14-": {
+            "1,2,3,4,5,6,20,21": {
+                "terrain": "empty"
+            },
+            "16,17,19": {
+                "terrain": "Ocean"
+            },
+            "9": {
+                "terrain": "River"
+            },
+            "7,13,23": {
+                "terrain": "Road"
+            }
+        },
+        "15-": {
+            "1,2,4,5": {
+                "terrain": "empty"
+            },
+            "15,16,17,18,19": {
+                "terrain": "Ocean"
+            },
+            "7,10": {
+                "terrain": "River"
+            },
+            "8,13,23": {
+                "terrain": "Road"
+            }
+        },
+        "16-": {
+            "2,12,22": {
+                "terrain": "Road"
+            },
+            "4,8,9,10": {
+                "terrain": "River"
+            },
+            "18": {
+                "terrain": "Ocean"
+            },
+            "7": {
+                "terrain": "Bridge"
+            },
+            "16": {
+                "terrain": "City"
+            },
+            "17": {
+                "terrain": "Victory City"
+            }
+        },
+        "17-": {
+            "5,6,10,11,13,21,23,24": {
+                "terrain": "River"
+            },
+            "12,20,22": {
+                "terrain": "Bridge"
+            },
+            "3,7,18,19": {
+                "terrain": "Road"
+            },
+            "16,17,18": {
+                "terrain": "City"
+            }
+        },
+        "18-": {
+            "13,14,16,17,18,19": {
+                "terrain": "River"
+            },
+            "3,4,5,7,8,9,10,11,20": {
+                "terrain": "Road"
+            },
+            "6,15": {
+                "terrain": "Bridge"
+            },
+            "22": {
+                "terrain": "City"
+            },
+            "21": {
+                "terrain": "Victory City"
+            }
+        },
+        "19-": {
+            "24": {
+                "terrain": "empty"
+            },
+            "3,5,14,15,22": {
+                "terrain": "Road"
+            },
+            "4,9,10": {
+                "terrain": "Ocean"
+            },
+            "7": {
+                "terrain": "River"
+            },
+            "8": {
+                "terrain": "Bridge"
+            },
+            "5,11,13,22": {
+                "terrain": "City"
+            }
+        },
+        "20-": {
+            "22,23,24": {
+                "terrain": "empty"
+            },
+            "2,3,10,14,15": {
+                "terrain": "Ocean"
+            },
+            "5,6,7,8,9": {
+                "terrain": "Road"
+            },
+            "5,12,13": {
+                "terrain": "City"
+            },
+            "4,11": {
+                "terrain": "Victory City"
+            }
+        },
+        "21-": {
+            "15,22,23,24": {
+                "terrain": "empty"
+            },
+            "1,2,3,4,5,11,12,13,14,16,17,18": {
+                "terrain": "Ocean"
+            },
+            "6,10": {
+                "terrain": "Road"
+            }
+        },
+        "22-": {
+            "15,19,22,23,24": {
+                "terrain": "empty"
+            },
+            "1,2,3,3,14": {
+                "terrain": "Ocean"
+            },
+            "5,6,7": {
+                "terrain": "River"
+            },
+            "10": {
+                "terrain": "Road"
+            },
+            "11,13": {
+                "terrain": "City"
+            },
+            "12": {
+                "terrain": "Victory City"
+            }
+        },
+        "23-": {
+            "6,15,16,17,19,22,23,24": {
+                "terrain": "empty"
+            },
+            "7,8,9": {
+                "terrain": "River"
+            },
+            "10,13": {
+                "terrain": "Road"
+            },
+            "12": {
+                "terrain": "City"
+            }
+        },
+        "24-": {
+            "4,5,6,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "9,13,14": {
+                "terrain": "Road"
+            },
+            "8,9": {
+                "terrain": "City"
+            }
+        },
+        "25-": {
+            "1,2,3,4,5,6,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "13": {
+                "terrain": "Road"
+            },
+            "10": {
+                "terrain": "City"
+            },
+            "9": {
+                "terrain": "Victory City"
+            }
+        },
+        "26-": {
+            "1,2,3,4,5,6,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "7,8,9,10,11,12": {
+                "terrain": "Road"
+            },
+            "8,9,10": {
+                "terrain": "City"
+            }
+        },
+        "27-": {
+            "1,2,3,4,5,6,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "12,13": {
+                "terrain": "Road"
+            }
+        },
+        "28-": {
+            "1,2,3,4,5,6,7,14,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "12": {
+                "terrain": "Road"
+            }
+        },
+        "29-": {
+            "1,2,3,4,5,6,7,8,11,14,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "13": {
+                "terrain": "Road"
             }
         }
     },
