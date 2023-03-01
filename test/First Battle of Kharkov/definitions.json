@@ -6,7 +6,7 @@
             "name": "USSR",
             "color": {
                 "text": "#151A1E",
-                "background": "#95B07E"
+                "background": "#CC0000"
             }
         },
         {
@@ -208,6 +208,16 @@
                 "terrain": "Victory City"
             }
         },
+        "9-11": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
+        "9-13": {
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
         "10-": {
             "1,2,3,4,5,6,15,16,17,18,19,20,21,22,23,24": {
                 "terrain": "empty"
@@ -264,6 +274,16 @@
                 "terrain": "Road"
             }
         },
+        "13-8": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Tank"]
+            }
+        },
+        "13-24": {
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Tank", "Tank", "Tank", "Tank"]
+            }
+        },
         "14-": {
             "1,2,3,4,5,6,20,21": {
                 "terrain": "empty"
@@ -312,6 +332,16 @@
                 "terrain": "Victory City"
             }
         },
+        "16-12": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Tank", "Tank", "Artillery"]
+            }
+        },
+        "16-17": {
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
         "17-": {
             "5,6,10,11,13,21,23,24": {
                 "terrain": "River"
@@ -343,6 +373,11 @@
                 "terrain": "Victory City"
             }
         },
+        "18-21": {
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
         "19-": {
             "24": {
                 "terrain": "empty"
@@ -363,6 +398,21 @@
                 "terrain": "City"
             }
         },
+        "19-11": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
+        "19-3": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry"]
+            }
+        },
+        "19-8": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Tank", "Tank"]
+            }
+        },
         "20-": {
             "22,23,24": {
                 "terrain": "empty"
@@ -378,6 +428,16 @@
             },
             "4,11": {
                 "terrain": "Victory City"
+            }
+        },
+        "20-4": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Tank", "Tank", "Artillery"]
+            }
+        },
+        "20-11": {
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Artillery"]
             }
         },
         "21-": {
@@ -411,6 +471,16 @@
                 "terrain": "Victory City"
             }
         },
+        "22-10": {
+            "units": {
+                "USSR": ["Infantry", "Infantry"]
+            }
+        },
+        "22-12": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Tank"]
+            }
+        },
         "23-": {
             "6,15,16,17,19,22,23,24": {
                 "terrain": "empty"
@@ -423,6 +493,11 @@
             },
             "12": {
                 "terrain": "City"
+            }
+        },
+        "23-13": {
+            "units": {
+                "USSR": ["Infantry", "Infantry"]
             }
         },
         "24-": {
@@ -450,6 +525,16 @@
                 "terrain": "Victory City"
             }
         },
+        "25-9": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
+        "25-10": {
+            "units": {
+                "USSR": ["Infantry", "Tank"]
+            }
+        },
         "26-": {
             "1,2,3,4,5,6,16,17,18,19,20,21,22,23,24": {
                 "terrain": "empty"
@@ -459,6 +544,11 @@
             },
             "8,9,10": {
                 "terrain": "City"
+            }
+        },
+        "26-9": {
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Tank"]
             }
         },
         "27-": {
@@ -483,6 +573,11 @@
             },
             "13": {
                 "terrain": "Road"
+            }
+        },
+        "29-13": {
+            "units": {
+                "USSR": ["Infantry", "Tank", "Tank"]
             }
         }
     },
