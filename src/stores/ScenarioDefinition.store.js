@@ -31,7 +31,18 @@ class ScenarioDefinitionStore {
             // Convert all URLS into absolute paths.
             if (!!rawScenarioDefinition) {
 
-                // Unit Templates
+                // Factions
+                if (!!rawScenarioDefinition?.factions) {
+                    for (let key in rawScenarioDefinition?.factions) {
+                        const unit_template = rawScenarioDefinition?.factions[key];
+                        if (!!unit_template?.icon?.src && typeof unit_template?.icon?.src === 'string')
+                            unit_template.icon.src = manifest.pathToDir + unit_template.icon.src;
+                        if (!!unit_template?.flag?.src && typeof unit_template?.flag?.src === 'string')
+                            unit_template.flag.src = manifest.pathToDir + unit_template.flag.src;
+                    }
+                }
+
+                // Unit
                 if (!!rawScenarioDefinition?.unit_templates) {
                     for (let key in rawScenarioDefinition?.unit_templates) {
                         const unit_template = rawScenarioDefinition?.unit_templates[key];

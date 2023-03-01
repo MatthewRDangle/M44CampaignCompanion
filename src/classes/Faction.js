@@ -13,6 +13,14 @@ export default class Faction {
             text: 'brightness(0) saturate(100%)' + hexToSVGFilter(this.color.text),
             background: 'brightness(0) saturate(100%)' + hexToSVGFilter(this.color.background)
         }
+        this.flag = {
+            src: '',
+            alt: '',
+        }
+        this.icon = {
+            src: '',
+            alt: '',
+        }
         this.currentTurn = false;
         this.gameOverMessage = undefined;
     }
@@ -29,6 +37,14 @@ export default class Faction {
         this.filter = {
             text: 'brightness(0) saturate(100%)' + hexToSVGFilter(definition?.color?.text),
             background: 'brightness(0) saturate(100%)' + hexToSVGFilter(definition?.color?.background)
+        }
+        this.flag = {
+            src: definition?.flag?.src || '',
+            alt: definition?.flag?.alt || ''
+        }
+        this.icon = {
+            src: definition?.icon?.src || '',
+            alt: definition?.icon?.alt || ''
         }
     }
 

@@ -18,7 +18,7 @@ const GameHeader = (initialVnode) => {
     return {
         view: (vNode) => {
             const {activeScenarioDefinition} = ScenarioDefinitionStore;
-            const color = activeScenarioDefinition.currentTurn.color;
+            const {color, flag} = activeScenarioDefinition.currentTurn;
 
 
             return ([
@@ -35,7 +35,14 @@ const GameHeader = (initialVnode) => {
                                 'border-radius': '0.25rem 0.25rem 0 0',
                                 'clip-path': 'polygon(0% 0%, 0% 100%, 50% 75%, 100% 100%, 100% 0%)'
                             }
-                        }),
+                        },
+                            !!flag.src && m('img', {
+                                className: 'w-full h-full object-cover',
+                                style: 'border-radius: inherit;',
+                                src: flag.src,
+                                alt: flag.alt
+                            })
+                        ),
                         m('span', {className: 'inline-block ml-20 mt-1'}, activeScenarioDefinition.currentTurn.name)
                     ]),
                     m('button', {onclick: handleOptionsOverlay}, [

@@ -5,8 +5,16 @@
         {
             "name": "USSR",
             "color": {
-                "text": "#151A1E",
+                "text": "#FDB221",
                 "background": "#CC0000"
+            },
+            "flag": {
+                "src": "lib/flags/ussr_flag.png",
+                "alt": ""
+            },
+            "icon": {
+                "src": "lib/icons/ussr_icon.png",
+                "alt": ""
             }
         },
         {
@@ -14,6 +22,14 @@
             "color": {
                 "text": "#151A1E",
                 "background": "#9BADB7"
+            },
+            "flag": {
+                "src": "lib/flags/germany_flag.png",
+                "alt": ""
+            },
+            "icon": {
+                "src": "lib/icons/germany_icon.png",
+                "alt": ""
             }
         }
     ],
@@ -23,37 +39,31 @@
             "health": 4,
             "available_movement": 10,
             "movement_cap": 10,
-            "type": "Infantry"
+            "type": "Infantry",
+            "icon": {
+                "src": "lib/icons/infantry.svg",
+                "alt": "Helmet"
+            }
         },
         "Tank": {
             "health": 3,
             "available_movement": 25,
             "movement_cap": 25,
-            "type": "Armour"
+            "type": "Armour",
+            "icon": {
+                "src": "lib/icons/tank.svg",
+                "alt": "Tank"
+            }
         },
         "Artillery": {
             "health": 2,
             "available_movement": 5,
             "movement_cap": 5,
-            "type": "Infantry"
-        },
-        "Fighter": {
-            "health": 1,
-            "available_movement": 50,
-            "movement_cap": 50,
-            "type": "Aircraft"
-        },
-        "Tactical Bomber": {
-            "health": 1,
-            "available_movement": 50,
-            "movement_cap": 50,
-            "type": "Aircraft"
-        },
-        "Heavy Bomber": {
-            "health": 1,
-            "available_movement": 50,
-            "movement_cap": 50,
-            "type": "Aircraft"
+            "type": "Infantry",
+            "icon": {
+                "src": "lib/icons/artillery.svg",
+                "alt": "Artillery"
+            }
         }
     },
     "terrains": [

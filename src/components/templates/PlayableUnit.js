@@ -1,5 +1,4 @@
 const m = require("mithril");
-const classNames = require("classnames");
 
 
 const PlayableUnit = (initialVnode) => {
@@ -15,9 +14,11 @@ const PlayableUnit = (initialVnode) => {
             return (
                 m('div', {className: 'relative w-20 h-20 z-10'}, [
                     m('div', {
-                        className: 'w-full h-full rounded-[25%]',
+                        className: 'w-full h-full rounded-[25%] shadow-xl shadow-background-500/50',
                         style: {'background-color': factionHexColors.background}
-                    }),
+                    },
+                        !!faction.icon.src && m('img', {className: 'w-full h-full rounded-[25%] object-cover', src: faction.icon.src, alt: faction.icon.alt})
+                    ),
                     m('div', {className: 'absolute left-1/2 -bottom-4 -translate-x-1/2 w-3/4 text-font text-xl text-center bg-background rounded-full'}, m('span', totalHealth))
                 ])
             )
