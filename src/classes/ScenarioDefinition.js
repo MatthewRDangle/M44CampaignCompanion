@@ -4,6 +4,7 @@ import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
 import BattleMap from "./BattleMap.js";
 import Script from "./Script.js";
+import Overlay from "./Overlay.js";
 
 export default class ScenarioDefinition {
     constructor() {
@@ -65,7 +66,7 @@ export default class ScenarioDefinition {
         // Set Overlays
         if (Array.isArray(definition.overlays)) {
             definition.overlays.forEach((definition_overlay) => {
-                const newOverlay = newOverlay();
+                const newOverlay = new Overlay();
                 newOverlay.compile(definition_overlay);
                 this.overlays[definition_overlay.name] = newOverlay;
             })

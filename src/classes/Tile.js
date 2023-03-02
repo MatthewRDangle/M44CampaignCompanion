@@ -98,7 +98,7 @@ export default class Tile {
             })
         }
 
-        // Add Units.
+        // Apply Units.
         for (let key in definition.units) {
             const owner_faction = scenario.factions[key];
             if (owner_faction) {

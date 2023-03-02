@@ -96,8 +96,8 @@ const GameBoard = (initialVnode) => {
                             left: position.left +'px'
                         },
                         onmousedown: handleDragStart,
-                        onmousemove: handleDragging,
-                        onmouseup: handleDragEnd
+                        onmousemove: !!isBeingDragged && handleDragging,
+                        onmouseup: !!isBeingDragged && handleDragEnd
                     }, m(HexGrid, {grid: scenario.tiles, hexSize: hexSize, hexMargin: hexMargin, rowEvenOffset: rowEvenOffset})),
                     m('div', [
                         m(Hud, {scenario: scenario})

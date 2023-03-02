@@ -31,6 +31,18 @@ class ScenarioDefinitionStore {
             // Convert all URLS into absolute paths.
             if (!!rawScenarioDefinition) {
 
+                // Overlays
+                if (!!rawScenarioDefinition?.overlays) {
+                    for (let key in rawScenarioDefinition?.overlays) {
+                        const overlay = rawScenarioDefinition?.overlays[key];
+                        if (!!overlay?.images && Array.isArray(overlay?.images)) {
+                            overlay.images.forEach((src, idx) => {
+                                overlay.images[idx] = manifest.pathToDir + src;
+                            })
+                        }
+                    }
+                }
+
                 // Factions
                 if (!!rawScenarioDefinition?.factions) {
                     for (let key in rawScenarioDefinition?.factions) {

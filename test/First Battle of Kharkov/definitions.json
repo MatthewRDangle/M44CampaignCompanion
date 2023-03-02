@@ -117,6 +117,91 @@
             "alt": "placeholder"
         }
     ],
+    "overlays": [
+        {
+            "name": "Forest Full",
+            "images": [
+                "lib/overlays/forests/forest_north.png",
+                "lib/overlays/forests/forest_northeast.png",
+                "lib/overlays/forests/forest_northwest.png",
+                "lib/overlays/forests/forest_south.png",
+                "lib/overlays/forests/forest_southeast.png",
+                "lib/overlays/forests/forest_southwest.png"
+            ]
+        },
+        {
+            "name": "City Full",
+            "images": [
+                "lib/overlays/buildings/building_north.png",
+                "lib/overlays/buildings/building_northeast.png",
+                "lib/overlays/buildings/building_northwest.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southeast.png",
+                "lib/overlays/buildings/building_southwest.png"
+            ]
+        },
+        {
+            "name": "City BL",
+            "images": [
+                "lib/overlays/buildings/building_southwest.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southeast.png"
+            ]
+        },
+        {
+            "name": "City BR",
+            "images": [
+                "lib/overlays/buildings/building_northeast.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southeast.png"
+            ]
+        },
+        {
+            "name": "City L",
+            "images": [
+                "lib/overlays/buildings/building_northwest.png",
+                "lib/overlays/buildings/building_southwest.png"
+            ]
+        },
+        {
+            "name": "City Just T",
+            "images": [
+                "lib/overlays/buildings/building_north.png"
+            ]
+        },
+        {
+            "name": "City Just TR",
+            "images": [
+                "lib/overlays/buildings/building_northeast.png"
+            ]
+        },
+        {
+            "name": "City B",
+            "images": [
+                "lib/overlays/buildings/building_southeast.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southwest.png"
+            ]
+        },
+        {
+            "name": "City L",
+            "images": [
+                "lib/overlays/buildings/building_north.png",
+                "lib/overlays/buildings/building_northwest.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southwest.png"
+            ]
+        },
+        {
+            "name": "City R",
+            "images": [
+                "lib/overlays/buildings/building_north.png",
+                "lib/overlays/buildings/building_northeast.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southeast.png"
+            ]
+        }
+    ],
 
     "turnOrder": ["Germany", "USSR"],
     "currentTurn": "Germany",
@@ -215,7 +300,8 @@
                 "terrain": "Road"
             },
             "11,13": {
-                "terrain": "Victory City"
+                "terrain": "Victory City",
+                "overlays": ["City Full"]
             }
         },
         "9-11": {
@@ -408,47 +494,63 @@
                 "terrain": "City"
             }
         },
-        "19-11": {
-            "units": {
-                "Germany": ["Infantry", "Infantry", "Infantry", "Infantry", "Artillery"]
-            }
-        },
         "19-3": {
             "units": {
                 "Germany": ["Infantry", "Infantry", "Infantry"]
-            }
+            },
+            "overlays": ["City BR"]
+        },
+        "19-5": {
+            "overlays": ["City BL"]
         },
         "19-8": {
             "units": {
                 "Germany": ["Infantry", "Infantry", "Tank", "Tank"]
             }
         },
-        "20-": {
-            "22,23,24": {
-                "terrain": "empty"
+        "19-11": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Infantry", "Artillery"]
             },
+            "overlays": ["City BR"]
+        },
+        "19-13": {
+            "overlays": ["City B"]
+        },
+        "20-": {
             "2,3,10,14,15": {
                 "terrain": "Ocean"
             },
             "5,6,7,8,9": {
                 "terrain": "Road"
             },
+            "4,11": {
+                "terrain": "Victory City"
+            },
             "5,12,13": {
                 "terrain": "City"
             },
-            "4,11": {
-                "terrain": "Victory City"
+            "12,13": {
+                "overlays": ["City Full"]
+            },
+            "22,23,24": {
+                "terrain": "empty"
             }
         },
         "20-4": {
             "units": {
                 "Germany": ["Infantry", "Infantry", "Infantry", "Tank", "Tank", "Artillery"]
-            }
+            },
+            "overlays": ["City Full"]
+        },
+        "20-5": {
+            "overlays": ["City L", "City Just T"]
         },
         "20-11": {
             "units": {
                 "USSR": ["Infantry", "Infantry", "Infantry", "Artillery"]
-            }
+            },
+            "overlays": ["City Full"]
         },
         "21-": {
             "15,22,23,24": {

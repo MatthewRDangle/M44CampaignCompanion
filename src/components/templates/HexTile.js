@@ -32,7 +32,7 @@ const HexTile = (initialVnode) => {
 
             return (
                 m('div.', {
-                    className: classNames('inline-block text-base align-top disabled:opacity-50', {
+                    className: classNames('relative inline-block text-base align-top disabled:opacity-50', {
                         'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.terrain?.render || hex.terrain?.render === undefined,
                         '!cursor-pointer !bg-interaction-900': hex.isSelected,
                         '!bg-interaction-900': selectedUnit?.canMoveTo[hex.id] >= 0,
@@ -47,9 +47,10 @@ const HexTile = (initialVnode) => {
                     }, [
                         overlays.map(overlay => overlay.images.map(image =>
                             m('img', {
-                                className: 'w-full h-full object-cover',
-                                src: image.src,
-                                alt: image.alt,
+                                className: 'absolute w-full h-full object-cover',
+                                role: "presentation",
+                                src: image,
+                                alt: "",
                             })
                         )),
                         m('div', {className: 'relative w-full h-full overflow-hidden'}, [
