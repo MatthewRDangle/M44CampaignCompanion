@@ -1,5 +1,5 @@
 {
-    "devMode": false,
+    "devMode": true,
 
     "factions": [
         {
@@ -106,6 +106,11 @@
         },
         {
             "name": "Victory City",
+            "color": "#ACC6A1",
+            "movement_cost": 5
+        },
+        {
+            "name": "Forest",
             "color": "#ACC6A1",
             "movement_cost": 5
         }
@@ -513,7 +518,8 @@
             }
         },
         "11-9": {
-            "overlays": ["Road BL", "Road TR"]
+            "terrain": "Forest",
+            "overlays": ["Road BL", "Road TR", "Forest Full"]
         },
         "11-10": {
             "overlays": ["City R"]
@@ -538,8 +544,13 @@
                 "terrain": "Road"
             }
         },
+        "12-7": {
+            "terrain": "Forest",
+            "overlays": ["Forest Full"]
+        },
         "12-8": {
-            "overlays": ["Road BL", "Road TR"]
+            "terrain": "Forest",
+            "overlays": ["Forest Full", "Road BL", "Road TR"]
         },
         "12-10": {
             "overlays": ["River BL", "River TR"]
@@ -561,7 +572,15 @@
                 "terrain": "Road"
             }
         },
+        "13-6": {
+            "terrain": "Forest",
+            "overlays": ["Forest Full"]
+        },
+        "13-7": {
+            "terrain": "Forest"
+        },
         "13-8": {
+            "terrain": "Forest",
             "overlays": ["Road TR", "Road BL"],
             "units": {
                 "Germany": ["Infantry", "Infantry", "Infantry", "Tank"]
@@ -626,7 +645,7 @@
             "overlays": ["Road BL", "Road TL"]
         },
         "15-10": {
-            "overlays": ["River BL", "River TR"]
+            "overlays": ["River BR", "River TL"]
         },
         "15-13": {
             "overlays": ["Road BL", "Road TR"]
@@ -656,7 +675,11 @@
             "overlays": ["Road BR", "Road TL"]
         },
         "16-4": {
-            "overlays": ["River TL", "River BR"]
+            "terrain": "Forest",
+            "overlays": ["River TL", "River BR", "Forest Full"]
+        },
+        "16-8": {
+            "overlays": ["River L", "River R"]
         },
         "16-9": {
             "overlays": ["River L", "River R", "River BR"]
@@ -669,6 +692,10 @@
             "units": {
                 "Germany": ["Infantry", "Infantry", "Infantry", "Tank", "Tank", "Artillery"]
             }
+        },
+        "16-13": {
+            "terrain": "Forest",
+            "overlays": ["Forest Full"]
         },
         "16-16": {
             "overlays": ["City Full", "Road R", "Road BL", "Road BR"]
@@ -710,10 +737,10 @@
             "overlays": ["Road BL", "Road TR", "Road BR"]
         },
         "17-10": {
-            "overlays": ["Road TL", "Road R"]
+            "overlays": ["River TL", "River R"]
         },
         "17-11": {
-            "overlays": ["Road L", "Road R"]
+            "overlays": ["River L", "River R"]
         },
         "17-12": {
             "overlays": ["River L", "River R", "Road BL", "Road TR"]
@@ -721,11 +748,15 @@
         "17-13": {
             "overlays": ["River L", "River BR"]
         },
+        "17-14": {
+            "terrain": "Forest",
+            "overlays": ["Forest Full"]
+        },
         "17-16": {
             "overlays": ["City R", "Road R", "Road BL", "Road TR"]
         },
         "17-17": {
-            "overlays": ["City Full", "Road R", "Road L"]
+            "overlays": ["City Full", "Road R", "Road L", "Road TR", "Road TL"]
         },
         "17-18": {
             "overlays": ["City L", "Road R", "Road L", "Road TL"]
@@ -740,7 +771,7 @@
             "overlays": ["River BL", "River R"]
         },
         "17-22": {
-            "overlays": ["Road BL", "Road TR", "River L", "River R"]
+            "overlays": ["River L", "River R", "Road BL", "Road TR"]
         },
         "17-23": {
             "overlays": ["River L", "River R"]
@@ -815,7 +846,7 @@
             "overlays": ["River L", "River R"]
         },
         "18-20": {
-            "overlays": ["Road TL", "Road R", "River L", "River TR"]
+            "overlays": ["River L", "River TR", "Road TL", "Road R"]
         },
         "18-21": {
             "units": {
