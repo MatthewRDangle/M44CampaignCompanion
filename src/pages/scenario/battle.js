@@ -1,7 +1,10 @@
 const m = require('mithril');
 
 import Page from '../../classes/Page.js';
-import BattleResultCalc from "../../components/scenario/BattleResultCalc.js";
+import BattleResultCalc from "../../components/BattleResultCalc.js";
+import TitleBar from "../../components/templates/TitleBar.js";
+import Body from "../../components/Body.js";
+import Background from "../../components/Background.js";
 import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 
@@ -18,10 +21,13 @@ export const page = new Page('/session/battle?:tileId', (initialVnode) => {
             const tile = activeScenarioDefinition.tiles[row][tileId];
 
 
-            return [
-                m('h1', 'Battle Results'),
-                m(BattleResultCalc, {tile: tile})
-            ]
+            return m(Body, [
+                m(Background),
+                m(TitleBar, 'Battle Results'),
+                m('div', {className: 'mt-8'},
+                    m(BattleResultCalc, {tile: tile})
+                )
+            ])
         }
     }
 });

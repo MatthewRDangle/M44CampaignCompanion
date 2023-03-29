@@ -4,6 +4,7 @@ import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
 import BattleMap from "./BattleMap.js";
 import Script from "./Script.js";
+import Overlay from "./Overlay.js";
 
 export default class ScenarioDefinition {
     constructor() {
@@ -19,6 +20,7 @@ export default class ScenarioDefinition {
 
         // Templates
         this.unit_templates = {};
+        this.overlays = {};
         this.terrains = {};
         this.battleMaps = {};
 
@@ -39,7 +41,7 @@ export default class ScenarioDefinition {
     }
 
     appendContest(tile) {
-        if (tile instanceof Tile)
+        if (tile instanceof Tile && !this.contests.includes(tile))
             this.contests.push(tile);
     }
 
@@ -55,7 +57,18 @@ export default class ScenarioDefinition {
         // Set Factions
         if (Array.isArray(definition.factions)) {
             definition.factions.forEach((definition_faction) => {
-                this.factions[definition_faction.name] = new Faction(definition_faction.name, definition_faction);
+                const newFaction = new Faction();
+                newFaction.compile(definition_faction);
+                this.factions[definition_faction.name] = newFaction;
+            })
+        }
+
+        // Set Overlays
+        if (Array.isArray(definition.overlays)) {
+            definition.overlays.forEach((definition_overlay) => {
+                const newOverlay = new Overlay();
+                newOverlay.compile(definition_overlay);
+                this.overlays[definition_overlay.name] = newOverlay;
             })
         }
 

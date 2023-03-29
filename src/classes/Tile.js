@@ -2,6 +2,7 @@ import Unit from "./Unit.js";
 import ScenarioDefinition from "./ScenarioDefinition.js";
 import Faction from "./Faction.js";
 import ScenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
+import Overlay from "./Overlay.js";
 
 
 export default class Tile {
@@ -13,17 +14,18 @@ export default class Tile {
 
         // Interaction
         this.isSelected = false;
-        this.battleMap = {
-            src: '',
-            alt: ''
-        };
 
         // Ownership & Contest
         this.owner = undefined;
         this.isContested = false;
 
-        // Terrain, Overlay, Units & Fortifications
+        // BattleMap, Terrain, Overlays, Units
+        this.battleMap = {
+            src: '',
+            alt: ''
+        };
         this.terrain = {};
+        this.overlays = {};
         this.units = {};
 
         // Relative Positioning.
@@ -73,14 +75,34 @@ export default class Tile {
         }
     }
 
-    compile(tileDefinition, scenario) {
-        if (!tileDefinition) return
+    compile(definition, scenario) {
+        if (!definition) return
 
-        // Add Units.
-        for (let key in tileDefinition.units) {
+        // Apply Terrain
+        if (definition.terrain)
+            this.terrain = scenario.terrains[definition.terrain]
+
+        // Apply Overlay
+        if (definition.overlays && Array.isArray(definition.overlays)) {
+            definition.overlays.forEach((overlayDefinition) => {
+                if (typeof overlayDefinition === 'string') {
+                    const foundOverlay = scenario.overlays[overlayDefinition];
+                    if (foundOverlay && !!foundOverlay.name)
+                        this.overlays[foundOverlay.name] = foundOverlay;
+                }
+                else {
+                    const newOverlay = new Overlay();
+                    newOverlay.compile(overlayDefinition);
+                    this.overlays[overlayDefinition.name] = newOverlay;
+                }
+            })
+        }
+
+        // Apply Units.
+        for (let key in definition.units) {
             const owner_faction = scenario.factions[key];
             if (owner_faction) {
-                const unitsToCreate = tileDefinition.units[owner_faction.name];
+                const unitsToCreate = definition.units[owner_faction.name];
                 if (Array.isArray(unitsToCreate)) {
                     unitsToCreate.forEach((unit_template) => {
                         if (typeof unit_template === 'string')
@@ -91,17 +113,13 @@ export default class Tile {
             }
         }
 
-        // Apply Terrain
-        if (tileDefinition.terrain)
-            this.terrain = scenario.terrains[tileDefinition.terrain]
-
-        // Apply Preview
-        if (tileDefinition.battleMap) {
-            if (typeof tileDefinition.battleMap === 'string') {
-                this.battleMap = scenario.battleMaps[tileDefinition.battleMap];
+        // Apply BattleMap
+        if (definition.battleMap) {
+            if (typeof definition.battleMap === 'string') {
+                this.battleMap = scenario.battleMaps[definition.battleMap];
             }
-            else if (typeof tileDefinition.battleMap === 'object' && tileDefinition.battleMap.hasOwnProperty('src') && tileDefinition.battleMap.hasOwnProperty('alt'))
-                this.battleMap = tileDefinition.battleMap;
+            else if (typeof definition.battleMap === 'object' && definition.battleMap.hasOwnProperty('src') && definition.battleMap.hasOwnProperty('alt'))
+                this.battleMap = definition.battleMap;
         }
     }
 

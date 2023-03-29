@@ -1,0 +1,1170 @@
+{
+    "devMode": true,
+
+    "factions": [
+        {
+            "name": "USSR",
+            "color": {
+                "text": "#FDB221",
+                "background": "#CC0000"
+            },
+            "flag": {
+                "src": "lib/flags/ussr_flag.png",
+                "alt": ""
+            },
+            "icon": {
+                "src": "lib/icons/ussr_icon.png",
+                "alt": ""
+            }
+        },
+        {
+            "name": "Germany",
+            "color": {
+                "text": "#151A1E",
+                "background": "#9BADB7"
+            },
+            "flag": {
+                "src": "lib/flags/germany_flag.png",
+                "alt": ""
+            },
+            "icon": {
+                "src": "lib/icons/germany_icon.png",
+                "alt": ""
+            }
+        }
+    ],
+
+    "unit_templates": {
+        "Infantry": {
+            "health": 4,
+            "available_movement": 10,
+            "movement_cap": 10,
+            "type": "Infantry",
+            "icon": {
+                "src": "lib/icons/infantry.svg",
+                "alt": "Helmet"
+            }
+        },
+        "Tank": {
+            "health": 3,
+            "available_movement": 25,
+            "movement_cap": 25,
+            "type": "Armour",
+            "icon": {
+                "src": "lib/icons/tank.svg",
+                "alt": "Tank"
+            }
+        },
+        "Artillery": {
+            "health": 2,
+            "available_movement": 5,
+            "movement_cap": 5,
+            "type": "Infantry",
+            "icon": {
+                "src": "lib/icons/artillery.svg",
+                "alt": "Artillery"
+            }
+        }
+    },
+    "terrains": [
+        {
+            "name": "empty",
+            "color": "transparent",
+            "render": false
+        },
+        {
+            "name": "Open Field",
+            "color": "#ACC6A1",
+            "movement_cost": 5
+        },
+        {
+            "name": "Ocean",
+            "color": "#B9CDEB",
+            "movement_cost": 5,
+            "inaccessible_by": ["Infantry", "Armour"]
+        },
+        {
+            "name": "River",
+            "color": "#ACC6A1",
+            "movement_cost": 5,
+            "inaccessible_by": ["Infantry", "Armour"]
+        },
+        {
+            "name": "Bridge",
+            "color": "#ACC6A1",
+            "movement_cost": 5
+        },
+        {
+            "name": "Road",
+            "color": "#ACC6A1",
+            "movement_cost": 5
+        },
+        {
+            "name": "City",
+            "color": "#ACC6A1",
+            "movement_cost": 5
+        },
+        {
+            "name": "Victory City",
+            "color": "#ACC6A1",
+            "movement_cost": 5
+        },
+        {
+            "name": "Forest",
+            "color": "#ACC6A1",
+            "movement_cost": 5
+        }
+    ],
+    "battleMaps": [
+        {
+            "name": "Open Grassland",
+            "src": "lib/battleMaps/open_grassland.png",
+            "alt": "placeholder"
+        }
+    ],
+    "overlays": [
+        {
+            "name": "Victory City",
+            "images": [
+                "lib/overlays/tile_victory.png"
+            ]
+        },
+        {
+            "name": "Forest Full",
+            "images": [
+                "lib/overlays/forests/forest_north.png",
+                "lib/overlays/forests/forest_northeast.png",
+                "lib/overlays/forests/forest_northwest.png",
+                "lib/overlays/forests/forest_south.png",
+                "lib/overlays/forests/forest_southeast.png",
+                "lib/overlays/forests/forest_southwest.png"
+            ]
+        },
+        {
+            "name": "City Full",
+            "images": [
+                "lib/overlays/buildings/building_north.png",
+                "lib/overlays/buildings/building_northeast.png",
+                "lib/overlays/buildings/building_northwest.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southeast.png",
+                "lib/overlays/buildings/building_southwest.png"
+            ]
+        },
+        {
+            "name": "City T",
+            "images": [
+                "lib/overlays/buildings/building_northwest.png",
+                "lib/overlays/buildings/building_north.png",
+                "lib/overlays/buildings/building_northeast.png"
+            ]
+        },
+        {
+            "name": "City TL",
+            "images": [
+                "lib/overlays/buildings/building_north.png",
+                "lib/overlays/buildings/building_northwest.png",
+                "lib/overlays/buildings/building_southwest.png"
+            ]
+        },
+        {
+            "name": "City TR",
+            "images": [
+                "lib/overlays/buildings/building_north.png",
+                "lib/overlays/buildings/building_northeast.png",
+                "lib/overlays/buildings/building_southeast.png"
+            ]
+        },
+        {
+            "name": "City BL",
+            "images": [
+                "lib/overlays/buildings/building_southwest.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_northwest.png"
+            ]
+        },
+        {
+            "name": "City BR",
+            "images": [
+                "lib/overlays/buildings/building_northeast.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southeast.png"
+            ]
+        },
+        {
+            "name": "City L",
+            "images": [
+                "lib/overlays/buildings/building_northwest.png",
+                "lib/overlays/buildings/building_southwest.png"
+            ]
+        },
+        {
+            "name": "City Just T",
+            "images": [
+                "lib/overlays/buildings/building_north.png"
+            ]
+        },
+        {
+            "name": "City Just TR",
+            "images": [
+                "lib/overlays/buildings/building_northeast.png"
+            ]
+        },
+        {
+            "name": "City B",
+            "images": [
+                "lib/overlays/buildings/building_southeast.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southwest.png"
+            ]
+        },
+        {
+            "name": "City L",
+            "images": [
+                "lib/overlays/buildings/building_north.png",
+                "lib/overlays/buildings/building_northwest.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southwest.png"
+            ]
+        },
+        {
+            "name": "City R",
+            "images": [
+                "lib/overlays/buildings/building_north.png",
+                "lib/overlays/buildings/building_northeast.png",
+                "lib/overlays/buildings/building_south.png",
+                "lib/overlays/buildings/building_southeast.png"
+            ]
+        },
+        {
+            "name": "Road R",
+            "images": ["lib/overlays/roads/road_east.png"]
+        },
+        {
+            "name": "Road L",
+            "images": ["lib/overlays/roads/road_west.png"]
+        },
+        {
+            "name": "Road TR",
+            "images": ["lib/overlays/roads/road_northeast.png"]
+        },
+        {
+            "name": "Road TL",
+            "images": ["lib/overlays/roads/road_northwest.png"]
+        },
+        {
+            "name": "Road BR",
+            "images": ["lib/overlays/roads/road_southeast.png"]
+        },
+        {
+            "name": "Road BL",
+            "images": ["lib/overlays/roads/road_southwest.png"]
+        },
+        {
+            "name": "River R",
+            "images": ["lib/overlays/rivers/river_east.png"]
+        },
+        {
+            "name": "River L",
+            "images": ["lib/overlays/rivers/river_west.png"]
+        },
+        {
+            "name": "River TR",
+            "images": ["lib/overlays/rivers/river_northeast.png"]
+        },
+        {
+            "name": "River TL",
+            "images": ["lib/overlays/rivers/river_northwest.png"]
+        },
+        {
+            "name": "River BR",
+            "images": ["lib/overlays/rivers/river_southeast.png"]
+        },
+        {
+            "name": "River BL",
+            "images": ["lib/overlays/rivers/river_southwest.png"]
+        }
+    ],
+
+    "turnOrder": ["Germany", "USSR"],
+    "currentTurn": "Germany",
+
+    "rows": 29,
+    "columns": 24,
+    "tiles": {
+        "*": {
+            "terrain": "Open Field",
+            "battleMap": "Open Grassland"
+        },
+        "1-": {
+            "1,2,3,4,5,6,7,8,9,10,11,13,14,15,,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "1-12": {
+            "overlays": ["Road BR", "Road TL"]
+        },
+        "2-": {
+            "1,2,3,4,5,6,7,8,9,10,14,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "2-12": {
+            "overlays": ["Road BR", "Road TL"]
+        },
+        "3-": {
+            "1,2,3,4,5,6,7,8,9,10,11,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "13": {
+                "terrain": "Road"
+            }
+        },
+        "3-13": {
+            "overlays": ["Road BR", "Road TL"]
+        },
+        "4-": {
+            "1,2,3,4,5,6,7,8,9,14,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "13": {
+                "terrain": "Road"
+            }
+        },
+        "4-13": {
+            "overlays": ["Road BL", "Road TL"]
+        },
+        "5-": {
+            "1,2,3,4,5,6,7,8,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "10,14": {
+                "terrain": "River"
+            },
+            "13": {
+                "terrain": "Road"
+            }
+        },
+        "5-10": {
+            "overlays": ["River BL", "River TL"]
+        },
+        "5-13": {
+            "overlays": ["Road BL", "Road TR", "Road BR"]
+        },
+        "5-14": {
+            "overlays": ["River BL", "River TR"]
+        },
+        "6-": {
+            "1,2,3,4,5,6,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "9": {
+                "terrain": "River"
+            },
+            "13": {
+                "terrain": "Bridge"
+            },
+            "11,12,14": {
+                "terrain": "Road"
+            }
+        },
+        "6-9": {
+            "overlays": ["River BL", "River TR"]
+        },
+        "6-11": {
+            "overlays": ["Road BL", "Road R"]
+        },
+        "6-12": {
+            "overlays": ["Road L", "Road R", "Road TR"]
+        },
+        "6-13": {
+            "overlays": ["River BL", "River TR", "Road L", "Road R", "Road TL"]
+        },
+        "6-14": {
+            "overlays": ["Road L", "Road BR"]
+        },
+        "7-": {
+            "1,2,3,4,5,6,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "9,13": {
+                "terrain": "River"
+            },
+            "11,15": {
+                "terrain": "Road"
+            }
+        },
+        "7-9": {
+            "overlays": ["River BR", "River TR"]
+        },
+        "7-11": {
+            "overlays": ["Road TR", "Road BL", "Road BR"]
+        },
+        "7-13": {
+            "overlays": ["River BL", "River TR"]
+        },
+        "7-15": {
+            "overlays": ["Road BL", "Road TL"]
+        },
+        "8-": {
+            "1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "9,12": {
+                "terrain": "River"
+            },
+            "14": {
+                "terrain": "Road"
+            },
+            "10,11,13": {
+                "terrain": "City"
+            }
+        },
+        "8-9": {
+            "overlays": ["River BR", "River TL"]
+        },
+        "8-10": {
+            "overlays": ["City BR", "Road TR", "Road R", "Road BR", "Road BL"]
+        },
+        "8-11": {
+            "overlays": ["City BL", "Road TL", "Road L", "Road BL"]
+        },
+        "8-12": {
+            "overlays": ["River BL", "River TR"]
+        },
+        "8-13": {
+            "overlays": ["City BL", "Road BL", "Road R"]
+        },
+        "8-14": {
+            "overlays": ["Road L", "Road BL", "Road TR"]
+        },
+        "9-": {
+            "1,2,3,4,5,6,7,8,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "12": {
+                "terrain": "River"
+            },
+            "10,14": {
+                "terrain": "Road"
+            },
+            "11,13": {
+                "terrain": "Victory City",
+                "overlays": ["Victory City", "City Full"]
+            }
+        },
+        "9-10": {
+            "overlays": ["River BR", "River TL", "Road TR", "Road R", "Road BL"]
+        },
+        "9-12": {
+            "overlays": ["River BL", "River TR"]
+        },
+        "9-11": {
+            "overlays": ["Road L", "Road TR", "Road TL"],
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
+        "9-13": {
+            "overlays": ["Road BL", "Road R", "Road BR", "Road TR"],
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
+        "9-14": {
+            "overlays": ["Road TR", "Road BL", "Road L"]
+        },
+        "10-": {
+            "1,2,3,4,5,6,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "10,11": {
+                "terrain": "River"
+            },
+            "9,13": {
+                "terrain": "Road"
+            },
+            "12": {
+                "terrain": "City"
+            }
+        },
+        "10-9": {
+            "overlays": ["Road BL", "Road TR"]
+        },
+        "10-10": {
+            "overlays": ["River BR", "River TL"]
+        },
+        "10-11": {
+            "overlays": ["River BL", "River TR"]
+        },
+        "10-12": {
+            "overlays": ["City T", "Road R", "Road TR"]
+        },
+        "10-13": {
+            "overlays": ["Road BR", "Road TL", "Road L", "Road TR"]
+        },
+        "11-": {
+            "1,2,3,4,5,6,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "11": {
+                "terrain": "River"
+            },
+            "9,14": {
+                "terrain": "Road"
+            },
+            "10": {
+                "terrain": "City"
+            }
+        },
+        "11-9": {
+            "terrain": "Forest",
+            "overlays": ["Road BL", "Road TR", "Forest Full"]
+        },
+        "11-10": {
+            "overlays": ["City R"]
+        },
+        "11-11": {
+            "overlays": ["River BL", "River TR", "River TL"]
+        },
+        "11-14": {
+            "overlays": ["Road BR", "Road TL"]
+        },
+        "12-": {
+            "1,2,3,4,5,6,15,16,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "17": {
+                "terrain": "Ocean"
+            },
+            "10": {
+                "terrain": "River"
+            },
+            "8,14": {
+                "terrain": "Road"
+            }
+        },
+        "12-7": {
+            "terrain": "Forest",
+            "overlays": ["Forest Full"]
+        },
+        "12-8": {
+            "terrain": "Forest",
+            "overlays": ["Forest Full", "Road BL", "Road TR"]
+        },
+        "12-10": {
+            "overlays": ["River BL", "River TR"]
+        },
+        "12-14": {
+            "overlays": ["Road BL", "Road TL"]
+        },
+        "13-": {
+            "1,2,3,4,5,6,20,21,22,23": {
+                "terrain": "empty"
+            },
+            "17": {
+                "terrain": "Ocean"
+            },
+            "10": {
+                "terrain": "River"
+            },
+            "8,14,24": {
+                "terrain": "Road"
+            }
+        },
+        "13-6": {
+            "terrain": "Forest",
+            "overlays": ["Forest Full"]
+        },
+        "13-7": {
+            "terrain": "Forest"
+        },
+        "13-8": {
+            "terrain": "Forest",
+            "overlays": ["Road TR", "Road BL"],
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Tank"]
+            }
+        },
+        "13-10": {
+            "overlays": ["River BL", "River TR"]
+        },
+        "13-14": {
+            "overlays": ["Road BL", "Road TR"]
+        },
+        "13-24": {
+            "overlays": ["Road BL", "Road TR"],
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Tank", "Tank", "Tank", "Tank"]
+            }
+        },
+        "14-": {
+            "1,2,3,4,5,6,20,21": {
+                "terrain": "empty"
+            },
+            "16,17,19": {
+                "terrain": "Ocean"
+            },
+            "9": {
+                "terrain": "River"
+            },
+            "7,13,23": {
+                "terrain": "Road"
+            }
+        },
+        "14-7": {
+            "overlays": ["Road BR", "Road TR"]
+        },
+        "14-9": {
+            "overlays": ["River BR", "River TR"]
+        },
+        "14-13": {
+            "overlays": ["Road BL", "Road TR"]
+        },
+        "14-23": {
+            "overlays": ["Road BL", "Road TR"]
+        },
+        "15-": {
+            "1,2,4,5": {
+                "terrain": "empty"
+            },
+            "15,16,17,18,19": {
+                "terrain": "Ocean"
+            },
+            "7,10": {
+                "terrain": "River"
+            },
+            "8,13,23": {
+                "terrain": "Road"
+            }
+        },
+        "15-7": {
+            "overlays": ["River TL", "River BR"]
+        },
+        "15-8": {
+            "overlays": ["Road BL", "Road TL"]
+        },
+        "15-10": {
+            "overlays": ["River BR", "River TL"]
+        },
+        "15-13": {
+            "overlays": ["Road BL", "Road TR"]
+        },
+        "15-23": {
+            "overlays": ["Road BL", "Road TR"]
+        },
+        "16-": {
+            "2,12,22": {
+                "terrain": "Road"
+            },
+            "4,8,9,10": {
+                "terrain": "River"
+            },
+            "18": {
+                "terrain": "Ocean"
+            },
+            "7": {
+                "overlays": ["River TL", "River R", "Road TR", "Road BL"],
+                "terrain": "Bridge"
+            },
+            "16": {
+                "terrain": "City"
+            }
+        },
+        "16-2": {
+            "overlays": ["Road BR", "Road TL"]
+        },
+        "16-4": {
+            "terrain": "Forest",
+            "overlays": ["River TL", "River BR", "Forest Full"]
+        },
+        "16-8": {
+            "overlays": ["River L", "River R"]
+        },
+        "16-9": {
+            "overlays": ["River L", "River R", "River BR"]
+        },
+        "16-10": {
+            "overlays": ["River L", "River TL"]
+        },
+        "16-12": {
+            "overlays": ["Road BL", "Road TR"],
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Tank", "Tank", "Artillery"]
+            }
+        },
+        "16-13": {
+            "terrain": "Forest",
+            "overlays": ["Forest Full"]
+        },
+        "16-16": {
+            "overlays": ["City Full", "Road R", "Road BL", "Road BR"]
+        },
+        "16-17": {
+            "terrain": "Victory City",
+            "overlays": ["Victory City", "City Full", "Road L", "Road BL", "Road BR"],
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
+        "16-22": {
+            "overlays": ["Road BL", "Road TR"]
+        },
+        "17-": {
+            "5,6,10,11,13,21,23,24": {
+                "terrain": "River"
+            },
+            "12,20,22": {
+                "terrain": "Bridge"
+            },
+            "3,7,18,19": {
+                "terrain": "Road"
+            },
+            "16,17,18": {
+                "terrain": "City"
+            }
+        },
+        "17-3": {
+            "overlays": ["Road BR", "Road TL"]
+        },
+        "17-5": {
+            "overlays": ["River TL", "River R"]
+        },
+        "17-6": {
+            "overlays": ["River L", "River BR"]
+        },
+        "17-7": {
+            "overlays": ["Road BL", "Road TR", "Road BR"]
+        },
+        "17-10": {
+            "overlays": ["River TL", "River R"]
+        },
+        "17-11": {
+            "overlays": ["River L", "River R"]
+        },
+        "17-12": {
+            "overlays": ["River L", "River R", "Road BL", "Road TR"]
+        },
+        "17-13": {
+            "overlays": ["River L", "River BR"]
+        },
+        "17-14": {
+            "terrain": "Forest",
+            "overlays": ["Forest Full"]
+        },
+        "17-16": {
+            "overlays": ["City R", "Road R", "Road BL", "Road TR"]
+        },
+        "17-17": {
+            "overlays": ["City Full", "Road R", "Road L", "Road TR", "Road TL"]
+        },
+        "17-18": {
+            "overlays": ["City L", "Road R", "Road L", "Road TL"]
+        },
+        "17-19": {
+            "overlays": ["Road L", "Road R"]
+        },
+        "17-20": {
+            "overlays": ["Road L", "Road BR"]
+        },
+        "17-21": {
+            "overlays": ["River BL", "River R"]
+        },
+        "17-22": {
+            "overlays": ["River L", "River R", "Road BL", "Road TR"]
+        },
+        "17-23": {
+            "overlays": ["River L", "River R"]
+        },
+        "17-24": {
+            "overlays": ["River L", "River R"]
+        },
+        "18-": {
+            "13,14,16,17,18,19": {
+                "terrain": "River"
+            },
+            "3,4,5,7,8,9,10,11,20": {
+                "terrain": "Road"
+            },
+            "6,15": {
+                "terrain": "Bridge"
+            },
+            "22": {
+                "terrain": "City"
+            },
+            "21": {
+                "terrain": "Victory City",
+                "overlays": ["Victory City"]
+            }
+        },
+        "18-3": {
+            "overlays": ["Road R", "Road BL", "Road TL"]
+        },
+        "18-4": {
+            "overlays": ["Road R", "Road L", "Road BR"]
+        },
+        "18-5": {
+            "overlays": ["Road R", "Road L", "Road BL"]
+        },
+        "18-6": {
+            "overlays": ["River TL", "River BR", "Road R", "Road L", "Road TR"]
+        },
+        "18-7": {
+            "overlays": ["Road R", "Road BR", "Road L", "Road TL"]
+        },
+        "18-8": {
+            "overlays": ["Road R", "Road L", "Road BL"]
+        },
+        "18-9": {
+            "overlays": ["Road R", "Road L"]
+        },
+        "18-10": {
+            "overlays": ["Road R", "Road L", "Road BR"]
+        },
+        "18-11": {
+            "overlays": ["Road BL", "Road L", "Road TR"]
+        },
+        "18-13": {
+            "overlays": ["River TL", "River R"]
+        },
+        "18-14": {
+            "overlays": ["River L", "River R"]
+        },
+        "18-15": {
+            "overlays": ["River L", "River R", "Road BL", "Road TR"]
+        },
+        "18-16": {
+            "overlays": ["River L", "River R"]
+        },
+        "18-17": {
+            "overlays": ["River L", "River R"]
+        },
+        "18-18": {
+            "overlays": ["River L", "River R"]
+        },
+        "18-19": {
+            "overlays": ["River L", "River R"]
+        },
+        "18-20": {
+            "overlays": ["River L", "River TR", "Road TL", "Road R"]
+        },
+        "18-21": {
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Artillery"]
+            },
+            "overlays": ["City Full", "Road L", "Road TR", "Road R", "Road BR"]
+        },
+        "18-22": {
+            "overlays": ["City BL", "Road L", "Road BL"]
+        },
+        "19-": {
+            "5,14,15": {
+                "terrain": "Road"
+            },
+            "4,9,10": {
+                "terrain": "Ocean"
+            },
+            "7": {
+                "terrain": "River"
+            },
+            "8": {
+                "terrain": "Bridge"
+            },
+            "3,5,11,13,22": {
+                "terrain": "City"
+            },
+            "24": {
+                "terrain": "empty"
+            }
+        },
+        "19-3": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry"]
+            },
+            "overlays": ["City BR", "Road TR"]
+        },
+        "19-5": {
+            "overlays": ["City BL", "Road TR", "Road TL", "Road BL", "Road BR"]
+        },
+        "19-7": {
+            "overlays": ["River TL", "River R"]
+        },
+        "19-8": {
+            "overlays": ["River L", "River R", "Road BL", "Road TR"],
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Tank", "Tank"]
+            }
+        },
+        "19-11": {
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Infantry", "Artillery"]
+            },
+            "overlays": ["City BR", "Road BR", "Road TR", "Road TL"]
+        },
+        "19-13": {
+            "overlays": ["City B", "Road R", "Road BL", "Road BR"]
+        },
+        "19-14": {
+            "overlays": ["Road L", "Road R", "Road BL"]
+        },
+        "19-15": {
+            "overlays": ["Road L", "Road TR"]
+        },
+        "19-22": {
+            "overlays": ["City T", "Road TL", "Road TR"]
+        },
+        "20-": {
+            "2,3,10,14,15": {
+                "terrain": "Ocean"
+            },
+            "5,6,7,8,9": {
+                "terrain": "Road"
+            },
+            "4,11": {
+                "terrain": "Victory City",
+                "overlays": ["Victory City"]
+            },
+            "5,12,13": {
+                "terrain": "City"
+            },
+            "12,13": {
+                "overlays": ["City Full"]
+            },
+            "22,23,24": {
+                "terrain": "empty"
+            }
+        },
+        "20-4": {
+            "overlays": ["Road TR", "Road R"],
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Tank", "Tank", "Artillery"]
+            }
+        },
+        "20-5": {
+            "overlays": ["City L", "City Just T", "Road L", "Road TL", "Road R"]
+        },
+        "20-6": {
+            "overlays": ["Road L", "Road R"]
+        },
+        "20-7": {
+            "overlays": ["Road L", "Road R", "Road TR"]
+        },
+        "20-8": {
+            "overlays": ["Road L", "Road R", "Road LR"]
+        },
+        "20-9": {
+            "overlays": ["Road L", "Road BR"]
+        },
+        "20-11": {
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Infantry", "Artillery"]
+            },
+            "overlays": ["City Full", "Road R", "Road TL"]
+        },
+        "20-12": {
+            "overlays": ["City Full", "Road R", "Road L", "Road TR"]
+        },
+        "20-13": {
+            "overlays": ["City Full", "Road TR", "Road TL", "Road L"]
+        },
+        "21-": {
+            "15,22,23,24": {
+                "terrain": "empty"
+            },
+            "1,2,3,4,5,11,12,13,14,16,17,18": {
+                "terrain": "Ocean"
+            },
+            "10": {
+                "terrain": "Road"
+            }
+        },
+        "21-10": {
+            "overlays": ["Road TL", "Road BR"]
+        },
+        "22-": {
+            "15,19,22,23,24": {
+                "terrain": "empty"
+            },
+            "1,2,3,5,6,7,14": {
+                "terrain": "Ocean"
+            },
+            "10": {
+                "terrain": "Road"
+            },
+            "11,13": {
+                "terrain": "City"
+            },
+            "12": {
+                "terrain": "Victory City",
+                "overlays": ["Victory City"]
+            }
+        },
+        "22-10": {
+            "overlays": ["Road TL", "Road BL", "Road R"],
+            "units": {
+                "USSR": ["Infantry", "Infantry"]
+            }
+        },
+        "22-11": {
+            "overlays": ["City R", "Road L", "Road R", "Road BR"]
+        },
+        "22-12": {
+            "overlays": ["City Full", "Road L", "Road R", "Road BL", "Road BR"],
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Tank"]
+            }
+        },
+        "22-13": {
+            "overlays": ["City L", "Road L", "Road BL"]
+        },
+        "23-": {
+            "6,15,16,17,19,22,23,24": {
+                "terrain": "empty"
+            },
+            "7,8,9": {
+                "terrain": "Ocean"
+            },
+            "10,13": {
+                "terrain": "Road"
+            },
+            "12": {
+                "terrain": "City"
+            }
+        },
+        "23-10": {
+          "overlays": ["Road TR", "Road BL"]
+        },
+        "23-12": {
+            "overlays": ["City T", "Road TL", "Road TR", "Road R"]
+        },
+        "23-13": {
+            "overlays": ["Road L", "Road TL", "Road TR", "Road BR"],
+            "units": {
+                "USSR": ["Infantry", "Infantry"]
+            }
+        },
+        "24-": {
+            "4,5,6,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "9,13,14": {
+                "terrain": "Road"
+            },
+            "8,9": {
+                "terrain": "City"
+            }
+        },
+        "24-8": {
+            "overlays": ["City BR", "Road BR", "Road R"]
+        },
+        "24-9": {
+            "overlays": ["City BL", "Road BL", "Road L", "Road TR", "Road BR"]
+        },
+        "24-13": {
+            "overlays": ["Road TL", "Road BL", "Road R"]
+        },
+        "24-14": {
+            "overlays": ["Road L", "Road R"]
+        },
+        "25-": {
+            "1,2,3,4,5,6,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "13": {
+                "terrain": "Road"
+            },
+            "10": {
+                "terrain": "City"
+            },
+            "9": {
+                "terrain": "Victory City",
+                "overlays": ["Victory City", "City Full"]
+            }
+        },
+        "25-9": {
+            "overlays": ["Road R", "Road BL", "Road BR", "Road TR", "Road TL"],
+            "units": {
+                "Germany": ["Infantry", "Infantry", "Infantry", "Infantry", "Artillery"]
+            }
+        },
+        "25-10": {
+            "overlays": ["City TL", "Road BL", "Road L", "Road BR", "Road TL"],
+            "units": {
+                "USSR": ["Infantry", "Tank"]
+            }
+        },
+        "25-13": {
+            "overlays": ["Road TR", "Road BL"]
+        },
+        "26-": {
+            "1,2,3,4,5,6,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "7,8,9,10,11,12": {
+                "terrain": "Road"
+            }
+        },
+        "26-7": {
+            "overlays": ["Road L", "Road R"]
+        },
+        "26-8": {
+            "overlays": ["Road L", "Road R", "Road TR"]
+        },
+        "26-9": {
+            "overlays": ["Road L", "Road TL", "Road R", "Road TR"],
+            "units": {
+                "USSR": ["Infantry", "Infantry", "Tank"]
+            }
+        },
+        "26-10": {
+            "overlays": ["Road L", "Road TL", "Road R"]
+        },
+        "26-11": {
+            "overlays": ["Road L", "Road BR", "Road R"]
+        },
+        "26-12": {
+            "overlays": ["Road TR", "Road BR", "Road L", "Road BL"]
+        },
+        "27-": {
+            "1,2,3,4,5,6,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "12,13": {
+                "terrain": "Road"
+            }
+        },
+        "27-12": {
+            "overlays": ["Road TR", "Road R", "Road TL", "Road BR"]
+        },
+        "27-13": {
+            "overlays": ["Road TR", "Road L", "Road TL", "Road BL"]
+        },
+        "28-": {
+            "1,2,3,4,5,6,7,14,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "12": {
+                "terrain": "Road"
+            }
+        },
+        "28-12": {
+            "overlays": ["Road TR", "Road TL", "Road BR"]
+        },
+        "29-": {
+            "1,2,3,4,5,6,7,8,11,14,15,16,17,18,19,20,21,22,23,24": {
+                "terrain": "empty"
+            },
+            "13": {
+                "terrain": "Road"
+            }
+        },
+        "29-13": {
+            "overlays": ["Road TL"],
+            "units": {
+                "USSR": ["Infantry", "Tank", "Tank"]
+            }
+        }
+    },
+
+    "scripts": []
+}
