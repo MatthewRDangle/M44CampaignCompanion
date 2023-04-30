@@ -1,3 +1,5 @@
+![](src/images/banner.png)
+
 # What is BattleCry?
 BattleCry is a **creation kit** for building and playing **2D digital war games** with your friends.
 
