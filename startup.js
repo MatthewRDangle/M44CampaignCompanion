@@ -17,10 +17,10 @@ const createWindow = () => {
             contextIsolation: false
         }
     });
-    win.setIcon(path.join(__dirname, 'src', 'images', 'icon', 'favicon-32x32.png'))
+    win.setIcon(path.join(__dirname, 'gui', 'images', 'icon', 'favicon-32x32.png'))
     win.webContents.openDevTools();
     win.setMenu(null);
-    win.loadFile(path.join(global.appdir, 'src/index.html'));
+    win.loadFile(path.join(global.appdir, 'gui/index.html'));
     win.maximize();
 }
 
