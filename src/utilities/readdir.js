@@ -1,9 +1,10 @@
+// TODO move into electron IPC and out of GUI.
 const fs = require ("fs");
 const path = require ("path");
 const {ipcRenderer} = require('electron');
 
 
-export const appDir = await ipcRenderer.invoke('getAppPath');
+export const appDir = await ipcRenderer.invoke('/app/path');
 
 export const recursiveReaddir = (dir) => {
     if (!dir) return

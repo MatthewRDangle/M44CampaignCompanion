@@ -1,8 +1,6 @@
 const path = require('path');
 
-import {recursiveReaddir} from "../utilities/readdir.js";
-import {appDir} from '../utilities/readdir.js';
-
+import {recursiveReaddir, appDir} from "../utilities/readdir.js";
 
 export const routeService = {
     getAll: () => {

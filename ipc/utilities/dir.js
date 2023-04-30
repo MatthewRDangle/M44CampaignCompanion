@@ -1,16 +1,7 @@
-const fs = require ("fs");
-const path = require ("path");
+import fs from "fs";
+import path from "path";
 
-
-const getFileContent = (path) => {
-    return new Promise(async resolve => {
-        fs.readFile(path, 'utf8', (err, data) => {
-            resolve(data);
-        });
-    })
-}
-
-const recursiveReaddir = (dir) => {
+const recursiveReadDir = (dir) => {
     if (!dir) return
 
     return new Promise(resolve => {
@@ -33,8 +24,6 @@ const recursiveReaddir = (dir) => {
     })
 }
 
-
 module.exports = {
-    getFileContent: getFileContent,
-    recursiveReaddir: recursiveReaddir
+    recursiveReadDir
 }

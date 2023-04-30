@@ -22,7 +22,7 @@ export const nav = [
     {
         label: 'Exit to Desktop',
         onclick: async () => {
-            await ipcRenderer.invoke('/api/app/quitApplication')
+            await ipcRenderer.invoke('/app/quit')
         }
     }
 ]
