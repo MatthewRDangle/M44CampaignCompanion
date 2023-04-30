@@ -1,6 +1,6 @@
 const m = require('mithril');
 
-import Page from '../../classes/Page.js';
+import Page from '../../models/Page.js';
 import BattleResultCalc from "../../components/BattleResultCalc.js";
 import TitleBar from "../../components/templates/TitleBar.js";
 import Body from "../../components/Body.js";

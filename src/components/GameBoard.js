@@ -4,8 +4,8 @@ const classnames = require("classnames");
 
 import HexGrid from "./HexGrid.js";
 import Hud from "./GameHud.js";
-import Unit from "../classes/Unit.js";
-import Tile from "../classes/Tile.js";
+import Unit from "../models/Unit.js";
+import Tile from "../models/Tile.js";
 
 
 const GameBoard = (initialVnode) => {

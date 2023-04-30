@@ -1,4 +1,4 @@
-import ScenarioDefinition from "../classes/ScenarioDefinition.js";
+import ScenarioDefinition from "../models/ScenarioDefinition.js";
 import {scenarioDefinitionService} from "../services/scenarioDefinition.service.js";
 
 

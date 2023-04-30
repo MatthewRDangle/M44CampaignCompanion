@@ -2,7 +2,7 @@ const m = require("mithril");
 const classNames = require("classnames");
 
 import PlayableUnit from "./PlayableUnit.js";
-import Unit from "../../classes/Unit.js";
+import Unit from "../../models/Unit.js";
 import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 

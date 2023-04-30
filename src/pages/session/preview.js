@@ -3,7 +3,7 @@ const m = require('mithril');
 import Body from "../../components/Body.js";
 import Button from "../../components/templates/Button.js";
 import Background from "../../components/Background.js";
-import Page from '../../classes/Page.js';
+import Page from '../../models/Page.js';
 import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 export const page = new Page('/session/preview?:tileId', (initialVnode) => {

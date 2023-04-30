@@ -1,6 +1,6 @@
 const m = require('mithril');
 
-import Page from '../classes/Page.js';
+import Page from '../models/Page.js';
 import Body from "../components/Body.js";
 import Quotes from "../components/templates/Quotes.js";
 import LoadingStatus from "../components/templates/LoadingStatus.js";

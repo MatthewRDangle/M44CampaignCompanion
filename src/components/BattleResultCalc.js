@@ -3,7 +3,7 @@ const m = require("mithril");
 import Divider from "./templates/Divider.js";
 import Button from "./templates/Button.js";
 import Input from "./templates/Input.js";
-import Tile from "../classes/Tile.js";
+import Tile from "../models/Tile.js";
 
 
 const BattleResultCalc = (initialVnode) => {

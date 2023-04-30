@@ -1,7 +1,7 @@
 const m = require('mithril');
 const classNames = require('classnames');
 
-import Page from '../classes/Page.js';
+import Page from '../models/Page.js';
 import Button from "../components/templates/Button.js";
 import Body from "../components/Body.js";
 import scenarioManifestStore from "../stores/ScenarioManifest.store.js";

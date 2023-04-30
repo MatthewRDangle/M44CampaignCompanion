@@ -1,7 +1,7 @@
 const m = require("mithril");
 const classNames = require("classnames");
 
-import Color from "../../classes/Color.js";
+import Color from "../../models/Color.js";
 
 
 const UnitFlag = (initialVnode) => {
