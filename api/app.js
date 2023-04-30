@@ -1,9 +1,8 @@
 const {app} = require("electron");
 
 
-const quitApplication = (path) => {
-    if (process.platform !== 'darwin')
-        app.quit();
+const quitApplication = () => {
+    app.quit();
 }
 
 
