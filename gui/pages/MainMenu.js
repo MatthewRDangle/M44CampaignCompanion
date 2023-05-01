@@ -3,7 +3,7 @@ const m = require('mithril');
 import Page from '../models/Page.js';
 import Body from "../components/Body.js";
 import Nav from "../components/Nav.js";
-import NavTitle from "../components/templates/NavTitle.js";
+import NavTitle from "../components/NavTitle.js";
 
 
 export const page = new Page('/mainmenu', (initialVnode) => {

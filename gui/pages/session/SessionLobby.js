@@ -2,11 +2,11 @@ const m = require('mithril');
 const classNames = require('classnames');
 
 import Page from '../../models/Page.js';
-import Button from "../../components/templates/Button.js";
+import Button from "../../components/Button.js";
 import Body from "../../components/Body.js";
 import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
 import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
-import TitleBar from "../../components/templates/TitleBar.js";
+import TitleBar from "../../components/TitleBar.js";
 
 
 export const page = new Page('/session/lobby', (initialVnode) => {

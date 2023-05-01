@@ -1,7 +1,7 @@
 const m = require('mithril');
 
 import Page from '../../models/Page.js';
-import GameBoard from "../../components/GameBoard.js"
+import GameBoard from "../../components/grid/GameBoard.js"
 import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 

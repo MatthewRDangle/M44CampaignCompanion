@@ -1,9 +1,9 @@
 const m = require("mithril");
 
-import Divider from "./templates/Divider.js";
-import Button from "./templates/Button.js";
-import Input from "./templates/Input.js";
-import Tile from "../models/Tile.js";
+import Divider from "../Divider.js";
+import Button from "../Button.js";
+import Input from "../form/Input.js";
+import Tile from "../../models/Tile.js";
 
 
 const BattleResultCalc = (initialVnode) => {

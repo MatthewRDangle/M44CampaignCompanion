@@ -1,7 +1,7 @@
 const m = require("mithril");
 
-import TitleBar from "../templates/TitleBar.js";
-import Divider from "../templates/Divider.js";
+import TitleBar from "../TitleBar.js";
+import Divider from "../Divider.js";
 import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 

@@ -1,9 +1,9 @@
 const m = require("mithril");
 
-import NextTurn from "./hud/NextTurn.js";
-import TileInfo from "./hud/TileInfo.js";
-import GameHeader from "./hud/GameHeader.js";
-import GameOver from "./hud/GameOver.js";
+import NextTurn from "./NextTurn.js";
+import TileInfo from "./TileInfo.js";
+import GameHeader from "./GameHeader.js";
+import GameOver from "./GameOver.js";
 
 
 const GameBoard = (initialVnode) => {

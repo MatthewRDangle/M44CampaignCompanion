@@ -2,8 +2,8 @@ const m = require("mithril");
 const classnames = require("classnames");
 
 import routeStore from "../stores/RouteStore.js";
-import Divider from "./templates/Divider.js";
-import LoadingSymbol from "./templates/LoadingSymbol.js";
+import Divider from "./Divider.js";
+import LoadingSymbol from "./LoadingSymbol.js";
 
 
 const Nav = (initialVnode) => {

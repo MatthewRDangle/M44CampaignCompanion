@@ -2,8 +2,8 @@ const m = require('mithril');
 
 import Page from '../../models/Page.js';
 import Body from "../../components/Body.js";
-import Button from "../../components/templates/Button.js";
-import TitleBar from "../../components/templates/TitleBar.js";
+import Button from "../../components/Button.js";
+import TitleBar from "../../components/TitleBar.js";
 import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
 
 
