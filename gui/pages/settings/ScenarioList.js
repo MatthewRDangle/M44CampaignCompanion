@@ -1,19 +1,19 @@
 const m = require('mithril');
 const classnames = require('classnames');
 
-import Page from '../models/Page.js';
-import Body from "../components/Body.js";
-import Button from "../components/templates/Button.js";
-import scenarioManifestStore from "../stores/ScenarioManifest.store.js";
-import TitleBar from "../components/templates/TitleBar.js";
+import Page from '../../models/Page.js';
+import Body from "../../components/Body.js";
+import Button from "../../components/templates/Button.js";
+import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
+import TitleBar from "../../components/templates/TitleBar.js";
 
 
-export const page = new Page('/scenarios', (initialVnode) => {
+export const page = new Page('/settings/scenarios', (initialVnode) => {
     const {loadScenarioManifestRegistry, deleteOneScenarioManifest} = scenarioManifestStore;
     loadScenarioManifestRegistry().then(() => m.redraw());
 
     const handleUpload = () => {
-        m.route.set('/scenarios/upload')
+        m.route.set('/settings/scenarios/upload')
     }
 
     const handleDelete = (manifest) => {

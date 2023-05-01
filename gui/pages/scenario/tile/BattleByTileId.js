@@ -1,14 +1,13 @@
 const m = require('mithril');
 
-import Page from '../../models/Page.js';
-import BattleResultCalc from "../../components/BattleResultCalc.js";
-import TitleBar from "../../components/templates/TitleBar.js";
-import Body from "../../components/Body.js";
-import Background from "../../components/Background.js";
-import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import Page from '../../../models/Page.js';
+import BattleResultCalc from "../../../components/BattleResultCalc.js";
+import TitleBar from "../../../components/templates/TitleBar.js";
+import Body from "../../../components/Body.js";
+import Background from "../../../components/Background.js";
+import ScenarioDefinitionStore from "../../../stores/ScenarioDefinition.store.js";
 
-
-export const page = new Page('/session/battle?:tileId', (initialVnode) => {
+export const page = new Page('/scenario/tile/:tileId/battle', (initialVnode) => {
 
 
     return {

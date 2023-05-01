@@ -7,7 +7,7 @@ import TitleBar from "../../components/templates/TitleBar.js";
 import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
 
 
-export const page = new Page('/scenarios/upload', (initialVnode) => {
+export const page = new Page('/settings/scenarios/upload', (initialVnode) => {
     const {addOneScenarioManifest, getContentsFromScenarioManifestFile} = scenarioManifestStore;
 
 
@@ -24,7 +24,7 @@ export const page = new Page('/scenarios/upload', (initialVnode) => {
         if (!!tmpScenarioManifest)
             addOneScenarioManifest(tmpScenarioManifest);
 
-        m.route.set('settings');
+        m.route.set('/settings/scenarios');
     };
 
 

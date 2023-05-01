@@ -1,12 +1,12 @@
 const m = require('mithril');
 
-import Body from "../../components/Body.js";
-import Button from "../../components/templates/Button.js";
-import Background from "../../components/Background.js";
-import Page from '../../models/Page.js';
-import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import Body from "../../../components/Body.js";
+import Button from "../../../components/templates/Button.js";
+import Background from "../../../components/Background.js";
+import Page from '../../../models/Page.js';
+import ScenarioDefinitionStore from "../../../stores/ScenarioDefinition.store.js";
 
-export const page = new Page('/session/preview?:tileId', (initialVnode) => {
+export const page = new Page('/scenario/tile/:tileId/map', (initialVnode) => {
 
 
     return {
@@ -33,7 +33,7 @@ export const page = new Page('/session/preview?:tileId', (initialVnode) => {
                         shadow: true,
                         inverse: true,
                         onclick: function() {
-                            m.route.set('/session')
+                            m.route.set('/scenario')
                         }
                     }, 'Close')
                 )

@@ -8,11 +8,11 @@ import UnitCard from "../templates/UnitFlag.js";
 const TileInfo = (initialVnode) => {
 
     const handleBattle = (tile) => {
-        m.route.set('/session/battle?:tileId', {tileId: tile.id})
+        m.route.set('/scenario/tile/:tileId/battle', {tileId: tile.id})
     }
 
     const handlePreview = (tile) => {
-        m.route.set('/session/preview?:tileId', {tileId: tile.id})
+        m.route.set('/scenario/tile/:tileId/map', {tileId: tile.id})
     }
 
     const handleUnitSelect = (unit) => {

@@ -1,11 +1,11 @@
 const m = require('mithril');
 
-import Page from '../models/Page.js';
-import GameBoard from "../components/GameBoard.js"
-import scenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
+import Page from '../../models/Page.js';
+import GameBoard from "../../components/GameBoard.js"
+import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 
-export const page = new Page('/session', (initialVnode) => {
+export const page = new Page('/scenario', (initialVnode) => {
 
 
     return {
