@@ -1,4 +1,4 @@
-import {hexToSVGFilter} from '../utilities/hexToSVGFilter.js';
+import {hexToSVGFilter} from '../../utilities/hexToSVGFilter.js';
 
 
 export default class Faction {

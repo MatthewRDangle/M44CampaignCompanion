@@ -1,9 +1,9 @@
 const m = require('mithril');
 
+import Page from '../../../models/Page.js';
 import Body from "../../../components/Body.js";
 import Button from "../../../components/Button.js";
 import Background from "../../../components/Background.js";
-import Page from '../../../models/Page.js';
 import ScenarioDefinitionStore from "../../../stores/ScenarioDefinition.store.js";
 
 export const page = new Page('/scenario/tile/:tileId/map', (initialVnode) => {
@@ -14,10 +14,7 @@ export const page = new Page('/scenario/tile/:tileId/map', (initialVnode) => {
             const {attrs} = vNode;
             const {activeScenarioDefinition} = ScenarioDefinitionStore;
 
-            const tileId = attrs.tileId;
-            const [row, column] = tileId.split('-');
-            const tile = activeScenarioDefinition.tiles[row][tileId];
-
+            const tile = activeScenarioDefinition.fetchTileReferenceById(attrs.tileId);
 
             return m(Body, [
                 m(Background),

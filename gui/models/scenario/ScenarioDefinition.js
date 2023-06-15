@@ -5,6 +5,7 @@ import Terrain from "./Terrain.js";
 import BattleMap from "./BattleMap.js";
 import Script from "./Script.js";
 import Overlay from "./Overlay.js";
+import Battle from "./Battle.js";
 
 export default class ScenarioDefinition {
     constructor() {
@@ -13,10 +14,10 @@ export default class ScenarioDefinition {
         this.devMode = false;
 
         // References
+        this.factions = {};
         this.scripts = {
             end_of_turn: []
         };
-        this.factions = {};
 
         // Templates
         this.unit_templates = {};
@@ -28,21 +29,23 @@ export default class ScenarioDefinition {
         this.turnCounter = 1;
         this.turnOrder = [];
         this.currentTurn = undefined;
-        this.contests = [];
-        this.unitsThatMoved = [];
+        this.isGameOver = false;
+
+        // User Interaction
         this.selectedTile = undefined;
         this.selectedUnit = undefined;
-        this.isGameOver = false;
+
+        // Trackers
+        this.trackers = {
+            battles: [],
+            unitMoves: []
+        }
+        // this.unitsThatMoved = [];
 
         // Grid Builder
         this.columns = 0;
         this.rows = 0;
         this.tiles = [];
-    }
-
-    appendContest(tile) {
-        if (tile instanceof Tile && !this.contests.includes(tile))
-            this.contests.push(tile);
     }
 
     compile(definition) {
@@ -84,7 +87,7 @@ export default class ScenarioDefinition {
         // Set Battle Maps
         if (definition.battleMaps) {
             definition.battleMaps.forEach((definition_battleMap) => {
-                this.battleMaps[definition_battleMap.name] = new BattleMap(definition_battleMap.name, definition_battleMap.src, definition_battleMap.alt);
+                this.battleMaps[definition_battleMap.name] = new BattleMap(definition_battleMap);
             })
         }
 
@@ -239,8 +242,13 @@ export default class ScenarioDefinition {
         this.isGameOver = true;
     }
 
+    fetchTileReferenceById(tileId) {
+        const [row, column] = tileId.split('-');
+        return this.tiles[row][tileId];
+    }
+
     nextTurn() {
-        if (this.contests.length === 0) {
+        if (this.trackers.battles.length === 0) {
 
             // Run End of Turn Scripts
             if (!!this.scripts.end_of_turn)
@@ -252,21 +260,16 @@ export default class ScenarioDefinition {
                 const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
                 this.currentTurn = this.factions[factionName];
                 this.replenishMoveUnits();
-                this.unitsThatMoved = [];
+                this.trackers.unitMoves.length = 0;
                 this.turnCounter++;
             }
         }
     }
 
     replenishMoveUnits() {
-        this.unitsThatMoved.forEach((unit) => {
+        this.trackers.unitMoves.forEach((unit) => {
             unit.replenish();
         });
-    }
-
-    resolveContest(tile) {
-        if (tile instanceof Tile)
-            this.contests.splice(this.contests.indexOf(tile), 1);
     }
 
     setSelectedTile(tile) {
@@ -276,8 +279,23 @@ export default class ScenarioDefinition {
             this.selectedTile = undefined;
     }
 
-    unitMoved(unit) {
-        if (unit instanceof Unit && !this.unitsThatMoved.includes(unit))
-            this.unitsThatMoved.push(unit);
+    trackBattle(battle) {
+        if (battle instanceof Battle && !this.trackers.battles.includes(battle))
+            this.trackers.battles.push(battle);
+    }
+
+    trackUnitMoved(unit) {
+        if (unit instanceof Unit && !this.trackers.unitMoves.includes(unit))
+            this.trackers.unitMoves.push(unit);
+    }
+
+    untrackBattle(battle) {
+        if (battle instanceof Battle)
+            this.trackers.battles.splice(this.trackers.battles.indexOf(battle), 1);
+    }
+
+    untrackUnitMoved(unit) {
+        if (unit instanceof Unit)
+            this.trackers.unitMoves.splice(this.trackers.unitMoves.indexOf(unit), 1);
     }
 }

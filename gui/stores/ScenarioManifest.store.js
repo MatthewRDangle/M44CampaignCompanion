@@ -1,5 +1,5 @@
 import {scenarioManifestService} from "../services/scenarioManifest.service.js";
-import ScenarioManifest from "../models/ScenarioManifest.js";
+import ScenarioManifest from "../models/scenario/ScenarioManifest.js";
 
 
 let scenarioManifestStore;

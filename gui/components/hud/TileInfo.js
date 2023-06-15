@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import Terrain from "../../models/Terrain.js";
+import Terrain from "../../models/scenario/Terrain.js";
 import Button from "../Button.js";
 import UnitCard from "../unit/UnitFlag.js";
 

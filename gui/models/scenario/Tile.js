@@ -1,8 +1,10 @@
 import Unit from "./Unit.js";
 import ScenarioDefinition from "./ScenarioDefinition.js";
 import Faction from "./Faction.js";
-import ScenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 import Overlay from "./Overlay.js";
+import Battle from "./Battle.js";
+import BattleMap from "./BattleMap.js";
 
 
 export default class Tile {
@@ -15,15 +17,13 @@ export default class Tile {
         // Interaction
         this.isSelected = false;
 
-        // Ownership & Contest
+        // Ownership
         this.owner = undefined;
+        this.battle = undefined;
         this.isContested = false;
 
         // BattleMap, Terrain, Overlays, Units
-        this.battleMap = {
-            src: '',
-            alt: ''
-        };
+        this.battleMap = undefined;
         this.terrain = {};
         this.overlays = {};
         this.units = {};
@@ -115,11 +115,10 @@ export default class Tile {
 
         // Apply BattleMap
         if (definition.battleMap) {
-            if (typeof definition.battleMap === 'string') {
+            if (typeof definition.battleMap === 'string')
                 this.battleMap = scenario.battleMaps[definition.battleMap];
-            }
             else if (typeof definition.battleMap === 'object' && definition.battleMap.hasOwnProperty('src') && definition.battleMap.hasOwnProperty('alt'))
-                this.battleMap = definition.battleMap;
+                this.battleMap = new BattleMap(definition.battleMap);
         }
     }
 
@@ -127,7 +126,8 @@ export default class Tile {
         if (invader instanceof Faction) {
             if (!!this.units[this.owner?.name]) {
                 this.isContested = invader;
-                this.activeScenario.appendContest(this);
+                this.battle = new Battle(this);
+                this.activeScenario.trackBattle(this.battle);
             }
             else
                 this.owner = invader;
@@ -138,10 +138,9 @@ export default class Tile {
         this.isSelected = false;
         if (this.activeScenario instanceof ScenarioDefinition)
             this.activeScenario.selectedTile = undefined;
-
     }
 
-    generateAdjacentTiles() {
+    generateAdjacentTiles() { // TODO convert to setter and getter
         const adjacentColumn = this.row % 2 ? this.column - 1 : this.column + 1;
 
         this.adjacentTiles.push(`${this.row - 1}-${this.column}`) // Top
@@ -168,17 +167,19 @@ export default class Tile {
     resolve() {
         const tileFactions = Object.keys(this.units);
         if (Object.keys(this.units).length <= 1) {
+            this.battle = undefined;
             this.isContested = false;
             if (tileFactions.length > 0) // @Todo how to determine ownership if more than one faction survivor (think teams).
                 this.owner = this.activeScenario.factions[tileFactions[0]];
             else
                 this.owner = undefined;
-            this.activeScenario.resolveContest(this);
+
+            this.activeScenario.untrackBattle(this);
         }
         return !this.isContested;
     }
 
-    setId(row, column) {
+    setId(row, column) { // TODO convert to setter and getter
         if (Number.isInteger(row) && Number.isInteger(column)) {
             this.row = row;
             this.column = column;
