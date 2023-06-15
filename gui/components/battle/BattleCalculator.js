@@ -48,7 +48,6 @@ const BattleCalculator = (initialVnode) => {
                                         type: 'number',
                                         step: 1,
                                         min: 0,
-                                        max: tile.battle.attackingUnitsInitialHealth[groupBy],
                                         defaultValue: tile.battle.attackingUnitsInitialHealth[groupBy],
                                         onchange: (e) => handleAttackingUnitHealthChange(e, tile)
                                     }, groupBy)
@@ -67,7 +66,6 @@ const BattleCalculator = (initialVnode) => {
                                         type: 'number',
                                         step: 1,
                                         min: 0,
-                                        max: tile.battle.defendingUnitsInitialHealth[groupBy],
                                         defaultValue: tile.battle.defendingUnitsInitialHealth[groupBy],
                                         onchange: (e) => handleDefendingUnitHealthChange(e, tile)
                                     }, groupBy)
