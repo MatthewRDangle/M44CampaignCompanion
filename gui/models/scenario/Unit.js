@@ -91,7 +91,7 @@ export default class Unit {
 
                     // If there is any available movement left, repeat; unless it's an enemy unit is preventing movement.
                     if (remaining_movement > 0) {
-                        if (row > 0 && (adjTile.owner === unitOwner || adjTile.owner === undefined)) {
+                        if (row > 0 && (adjTile.occupied_by === unitOwner || adjTile.occupied_by === undefined)) {
                             checkMovement(adjTile, remaining_movement);
                         }
                     }
@@ -147,7 +147,7 @@ export default class Unit {
                     this.deselect();
                     this.available_movement = new_available_movement;
 
-                    if (tile.owner !== this.faction)
+                    if (tile.occupied_by !== this.faction)
                         tile.contest();
                 }
             }
