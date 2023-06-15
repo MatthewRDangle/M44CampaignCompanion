@@ -6,7 +6,7 @@ export default ({faction, tile}) => {
     if (faction instanceof Faction && tile instanceof Tile) {
         let isOwner = false;
         try {
-            isOwner = tile.owner === faction;
+            isOwner = tile.occupied_by === faction;
         } catch(err) { console.log(err) }
 
         return isOwner;

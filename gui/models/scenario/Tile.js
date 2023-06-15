@@ -18,7 +18,7 @@ export default class Tile {
         this.isSelected = false;
 
         // Ownership
-        this.owner = undefined;
+        this.occupied_by = undefined;
         this.battle = undefined;
         this.isContested = false;
 
@@ -59,7 +59,7 @@ export default class Tile {
                 this.units[unit.faction.name].push(unit);
                 unit.attachTile(this);
 
-                if (this.owner !== unit.faction)
+                if (this.occupied_by !== unit.faction)
                     this.contest(unit.faction)
             }
         }
@@ -124,13 +124,13 @@ export default class Tile {
 
     contest(invader) {
         if (invader instanceof Faction) {
-            if (!!this.units[this.owner?.name]) {
+            if (!!this.units[this.occupied_by?.name]) {
                 this.isContested = invader;
                 this.battle = new Battle(this);
                 this.activeScenario.trackBattle(this.battle);
             }
             else
-                this.owner = invader;
+                this.occupied_by = invader;
         }
     }
 
@@ -170,9 +170,9 @@ export default class Tile {
             this.battle = undefined;
             this.isContested = false;
             if (tileFactions.length > 0) // @Todo how to determine ownership if more than one faction survivor (think teams).
-                this.owner = this.activeScenario.factions[tileFactions[0]];
+                this.occupied_by = this.activeScenario.factions[tileFactions[0]];
             else
-                this.owner = undefined;
+                this.occupied_by = undefined;
 
             this.activeScenario.untrackBattle(this);
         }

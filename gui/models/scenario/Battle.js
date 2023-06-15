@@ -40,7 +40,7 @@ export default class Battle {
     }
 
     get defendingFaction() {
-        return this.tile.owner;
+        return this.tile.occupied_by;
     }
 
     get defendingUnits() {

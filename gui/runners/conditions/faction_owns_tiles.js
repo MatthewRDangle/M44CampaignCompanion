@@ -6,7 +6,7 @@ export default ({faction, tiles}) => {
         let isOwner = false;
         try {
             const check = tiles
-                .map(tile => tile.owner === faction ? 0 : 1)
+                .map(tile => tile.occupied_by === faction ? 0 : 1)
                 .reduce((sum, cv) => sum + cv, 0);
             isOwner = check === 0;
         } catch(err) { console.log(err) }
