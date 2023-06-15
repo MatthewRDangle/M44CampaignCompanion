@@ -78,7 +78,6 @@ export default class Battle {
             let remainingHealthChange = groupByHealthChange;
             const unitGroup = this.attackingUnits[groupBy];
             if (unitGroup) {
-                debugger;
                 unitGroup.forEach(unit => {
                     if (remainingHealthChange < 0)
                         remainingHealthChange = unit.decreaseHealth(remainingHealthChange)
@@ -94,7 +93,6 @@ export default class Battle {
             let remainingHealthChange = groupByHealthChange;
             const unitGroup = this.defendingUnits[groupBy];
             if (unitGroup) {
-                debugger
                 unitGroup.forEach(unit => {
                     if (remainingHealthChange < 0)
                         remainingHealthChange = unit.decreaseHealth(remainingHealthChange)
