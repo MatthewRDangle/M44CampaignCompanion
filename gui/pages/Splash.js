@@ -2,8 +2,8 @@ const m = require('mithril');
 
 import Page from '../models/Page.js';
 import Body from "../components/Body.js";
-import Quotes from "../components/templates/Quotes.js";
-import LoadingStatus from "../components/templates/LoadingStatus.js";
+import Quotes from "../components/Quotes.js";
+import LoadingStatus from "../components/LoadingStatus.js";
 
 
 export const page = new Page('/splash', (initialVnode) => {

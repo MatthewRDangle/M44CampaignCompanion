@@ -1,4 +1,4 @@
-import runners from "../runners/index.js";
+import runners from "../../runners/index.js";
 import Runner from "./Runner.js";
 
 

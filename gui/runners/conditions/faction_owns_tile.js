@@ -1,5 +1,5 @@
-import Faction from "../../models/Faction.js";
-import Tile from "../../models/Tile.js";
+import Faction from "../../models/scenario/Faction.js";
+import Tile from "../../models/scenario/Tile.js";
 
 
 export default ({faction, tile}) => {

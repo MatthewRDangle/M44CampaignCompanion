@@ -1,7 +1,7 @@
 import Faction from './Faction.js';
 import Tile from "./Tile.js";
 import Terrain from "./Terrain.js";
-import ScenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 
 export default class Unit {
@@ -106,6 +106,20 @@ export default class Unit {
         this.tile.removeUnit(this);
     }
 
+    decreaseHealth(int) {
+        int = Math.abs(int);
+
+        if (int < this.health) {
+            this.health -= int;
+            return 0;
+        }
+        else {
+            const preHealth = this.health;
+            this.death();
+            return int - preHealth;
+        }
+    }
+
     detachTile() {
         this.tile = undefined;
     }
@@ -117,6 +131,11 @@ export default class Unit {
             this.activeScenario.selectedUnit = undefined;
     }
 
+    increaseHealth(int) {
+        int = Math.abs(int);
+        this.health += int;
+    }
+
     moveTo(tile) {
         if (this.tile) {
             const eligibleMoves = this.canMoveTo;
@@ -124,7 +143,7 @@ export default class Unit {
                 const new_available_movement = eligibleMoves[key];
                 if (tile.id === key && this.available_movement >= new_available_movement) {
                     this.warpTo(tile);
-                    this.activeScenario.unitMoved(this);
+                    this.activeScenario.trackUnitMoved(this);
                     this.deselect();
                     this.available_movement = new_available_movement;
 
@@ -132,18 +151,6 @@ export default class Unit {
                         tile.contest();
                 }
             }
-        }
-    }
-
-    reduceHealth(int) {
-        if (int < this.health) {
-            this.health -= int;
-            return 0;
-        }
-        else {
-            const preHealth = this.health;
-            this.death();
-            return int - preHealth;
         }
     }
 

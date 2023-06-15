@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import Button from "../templates/Button.js";
+import Button from "../Button.js";
 
 
 const GameOver = (initialVnode) => {

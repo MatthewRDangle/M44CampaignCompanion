@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import HexTile from "./templates/HexTile.js";
+import HexTile from "./grid/HexTile.js";
 import ScenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
 
 

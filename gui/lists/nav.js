@@ -4,7 +4,7 @@ const {ipcRenderer} = require('electron');
 export const nav = [
     {
         label: 'Skirmish',
-        path: '/lobby',
+        path: '/session/lobby',
     }, {
         label: 'Multiplayer',
         path: '/multiplayer',
@@ -12,7 +12,7 @@ export const nav = [
     },
     {
         label: 'Scenarios',
-        path: '/scenarios',
+        path: '/settings/scenarios',
     },
     {
         label: 'Settings',

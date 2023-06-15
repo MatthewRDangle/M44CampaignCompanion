@@ -1,11 +1,11 @@
 const {app, ipcMain} = require("electron");
 
-const appHandle = (path) => {
-        ipcMain.handle(path + '/quit', async (e, path) => {
+const appHandle = (channel) => {
+        ipcMain.handle(channel + '/quit', async (e, path) => {
         app.quit();
     })
 
-    ipcMain.handle(path + '/path', () => {
+    ipcMain.handle(channel + '/path', (e) => {
         return global.appdir;
     })
 }

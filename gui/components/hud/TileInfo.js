@@ -1,18 +1,18 @@
 const m = require("mithril");
 
-import Terrain from "../../models/Terrain.js";
-import Button from "../templates/Button.js";
-import UnitCard from "../templates/UnitFlag.js";
+import Terrain from "../../models/scenario/Terrain.js";
+import Button from "../Button.js";
+import UnitCard from "../unit/UnitFlag.js";
 
 
 const TileInfo = (initialVnode) => {
 
     const handleBattle = (tile) => {
-        m.route.set('/session/battle?:tileId', {tileId: tile.id})
+        m.route.set('/scenario/tile/:tileId/battle', {tileId: tile.id})
     }
 
     const handlePreview = (tile) => {
-        m.route.set('/session/preview?:tileId', {tileId: tile.id})
+        m.route.set('/scenario/tile/:tileId/map', {tileId: tile.id})
     }
 
     const handleUnitSelect = (unit) => {
