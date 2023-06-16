@@ -1,3 +1,5 @@
+![](assets/banner.png)
+
 # What is BattleCry?
 BattleCry is a **creation kit** for building and playing **2D digital war games** with your friends.
 
@@ -15,6 +17,9 @@ out of the box; but it does provide an example of one.
 ## How do you build scenarios?
 Scenarios are built via a scenario definition file. They are very easy to write; we provide a definitions' template and 
 documentation make it even easier.
+
+## Pre-release Build Disclaimer
+BattleCry is currently in alpha. Current releases are unstable and are not guaranteed to offer backwords compability for future major changes. Only once a stable version 1.0.0 is released will future major changes support backwords compability.
 
 ## Legality
 BattleCry is open source and free. You do not need to pay to download a copy of this software. However, there are 
