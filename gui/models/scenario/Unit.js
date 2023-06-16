@@ -106,7 +106,7 @@ export default class Unit {
         this.tile.removeUnit(this);
     }
 
-    decreaseHealth(int) {
+    decreaseHealthBy(int) {
         int = Math.abs(int);
 
         if (int < this.health) {
@@ -131,7 +131,7 @@ export default class Unit {
             this.activeScenario.selectedUnit = undefined;
     }
 
-    increaseHealth(int) {
+    increaseHealthBy(int) {
         int = Math.abs(int);
         this.health += int;
     }

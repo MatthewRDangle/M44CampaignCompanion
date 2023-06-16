@@ -73,38 +73,27 @@ export default class Battle {
     }
 
     finalizeChanges() {
-        const tmpAttackingUnitHealthChange = {...this.attackingUnitHealthChange};
-        Object.entries(tmpAttackingUnitHealthChange).forEach(([groupBy, groupByHealthChange]) => {
-            let remainingHealthChange = groupByHealthChange;
-            const unitGroup = this.attackingUnits[groupBy];
-            if (unitGroup) {
-                unitGroup.forEach(unit => {
-                    if (remainingHealthChange < 0)
-                        remainingHealthChange = unit.decreaseHealth(remainingHealthChange)
-                    else if (remainingHealthChange > 0) {
-                        unit.increaseHealth(remainingHealthChange)
-                        remainingHealthChange = 0;
-                    }
-                })
-            }
-        })
-        const tmpDefendingUnitHealthChange = {...this.defendingUnitHealthChange};
-        Object.entries(tmpDefendingUnitHealthChange).forEach(([groupBy, groupByHealthChange]) => {
-            let remainingHealthChange = groupByHealthChange;
-            const unitGroup = this.defendingUnits[groupBy];
-            if (unitGroup) {
-                unitGroup.forEach(unit => {
-                    if (remainingHealthChange < 0)
-                        remainingHealthChange = unit.decreaseHealth(remainingHealthChange)
-                    else if (remainingHealthChange > 0) {
-                        unit.increaseHealth(remainingHealthChange)
-                        remainingHealthChange = 0;
-                    }
-                })
-            }
-        })
-
+        changeUnitsHealth(this.attackingUnitHealthChange, this.attackingUnits);
+        changeUnitsHealth(this.defendingUnitHealthChange, this.defendingUnits);
         this.attackingUnitHealthChange = {};
         this.defendingUnitHealthChange = {};
+
+        function changeUnitsHealth(changeObj, unitGroupByObj = []) {
+            Object.entries({...changeObj}).forEach(([groupBy, groupByHealthChange]) => {
+                let remainingHealthChange = groupByHealthChange;
+                const unitArray = [...unitGroupByObj[groupBy]];
+                for (let idx = 0; idx < unitArray.length; idx++) {
+                    let unit = unitArray[idx];
+                    if (remainingHealthChange < 0) {
+                        remainingHealthChange = 0 - unit.decreaseHealthBy(remainingHealthChange)
+                    } else if (remainingHealthChange > 0) {
+                        unit.increaseHealthBy(remainingHealthChange)
+                        remainingHealthChange = 0;
+                    } else {
+                        break;
+                    }
+                }
+            })
+        }
     }
 }

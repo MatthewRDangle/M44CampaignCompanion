@@ -41,7 +41,7 @@ const BattleCalculator = (initialVnode) => {
                         m('h2', {className: 'text-2xl text-center mb-2rem'}, `${tile.battle.attackingFaction.name}`),
                         m(Divider, {className: 'block w-1/4 m-auto mb-3rem'}),
                         m('div', {className: 'flex justify-center py-4'},
-                            Object.keys(tile.battle.attackingUnits).map(groupBy =>
+                            tile.battle.attackingUnits ? Object.keys(tile.battle.attackingUnits).map(groupBy =>
                                 m('div', {className: 'w-20 mx-4'},
                                     m(Input, {
                                         name: `${groupBy}`,
@@ -52,14 +52,14 @@ const BattleCalculator = (initialVnode) => {
                                         onchange: (e) => handleAttackingUnitHealthChange(e, tile)
                                     }, groupBy)
                                 )
-                            )
+                            ) : 'No Units Available'
                         )
                     ]),
                     m('div', {className: 'mb-8'}, [
                         m('h2', {className: 'text-2xl text-center mb-2rem'}, `${tile.battle.defendingFaction.name}`),
                         m(Divider, {className: 'block w-1/4 m-auto mb-3rem'}),
                         m('div', {className: 'flex justify-center py-4'},
-                            Object.keys(tile.battle.defendingUnits).map(groupBy =>
+                            tile.battle.defendingUnits ? Object.keys(tile.battle.defendingUnits).map(groupBy =>
                                 m('div', {className: 'w-20 mx-4'},
                                     m(Input, {
                                         name: `${groupBy}`,
@@ -70,7 +70,7 @@ const BattleCalculator = (initialVnode) => {
                                         onchange: (e) => handleDefendingUnitHealthChange(e, tile)
                                     }, groupBy)
                                 )
-                            )
+                            ) : 'No Units Available'
                         )
                     ]),
                     m('div', {className: 'absolute left-[5%] bottom-[5%]'},
