@@ -6,8 +6,8 @@
   "scripts": {
     "start": "electron-forge start",
     "dev": "electron . dev && npm run watch:tailwindcss",
-    "build:tailwindcss": "tailwindcss build -i src/stylesheets/_tailwind.css -o src/stylesheets/tailwind.css",
-    "watch:tailwindcss": "tailwindcss build -i src/stylesheets/_tailwind.css -o src/stylesheets/tailwind.css --watch",
+    "build:tailwindcss": "tailwindcss build -i gui/stylesheets/_tailwind.css -o gui/stylesheets/tailwind.css",
+    "watch:tailwindcss": "tailwindcss build -i gui/stylesheets/_tailwind.css -o gui/stylesheets/tailwind.css --watch",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
@@ -28,7 +28,7 @@
     "@electron-forge/maker-squirrel": "^6.1.0",
     "@electron-forge/maker-zip": "^6.1.0",
     "autoprefixer": "^10.4.7",
-    "electron": "^16.0.6",
+    "electron": "^23.2.0",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.2.6"
   },

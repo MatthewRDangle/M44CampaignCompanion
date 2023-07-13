@@ -1,10 +1,10 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const { getFileContent } = require('./api/systemFiles');
-const { quitApplication } = require('./api/app.js')
+const ipcHandler = require('./ipc/main');
 const path = require('path');
 
 const appArguments = process.argv;
 
+// GUI Config
 const createWindow = () => {
     global.appdir = __dirname;
 
@@ -17,39 +17,21 @@ const createWindow = () => {
             contextIsolation: false
         }
     });
-    win.setIcon(path.join(__dirname, 'src', 'images', 'icon', 'favicon-32x32.png'))
+    win.setIcon(path.join(__dirname, 'gui', 'images', 'icon', 'favicon-32x32.png'))
     win.webContents.openDevTools();
     win.setMenu(null);
-    win.loadFile(path.join(global.appdir, 'src/index.html'));
+    win.loadFile(path.join(global.appdir, 'gui/index.html'));
     win.maximize();
 }
 
+// Open GUI
 app.whenReady().then(() => {
     createWindow()
 
     app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
+        if (BrowserWindow.getAllWindows().length === 0)
+            createWindow()
     })
 })
 
-
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
-})
-
-ipcMain.on('close-app', (evt, arg) => {
-    if (process.platform !== 'darwin') app.quit()
-})
-
-
-ipcMain.handle('/api/systemFiles/getFileContent', async (e, path) => {
-    return await getFileContent(path);
-})
-
-ipcMain.handle('/api/app/quitApplication', async (e, path) => {
-    quitApplication(path);
-})
-
-ipcMain.handle('getAppPath', () => {
-    return global.appdir;
-});
+ipcHandler('/'); // initiate ipc handler.
