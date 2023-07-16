@@ -2,7 +2,7 @@
   "name": "@matthewrdangle/battlecry",
   "author": "Matthew R. Dangle",
   "description": "An engine to create, share, and play interactive 2D head-to-head scenarios for war-based board games.",
-  "license": "GPL-2.0 license",
+  "license": "GPL-2.0",
   "version": "1.0.1-alpha.0",
   "main": "startup.js",
   "homepage": "https://github.com/MatthewRDangle/battlecry#readme",

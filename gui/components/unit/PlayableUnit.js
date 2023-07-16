@@ -10,9 +10,19 @@ const PlayableUnit = (initialVnode) => {
             const factionHexColors = faction.color;
             const totalHealth = !!units ? units.reduce((amt, unit) => amt + unit.health, 0) : 0;
 
+            let isExhausted = false;
+            for (let unit of units) {
+                if (!unit.isExhausted) {
+                    isExhausted = false;
+                    break;
+                } else {
+                    isExhausted = true;
+                }
+            }
+
 
             return (
-                m('div', {className: 'relative w-20 h-20 z-10'}, [
+                m('div', {className: 'relative w-20 h-20 z-10 transition-opacity' + (isExhausted ? ' opacity-50' : '')}, [
                     m('div', {
                         className: 'w-full h-full rounded-[25%] shadow-xl shadow-background-500/50',
                         style: {'background-color': factionHexColors.background}
