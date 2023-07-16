@@ -1,6 +1,6 @@
 const {app, ipcMain} = require("electron");
-const appHandler = require("./handles/app");
-const systemHandler = require("./handles/system")
+const appHandler = require("./handlers/app");
+const systemHandler = require("./handlers/system")
 
 
 const ipcHandlerStartup = (channel) => {
