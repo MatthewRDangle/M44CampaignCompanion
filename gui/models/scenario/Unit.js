@@ -31,6 +31,11 @@ export default class Unit {
         return ScenarioDefinitionStore.activeScenarioDefinition;
     }
 
+    get isExhausted() {
+        // TODO if not 0, check if there are any eligible moves to be made.
+        return this.available_movement <= 0;
+    }
+
 
     attachTile(tile) {
         if (tile instanceof Tile)
@@ -129,6 +134,10 @@ export default class Unit {
         this.canMoveTo = {};
         if (this.activeScenario.selectedUnit instanceof Unit && this.activeScenario.selectedUnit === this)
             this.activeScenario.selectedUnit = undefined;
+    }
+
+    exhaust() {
+        this.available_movement = 0;
     }
 
     increaseHealthBy(int) {
