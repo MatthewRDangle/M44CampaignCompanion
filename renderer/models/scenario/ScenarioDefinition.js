@@ -248,21 +248,30 @@ export default class ScenarioDefinition {
     }
 
     nextTurn() {
-        if (this.trackers.battles.length === 0) {
+        if (this.isGameOver) return
 
+        if (this.trackers.battles.length !== 0) {
+            alert('There are still battles to be fought.')
+            return
+        }
+
+        const doEndTurn = confirm('Are you sure you would like to end your turn?')
+        if (doEndTurn) {
             // Run End of Turn Scripts
             if (!!this.scripts.end_of_turn)
                 this.scripts.end_of_turn.forEach(script => script.run())
 
+            // Update Counter
+            if (this.turnOrder.length === (this.turnOrder.indexOf(this.currentTurn.name) + 1))
+                this.turnCounter = this.turnCounter + 1;
+
             // Initiate Next Factions Turn
-            if (!this.isGameOver) {
-                const idx = this.turnOrder.indexOf(this.currentTurn.name);
-                const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
-                this.currentTurn = this.factions[factionName];
-                this.replenishMoveUnits();
-                this.trackers.unitMoves.length = 0;
-                this.turnCounter++;
-            }
+            const idx = this.turnOrder.indexOf(this.currentTurn.name);
+            const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
+            this.currentTurn = this.factions[factionName];
+            this.replenishMoveUnits();
+            this.trackers.unitMoves.length = 0;
+            alert(`${this.currentTurn.name} start your turn!`)
         }
     }
 
