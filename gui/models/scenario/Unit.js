@@ -66,6 +66,12 @@ export default class Unit {
                     const [row] = tileId.split('-');
                     const adjTile = activeScenario.tiles[row][tileId];
 
+                    // Check if the tile has room for more units.
+                    if (!isNaN(adjTile.terrain.max_units_allowed) && adjTile.terrain.max_units_allowed <= adjTile.totalUnitCount)
+                        continue
+                    else if (!isNaN(adjTile.terrain.max_units_allowed_per_faction) && adjTile.terrain.max_units_allowed_per_faction <= adjTile.units[unitOwner.name]?.length)
+                        continue
+
                     // Check if terrain is accessible by this unit type.
                     if (!!adjTile.terrain?.inaccessible_by.includes(unitType))
                         continue
