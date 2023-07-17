@@ -36,6 +36,15 @@ export default class Tile {
         return ScenarioDefinitionStore.activeScenarioDefinition;
     }
 
+    get totalUnitCount() {
+        let count = 0;
+        Object.keys(key => {
+            count += this.units[key].length;
+        })
+
+        return count;
+    }
+
 
     adjacentMovementCost() {
         const movement_info = {};
