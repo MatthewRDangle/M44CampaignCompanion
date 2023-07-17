@@ -13,14 +13,14 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             devTools: appArguments.includes('dev'),
-            nodeIntegration: true, // TODO set to true after securing ipcRenderer in gui
-            contextIsolation: false // TODO set to true after securing ipcRenderer in gui
+            nodeIntegration: true, // TODO set to true after securing ipcRenderer in renderer
+            contextIsolation: false // TODO set to true after securing ipcRenderer in renderer
         }
     });
-    win.setIcon(path.join(__dirname, 'gui', 'images', 'icon', 'favicon-32x32.png'))
+    win.setIcon(path.join(__dirname, 'renderer', 'images', 'icon', 'favicon-32x32.png'))
     win.webContents.openDevTools();
     win.setMenu(null);
-    win.loadFile(path.join(global.appdir, 'gui/index.html'));
+    win.loadFile(path.join(global.appdir, 'renderer/index.html'));
     win.maximize();
 }
 
