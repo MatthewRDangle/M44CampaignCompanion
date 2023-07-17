@@ -176,14 +176,23 @@ export default class Tile {
     resolve() {
         const tileFactions = Object.keys(this.units);
         if (Object.keys(this.units).length <= 1) {
+            this.activeScenario.untrackBattle(this.battle);
             this.battle = undefined;
             this.isContested = false;
+
+            // Change owner.
             if (tileFactions.length > 0) // @Todo how to determine ownership if more than one faction survivor (think teams).
                 this.occupied_by = this.activeScenario.factions[tileFactions[0]];
             else
                 this.occupied_by = undefined;
 
-            this.activeScenario.untrackBattle(this);
+            // Exhaust all units.
+            if (this.occupied_by === this.activeScenario.currentTurn) {
+                const units = this.units[this.occupied_by.name];
+                if (Array.isArray(units)) {
+                    units.forEach(unit => { unit.exhaust() })
+                }
+            }
         }
         return !this.isContested;
     }

@@ -1,5 +1,5 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const ipcHandler = require('./ipc/main');
+const { app, BrowserWindow, contextBridge, ipcRenderer } = require('electron');
+const ipcHandler = require('./channels/main');
 const path = require('path');
 
 const appArguments = process.argv;
@@ -13,8 +13,8 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             devTools: appArguments.includes('dev'),
-            nodeIntegration: true,
-            contextIsolation: false
+            nodeIntegration: true, // TODO set to true after securing ipcRenderer in gui
+            contextIsolation: false // TODO set to true after securing ipcRenderer in gui
         }
     });
     win.setIcon(path.join(__dirname, 'gui', 'images', 'icon', 'favicon-32x32.png'))
