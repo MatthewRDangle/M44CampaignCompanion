@@ -73,10 +73,27 @@ export default class Battle {
     }
 
     finalizeChanges() {
-        changeUnitsHealth(this.attackingUnitHealthChange, this.attackingUnits);
-        changeUnitsHealth(this.defendingUnitHealthChange, this.defendingUnits);
-        this.attackingUnitHealthChange = {};
-        this.defendingUnitHealthChange = {};
+        const attackerReachedNetZero = checkAllFactionsUnitsWillBeDestroyed(this.attackingUnitsInitialHealth, this.attackingUnitHealthChange);
+        const defenderReachedNetZero = checkAllFactionsUnitsWillBeDestroyed(this.defendingUnitsInitialHealth, this.defendingUnitHealthChange);
+
+        // Apply Change to units, otherwise notify user the battle can't resolve.
+        if (attackerReachedNetZero || defenderReachedNetZero) {
+            changeUnitsHealth(this.attackingUnitHealthChange, this.attackingUnits);
+            changeUnitsHealth(this.defendingUnitHealthChange, this.defendingUnits);
+            this.attackingUnitHealthChange = {};
+            this.defendingUnitHealthChange = {};
+        } else {
+            alert('One side must have no units remaining before this battle can resolve.')
+        }
+
+
+        function checkAllFactionsUnitsWillBeDestroyed(intialHealthObj, changehealthObj) {
+            for (let groupBy in intialHealthObj) {
+                if (intialHealthObj[groupBy] + changehealthObj[groupBy] !== 0)
+                    return false
+            }
+            return true
+        }
 
         function changeUnitsHealth(changeObj, unitGroupByObj = []) {
             Object.entries({...changeObj}).forEach(([groupBy, groupByHealthChange]) => {

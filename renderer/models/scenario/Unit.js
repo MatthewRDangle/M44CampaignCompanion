@@ -31,6 +31,11 @@ export default class Unit {
         return ScenarioDefinitionStore.activeScenarioDefinition;
     }
 
+    get isExhausted() {
+        // TODO if not 0, check if there are any eligible moves to be made.
+        return this.available_movement <= 0;
+    }
+
 
     attachTile(tile) {
         if (tile instanceof Tile)
@@ -60,6 +65,12 @@ export default class Unit {
                 if ( movement_cost <= available_movement) {
                     const [row] = tileId.split('-');
                     const adjTile = activeScenario.tiles[row][tileId];
+
+                    // Check if the tile has room for more units.
+                    if (!isNaN(adjTile.terrain.max_units_allowed) && adjTile.terrain.max_units_allowed <= adjTile.totalUnitCount)
+                        continue
+                    else if (!isNaN(adjTile.terrain.max_units_allowed_per_faction) && adjTile.terrain.max_units_allowed_per_faction <= adjTile.units[unitOwner.name]?.length)
+                        continue
 
                     // Check if terrain is accessible by this unit type.
                     if (!!adjTile.terrain?.inaccessible_by.includes(unitType))
@@ -129,6 +140,10 @@ export default class Unit {
         this.canMoveTo = {};
         if (this.activeScenario.selectedUnit instanceof Unit && this.activeScenario.selectedUnit === this)
             this.activeScenario.selectedUnit = undefined;
+    }
+
+    exhaust() {
+        this.available_movement = 0;
     }
 
     increaseHealthBy(int) {
