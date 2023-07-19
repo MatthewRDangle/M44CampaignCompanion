@@ -1,5 +1,5 @@
 const { app, BrowserWindow, contextBridge, ipcRenderer } = require('electron');
-const ipcHandler = require('./channels/main');
+const ipcHandler = require('./system/main');
 const path = require('path');
 
 const appArguments = process.argv;

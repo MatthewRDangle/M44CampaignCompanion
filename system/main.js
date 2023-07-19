@@ -1,6 +1,6 @@
 const {app, ipcMain} = require("electron");
-const appHandler = require("./handlers/app");
-const systemHandler = require("./handlers/system")
+const appHandler = require("./emitters/app");
+const systemHandler = require("./emitters/system")
 
 
 const ipcHandlerStartup = (channel) => {
@@ -15,7 +15,7 @@ const ipcHandlerStartup = (channel) => {
             app.quit()
     })
 
-    // Import custom handlers.
+    // Import custom emitters.
     appHandler(channel + 'app');
     systemHandler(channel + 'system');
 }
