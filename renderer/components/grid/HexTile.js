@@ -2,7 +2,7 @@ const m = require("mithril");
 const classNames = require("classnames");
 
 import PlayableUnit from "../unit/PlayableUnit.js";
-import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import definitionStore from "../../stores/definition.store.js";
 import modeStore from "../../stores/mode.store.js";
 
 
@@ -26,7 +26,7 @@ const HexTile = (initialVnode) => {
     return {
         view: (vNode) => {
             const {attrs} = vNode;
-            const {activeScenarioDefinition} = scenarioDefinitionStore;
+            const {activeScenarioDefinition} = definitionStore;
 
             const { isMoveUnitMode, isIndirectFireMode, selectedUnit } = modeStore;
             const { hex, size, margin } = attrs;

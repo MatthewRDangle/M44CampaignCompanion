@@ -2,7 +2,7 @@ const m = require("mithril");
 
 import TitleBar from "../TitleBar.js";
 import Divider from "../Divider.js";
-import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../stores/definition.store.js";
 
 
 const PauseMenu = (initialVnode) => {

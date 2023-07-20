@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../stores/definition.store.js";
 
 
 const NextTurn = (initialVnode) => {

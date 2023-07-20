@@ -4,7 +4,7 @@ import Page from '../../../models/Page.js';
 import Body from "../../../components/Body.js";
 import Button from "../../../components/Button.js";
 import Background from "../../../components/Background.js";
-import ScenarioDefinitionStore from "../../../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../../stores/definition.store.js";
 
 export const page = new Page('/scenario/tile/:tileId/map', (initialVnode) => {
 

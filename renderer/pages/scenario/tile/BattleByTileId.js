@@ -5,7 +5,7 @@ import TitleBar from "../../../components/TitleBar.js";
 import Body from "../../../components/Body.js";
 import Background from "../../../components/Background.js";
 import BattleCalculator from "../../../components/battle/BattleCalculator.js";
-import ScenarioDefinitionStore from "../../../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../../stores/definition.store.js";
 
 export const page = new Page('/scenario/tile/:tileId/battle', (initialVnode) => {
 

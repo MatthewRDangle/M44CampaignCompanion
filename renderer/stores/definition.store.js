@@ -2,17 +2,17 @@ import ScenarioDefinition from "../models/scenario/ScenarioDefinition.js";
 import {scenarioDefinitionService} from "../services/scenarioDefinition.service.js";
 
 
-let scenarioDefinitionStore;
+let definitionStore;
 
 class ScenarioDefinitionStore {
 
     constructor() {
-        if (!scenarioDefinitionStore) {
+        if (!definitionStore) {
             this.setActiveScenarioDefinition = this.setActiveScenarioDefinition.bind(this);
             this.getContentsFromScenarioDefinitionFile = this.getContentsFromScenarioDefinitionFile.bind(this);
             return this;
         } else
-            return scenarioDefinitionStore;
+            return definitionStore;
     }
 
     activeScenarioDefinition = undefined;
@@ -92,5 +92,5 @@ class ScenarioDefinitionStore {
     }
 }
 
-scenarioDefinitionStore = new ScenarioDefinitionStore();
-export default scenarioDefinitionStore;
+definitionStore = new ScenarioDefinitionStore();
+export default definitionStore;

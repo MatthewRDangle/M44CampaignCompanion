@@ -2,7 +2,7 @@ const m = require("mithril");
 const classNames = require('classnames');
 
 import PauseMenu from "./PauseMenu.js";
-import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../stores/definition.store.js";
 
 
 const GameHeader = (initialVnode) => {

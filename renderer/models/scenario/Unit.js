@@ -1,7 +1,7 @@
 import Faction from './Faction.js';
 import Tile from "./Tile.js";
 import Terrain from "./Terrain.js";
-import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../stores/definition.store.js";
 
 
 export default class Unit {

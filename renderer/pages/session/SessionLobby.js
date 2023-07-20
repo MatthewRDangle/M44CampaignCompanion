@@ -5,14 +5,14 @@ import Page from '../../models/Page.js';
 import Button from "../../components/Button.js";
 import Body from "../../components/Body.js";
 import TitleBar from "../../components/TitleBar.js";
-import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
-import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import manifestStore from "../../stores/manifest.store.js";
+import definitionStore from "../../stores/definition.store.js";
 import boardStore from "../../stores/board.store.js";
 
 
 export const page = new Page('/session/lobby', (initialVnode) => {
-    const {loadScenarioManifestRegistry} = scenarioManifestStore;
-    const {setActiveScenarioDefinition} = scenarioDefinitionStore;
+    const {loadScenarioManifestRegistry} = manifestStore;
+    const {setActiveScenarioDefinition} = definitionStore;
     loadScenarioManifestRegistry().then(() => m.redraw());
 
 
@@ -33,7 +33,7 @@ export const page = new Page('/session/lobby', (initialVnode) => {
 
     return {
         view: (vNode) => {
-            const {manifestRegistryList} = scenarioManifestStore;
+            const {manifestRegistryList} = manifestStore;
 
             return m(Body, [
                 m('img', {

@@ -7,7 +7,7 @@ import Hud from "../hud/GameHud.js";
 import Unit from "../../models/scenario/Unit.js";
 import Tile from "../../models/scenario/Tile.js";
 import boardStore from "../../stores/board.store.js";
-import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import definitionStore from "../../stores/definition.store.js";
 
 
 const GameBoard = (initialVnode) => {
@@ -65,7 +65,7 @@ const GameBoard = (initialVnode) => {
                 m('div', {className: 'relative w-full h-full overflow-hidden',
                     tabindex: 0,
                     onwheel: handleScale,
-                    oncontextmenu: () => handleRightClick(scenarioDefinitionStore.activeScenarioDefinition),
+                    oncontextmenu: () => handleRightClick(definitionStore.activeScenarioDefinition),
                 }, [
                     m('div', {
                         className: classnames('absolute',{
@@ -79,9 +79,9 @@ const GameBoard = (initialVnode) => {
                         onmousedown: handleDragStart,
                         onmousemove: !!isBeingDragged && handleDragging,
                         onmouseup: !!isBeingDragged && handleDragEnd
-                    }, m(HexGrid, {grid: scenarioDefinitionStore.activeScenarioDefinition.tiles, hexSize: boardStore.hexSize, hexMargin: boardStore.hexMargin, rowEvenOffset: boardStore.rowEvenOffset})),
+                    }, m(HexGrid, {grid: definitionStore.activeScenarioDefinition.tiles, hexSize: boardStore.hexSize, hexMargin: boardStore.hexMargin, rowEvenOffset: boardStore.rowEvenOffset})),
                     m('div', [
-                        m(Hud, {scenario: scenarioDefinitionStore.activeScenarioDefinition})
+                        m(Hud, {scenario: definitionStore.activeScenarioDefinition})
                     ])
                 ])
             )

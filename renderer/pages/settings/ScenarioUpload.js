@@ -4,11 +4,11 @@ import Page from '../../models/Page.js';
 import Body from "../../components/Body.js";
 import Button from "../../components/Button.js";
 import TitleBar from "../../components/TitleBar.js";
-import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
+import manifestStore from "../../stores/manifest.store.js";
 
 
 export const page = new Page('/settings/scenarios/upload', (initialVnode) => {
-    const {addOneScenarioManifest, getContentsFromScenarioManifestFile} = scenarioManifestStore;
+    const {addOneScenarioManifest, getContentsFromScenarioManifestFile} = manifestStore;
 
 
     let file = undefined;

@@ -4,12 +4,12 @@ const classnames = require('classnames');
 import Page from '../../models/Page.js';
 import Body from "../../components/Body.js";
 import Button from "../../components/Button.js";
-import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
+import manifestStore from "../../stores/manifest.store.js";
 import TitleBar from "../../components/TitleBar.js";
 
 
 export const page = new Page('/settings/scenarios', (initialVnode) => {
-    const {loadScenarioManifestRegistry, deleteOneScenarioManifest} = scenarioManifestStore;
+    const {loadScenarioManifestRegistry, deleteOneScenarioManifest} = manifestStore;
     loadScenarioManifestRegistry().then(() => m.redraw());
 
     const handleUpload = () => {
@@ -23,7 +23,7 @@ export const page = new Page('/settings/scenarios', (initialVnode) => {
 
     return {
         view: (vNode) => {
-            const {manifestRegistryList} = scenarioManifestStore;
+            const {manifestRegistryList} = manifestStore;
 
 
             return m(Body, [

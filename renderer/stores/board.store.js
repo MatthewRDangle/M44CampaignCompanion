@@ -1,4 +1,4 @@
-import scenarioDefinitionStore from "./ScenarioDefinition.store.js"
+import definitionStore from "./definition.store.js"
 
 let boardStore;
 
@@ -26,9 +26,8 @@ class BoardStore {
     }
 
     resetBoard() {
-        console.log('ran')
-        this.width = this.hexSize * scenarioDefinitionStore.activeScenarioDefinition.columns + this.hexSize / 2 + this.hexMargin * 2 * scenarioDefinitionStore.activeScenarioDefinition.columns
-        this.height = this.hexSize * scenarioDefinitionStore.activeScenarioDefinition.rows + this.hexSize / 2 + this.hexMargin * 2 * scenarioDefinitionStore.activeScenarioDefinition.rows
+        this.width = this.hexSize * definitionStore.activeScenarioDefinition.columns + this.hexSize / 2 + this.hexMargin * 2 * definitionStore.activeScenarioDefinition.columns
+        this.height = this.hexSize * definitionStore.activeScenarioDefinition.rows + this.hexSize / 2 + this.hexMargin * 2 * definitionStore.activeScenarioDefinition.rows
         this.scale = 0.5
         this.mouseX = 0
         this.mouseY = 0

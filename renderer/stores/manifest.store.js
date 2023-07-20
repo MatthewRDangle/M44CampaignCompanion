@@ -2,19 +2,19 @@ import {scenarioManifestService} from "../services/scenarioManifest.service.js";
 import ScenarioManifest from "../models/scenario/ScenarioManifest.js";
 
 
-let scenarioManifestStore;
+let manifestStore;
 
 class ScenarioManifestStore {
 
     constructor() {
-        if (!scenarioManifestStore) {
+        if (!manifestStore) {
             this.clearScenarioManifestRegistry = this.clearScenarioManifestRegistry.bind(this);
             this.loadScenarioManifestRegistry = this.loadScenarioManifestRegistry.bind(this);;
             this.addOneScenarioManifest = this.addOneScenarioManifest.bind(this)
             this.deleteOneScenarioManifest = this.deleteOneScenarioManifest.bind(this);
             return this;
         } else
-            return scenarioManifestStore;
+            return manifestStore;
     }
 
     manifestRegistry = {};
@@ -81,5 +81,5 @@ class ScenarioManifestStore {
     }
 }
 
-scenarioManifestStore = new ScenarioManifestStore();
-export default scenarioManifestStore;
+manifestStore = new ScenarioManifestStore();
+export default manifestStore;

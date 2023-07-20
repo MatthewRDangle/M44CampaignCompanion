@@ -1,7 +1,7 @@
 const m = require("mithril");
 
 import HexTile from "./grid/HexTile.js";
-import ScenarioDefinitionStore from "../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../stores/definition.store.js";
 
 
 const HexGrid = (initialVnode) => {
