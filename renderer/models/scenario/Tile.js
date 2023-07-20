@@ -158,7 +158,7 @@ export default class Tile {
     }
 
     contest(invader) {
-        if (invader instanceof Faction) {
+        if (invader instanceof Faction && !this.isContested) {
             if (!!this.units[this.occupied_by?.name]) {
                 this.isContested = invader;
                 this.battle = new Battle(this);

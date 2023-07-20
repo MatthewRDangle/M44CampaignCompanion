@@ -28,13 +28,13 @@ export default class Unit {
         this.movement_cap = options?.movement_cap || 1;
 
         this.attack = {
-            direct: options?.direct || true,
-            indirect: options?.indirect ? {
+            direct: options?.direct_attack || true,
+            indirect: !!options?.indirect_attack ? {
                 operational: true,
-                type: options?.indirect?.type || [],
-                range: options?.indirect?.range || 1,
-                damage: options?.indirect?.damage || 1,
-                chance: options?.indirect?.chance || 25,
+                type: options?.indirect_attack?.type || [],
+                range: options?.indirect_attack?.range || 1,
+                damage: options?.indirect_attack?.damage || 1,
+                chance: options?.indirect_attack?.chance || 25,
             } : false,
         }
     }
@@ -208,7 +208,9 @@ export default class Unit {
         if (this.canAttackIndirectly && this.canIndirectTo.includes(tile)) {
             const attack = this.attack.indirect;
             tile.defendAgainstIndirectAttack(attack);
+            this.activeScenario.trackUnitMoved(this);
             this.exhaust();
+            this.deselect();
         }
     }
 
