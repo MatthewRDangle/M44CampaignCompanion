@@ -14,9 +14,6 @@ export default class Tile {
         this.row = 0;
         this.column = 0;
 
-        // Interaction
-        this.isSelected = false;
-
         // Ownership
         this.occupied_by = undefined;
         this.battle = undefined;
@@ -36,6 +33,27 @@ export default class Tile {
         return ScenarioDefinitionStore.activeScenarioDefinition;
     }
 
+    get isHostile() {
+        const currentTurnFaction = this.activeScenario.currentTurn;
+        if (this.occupied_by === currentTurnFaction) return false
+
+        let hasHostileUnits = false;
+        const factionNameList = Object.keys(this.units);
+        for (let idx = 0; idx < factionNameList.length; idx++) {
+            const factionName = factionNameList[idx];
+            if (factionName !== currentTurnFaction.name) {
+                hasHostileUnits = true
+                break
+            }
+        }
+
+        return hasHostileUnits
+    }
+
+    get isSelected() {
+        return this.activeScenario.selectedTile === this
+    }
+
     get totalUnitCount() {
         let count = 0;
         Object.keys(key => {
@@ -45,6 +63,14 @@ export default class Tile {
         return count;
     }
 
+    get unitList() {
+        let tmpUnitList = [];
+        Object.values(this.units).forEach(tmpUnits => {
+            tmpUnitList = tmpUnitList.concat(tmpUnits);
+        })
+
+        return tmpUnitList
+    }
 
     adjacentMovementCost() {
         const movement_info = {};
@@ -143,10 +169,25 @@ export default class Tile {
         }
     }
 
+    defendAgainstIndirectAttack(attack) {
+        const unitList = [...this.unitList]
+        unitList.forEach((unit) => {
+            const chance = attack.chance;
+            const chance_modifier = this.terrain.calculateIndirectAttackChanceModifier(unit);
+            const roll = Math.round(Math.random() * 100); // Random number between 0 and 100
+            if (roll <= (chance + chance_modifier)) {
+                const damage = attack.damage;
+                const damage_modifier = this.terrain.calculateIndirectAttackDamageModifier(unit);
+                const apply_damage = damage - damage_modifier;
+                if (apply_damage > 0)
+                    unit.damage(apply_damage)
+            }
+        })
+    }
+
     deselect() {
-        this.isSelected = false;
         if (this.activeScenario instanceof ScenarioDefinition)
-            this.activeScenario.selectedTile = undefined;
+            this.activeScenario.selectTile()
     }
 
     generateAdjacentTiles() { // TODO convert to setter and getter
@@ -206,14 +247,13 @@ export default class Tile {
     }
 
     select() {
-        this.isSelected = true;
         if (this.activeScenario instanceof ScenarioDefinition) {
             if (this.activeScenario.selectedTile === this)
                 return
 
             if (this.activeScenario.selectedTile instanceof Tile)
                 this.activeScenario.selectedTile.deselect();
-            this.activeScenario.setSelectedTile(this);
+            this.activeScenario.selectTile(this);
         }
     }
 }

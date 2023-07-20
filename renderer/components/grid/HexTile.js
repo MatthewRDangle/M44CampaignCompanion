@@ -2,18 +2,23 @@ const m = require("mithril");
 const classNames = require("classnames");
 
 import PlayableUnit from "../unit/PlayableUnit.js";
-import Unit from "../../models/scenario/Unit.js";
 import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import modeStore from "../../stores/mode.store.js";
 
 
 const HexTile = (initialVnode) => {
-
-    const handleOnClick = (tile, scenario) => {
+    const handleOnClick = (tile) => {
         if (!!tile.terrain?.render || tile.terrain?.render === undefined) {
-            if (scenario.selectedUnit instanceof Unit)
-                scenario.selectedUnit.moveTo(tile);
-            else
-                tile.select();
+            if (modeStore.isMoveUnitMode) {
+                const unit = modeStore.selectedUnit;
+                unit.move(tile)
+            } else if (modeStore.isIndirectFireMode) {
+                const unit = modeStore.selectedUnit;
+                unit.indirectAttack(tile)
+            }
+            else {
+                tile.select()
+            }
         }
     }
 
@@ -23,11 +28,11 @@ const HexTile = (initialVnode) => {
             const {attrs} = vNode;
             const {activeScenarioDefinition} = scenarioDefinitionStore;
 
-            const {hex, size, margin} = attrs;
+            const { isMoveUnitMode, isIndirectFireMode, selectedUnit } = modeStore;
+            const { hex, size, margin } = attrs;
             const overlays = Object.values(hex.overlays);
             const height = size * 1.1547;
             const marginBottom = margin - size * 0.2885;
-            const selectedUnit = activeScenarioDefinition.selectedUnit;
 
 
             return (
@@ -35,15 +40,16 @@ const HexTile = (initialVnode) => {
                     className: classNames('relative inline-block text-base align-top disabled:opacity-50', {
                         'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.terrain?.render || hex.terrain?.render === undefined,
                         '!cursor-pointer !bg-interaction-900': hex.isSelected,
-                        '!bg-interaction-900': selectedUnit?.canMoveTo[hex.id] >= 0,
-                        '!bg-warning': hex.isContested
+                        '!bg-interaction-900': isMoveUnitMode && selectedUnit?.canMoveTo[hex.id] >= 0,
+                        '!bg-warning-900': isIndirectFireMode && selectedUnit?.canIndirectTo.includes(hex),
+                        '!bg-warning-500': hex.isContested
                     }),
                     style: {width: `${size}px`, height: `${height}px`, margin: `${margin}px`,
                         'background-color': `${hex.terrain?.color}`,
                         'margin-bottom': `${marginBottom}px`,
                         'clip-path': 'polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%)'
                     },
-                    onclick: () => handleOnClick(hex, activeScenarioDefinition)
+                    onclick: () => handleOnClick(hex)
                     }, [
                         overlays.map(overlay => overlay.images.map(image =>
                             m('img', {

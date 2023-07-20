@@ -4,9 +4,10 @@ const classNames = require('classnames');
 import Page from '../../models/Page.js';
 import Button from "../../components/Button.js";
 import Body from "../../components/Body.js";
+import TitleBar from "../../components/TitleBar.js";
 import scenarioManifestStore from "../../stores/ScenarioManifest.store.js";
 import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
-import TitleBar from "../../components/TitleBar.js";
+import boardStore from "../../stores/board.store.js";
 
 
 export const page = new Page('/session/lobby', (initialVnode) => {
@@ -24,6 +25,7 @@ export const page = new Page('/session/lobby', (initialVnode) => {
     const handleStartBattle = async (manifest) => {
         if (selectedScenario) {
             await setActiveScenarioDefinition(manifest);
+            boardStore.resetBoard()
             m.route.set('/scenario');
         }
     }
