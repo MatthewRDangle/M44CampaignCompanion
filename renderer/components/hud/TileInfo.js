@@ -1,11 +1,20 @@
 const m = require("mithril");
 
+import interactionStore from "../../stores/Interaction.store.js";
 import Terrain from "../../models/scenario/Terrain.js";
 import Button from "../Button.js";
 import UnitCard from "../unit/UnitFlag.js";
 
 
 const TileInfo = (initialVnode) => {
+
+    const handleMoveMode = () => {
+        interactionStore.disableIndirectFireMode()
+    }
+
+    const handleIndirectFireMode = () => {
+        interactionStore.enableIndirectFireMode()
+    }
 
     const handleBattle = (tile) => {
         m.route.set('/scenario/tile/:tileId/battle', {tileId: tile.id})
@@ -24,6 +33,9 @@ const TileInfo = (initialVnode) => {
         view: (vNode) => {
             const {attrs} = vNode;
             const {currentTurn, tile} = attrs;
+            const {isMoveUnitMode, isIndirectFireMode, selectedUnit} = interactionStore;
+            const unitExists = !!selectedUnit
+            const canIndirectFire = !!unitExists && !isIndirectFireMode ? selectedUnit.canAttackIndirectly : false
 
 
             return (
@@ -37,7 +49,9 @@ const TileInfo = (initialVnode) => {
                         m('div', {className: 'inline-block px-4 py-1 bg-background rounded'}, (tile.terrain instanceof Terrain) ? tile.terrain.name : 'Unknown'),
                         m('div', {className: 'flex flex-row flex-full'}, [
                             m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handlePreview(tile)}}, 'Preview')),
-                            m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleBattle(tile)}, disabled: !tile.isContested}, 'Battle'))
+                            m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleBattle(tile)}, disabled: !tile.isContested}, 'Battle')),
+                            unitExists && !isMoveUnitMode && !selectedUnit.isExhausted && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleMoveMode()}}, 'Move')),
+                            unitExists && canIndirectFire && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleIndirectFireMode()}}, 'Indirect'))
                         ])
                     ]),
                 ])

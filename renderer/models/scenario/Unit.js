@@ -5,44 +5,68 @@ import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
 
 
 export default class Unit {
-
     constructor(owner, options) {
         if ( !(owner instanceof Faction) )
             throw Error('A unit must be assigned to a faction.');
 
-        this.faction = owner;
-        this.isSelected = false;
         this.name = options?.name || 'Unit';
         this.type = options?.type || '';
         this.health = options?.health || 1;
+        this.tile = undefined;
+        this.faction = owner;
+
+        this.canIndirectTo = [];
+        this.canMoveTo = {};
+
         this.icon = {
             src: options?.icon?.src ?? undefined,
             alt: options?.icon?.alt ?? undefined
         };
 
+        // TODO convert to movement object.
         this.available_movement = options?.available_movement || 1;
         this.movement_cap = options?.movement_cap || 1;
-        this.canMoveTo = {};
 
-        this.tile = undefined;
+        this.attack = {
+            direct: options?.direct || true,
+            indirect: options?.indirect ? {
+                operational: true,
+                type: options?.indirect?.type || [],
+                range: options?.indirect?.range || 1,
+                damage: options?.indirect?.damage || 1,
+                chance: options?.indirect?.chance || 25,
+            } : false,
+        }
     }
 
     get activeScenario() {
         return ScenarioDefinitionStore.activeScenarioDefinition;
     }
 
-    get isExhausted() {
-        // TODO if not 0, check if there are any eligible moves to be made.
-        return this.available_movement <= 0;
+    get canAttackDirectly() {
+        return this.attack.direct;
     }
 
+    get canAttackIndirectly() {
+        if (!!this.attack.indirect && !this.isExhausted)
+            return this.attack.indirect.operational
+        return false
+    }
+
+    get isExhausted() {
+        return this.available_movement <= 0; // TODO if not 0, check if there are any eligible moves to be made.
+    }
+
+    get isSelected() {
+        return this.activeScenario.selectedUnit === this
+    }
 
     attachTile(tile) {
         if (tile instanceof Tile)
             this.tile = tile;
     }
 
-    eligibleMoves() {
+    calculateEligibleMoves() {
         const activeScenario = this.activeScenario;
         const eligible_moves = {};
         const unitTileId = this.tile.id;
@@ -111,13 +135,38 @@ export default class Unit {
         }
     }
 
-    death() {
-        if (this.activeScenario.selectedUnit === this)
-            this.activeScenario.selectedUnit = undefined;
-        this.tile.removeUnit(this);
+    calculateEligableIndirectAttackTiles() {
+        const eligableTiles = []
+        if (!this.canAttackIndirectly)
+            return eligableTiles
+
+        const currentTile = this.tile;
+        const range = this.attack.indirect.range;
+        const activeScenario = this.activeScenario;
+        checkTile(this.tile, range);
+        this.canIndirectTo = eligableTiles;
+        return eligableTiles
+
+        // TODO This function is poorly optimized. Fix when moving to store.
+        function checkTile(tile, localRange) {
+            if (tile && !!tile?.terrain?.render) {
+                if (tile !== currentTile && !eligableTiles.includes(tile) && tile.isHostile)
+                    eligableTiles.push(tile)
+
+                if (localRange - 1 >= 0) {
+                    tile.adjacentTiles.forEach(adjTileId => {
+                        const [row] = adjTileId.split('-')
+                        if (row > 0 && row <= activeScenario.rows) {
+                            const tile = activeScenario.tiles[row][adjTileId]
+                            checkTile(tile, localRange - 1);
+                        }
+                    })
+                }
+            }
+        }
     }
 
-    decreaseHealthBy(int) {
+    damage(int) {
         int = Math.abs(int);
 
         if (int < this.health) {
@@ -131,33 +180,45 @@ export default class Unit {
         }
     }
 
+    death() {
+        if (this.isSelected) this.activeScenario.selectUnit()
+        this.tile.removeUnit(this);
+    }
+
     detachTile() {
         this.tile = undefined;
     }
 
     deselect() {
-        this.isSelected = false;
         this.canMoveTo = {};
         if (this.activeScenario.selectedUnit instanceof Unit && this.activeScenario.selectedUnit === this)
-            this.activeScenario.selectedUnit = undefined;
+            this.activeScenario.selectUnit()
     }
 
     exhaust() {
         this.available_movement = 0;
     }
 
-    increaseHealthBy(int) {
+    heal(int) {
         int = Math.abs(int);
         this.health += int;
     }
 
-    moveTo(tile) {
+    indirectAttack(tile) {
+        if (this.canAttackIndirectly && this.canIndirectTo.includes(tile)) {
+            const attack = this.attack.indirect;
+            tile.defendAgainstIndirectAttack(attack);
+            this.exhaust();
+        }
+    }
+
+    move(tile) {
         if (this.tile) {
             const eligibleMoves = this.canMoveTo;
             for(let key in eligibleMoves) {
                 const new_available_movement = eligibleMoves[key];
                 if (tile.id === key && this.available_movement >= new_available_movement) {
-                    this.warpTo(tile);
+                    this.warp(tile);
                     this.activeScenario.trackUnitMoved(this);
                     this.deselect();
                     this.available_movement = new_available_movement;
@@ -174,14 +235,12 @@ export default class Unit {
     }
 
     select() {
-        this.isSelected = true;
-        this.eligibleMoves();
         if (this.activeScenario.selectedUnit instanceof Unit && this.activeScenario.selectedUnit !== this)
             this.activeScenario.selectedUnit.deselect();
-        this.activeScenario.selectedUnit = this;
+        this.activeScenario.selectUnit(this);
     }
 
-    warpTo(tile) {
+    warp(tile) {
         if (tile instanceof Tile && tile !== this.tile) {
             this.tile.removeUnit(this);
             tile.addUnit(this);

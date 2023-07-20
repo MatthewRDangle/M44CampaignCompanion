@@ -83,8 +83,9 @@ const GameBoard = (initialVnode) => {
 
             return (
                 m('div', {className: 'relative w-full h-full overflow-hidden',
+                    tabindex: 0,
                     onwheel: handleScale,
-                    oncontextmenu: () => handleRightClick(scenario)
+                    oncontextmenu: () => handleRightClick(scenario),
                 }, [
                     m('div', {
                         className: classnames('absolute',{

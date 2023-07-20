@@ -1,3 +1,4 @@
+import interactionStore from "../../stores/Interaction.store.js";
 import Tile from "./Tile.js";
 import Faction from "./Faction.js";
 import Unit from "./Unit.js";
@@ -9,7 +10,6 @@ import Battle from "./Battle.js";
 
 export default class ScenarioDefinition {
     constructor() {
-        // Development
         this.UUID = undefined;
         this.devMode = false;
 
@@ -31,21 +31,24 @@ export default class ScenarioDefinition {
         this.currentTurn = undefined;
         this.isGameOver = false;
 
-        // User Interaction
-        this.selectedTile = undefined;
-        this.selectedUnit = undefined;
-
         // Trackers
         this.trackers = {
             battles: [],
             unitMoves: []
         }
-        // this.unitsThatMoved = [];
 
         // Grid Builder
         this.columns = 0;
         this.rows = 0;
         this.tiles = [];
+    }
+
+    get selectedTile() {
+        return interactionStore.selectedTile
+    }
+
+    get selectedUnit() {
+        return interactionStore.selectedUnit
     }
 
     compile(definition) {
@@ -218,6 +221,10 @@ export default class ScenarioDefinition {
         }
     }
 
+    displayContextMenu() {
+        this.showContextMenu = true;
+    }
+
     factionsAreDefeated(factions) {
         for (let key in this.factions) {
             const faction = this.factions[key];
@@ -245,6 +252,10 @@ export default class ScenarioDefinition {
     fetchTileReferenceById(tileId) {
         const [row, column] = tileId.split('-');
         return this.tiles[row][tileId];
+    }
+
+    hideContextMenu() {
+        this.showContextMenu = false;
     }
 
     nextTurn() {
@@ -281,11 +292,12 @@ export default class ScenarioDefinition {
         });
     }
 
-    setSelectedTile(tile) {
-        if (tile instanceof Tile)
-            this.selectedTile = tile;
-        else
-            this.selectedTile = undefined;
+    selectTile(tile) {
+        interactionStore.selectTile(tile)
+    }
+
+    selectUnit(unit) {
+        interactionStore.selectUnit(unit)
     }
 
     trackBattle(battle) {
