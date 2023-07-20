@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import interactionStore from "../../stores/Interaction.store.js";
+import modeStore from "../../stores/mode.store.js";
 import Terrain from "../../models/scenario/Terrain.js";
 import Button from "../Button.js";
 import UnitCard from "../unit/UnitFlag.js";
@@ -9,11 +9,11 @@ import UnitCard from "../unit/UnitFlag.js";
 const TileInfo = (initialVnode) => {
 
     const handleMoveMode = () => {
-        interactionStore.disableIndirectFireMode()
+        modeStore.disableIndirectFireMode()
     }
 
     const handleIndirectFireMode = () => {
-        interactionStore.enableIndirectFireMode()
+        modeStore.enableIndirectFireMode()
     }
 
     const handleBattle = (tile) => {
@@ -33,7 +33,7 @@ const TileInfo = (initialVnode) => {
         view: (vNode) => {
             const {attrs} = vNode;
             const {currentTurn, tile} = attrs;
-            const {isMoveUnitMode, isIndirectFireMode, selectedUnit} = interactionStore;
+            const {isMoveUnitMode, isIndirectFireMode, selectedUnit} = modeStore;
             const unitExists = !!selectedUnit
             const canIndirectFire = !!unitExists && !isIndirectFireMode ? selectedUnit.canAttackIndirectly : false
 

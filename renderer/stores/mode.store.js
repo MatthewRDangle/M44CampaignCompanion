@@ -1,7 +1,7 @@
 import Unit from "../models/scenario/Unit.js";
 import Tile from "../models/scenario/Tile.js";
 
-let interactionStore;
+let modeStore;
 
 class InteractionStore {
     _unitIndirectFire = undefined
@@ -9,12 +9,14 @@ class InteractionStore {
     selectedTile = undefined
 
     constructor() {
-        if (!interactionStore) {
+        if (!modeStore) {
+            this.enableIndirectFireMode = this.enableIndirectFireMode.bind(this);
+            this.disableIndirectFireMode = this.disableIndirectFireMode.bind(this);
             this.selectUnit = this.selectUnit.bind(this);
             this.selectTile = this.selectTile.bind(this);
             return this;
         } else
-            return interactionStore;
+            return modeStore;
     }
 
     get isCommandMode() {
@@ -59,5 +61,5 @@ class InteractionStore {
     }
 }
 
-interactionStore = new InteractionStore();
-export default interactionStore;
+modeStore = new InteractionStore();
+export default modeStore;

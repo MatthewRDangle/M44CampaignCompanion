@@ -1,4 +1,4 @@
-import interactionStore from "../../stores/Interaction.store.js";
+import modeStore from "../../stores/mode.store.js";
 import Tile from "./Tile.js";
 import Faction from "./Faction.js";
 import Unit from "./Unit.js";
@@ -44,11 +44,11 @@ export default class ScenarioDefinition {
     }
 
     get selectedTile() {
-        return interactionStore.selectedTile
+        return modeStore.selectedTile
     }
 
     get selectedUnit() {
-        return interactionStore.selectedUnit
+        return modeStore.selectedUnit
     }
 
     compile(definition) {
@@ -293,11 +293,11 @@ export default class ScenarioDefinition {
     }
 
     selectTile(tile) {
-        interactionStore.selectTile(tile)
+        modeStore.selectTile(tile)
     }
 
     selectUnit(unit) {
-        interactionStore.selectUnit(unit)
+        modeStore.selectUnit(unit)
     }
 
     trackBattle(battle) {

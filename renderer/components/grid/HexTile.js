@@ -3,17 +3,17 @@ const classNames = require("classnames");
 
 import PlayableUnit from "../unit/PlayableUnit.js";
 import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
-import interactionStore from "../../stores/Interaction.store.js";
+import modeStore from "../../stores/mode.store.js";
 
 
 const HexTile = (initialVnode) => {
     const handleOnClick = (tile) => {
         if (!!tile.terrain?.render || tile.terrain?.render === undefined) {
-            if (interactionStore.isMoveUnitMode) {
-                const unit = interactionStore.selectedUnit;
+            if (modeStore.isMoveUnitMode) {
+                const unit = modeStore.selectedUnit;
                 unit.move(tile)
-            } else if (interactionStore.isIndirectFireMode) {
-                const unit = interactionStore.selectedUnit;
+            } else if (modeStore.isIndirectFireMode) {
+                const unit = modeStore.selectedUnit;
                 unit.indirectAttack(tile)
             }
             else {
@@ -28,7 +28,7 @@ const HexTile = (initialVnode) => {
             const {attrs} = vNode;
             const {activeScenarioDefinition} = scenarioDefinitionStore;
 
-            const { isMoveUnitMode, isIndirectFireMode, selectedUnit } = interactionStore;
+            const { isMoveUnitMode, isIndirectFireMode, selectedUnit } = modeStore;
             const { hex, size, margin } = attrs;
             const overlays = Object.values(hex.overlays);
             const height = size * 1.1547;

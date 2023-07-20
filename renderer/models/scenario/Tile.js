@@ -51,7 +51,7 @@ export default class Tile {
     }
 
     get isSelected() {
-        return this.activeScenario.selectedUnit === this
+        return this.activeScenario.selectedTile === this
     }
 
     get totalUnitCount() {
