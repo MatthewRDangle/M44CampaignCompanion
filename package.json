@@ -1,26 +1,25 @@
 {
-  "name": "battlecry",
-  "version": "1.0.1-alpha.0",
-  "description": "War Digital Campaign Companion.",
+  "name": "@matthewrdangle/battlecry",
+  "author": "Matthew R. Dangle",
+  "description": "An engine to create, share, and play interactive 2D head-to-head scenarios for war-based board games.",
+  "license": "GPL-2.0",
   "main": "startup.js",
+  "homepage": "https://github.com/MatthewRDangle/battlecry#readme",
   "scripts": {
     "start": "electron-forge start",
     "dev": "electron . dev && npm run watch:tailwindcss",
-    "build:tailwindcss": "tailwindcss build -i gui/stylesheets/_tailwind.css -o gui/stylesheets/tailwind.css",
-    "watch:tailwindcss": "tailwindcss build -i gui/stylesheets/_tailwind.css -o gui/stylesheets/tailwind.css --watch",
+    "build:tailwindcss": "tailwindcss build -i renderer/stylesheets/_tailwind.css -o renderer/stylesheets/tailwind.css",
+    "watch:tailwindcss": "tailwindcss build -i renderer/stylesheets/_tailwind.css -o renderer/stylesheets/tailwind.css --watch",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MatthewRDangle/battlecry.git"
+    "url": "https://github.com/MatthewRDangle/battlecry.git"
   },
-  "author": "Matthew R. Dangle",
-  "license": "Apache License 2.0",
   "bugs": {
     "url": "https://github.com/MatthewRDangle/battlecry/issues"
   },
-  "homepage": "https://github.com/MatthewRDangle/battlecry#readme",
   "devDependencies": {
     "@electron-forge/cli": "^6.1.0",
     "@electron-forge/maker-deb": "^6.1.0",
@@ -36,5 +35,6 @@
     "classnames": "^2.3.1",
     "electron-squirrel-startup": "^1.0.0",
     "mithril": "^2.0.4"
-  }
+  },
+  "version": "1.0.0-alpha.0"
 }
