@@ -1,5 +1,5 @@
 import Unit from "./Unit.js";
-import ScenarioDefinition from "./ScenarioDefinition.js";
+import Definition from "./Definition.js";
 import Faction from "./Faction.js";
 import ScenarioDefinitionStore from "../../stores/definition.store.js";
 import Overlay from "./Overlay.js";
@@ -186,7 +186,7 @@ export default class Tile {
     }
 
     deselect() {
-        if (this.activeScenario instanceof ScenarioDefinition)
+        if (this.activeScenario instanceof Definition)
             this.activeScenario.selectTile()
     }
 
@@ -247,7 +247,7 @@ export default class Tile {
     }
 
     select() {
-        if (this.activeScenario instanceof ScenarioDefinition) {
+        if (this.activeScenario instanceof Definition) {
             if (this.activeScenario.selectedTile === this)
                 return
 

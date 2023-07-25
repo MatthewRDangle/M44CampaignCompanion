@@ -8,7 +8,7 @@ import Script from "./Script.js";
 import Overlay from "./Overlay.js";
 import Battle from "./Battle.js";
 
-export default class ScenarioDefinition {
+export default class Definition {
     constructor() {
         this.UUID = undefined;
         this.devMode = false;

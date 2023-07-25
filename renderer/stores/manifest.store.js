@@ -1,5 +1,5 @@
-import {scenarioManifestService} from "../services/scenarioManifest.service.js";
-import ScenarioManifest from "../models/scenario/ScenarioManifest.js";
+import {manifestService} from "../services/manifest.service.js";
+import Manifest from "../models/scenario/Manifest.js";
 
 
 let manifestStore;
@@ -21,7 +21,7 @@ class ScenarioManifestStore {
 
 
     get manifestRegistryList() {
-        return Object.values(this.manifestRegistry).map(manifest => new ScenarioManifest(manifest));
+        return Object.values(this.manifestRegistry).map(manifest => new Manifest(manifest));
     };
 
 
@@ -33,7 +33,7 @@ class ScenarioManifestStore {
     async loadScenarioManifestRegistry() {
         let tmpManifestRegistry;
         try {
-            tmpManifestRegistry = await scenarioManifestService.getAll();
+            tmpManifestRegistry = await manifestService.getAll();
         } catch(e) {throw Error(e)}
         finally {
             this.clearScenarioManifestRegistry();
@@ -45,7 +45,7 @@ class ScenarioManifestStore {
     async addOneScenarioManifest(manifestItem) {
         let tmpManifestRegistry;
         try {
-            tmpManifestRegistry = scenarioManifestService.add(manifestItem);
+            tmpManifestRegistry = manifestService.add(manifestItem);
         } catch(e) {throw Error(e)}
         finally {
             if (tmpManifestRegistry.UUID) {
@@ -58,7 +58,7 @@ class ScenarioManifestStore {
     async deleteOneScenarioManifest(manifestItem) {
         let tmpManifestRegistry;
         try {
-            tmpManifestRegistry = scenarioManifestService.delete(manifestItem);
+            tmpManifestRegistry = manifestService.delete(manifestItem);
         } catch(e) {throw Error(e)}
         finally {
             this.clearScenarioManifestRegistry();
@@ -71,7 +71,7 @@ class ScenarioManifestStore {
     async getContentsFromScenarioManifestFile(file) {
         let tmpManifest;
         try {
-            tmpManifest = await scenarioManifestService.getFileContent(file.path);
+            tmpManifest = await manifestService.getFileContent(file.path);
             tmpManifest = JSON.parse(tmpManifest);
             tmpManifest.pathToDir = file.path.replaceAll(file.name, "");
             tmpManifest.fileName = file.name;

@@ -1,5 +1,5 @@
-import ScenarioDefinition from "../models/scenario/ScenarioDefinition.js";
-import {scenarioDefinitionService} from "../services/scenarioDefinition.service.js";
+import Definition from "../models/scenario/Definition.js";
+import {definitionService} from "../services/definition.service.js";
 
 
 let definitionStore;
@@ -75,7 +75,7 @@ class ScenarioDefinitionStore {
         } catch (err) { console.error(err) }
 
         if (!!rawScenarioDefinition) {
-            const scenarioDefinition = new ScenarioDefinition();
+            const scenarioDefinition = new Definition();
             await scenarioDefinition.compile(rawScenarioDefinition);
             this.activeScenarioDefinition = scenarioDefinition;
         }
@@ -84,7 +84,7 @@ class ScenarioDefinitionStore {
     async getContentsFromScenarioDefinitionFile(path) {
         let tmpContents;
         try {
-            tmpContents = await scenarioDefinitionService.getFileContent(path);
+            tmpContents = await definitionService.getFileContent(path);
             tmpContents = JSON.parse(tmpContents);
         } catch(err) {console.error(err)}
 
