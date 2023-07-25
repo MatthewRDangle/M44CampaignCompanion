@@ -4,7 +4,7 @@ import Faction from "./Faction.js";
 import ScenarioDefinitionStore from "../../stores/definition.store.js";
 import Overlay from "./Overlay.js";
 import Battle from "./Battle.js";
-import BattleMap from "./BattleMap.js";
+import Map from "./Map.js";
 
 
 export default class Tile {
@@ -19,7 +19,7 @@ export default class Tile {
         this.battle = undefined;
         this.isContested = false;
 
-        // BattleMap, Terrain, Overlays, Units
+        // Map, Terrain, Overlays, Units
         this.battleMap = undefined;
         this.terrain = {};
         this.overlays = {};
@@ -148,12 +148,12 @@ export default class Tile {
             }
         }
 
-        // Apply BattleMap
+        // Apply Map
         if (definition.battleMap) {
             if (typeof definition.battleMap === 'string')
                 this.battleMap = scenario.battleMaps[definition.battleMap];
             else if (typeof definition.battleMap === 'object' && definition.battleMap.hasOwnProperty('src') && definition.battleMap.hasOwnProperty('alt'))
-                this.battleMap = new BattleMap(definition.battleMap);
+                this.battleMap = new Map(definition.battleMap);
         }
     }
 

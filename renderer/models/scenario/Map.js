@@ -1,6 +1,6 @@
 import ScenarioDefinitionStore from "../../stores/definition.store.js";
 
-export default class BattleMap {
+export default class Map {
     name = undefined;
     src = undefined;
     alt = undefined;

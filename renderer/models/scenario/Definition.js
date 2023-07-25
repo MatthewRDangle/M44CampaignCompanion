@@ -3,7 +3,7 @@ import Tile from "./Tile.js";
 import Faction from "./Faction.js";
 import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
-import BattleMap from "./BattleMap.js";
+import Map from "./Map.js";
 import Script from "./Script.js";
 import Overlay from "./Overlay.js";
 import Battle from "./Battle.js";
@@ -90,7 +90,7 @@ export default class Definition {
         // Set Battle Maps
         if (definition.battleMaps) {
             definition.battleMaps.forEach((definition_battleMap) => {
-                this.battleMaps[definition_battleMap.name] = new BattleMap(definition_battleMap);
+                this.battleMaps[definition_battleMap.name] = new Map(definition_battleMap);
             })
         }
 
