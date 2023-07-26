@@ -1,3 +1,5 @@
+const YAML = require('js-yaml');
+
 import {manifestService} from "../services/manifest.service.js";
 import Manifest from "../models/scenario/Manifest.js";
 
@@ -9,7 +11,7 @@ class ScenarioManifestStore {
     constructor() {
         if (!manifestStore) {
             this.clearScenarioManifestRegistry = this.clearScenarioManifestRegistry.bind(this);
-            this.loadScenarioManifestRegistry = this.loadScenarioManifestRegistry.bind(this);;
+            this.loadScenarioManifestRegistry = this.loadScenarioManifestRegistry.bind(this);
             this.addOneScenarioManifest = this.addOneScenarioManifest.bind(this)
             this.deleteOneScenarioManifest = this.deleteOneScenarioManifest.bind(this);
             return this;
@@ -69,15 +71,22 @@ class ScenarioManifestStore {
     }
 
     async getContentsFromScenarioManifestFile(file) {
-        let tmpManifest;
+        let parsedContents;
         try {
-            tmpManifest = await manifestService.getFileContent(file.path);
-            tmpManifest = JSON.parse(tmpManifest);
-            tmpManifest.pathToDir = file.path.replaceAll(file.name, "");
-            tmpManifest.fileName = file.name;
+            const tmpManifest = await manifestService.getFileContent(file.path);
+
+            const pathArray = file.path.split('.');
+            const fileExtension = pathArray[pathArray.length - 1].toLowerCase();
+            if (fileExtension === 'json')
+                parsedContents = JSON.parse(tmpManifest);
+            else if (fileExtension === 'yml')
+                parsedContents = YAML.load(tmpManifest);
+
+            parsedContents.pathToDir = file.path.replaceAll(file.name, "");
+            parsedContents.fileName = file.name;
         } catch(err) {console.error(err)}
 
-        return tmpManifest;
+        return parsedContents;
     }
 }
 

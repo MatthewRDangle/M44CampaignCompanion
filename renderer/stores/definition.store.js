@@ -1,3 +1,5 @@
+const YAML = require('js-yaml');
+
 import Definition from "../models/scenario/Definition.js";
 import {definitionService} from "../services/definition.service.js";
 
@@ -5,6 +7,7 @@ import {definitionService} from "../services/definition.service.js";
 let definitionStore;
 
 class ScenarioDefinitionStore {
+    activeScenarioDefinition = undefined;
 
     constructor() {
         if (!definitionStore) {
@@ -14,9 +17,6 @@ class ScenarioDefinitionStore {
         } else
             return definitionStore;
     }
-
-    activeScenarioDefinition = undefined;
-
 
     async setActiveScenarioDefinition(manifest) {
         let rawScenarioDefinition = undefined;
@@ -82,13 +82,20 @@ class ScenarioDefinitionStore {
     }
 
     async getContentsFromScenarioDefinitionFile(path) {
-        let tmpContents;
+        let parsedContents;
         try {
-            tmpContents = await definitionService.getFileContent(path);
-            tmpContents = JSON.parse(tmpContents);
+            const tmpContents = await definitionService.getFileContent(path);
+
+            const pathArray = path.split('.');
+            const fileExtension = pathArray[pathArray.length - 1].toLowerCase();
+            if (fileExtension === 'json')
+                parsedContents = JSON.parse(tmpContents);
+            else if (fileExtension === 'yml')
+                parsedContents = YAML.load(tmpContents)
+
         } catch(err) {console.error(err)}
 
-        return tmpContents;
+        return parsedContents;
     }
 }
 
