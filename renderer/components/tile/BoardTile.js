@@ -1,12 +1,12 @@
 const m = require("mithril");
 const classNames = require("classnames");
 
-import PlayableUnit from "../unit/PlayableUnit.js";
+import UnitToken from "../token/UnitToken.js";
 import definitionStore from "../../stores/definition.store.js";
 import modeStore from "../../stores/mode.store.js";
 
 
-const HexTile = (initialVnode) => {
+const BoardTile = (initialVnode) => {
     const handleOnClick = (tile) => {
         if (!!tile.terrain?.render || tile.terrain?.render === undefined) {
             if (modeStore.isMoveUnitMode) {
@@ -65,7 +65,7 @@ const HexTile = (initialVnode) => {
                                 : '',
                             Object.keys(hex.units).map((faction_name) =>
                                 m('div', {className: 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'}, [
-                                    m(PlayableUnit, {
+                                    m(UnitToken, {
                                         faction: activeScenarioDefinition.factions[faction_name],
                                         units: hex.units[faction_name]
                                     })
@@ -79,4 +79,4 @@ const HexTile = (initialVnode) => {
     }
 }
 
-export default HexTile;
+export default BoardTile;

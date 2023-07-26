@@ -2,11 +2,11 @@ const m = require("mithril");
 
 import Divider from "../Divider.js";
 import Button from "../Button.js";
-import Input from "../form/Input.js";
+import Input from "../input/DefaultInput.js";
 import Tile from "../../models/scenario/Tile.js";
 
 
-const BattleCalculator = (initialVnode) => {
+const BattleCalculatorForm = (initialVnode) => {
 
     const handleAttackingUnitHealthChange = (e, tile) => {
         tile.battle.changeAttackingUnitHealthTo(e.target.name, e.target.value)
@@ -91,4 +91,4 @@ const BattleCalculator = (initialVnode) => {
     }
 }
 
-export default BattleCalculator;
+export default BattleCalculatorForm;

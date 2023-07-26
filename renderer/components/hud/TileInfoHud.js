@@ -3,10 +3,10 @@ const m = require("mithril");
 import modeStore from "../../stores/mode.store.js";
 import Terrain from "../../models/scenario/Terrain.js";
 import Button from "../Button.js";
-import UnitCard from "../unit/UnitFlag.js";
+import UnitCard from "../token/FactionToken.js";
 
 
-const TileInfo = (initialVnode) => {
+const TileInfoHud = (initialVnode) => {
 
     const handleMoveMode = () => {
         modeStore.disableIndirectFireMode()
@@ -60,4 +60,4 @@ const TileInfo = (initialVnode) => {
     }
 }
 
-export default TileInfo;
+export default TileInfoHud;

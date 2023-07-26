@@ -34,14 +34,6 @@ const Button = (initialVnode) => {
                     })
                 ]),
             ])
-
-            // return (
-            //     m('input', {
-            //         className: classNames(''),
-            //         type: attrs.type ?? 'text',
-            //         disabled: attrs.disabled ?? false
-            //     }, vNode.children)
-            // )
         }
     }
 }

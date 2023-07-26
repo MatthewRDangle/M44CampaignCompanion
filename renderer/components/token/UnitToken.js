@@ -1,7 +1,7 @@
 const m = require("mithril");
 
 
-const PlayableUnit = (initialVnode) => {
+const UnitToken = (initialVnode) => {
 
 
     return {
@@ -36,4 +36,4 @@ const PlayableUnit = (initialVnode) => {
     }
 }
 
-export default PlayableUnit;
+export default UnitToken;

@@ -10,7 +10,7 @@ import boardStore from "../../stores/board.store.js";
 import definitionStore from "../../stores/definition.store.js";
 
 
-const GameBoard = (initialVnode) => {
+const BoardGrid = (initialVnode) => {
 
     const handleRightClick = (scenario) => {
         if (scenario.selectedUnit instanceof Unit)
@@ -89,4 +89,4 @@ const GameBoard = (initialVnode) => {
     }
 }
 
-export default GameBoard;
+export default BoardGrid;

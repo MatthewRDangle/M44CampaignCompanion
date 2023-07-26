@@ -1,6 +1,6 @@
 const m = require("mithril");
 
-import HexTile from "./grid/HexTile.js";
+import BoardTile from "./tile/BoardTile.js";
 import ScenarioDefinitionStore from "../stores/definition.store.js";
 
 
@@ -25,7 +25,7 @@ const HexGrid = (initialVnode) => {
                                 'margin-left': `${rowEvenOffset}px`
                             })()
                         }, Object.values(row).map((tile) => {
-                            return m(HexTile, {hex: tile, size: hexSize, margin: hexMargin})
+                            return m(BoardTile, {hex: tile, size: hexSize, margin: hexMargin})
                         }))
                     })
                 ])
