@@ -1,11 +1,20 @@
 const m = require("mithril");
 
+import modeStore from "../../stores/mode.store.js";
 import Terrain from "../../models/scenario/Terrain.js";
 import Button from "../Button.js";
-import UnitCard from "../unit/UnitFlag.js";
+import UnitCard from "../token/FactionToken.js";
 
 
-const TileInfo = (initialVnode) => {
+const TileInfoHud = (initialVnode) => {
+
+    const handleMoveMode = () => {
+        modeStore.disableIndirectFireMode()
+    }
+
+    const handleIndirectFireMode = () => {
+        modeStore.enableIndirectFireMode()
+    }
 
     const handleBattle = (tile) => {
         m.route.set('/scenario/tile/:tileId/battle', {tileId: tile.id})
@@ -24,6 +33,9 @@ const TileInfo = (initialVnode) => {
         view: (vNode) => {
             const {attrs} = vNode;
             const {currentTurn, tile} = attrs;
+            const {isMoveUnitMode, isIndirectFireMode, selectedUnit} = modeStore;
+            const unitExists = !!selectedUnit
+            const canIndirectFire = !!unitExists && !isIndirectFireMode ? selectedUnit.canAttackIndirectly : false
 
 
             return (
@@ -37,7 +49,9 @@ const TileInfo = (initialVnode) => {
                         m('div', {className: 'inline-block px-4 py-1 bg-background rounded'}, (tile.terrain instanceof Terrain) ? tile.terrain.name : 'Unknown'),
                         m('div', {className: 'flex flex-row flex-full'}, [
                             m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handlePreview(tile)}}, 'Preview')),
-                            m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleBattle(tile)}, disabled: !tile.isContested}, 'Battle'))
+                            m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleBattle(tile)}, disabled: !tile.isContested}, 'Battle')),
+                            unitExists && !isMoveUnitMode && !selectedUnit.isExhausted && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleMoveMode()}}, 'Move')),
+                            unitExists && canIndirectFire && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleIndirectFireMode()}}, 'Indirect'))
                         ])
                     ]),
                 ])
@@ -46,4 +60,4 @@ const TileInfo = (initialVnode) => {
     }
 }
 
-export default TileInfo;
+export default TileInfoHud;

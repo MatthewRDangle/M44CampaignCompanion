@@ -1,7 +1,7 @@
 const m = require('mithril');
 
 import Page from "./models/Page.js";
-import routeStore from "./stores/RouteStore.js";
+import routeStore from "./stores/route.store.js";
 
 
 (async () => {

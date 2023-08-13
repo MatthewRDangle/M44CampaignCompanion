@@ -1,22 +1,22 @@
-import ScenarioDefinition from "../models/scenario/ScenarioDefinition.js";
-import {scenarioDefinitionService} from "../services/scenarioDefinition.service.js";
+const YAML = require('js-yaml');
+
+import Definition from "../models/scenario/Definition.js";
+import {definitionService} from "../services/definition.service.js";
 
 
-let scenarioDefinitionStore;
+let definitionStore;
 
 class ScenarioDefinitionStore {
+    activeScenarioDefinition = undefined;
 
     constructor() {
-        if (!scenarioDefinitionStore) {
+        if (!definitionStore) {
             this.setActiveScenarioDefinition = this.setActiveScenarioDefinition.bind(this);
             this.getContentsFromScenarioDefinitionFile = this.getContentsFromScenarioDefinitionFile.bind(this);
             return this;
         } else
-            return scenarioDefinitionStore;
+            return definitionStore;
     }
-
-    activeScenarioDefinition = undefined;
-
 
     async setActiveScenarioDefinition(manifest) {
         let rawScenarioDefinition = undefined;
@@ -75,22 +75,29 @@ class ScenarioDefinitionStore {
         } catch (err) { console.error(err) }
 
         if (!!rawScenarioDefinition) {
-            const scenarioDefinition = new ScenarioDefinition();
+            const scenarioDefinition = new Definition();
             await scenarioDefinition.compile(rawScenarioDefinition);
             this.activeScenarioDefinition = scenarioDefinition;
         }
     }
 
     async getContentsFromScenarioDefinitionFile(path) {
-        let tmpContents;
+        let parsedContents;
         try {
-            tmpContents = await scenarioDefinitionService.getFileContent(path);
-            tmpContents = JSON.parse(tmpContents);
+            const tmpContents = await definitionService.getFileContent(path);
+
+            const pathArray = path.split('.');
+            const fileExtension = pathArray[pathArray.length - 1].toLowerCase();
+            if (fileExtension === 'json')
+                parsedContents = JSON.parse(tmpContents);
+            else if (fileExtension === 'yml')
+                parsedContents = YAML.load(tmpContents)
+
         } catch(err) {console.error(err)}
 
-        return tmpContents;
+        return parsedContents;
     }
 }
 
-scenarioDefinitionStore = new ScenarioDefinitionStore();
-export default scenarioDefinitionStore;
+definitionStore = new ScenarioDefinitionStore();
+export default definitionStore;

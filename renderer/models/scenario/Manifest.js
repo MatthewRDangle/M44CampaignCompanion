@@ -1,4 +1,4 @@
-export default class ScenarioManifest {
+export default class Manifest {
     constructor(manifest) {
         this.format_version = manifest.format_version ?? 1;
 

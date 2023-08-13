@@ -1,7 +1,7 @@
 const {app, ipcMain} = require("electron");
 
 const appHandle = (channel) => {
-        ipcMain.handle(channel + '/quit', async (e, path) => {
+    ipcMain.handle(channel + '/quit', async (e, path) => {
         app.quit();
     })
 

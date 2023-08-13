@@ -1,15 +1,15 @@
+import modeStore from "../../stores/mode.store.js";
 import Tile from "./Tile.js";
 import Faction from "./Faction.js";
 import Unit from "./Unit.js";
 import Terrain from "./Terrain.js";
-import BattleMap from "./BattleMap.js";
+import Map from "./Map.js";
 import Script from "./Script.js";
 import Overlay from "./Overlay.js";
 import Battle from "./Battle.js";
 
-export default class ScenarioDefinition {
+export default class Definition {
     constructor() {
-        // Development
         this.UUID = undefined;
         this.devMode = false;
 
@@ -31,21 +31,24 @@ export default class ScenarioDefinition {
         this.currentTurn = undefined;
         this.isGameOver = false;
 
-        // User Interaction
-        this.selectedTile = undefined;
-        this.selectedUnit = undefined;
-
         // Trackers
         this.trackers = {
             battles: [],
             unitMoves: []
         }
-        // this.unitsThatMoved = [];
 
         // Grid Builder
         this.columns = 0;
         this.rows = 0;
         this.tiles = [];
+    }
+
+    get selectedTile() {
+        return modeStore.selectedTile
+    }
+
+    get selectedUnit() {
+        return modeStore.selectedUnit
     }
 
     compile(definition) {
@@ -87,7 +90,7 @@ export default class ScenarioDefinition {
         // Set Battle Maps
         if (definition.battleMaps) {
             definition.battleMaps.forEach((definition_battleMap) => {
-                this.battleMaps[definition_battleMap.name] = new BattleMap(definition_battleMap);
+                this.battleMaps[definition_battleMap.name] = new Map(definition_battleMap);
             })
         }
 
@@ -218,6 +221,10 @@ export default class ScenarioDefinition {
         }
     }
 
+    displayContextMenu() {
+        this.showContextMenu = true;
+    }
+
     factionsAreDefeated(factions) {
         for (let key in this.factions) {
             const faction = this.factions[key];
@@ -247,22 +254,35 @@ export default class ScenarioDefinition {
         return this.tiles[row][tileId];
     }
 
-    nextTurn() {
-        if (this.trackers.battles.length === 0) {
+    hideContextMenu() {
+        this.showContextMenu = false;
+    }
 
+    nextTurn() {
+        if (this.isGameOver) return
+
+        if (this.trackers.battles.length !== 0) {
+            alert('There are still battles to be fought.')
+            return
+        }
+
+        const doEndTurn = confirm('Are you sure you would like to end your turn?')
+        if (doEndTurn) {
             // Run End of Turn Scripts
             if (!!this.scripts.end_of_turn)
                 this.scripts.end_of_turn.forEach(script => script.run())
 
+            // Update Counter
+            if (this.turnOrder.length === (this.turnOrder.indexOf(this.currentTurn.name) + 1))
+                this.turnCounter = this.turnCounter + 1;
+
             // Initiate Next Factions Turn
-            if (!this.isGameOver) {
-                const idx = this.turnOrder.indexOf(this.currentTurn.name);
-                const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
-                this.currentTurn = this.factions[factionName];
-                this.replenishMoveUnits();
-                this.trackers.unitMoves.length = 0;
-                this.turnCounter++;
-            }
+            const idx = this.turnOrder.indexOf(this.currentTurn.name);
+            const factionName = this.turnOrder[(idx + 1 < this.turnOrder.length) ? idx + 1 : 0];
+            this.currentTurn = this.factions[factionName];
+            this.replenishMoveUnits();
+            this.trackers.unitMoves.length = 0;
+            alert(`${this.currentTurn.name} start your turn!`)
         }
     }
 
@@ -272,11 +292,12 @@ export default class ScenarioDefinition {
         });
     }
 
-    setSelectedTile(tile) {
-        if (tile instanceof Tile)
-            this.selectedTile = tile;
-        else
-            this.selectedTile = undefined;
+    selectTile(tile) {
+        modeStore.selectTile(tile)
+    }
+
+    selectUnit(unit) {
+        modeStore.selectUnit(unit)
     }
 
     trackBattle(battle) {

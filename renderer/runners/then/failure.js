@@ -1,7 +1,7 @@
-import scenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import definitionStore from "../../stores/definition.store.js";
 
 export default ({factions}) => {
-    const { activeScenarioDefinition } = scenarioDefinitionStore;
+    const { activeScenarioDefinition } = definitionStore;
 
     if (!!factions && Array.isArray(factions)) {
         try {

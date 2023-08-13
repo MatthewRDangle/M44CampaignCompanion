@@ -1,4 +1,4 @@
-import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../stores/definition.store.js";
 
 
 export default class Battle {
@@ -102,9 +102,9 @@ export default class Battle {
                 for (let idx = 0; idx < unitArray.length; idx++) {
                     let unit = unitArray[idx];
                     if (remainingHealthChange < 0) {
-                        remainingHealthChange = 0 - unit.decreaseHealthBy(remainingHealthChange)
+                        remainingHealthChange = 0 - unit.damage(remainingHealthChange)
                     } else if (remainingHealthChange > 0) {
-                        unit.increaseHealthBy(remainingHealthChange)
+                        unit.heal(remainingHealthChange)
                         remainingHealthChange = 0;
                     } else {
                         break;

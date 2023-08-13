@@ -4,8 +4,8 @@ import Page from '../../../models/Page.js';
 import TitleBar from "../../../components/TitleBar.js";
 import Body from "../../../components/Body.js";
 import Background from "../../../components/Background.js";
-import BattleCalculator from "../../../components/battle/BattleCalculator.js";
-import ScenarioDefinitionStore from "../../../stores/ScenarioDefinition.store.js";
+import BattleCalculatorForm from "../../../components/form/BattleCalculatorForm.js";
+import ScenarioDefinitionStore from "../../../stores/definition.store.js";
 
 export const page = new Page('/scenario/tile/:tileId/battle', (initialVnode) => {
 
@@ -22,7 +22,7 @@ export const page = new Page('/scenario/tile/:tileId/battle', (initialVnode) => 
                 m(Background),
                 m(TitleBar, 'Battle Results'),
                 m('div', {className: 'mt-8'},
-                    m(BattleCalculator, {tile: tile})
+                    m(BattleCalculatorForm, {tile: tile})
                 )
             ])
         }

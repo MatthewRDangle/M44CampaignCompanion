@@ -1,7 +1,7 @@
 const m = require("mithril");
 const classnames = require("classnames");
 
-import routeStore from "../stores/RouteStore.js";
+import routeStore from "../stores/route.store.js";
 import Divider from "./Divider.js";
 import LoadingSymbol from "./LoadingSymbol.js";
 

@@ -1,7 +1,7 @@
 const {ipcRenderer} = require('electron');
 
 
-export const scenarioDefinitionService = {
+export const definitionService = {
     getFileContent: async (path) => {
         return await ipcRenderer.invoke("/system/getFileContent", path)
     },

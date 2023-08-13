@@ -1,27 +1,29 @@
-import {scenarioManifestService} from "../services/scenarioManifest.service.js";
-import ScenarioManifest from "../models/scenario/ScenarioManifest.js";
+const YAML = require('js-yaml');
+
+import {manifestService} from "../services/manifest.service.js";
+import Manifest from "../models/scenario/Manifest.js";
 
 
-let scenarioManifestStore;
+let manifestStore;
 
 class ScenarioManifestStore {
 
     constructor() {
-        if (!scenarioManifestStore) {
+        if (!manifestStore) {
             this.clearScenarioManifestRegistry = this.clearScenarioManifestRegistry.bind(this);
-            this.loadScenarioManifestRegistry = this.loadScenarioManifestRegistry.bind(this);;
+            this.loadScenarioManifestRegistry = this.loadScenarioManifestRegistry.bind(this);
             this.addOneScenarioManifest = this.addOneScenarioManifest.bind(this)
             this.deleteOneScenarioManifest = this.deleteOneScenarioManifest.bind(this);
             return this;
         } else
-            return scenarioManifestStore;
+            return manifestStore;
     }
 
     manifestRegistry = {};
 
 
     get manifestRegistryList() {
-        return Object.values(this.manifestRegistry).map(manifest => new ScenarioManifest(manifest));
+        return Object.values(this.manifestRegistry).map(manifest => new Manifest(manifest));
     };
 
 
@@ -33,7 +35,7 @@ class ScenarioManifestStore {
     async loadScenarioManifestRegistry() {
         let tmpManifestRegistry;
         try {
-            tmpManifestRegistry = await scenarioManifestService.getAll();
+            tmpManifestRegistry = await manifestService.getAll();
         } catch(e) {throw Error(e)}
         finally {
             this.clearScenarioManifestRegistry();
@@ -45,7 +47,7 @@ class ScenarioManifestStore {
     async addOneScenarioManifest(manifestItem) {
         let tmpManifestRegistry;
         try {
-            tmpManifestRegistry = scenarioManifestService.add(manifestItem);
+            tmpManifestRegistry = manifestService.add(manifestItem);
         } catch(e) {throw Error(e)}
         finally {
             if (tmpManifestRegistry.UUID) {
@@ -58,7 +60,7 @@ class ScenarioManifestStore {
     async deleteOneScenarioManifest(manifestItem) {
         let tmpManifestRegistry;
         try {
-            tmpManifestRegistry = scenarioManifestService.delete(manifestItem);
+            tmpManifestRegistry = manifestService.delete(manifestItem);
         } catch(e) {throw Error(e)}
         finally {
             this.clearScenarioManifestRegistry();
@@ -69,17 +71,24 @@ class ScenarioManifestStore {
     }
 
     async getContentsFromScenarioManifestFile(file) {
-        let tmpManifest;
+        let parsedContents;
         try {
-            tmpManifest = await scenarioManifestService.getFileContent(file.path);
-            tmpManifest = JSON.parse(tmpManifest);
-            tmpManifest.pathToDir = file.path.replaceAll(file.name, "");
-            tmpManifest.fileName = file.name;
+            const tmpManifest = await manifestService.getFileContent(file.path);
+
+            const pathArray = file.path.split('.');
+            const fileExtension = pathArray[pathArray.length - 1].toLowerCase();
+            if (fileExtension === 'json')
+                parsedContents = JSON.parse(tmpManifest);
+            else if (fileExtension === 'yml')
+                parsedContents = YAML.load(tmpManifest);
+
+            parsedContents.pathToDir = file.path.replaceAll(file.name, "");
+            parsedContents.fileName = file.name;
         } catch(err) {console.error(err)}
 
-        return tmpManifest;
+        return parsedContents;
     }
 }
 
-scenarioManifestStore = new ScenarioManifestStore();
-export default scenarioManifestStore;
+manifestStore = new ScenarioManifestStore();
+export default manifestStore;

@@ -2,10 +2,10 @@ const m = require("mithril");
 
 import TitleBar from "../TitleBar.js";
 import Divider from "../Divider.js";
-import ScenarioDefinitionStore from "../../stores/ScenarioDefinition.store.js";
+import ScenarioDefinitionStore from "../../stores/definition.store.js";
 
 
-const PauseMenu = (initialVnode) => {
+const PauseMenuHud = (initialVnode) => {
 
     const handleBackToMainMenu = (e) => {
         m.route.set('/mainMenu');
@@ -49,4 +49,4 @@ const PauseMenu = (initialVnode) => {
     }
 }
 
-export default PauseMenu;
+export default PauseMenuHud;

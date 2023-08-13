@@ -1,7 +1,7 @@
 const {ipcRenderer} = require('electron');
 
 
-export const scenarioManifestService = {
+export const manifestService = {
     getAll: () => {
         const json = localStorage.getItem('scenarioManifestFiles');
         if (json)

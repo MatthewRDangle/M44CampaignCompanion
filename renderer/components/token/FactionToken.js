@@ -4,7 +4,7 @@ const classNames = require("classnames");
 import Color from "../../models/Color.js";
 
 
-const UnitFlag = (initialVnode) => {
+const FactionToken = (initialVnode) => {
 
 
     return {
@@ -49,4 +49,4 @@ const UnitFlag = (initialVnode) => {
     }
 }
 
-export default UnitFlag;
+export default FactionToken;
