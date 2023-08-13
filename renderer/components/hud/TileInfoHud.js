@@ -36,7 +36,8 @@ const TileInfoHud = (initialVnode) => {
             const {isMoveUnitMode, isIndirectFireMode, selectedUnit} = modeStore;
             const unitExists = !!selectedUnit
             const canIndirectFire = !!unitExists && !isIndirectFireMode ? selectedUnit.canAttackIndirectly : false
-
+            const indirectAttackAccuracyModifier = tile.indirectAttackAccuracyModifier ? -tile.indirectAttackAccuracyModifier + '%' : '0%'
+            const indirectAttackDamageModifier = tile.indirectAttackDamageModifier ? -tile.indirectAttackDamageModifier + 'dmg' : '0 dmg'
 
             return (
                 m('div', {className: 'absolute left-8 bottom-12 z-1'}, [
@@ -46,14 +47,20 @@ const TileInfoHud = (initialVnode) => {
                         )) : ''
                     ]),
                     m('div', {className: 'flex flex-row flex-wrap align-center'}, [
-                        m('div', {className: 'inline-block px-4 py-1 bg-background rounded'}, (tile.terrain instanceof Terrain) ? tile.terrain.name : 'Unknown'),
                         m('div', {className: 'flex flex-row flex-full'}, [
-                            m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handlePreview(tile)}}, 'Preview')),
+                            m('div', {className: 'inline-block'}, m(Button, {onclick: () => {handlePreview(tile)}}, 'Preview')),
                             m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleBattle(tile)}, disabled: !tile.isContested}, 'Battle')),
                             unitExists && !isMoveUnitMode && !selectedUnit.isExhausted && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleMoveMode()}}, 'Move')),
                             unitExists && canIndirectFire && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleIndirectFireMode()}}, 'Indirect'))
                         ])
                     ]),
+                    m('div', {className: 'flex flex-col p-3 mt-1 bg-background rounded'}, [
+                        tile.terrain instanceof Terrain && [
+                            m('span', `Terrain: ${tile.terrain?.name}`),
+                            m('span', `Movement Cost: ${tile.movementCost}`),
+                            m('span',  `Indirect Defense: ${indirectAttackAccuracyModifier} / ${indirectAttackDamageModifier}`)
+                        ],
+                    ])
                 ])
             )
         }

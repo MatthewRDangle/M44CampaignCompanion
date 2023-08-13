@@ -2,7 +2,7 @@ const m = require("mithril");
 
 import NextTurnHud from "./NextTurnHud.js";
 import TileInfoHud from "./TileInfoHud.js";
-import GameHeaderHud from "./GameHeaderHud.js";
+import HeaderHud from "./HeaderHud.js";
 import GameOverHud from "./GameOverHud.js";
 
 
@@ -19,7 +19,7 @@ const GameBoard = (initialVnode) => {
                 !!isGameOver
                     ? m(GameOverHud, {currentTurn: currentTurn})
                     : '',
-                m(GameHeaderHud),
+                m(HeaderHud),
                 !!selectedTile
                     ? m(TileInfoHud, {tile: selectedTile, currentTurn: currentTurn})
                     : '',

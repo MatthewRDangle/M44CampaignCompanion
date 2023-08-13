@@ -1,10 +1,11 @@
 import Unit from "./Unit.js";
 import Definition from "./Definition.js";
 import Faction from "./Faction.js";
-import ScenarioDefinitionStore from "../../stores/definition.store.js";
 import Overlay from "./Overlay.js";
 import Battle from "./Battle.js";
 import Map from "./Map.js";
+import ScenarioDefinitionStore from "../../stores/definition.store.js";
+import ModeStore from "../../stores/mode.store.js";
 
 
 export default class Tile {
@@ -31,6 +32,45 @@ export default class Tile {
 
     get activeScenario() {
         return ScenarioDefinitionStore.activeScenarioDefinition;
+    }
+
+    get movementCost() {
+        if (!this.terrain || !this.terrain.movement_cost || !this.terrain.render)
+            return undefined
+
+        const selectedUnit = ModeStore.selectedUnit
+        if (!selectedUnit)
+            return this.terrain.movement_cost
+        else {
+            const modifier = this.terrain.movement_cost_modifiers_by_type[selectedUnit.type] ?? 0
+            return this.terrain.movement_cost + modifier
+        }
+    }
+
+    get indirectAttackAccuracyModifier() {
+        if (!this.terrain || !this.terrain.render)
+            return undefined
+
+        const selectedUnit = ModeStore.selectedUnit
+        if (!selectedUnit)
+            return this.terrain.protection.chance_modifier
+        else {
+            const modifier = this.terrain.protection.chance_modifiers_by_attack_type[selectedUnit] ?? 0
+            return this.terrain.protection.chance_modifier + modifier
+        }
+    }
+
+    get indirectAttackDamageModifier() {
+        if (!this.terrain || !this.terrain.render)
+            return undefined
+
+        const selectedUnit = ModeStore.selectedUnit
+        if (!selectedUnit)
+            return this.terrain.protection.damage_modifier
+        else {
+            const modifier = this.terrain.protection.damage_modifiers_by_attack_type[selectedUnit] ?? 0
+            return this.terrain.protection.damage_modifier + modifier
+        }
     }
 
     get isHostile() {

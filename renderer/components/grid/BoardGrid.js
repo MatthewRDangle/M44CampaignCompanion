@@ -3,7 +3,7 @@ const classnames = require("classnames");
 
 
 import HexGrid from "../HexGrid.js";
-import Hud from "../hud/GameHud.js";
+import Hud from "../hud/MainHud.js";
 import Unit from "../../models/scenario/Unit.js";
 import Tile from "../../models/scenario/Tile.js";
 import boardStore from "../../stores/board.store.js";
