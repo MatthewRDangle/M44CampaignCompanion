@@ -197,8 +197,6 @@ export default class Tile {
                 this.setup = scenario.setups[definition.setup]
             else if (typeof definition.battleMap === 'object')
                 this.setup = new Setup(definition.setup)
-            else
-                this.setup = new Setup()
         }
     }
 

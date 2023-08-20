@@ -33,8 +33,8 @@ export const page = new Page('/scenario/tile/:tileId/setup', (initialVnode) => {
                         src: tile.battleMap?.src || '',
                         alt: tile.battleMap?.alt || ''
                     }),
-                    m('h1', { className: 'text-center text-xl my-2' }, tile.setup.title),
-                    tile.setup.instructions.map(text => m('p', { className: 'my-1' }, text)),
+                    m('h1', { className: 'text-center text-xl my-2' }, tile.setup?.title ?? ''),
+                    tile.setup?.instructions.map(text => m('p', { className: 'my-1' }, text)),
                 ),
                 m('div', {className: 'absolute left-[5%] bottom-[5%]'},
                     m(Button, {
