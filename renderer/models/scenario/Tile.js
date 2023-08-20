@@ -1,36 +1,71 @@
 import Unit from "./Unit.js";
 import Definition from "./Definition.js";
 import Faction from "./Faction.js";
-import ScenarioDefinitionStore from "../../stores/definition.store.js";
 import Overlay from "./Overlay.js";
 import Battle from "./Battle.js";
 import Map from "./Map.js";
+import ScenarioDefinitionStore from "../../stores/definition.store.js";
+import ModeStore from "../../stores/mode.store.js";
+import Setup from "./Setup.js";
 
 
 export default class Tile {
+    id = ''
+    row = 0
+    column = 0
+    occupied_by = undefined
+    battle = undefined
+    isContested = false
+    battleMap = undefined
+    terrain = {}
+    overlays = {}
+    units = {}
+    setup = undefined
+    adjacentTiles = []
 
-    constructor() {
-        this.id = '';
-        this.row = 0;
-        this.column = 0;
-
-        // Ownership
-        this.occupied_by = undefined;
-        this.battle = undefined;
-        this.isContested = false;
-
-        // Map, Terrain, Overlays, Units
-        this.battleMap = undefined;
-        this.terrain = {};
-        this.overlays = {};
-        this.units = {};
-
-        // Relative Positioning.
-        this.adjacentTiles = [];
-    }
+    constructor() {}
 
     get activeScenario() {
         return ScenarioDefinitionStore.activeScenarioDefinition;
+    }
+
+    get movementCost() {
+        if (!this.terrain || !this.terrain.movement_cost || !this.terrain.render)
+            return undefined
+
+        const selectedUnit = ModeStore.selectedUnit
+        if (!selectedUnit)
+            return this.terrain.movement_cost
+        else {
+            const modifier = this.terrain.movement_cost_modifiers_by_type[selectedUnit.type] ?? 0
+            return this.terrain.movement_cost + modifier
+        }
+    }
+
+    get indirectAttackAccuracyModifier() {
+        if (!this.terrain || !this.terrain.render)
+            return undefined
+
+        const selectedUnit = ModeStore.selectedUnit
+        if (!selectedUnit)
+            return this.terrain.protection.chance_modifier
+        else {
+            const modifier = this.terrain.protection.chance_modifiers_by_attack_type[selectedUnit] ?? 0
+            return this.terrain.protection.chance_modifier + modifier
+        }
+    }
+
+    get indirectAttackDamageModifier() {
+        if (!this.terrain || !this.terrain.render)
+            return undefined
+
+        const selectedUnit = ModeStore.selectedUnit
+        if (!selectedUnit)
+            return this.terrain.protection.damage_modifier
+        else {
+            const modifier = this.terrain.protection.damage_modifiers_by_attack_type[selectedUnit] ?? 0
+            return this.terrain.protection.damage_modifier + modifier
+        }
     }
 
     get isHostile() {
@@ -154,6 +189,16 @@ export default class Tile {
                 this.battleMap = scenario.battleMaps[definition.battleMap];
             else if (typeof definition.battleMap === 'object' && definition.battleMap.hasOwnProperty('src') && definition.battleMap.hasOwnProperty('alt'))
                 this.battleMap = new Map(definition.battleMap);
+        }
+
+        // Apply Setup
+        if (definition.setup) {
+            if (typeof definition.setup === 'string')
+                this.setup = scenario.setups[definition.setup]
+            else if (typeof definition.battleMap === 'object')
+                this.setup = new Setup(definition.setup)
+            else
+                this.setup = new Setup()
         }
     }
 

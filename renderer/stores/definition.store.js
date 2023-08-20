@@ -90,7 +90,7 @@ class ScenarioDefinitionStore {
             const fileExtension = pathArray[pathArray.length - 1].toLowerCase();
             if (fileExtension === 'json')
                 parsedContents = JSON.parse(tmpContents);
-            else if (fileExtension === 'yml')
+            else if (fileExtension === 'yml' || fileExtension === 'yaml')
                 parsedContents = YAML.load(tmpContents)
 
         } catch(err) {console.error(err)}

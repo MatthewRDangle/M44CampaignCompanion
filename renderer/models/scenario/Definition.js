@@ -7,6 +7,7 @@ import Map from "./Map.js";
 import Script from "./Script.js";
 import Overlay from "./Overlay.js";
 import Battle from "./Battle.js";
+import Setup from "./Setup.js";
 
 export default class Definition {
     constructor() {
@@ -15,15 +16,18 @@ export default class Definition {
 
         // References
         this.factions = {};
-        this.scripts = {
-            end_of_turn: []
-        };
-
-        // Templates
-        this.unit_templates = {};
         this.overlays = {};
         this.terrains = {};
         this.battleMaps = {};
+        this.setups = {};
+
+        // Templates
+        this.unit_templates = {};
+
+        // Scripts
+        this.scripts = {
+            end_of_turn: []
+        };
 
         // Gameplay
         this.turnCounter = 1;
@@ -88,9 +92,16 @@ export default class Definition {
         }
 
         // Set Battle Maps
-        if (definition.battleMaps) {
+        if (Array.isArray(definition.battleMaps)) {
             definition.battleMaps.forEach((definition_battleMap) => {
                 this.battleMaps[definition_battleMap.name] = new Map(definition_battleMap);
+            })
+        }
+
+        // Set Setups
+        if (Array.isArray(definition.setups)) {
+            definition.setups.forEach((definition_setup) => {
+                this.setups[definition_setup.name] = new Setup(definition_setup);
             })
         }
 
@@ -219,10 +230,6 @@ export default class Definition {
             script.compile(rawScript);
             this.scripts[script.when].push(script);
         }
-    }
-
-    displayContextMenu() {
-        this.showContextMenu = true;
     }
 
     factionsAreDefeated(factions) {

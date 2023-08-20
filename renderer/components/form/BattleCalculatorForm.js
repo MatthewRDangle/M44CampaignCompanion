@@ -17,15 +17,17 @@ const BattleCalculatorForm = (initialVnode) => {
     }
 
     const handlePostpone = (e) => {
-        m.route.set('/scenario')
+        const onPostpone = initialVnode.attrs.onPostpone
+        onPostpone && onPostpone(e)
     }
 
-    const handleOnSubmit = (e, tile) => {
+    const handleOnResolve = (e, tile) => {
         e.preventDefault();
         tile.battle.finalizeChanges();
+        const resolved = tile.resolve()
 
-        if (tile.resolve())
-            m.route.set('/scenario');
+        const onResolve = initialVnode.attrs.onResolve
+        onResolve && onResolve(e, resolved)
     }
 
 
@@ -82,7 +84,7 @@ const BattleCalculatorForm = (initialVnode) => {
                     m('div', {className: 'absolute right-[5%] bottom-[5%]'},
                         m(Button, {
                             type: 'button',
-                            onclick: (e) => handleOnSubmit(e, tile)
+                            onclick: (e) => handleOnResolve(e, tile)
                         }, 'Resolve')
                     )
                 ])

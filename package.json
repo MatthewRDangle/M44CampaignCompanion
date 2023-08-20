@@ -7,7 +7,7 @@
   "homepage": "https://github.com/MatthewRDangle/battlecry#readme",
   "scripts": {
     "start": "electron-forge start",
-    "dev": "electron . dev && npm run watch:tailwindcss",
+    "dev": "npm run build:tailwindcss && electron . dev",
     "build:tailwindcss": "tailwindcss build -i renderer/stylesheets/_tailwind.css -o renderer/stylesheets/tailwind.css",
     "watch:tailwindcss": "tailwindcss build -i renderer/stylesheets/_tailwind.css -o renderer/stylesheets/tailwind.css --watch",
     "package": "electron-forge package",

@@ -5,7 +5,7 @@ import PauseMenuHud from "./PauseMenuHud.js";
 import ScenarioDefinitionStore from "../../stores/definition.store.js";
 
 
-const GameHeaderHud = (initialVnode) => {
+const HeaderHud = (initialVnode) => {
 
     let __optionsOpened = false;
 
@@ -57,4 +57,4 @@ const GameHeaderHud = (initialVnode) => {
     }
 }
 
-export default GameHeaderHud;
+export default HeaderHud;
