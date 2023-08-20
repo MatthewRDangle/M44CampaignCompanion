@@ -79,7 +79,7 @@ class ScenarioManifestStore {
             const fileExtension = pathArray[pathArray.length - 1].toLowerCase();
             if (fileExtension === 'json')
                 parsedContents = JSON.parse(tmpManifest);
-            else if (fileExtension === 'yml')
+            else if (fileExtension === 'yml' || fileExtension === 'yaml')
                 parsedContents = YAML.load(tmpManifest);
 
             parsedContents.pathToDir = file.path.replaceAll(file.name, "");

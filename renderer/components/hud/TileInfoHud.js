@@ -18,7 +18,7 @@ const TileInfoHud = (initialVnode) => {
     }
 
     const handleBattle = (tile) => {
-        m.route.set('/scenario/tile/:tileId/battle', {tileId: tile.id})
+        m.route.set('/scenario/tile/:tileId/setup', {tileId: tile.id})
     }
 
     const handlePreview = (tile) => {

@@ -17,12 +17,23 @@ export const page = new Page('/scenario/tile/:tileId/battle', (initialVnode) => 
 
             const tile = activeScenarioDefinition.fetchTileReferenceById(attrs.tileId);
 
+            const handlePostpone = (e) => {
+                m.route.set(`/scenario/tile/${tile.id}/setup`)
+            }
+
+            const handleResolve = (e, resolved) => {
+                if (resolved) m.route.set('/scenario');
+            }
 
             return m(Body, [
                 m(Background),
                 m(TitleBar, 'Battle Results'),
                 m('div', {className: 'mt-8'},
-                    m(BattleCalculatorForm, {tile: tile})
+                    m(BattleCalculatorForm, {
+                        tile: tile,
+                        onPostpone: handlePostpone,
+                        onResolve: handleResolve
+                    })
                 )
             ])
         }
