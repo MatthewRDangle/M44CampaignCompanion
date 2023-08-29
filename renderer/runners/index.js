@@ -1,5 +1,5 @@
-import faction_owns_tile from "./conditions/faction_owns_tile.js";
-import faction_owns_tiles from "./conditions/faction_owns_tiles.js";
+import faction_owns_tile from "./conditions/factionOwnsTile.js";
+import faction_owns_tiles from "./conditions/factionOwnsTiles.js";
 import victory from "./then/victory.js";
 import failure from "./then/failure.js";
 

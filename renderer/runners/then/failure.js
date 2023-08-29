@@ -1,4 +1,4 @@
-import definitionStore from "../../stores/definition.store.js";
+import definitionStore from "../../stores/Definition.store.js";
 
 export default ({factions}) => {
     const { activeScenarioDefinition } = definitionStore;
