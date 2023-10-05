@@ -5,8 +5,8 @@ import Overlay from "./Overlay.model.js";
 import Battle from "././Battle.model.js";
 import Map from "./Map.model.js";
 import ScenarioDefinitionStore from "../../stores/Definition.store.js";
-import ModeStore from "../../stores/Mode.store.js";
 import Setup from "./Setup.model.js";
+import modeStore from "../../stores/Mode.store.js";
 
 
 export default class Tile {
@@ -33,7 +33,7 @@ export default class Tile {
         if (!this.terrain || !this.terrain.movement_cost || !this.terrain.render)
             return undefined
 
-        const selectedUnit = ModeStore.selectedUnit
+        const selectedUnit = modeStore.selectedUnit
         if (!selectedUnit)
             return this.terrain.movement_cost
         else {
@@ -46,7 +46,7 @@ export default class Tile {
         if (!this.terrain || !this.terrain.render)
             return undefined
 
-        const selectedUnit = ModeStore.selectedUnit
+        const selectedUnit = modeStore.selectedUnit
         if (!selectedUnit)
             return this.terrain.protection.chance_modifier
         else {
@@ -59,7 +59,7 @@ export default class Tile {
         if (!this.terrain || !this.terrain.render)
             return undefined
 
-        const selectedUnit = ModeStore.selectedUnit
+        const selectedUnit = modeStore.selectedUnit
         if (!selectedUnit)
             return this.terrain.protection.damage_modifier
         else {
@@ -86,7 +86,7 @@ export default class Tile {
     }
 
     get isSelected() {
-        return this.activeScenario.selectedTile === this
+        return modeStore.selectedTile === this
     }
 
     get totalUnitCount() {
@@ -212,7 +212,7 @@ export default class Tile {
         }
     }
 
-    defendAgainstIndirectAttack(attack) {
+    protect(attack) {
         const unitList = [...this.unitList]
         unitList.forEach((unit) => {
             const chance = attack.chance;
@@ -223,7 +223,7 @@ export default class Tile {
                 const damage_modifier = this.terrain.calculateIndirectAttackDamageModifier(unit);
                 const apply_damage = damage - damage_modifier;
                 if (apply_damage > 0)
-                    unit.damage(apply_damage)
+                    unit.hurt(apply_damage)
             }
         })
     }
@@ -290,13 +290,6 @@ export default class Tile {
     }
 
     select() {
-        if (this.activeScenario instanceof Definition) {
-            if (this.activeScenario.selectedTile === this)
-                return
-
-            if (this.activeScenario.selectedTile instanceof Tile)
-                this.activeScenario.selectedTile.deselect();
-            this.activeScenario.selectTile(this);
-        }
+        modeStore.selectTile(this)
     }
 }

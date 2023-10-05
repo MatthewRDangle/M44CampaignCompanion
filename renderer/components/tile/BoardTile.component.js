@@ -1,7 +1,7 @@
 const m = require("mithril");
 const classNames = require("classnames");
 
-import UnitToken from "../token/UnitToken.component.js";
+import UnitToken from "../token/ConcealedUnitToken.component.js";
 import definitionStore from "../../stores/Definition.store.js";
 import modeStore from "../../stores/Mode.store.js";
 
@@ -9,15 +9,29 @@ import modeStore from "../../stores/Mode.store.js";
 const BoardTile = (initialVnode) => {
     const handleOnClick = (tile) => {
         if (!!tile.terrain?.render || tile.terrain?.render === undefined) {
-            if (modeStore.isMoveUnitMode) {
-                const unit = modeStore.selectedUnit;
-                unit.move(tile)
+            if (modeStore.isMovementMode) {
+                const moves = modeStore.possibleMoves[tile.id]
+                if (!moves) return
+                modeStore.possibleMoves[tile.id].forEach(move => {
+                    const {unit, cost} = move;
+                    unit.move(tile, cost);
+                })
+            } else if (modeStore.isDirectAttackMode) {
+                const attacks = modeStore.possibleDirectAttacks[tile.id]
+                if (!attacks) return
+                modeStore.possibleMoves[tile.id].forEach(attack => {
+                    const { unit, weapon } = attack;
+                    unit.attack(tile, weapon);
+                })
             } else if (modeStore.isIndirectFireMode) {
-                const unit = modeStore.selectedUnit;
-                unit.indirectAttack(tile)
-            }
-            else {
-                tile.select()
+                const attacks = modeStore.possibleIndirectAttacks[tile.id]
+                if (!attacks) return
+                modeStore.possibleMoves[tile.id].forEach(attack => {
+                    const { unit, weapon } = attack;
+                    unit.attack(tile, weapon);
+                })
+            } else {
+                tile.select();
             }
         }
     }
@@ -28,7 +42,7 @@ const BoardTile = (initialVnode) => {
             const {attrs} = vNode;
             const {activeScenarioDefinition} = definitionStore;
 
-            const { isMoveUnitMode, isIndirectFireMode, selectedUnit } = modeStore;
+            const { isMovementMode, isIndirectFireMode, possibleMoves, possibleIndirectAttacks } = modeStore;
             const { hex, size, margin } = attrs;
             const overlays = Object.values(hex.overlays);
             const height = size * 1.1547;
@@ -40,8 +54,8 @@ const BoardTile = (initialVnode) => {
                     className: classNames('relative inline-block text-base align-top disabled:opacity-50', {
                         'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.terrain?.render || hex.terrain?.render === undefined,
                         '!cursor-pointer !bg-interaction-900': hex.isSelected,
-                        '!bg-interaction-900': isMoveUnitMode && selectedUnit?.canMoveTo[hex.id] >= 0,
-                        '!bg-warning-900': isIndirectFireMode && selectedUnit?.canIndirectTo.includes(hex),
+                        '!bg-interaction-900': isMovementMode && possibleMoves[hex.id] >= 0,
+                        '!bg-warning-900': isIndirectFireMode && possibleIndirectAttacks[hex.id],
                         '!bg-warning-500': hex.isContested
                     }),
                     style: {width: `${size}px`, height: `${height}px`, margin: `${margin}px`,

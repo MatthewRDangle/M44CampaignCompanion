@@ -8,15 +8,16 @@ import Unit from "../../models/scenario/Unit.model.js";
 import Tile from "../../models/scenario/Tile.model.js";
 import boardStore from "../../stores/Board.store.js";
 import definitionStore from "../../stores/Definition.store.js";
+import modeStore from "../../stores/Mode.store.js";
 
 
 const BoardGrid = (initialVnode) => {
 
     const handleRightClick = (scenario) => {
-        if (scenario.selectedUnit instanceof Unit)
-            scenario.selectedUnit.deselect();
-        else if (scenario.selectedTile instanceof Tile)
-            scenario.selectedTile.deselect();
+        if (modeStore.unitsAreSelected)
+            modeStore.deselectAllUnits()
+        else if (modeStore.selectedTile)
+            modeStore.deselectTile()
     }
 
     let isBeingDragged = false

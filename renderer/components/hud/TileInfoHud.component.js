@@ -4,17 +4,21 @@ import modeStore from "../../stores/Mode.store.js";
 import Terrain from "../../models/scenario/Terrain.model.js";
 import Unit from "../../models/scenario/Unit.model.js";
 import Button from "../Button.component.js";
-import UnitCard from "../token/FactionToken.component.js";
+import UnitToken from "../token/UnitToken.component.js";
 
 
 const TileInfoHud = (initialVnode) => {
 
     const handleMoveMode = () => {
-        modeStore.disableIndirectFireMode()
+        modeStore.enableMovementMode()
+    }
+
+    const handleDirectFireMode = () => {
+        modeStore.enableDirectAttackMode()
     }
 
     const handleIndirectFireMode = () => {
-        modeStore.enableIndirectFireMode()
+        modeStore.enableDirectAttackMode()
     }
 
     const handleBattle = (tile) => {
@@ -25,8 +29,16 @@ const TileInfoHud = (initialVnode) => {
         m.route.set('/scenario/tile/:tileId/map', {tileId: tile.id})
     }
 
-    const handleUnitSelect = (unit) => {
-        unit.select();
+    const handleUnitSelect = (e, unit) => {
+        if (e.shiftKey) {
+            if (modeStore.hasSelectedUnit(unit))
+                unit.deselect()
+            else
+                unit.select();
+        } else {
+            modeStore.deselectAllUnits()
+            unit.select();
+        }
     }
 
 
@@ -34,7 +46,7 @@ const TileInfoHud = (initialVnode) => {
         view: (vNode) => {
             const {attrs} = vNode;
             const {currentTurn, tile} = attrs;
-            const {isMoveUnitMode, isIndirectFireMode, selectedUnit} = modeStore;
+            const {isMovementMode, isIndirectFireMode, selectedUnit} = modeStore;
             const unitExists = !!selectedUnit
             const canIndirectFire = !!unitExists && !isIndirectFireMode ? selectedUnit.canAttackIndirectly : false
             const indirectAttackAccuracyModifier = tile.indirectAttackAccuracyModifier ? -tile.indirectAttackAccuracyModifier + '%' : '0%'
@@ -47,14 +59,14 @@ const TileInfoHud = (initialVnode) => {
                 m('div', {className: 'absolute left-8 bottom-12 z-1'}, [
                     m('div', {className: 'relative -left-2 flex mb-4'}, [
                         (tile.units[currentTurn.name]) ? tile.units[currentTurn.name].map((unit) => (
-                            m('div', {className: 'scale-75'}, m(UnitCard, {unit: unit, onclick: () => {handleUnitSelect(unit)}}))
+                            m('div', {className: 'scale-75'}, m(UnitToken, {unit: unit, onclick: (e) => {handleUnitSelect(e, unit)}}))
                         )) : ''
                     ]),
                     m('div', {className: 'flex flex-row flex-wrap align-center mb-1'}, [
                         m('div', {className: 'flex flex-row flex-full'}, [
                             m('div', {className: 'inline-block'}, m(Button, {onclick: () => {handlePreview(tile)}}, 'Preview')),
                             m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleBattle(tile)}, disabled: !tile.isContested}, 'Battle')),
-                            unitExists && !isMoveUnitMode && !selectedUnit.isExhausted && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleMoveMode()}}, 'Move')),
+                            unitExists && !isMovementMode && !selectedUnit.isExhausted && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleMoveMode()}}, 'Move')),
                             unitExists && canIndirectFire && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleIndirectFireMode()}}, 'Indirect'))
                         ])
                     ]),

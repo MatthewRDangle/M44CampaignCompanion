@@ -102,7 +102,7 @@ export default class Battle {
                 for (let idx = 0; idx < unitArray.length; idx++) {
                     let unit = unitArray[idx];
                     if (remainingHealthChange < 0) {
-                        remainingHealthChange = 0 - unit.damage(remainingHealthChange)
+                        remainingHealthChange = 0 - unit.hurt(remainingHealthChange)
                     } else if (remainingHealthChange > 0) {
                         unit.heal(remainingHealthChange)
                         remainingHealthChange = 0;
