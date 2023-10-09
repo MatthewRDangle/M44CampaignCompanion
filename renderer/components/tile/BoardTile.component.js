@@ -16,12 +16,14 @@ const BoardTile = (initialVnode) => {
                     const {unit, cost} = move;
                     unit.move(tile, cost);
                 })
+                modeStore.disableMovementMode()
             } else if (modeStore.isDirectAttackMode) {
                 const attacks = modeStore.possibleDirectAttacks[tile.id]
                 if (!attacks) return
                 modeStore.possibleMoves[tile.id].forEach(attack => {
                     const { unit, weapon } = attack;
                     unit.attack(tile, weapon);
+                    modeStore.disableDirectAttackMode()
                 })
             } else if (modeStore.isIndirectFireMode) {
                 const attacks = modeStore.possibleIndirectAttacks[tile.id]
@@ -30,6 +32,7 @@ const BoardTile = (initialVnode) => {
                     const { unit, weapon } = attack;
                     unit.attack(tile, weapon);
                 })
+                modeStore.disableIndirectFireMode()
             } else {
                 tile.select();
             }
@@ -54,7 +57,7 @@ const BoardTile = (initialVnode) => {
                     className: classNames('relative inline-block text-base align-top disabled:opacity-50', {
                         'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.terrain?.render || hex.terrain?.render === undefined,
                         '!cursor-pointer !bg-interaction-900': hex.isSelected,
-                        '!bg-interaction-900': isMovementMode && possibleMoves[hex.id] >= 0,
+                        '!bg-interaction-900': isMovementMode && possibleMoves[hex.id],
                         '!bg-warning-900': isIndirectFireMode && possibleIndirectAttacks[hex.id],
                         '!bg-warning-500': hex.isContested
                     }),
@@ -67,7 +70,7 @@ const BoardTile = (initialVnode) => {
                     }, [
                         overlays.map(overlay => overlay.images.map(image =>
                             m('img', {
-                                className: 'absolute w-full h-full object-cover',
+                                className: 'absolute w-full h-full object-cover select-none',
                                 role: "presentation",
                                 src: image,
                                 alt: "",

@@ -14,7 +14,9 @@ class ModeStore {
 
     constructor() {
         if (!modeStore) {
-            this.enableIndirectFireMode = this.enableIndirectFireMode.bind(this);
+            this.enableCommandMode = this.enableCommandMode.bind(this);
+            this.enableMovementMode = this.enableMovementMode.bind(this);
+            this.enableDirectAttackMode = this.enableDirectAttackMode.bind(this);
             this.disableIndirectFireMode = this.disableIndirectFireMode.bind(this);
             this.selectUnit = this.selectUnit.bind(this);
             this.selectMultipleUnits = this.selectMultipleUnits.bind(this);
@@ -32,6 +34,11 @@ class ModeStore {
         return this.selectedUnits.length > 0
     }
 
+    get isCommandMode() {
+        return !this.isMovementMode && !this.isDirectAttackMode && !this.isIndirectFireMode
+
+    }
+
     get isMovementMode() {
         return this.unitsAreSelected && this.possibleMoves
     }
@@ -42,6 +49,12 @@ class ModeStore {
 
     get isIndirectFireMode() {
         return this.unitsAreSelected && this.possibleIndirectAttacks
+    }
+
+    enableCommandMode() {
+        this.disableMovementMode()
+        this.disableDirectAttackMode()
+        this.disableIndirectFireMode()
     }
 
     enableMovementMode() {

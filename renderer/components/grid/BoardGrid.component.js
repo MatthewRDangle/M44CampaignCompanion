@@ -14,8 +14,10 @@ import modeStore from "../../stores/Mode.store.js";
 const BoardGrid = (initialVnode) => {
 
     const handleRightClick = (scenario) => {
-        if (modeStore.unitsAreSelected)
+        if (modeStore.unitsAreSelected) {
             modeStore.deselectAllUnits()
+            modeStore.enableCommandMode()
+        }
         else if (modeStore.selectedTile)
             modeStore.deselectTile()
     }

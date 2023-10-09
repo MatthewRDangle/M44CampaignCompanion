@@ -46,14 +46,12 @@ const TileInfoHud = (initialVnode) => {
         view: (vNode) => {
             const {attrs} = vNode;
             const {currentTurn, tile} = attrs;
-            const {isMovementMode, isIndirectFireMode, selectedUnit} = modeStore;
-            const unitExists = !!selectedUnit
-            const canIndirectFire = !!unitExists && !isIndirectFireMode ? selectedUnit.canAttackIndirectly : false
+            const {isMovementMode, isDirectAttackMode, isIndirectFireMode, selectedUnits} = modeStore;
             const indirectAttackAccuracyModifier = tile.indirectAttackAccuracyModifier ? -tile.indirectAttackAccuracyModifier + '%' : '0%'
             const indirectAttackDamageModifier = tile.indirectAttackDamageModifier ? -tile.indirectAttackDamageModifier + 'dmg' : '0 dmg'
-            const selectedUnitHasIndirectAttack = !!selectedUnit?.attack.indirect
-            const selectedUnitIndirectAttackRange = selectedUnit?.attack.indirect?.range ?? 0
-            const selectedUnitIndirectAttackIsOperational = selectedUnit?.attack.indirect?.operational
+            // const selectedUnitHasIndirectAttack = !!selectedUnit?.attack.indirect
+            // const selectedUnitIndirectAttackRange = selectedUnit?.attack.indirect?.range ?? 0
+            // const selectedUnitIndirectAttackIsOperational = selectedUnit?.attack.indirect?.operational
 
             return (
                 m('div', {className: 'absolute left-8 bottom-12 z-1'}, [
@@ -64,10 +62,34 @@ const TileInfoHud = (initialVnode) => {
                     ]),
                     m('div', {className: 'flex flex-row flex-wrap align-center mb-1'}, [
                         m('div', {className: 'flex flex-row flex-full'}, [
-                            m('div', {className: 'inline-block'}, m(Button, {onclick: () => {handlePreview(tile)}}, 'Preview')),
-                            m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleBattle(tile)}, disabled: !tile.isContested}, 'Battle')),
-                            unitExists && !isMovementMode && !selectedUnit.isExhausted && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleMoveMode()}}, 'Move')),
-                            unitExists && canIndirectFire && m('div', {className: 'inline-block ml-2'}, m(Button, {onclick: () => {handleIndirectFireMode()}}, 'Indirect'))
+                            m('div', {className: 'inline-block'},
+                                m(Button, {
+                                    onclick: () => {handlePreview(tile)}
+                                }, 'Preview')
+                            ),
+                            m('div', {className: 'inline-block ml-2'},
+                                m(Button, {
+                                    onclick: () => {handleBattle(tile)},
+                                    disabled: !tile.isContested
+                                }, 'Battle')
+                            ),
+                            m('div', {className: 'inline-block ml-2'},
+                                m(Button, {
+                                    onclick: () => {handleMoveMode()},
+                                    disabled: !selectedUnits.length || isMovementMode
+                                }, 'Move')),
+                            m('div', {className: 'inline-block ml-2'},
+                                m(Button, {
+                                    onclick: () => {handleDirectFireMode()},
+                                    disabled: !selectedUnits.length || isDirectAttackMode
+                                }, 'Direct')
+                            ),
+                            m('div', {className: 'inline-block ml-2'},
+                                m(Button, {
+                                    onclick: () => {handleIndirectFireMode()},
+                                    disabled: !selectedUnits.length || isIndirectFireMode
+                                }, 'Indirect')
+                            )
                         ])
                     ]),
                     m('div', {className: 'flex flex-row flex-wrap'}, [
@@ -76,20 +98,20 @@ const TileInfoHud = (initialVnode) => {
                             m('span', `Movement Cost: ${tile.movementCost}`),
                             m('span',  `Indirect Defense: ${indirectAttackAccuracyModifier} / ${indirectAttackDamageModifier}`)
                         ]),
-                        selectedUnit instanceof Unit && m('div', {className: 'flex flex-col p-3 mr-1 bg-background rounded'}, [
-                            m('span', `Name: ${selectedUnit.name}`),
-                            m('span', `Health: ${selectedUnit.health}`),
-                            m('span', `Movement: ${selectedUnit.available_movement} of ${selectedUnit.movement_cap}`),
-                        ]),
-                        selectedUnit instanceof Unit && m('div', {className: 'flex flex-col p-3 bg-background rounded'}, [
-                            m('span', `Direct Attack: 
-                                ${selectedUnit.attack.direct ? 'Operable' : 'Inoperable'}
-                            `),
-                            selectedUnitHasIndirectAttack && m('span', `Indirect Attack: 
-                                ${selectedUnitIndirectAttackIsOperational ? indirectAttackAccuracyModifier + ' / ' + indirectAttackDamageModifier : 'Inoperable'},
-                            `),
-                            selectedUnitHasIndirectAttack && m('span', `Indirect Range: ${selectedUnitIndirectAttackRange}`),
-                        ]),
+                        // selectedUnit instanceof Unit && m('div', {className: 'flex flex-col p-3 mr-1 bg-background rounded'}, [
+                        //     m('span', `Name: ${selectedUnit.name}`),
+                        //     m('span', `Health: ${selectedUnit.health}`),
+                        //     m('span', `Movement: ${selectedUnit.available_movement} of ${selectedUnit.movement_cap}`),
+                        // ]),
+                        // selectedUnit instanceof Unit && m('div', {className: 'flex flex-col p-3 bg-background rounded'}, [
+                        //     m('span', `Direct Attack:
+                        //         ${selectedUnit.attack.direct ? 'Operable' : 'Inoperable'}
+                        //     `),
+                        //     selectedUnitHasIndirectAttack && m('span', `Indirect Attack:
+                        //         ${selectedUnitIndirectAttackIsOperational ? indirectAttackAccuracyModifier + ' / ' + indirectAttackDamageModifier : 'Inoperable'},
+                        //     `),
+                        //     selectedUnitHasIndirectAttack && m('span', `Indirect Range: ${selectedUnitIndirectAttackRange}`),
+                        // ]),
                     ]),
                 ])
             )

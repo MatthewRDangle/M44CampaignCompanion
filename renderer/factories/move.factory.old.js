@@ -16,7 +16,7 @@ export function createMovementCostsForOneUnit (unit) {
         findWhereCanUnitMoveTo(unit.tile, unit.available_movement);
 
     function findWhereCanUnitMoveTo (tile, availableMovement) {
-        if (!(tile instanceof Tile) || !isNaN(availableMovement)) return
+        if (!(tile instanceof Tile) || isNaN(availableMovement)) return
         if (tile.isContested) return
 
         let movement_info = tile.adjacentMovementCost();

@@ -23,7 +23,7 @@ const HeaderHud = (initialVnode) => {
 
             return ([
                 __optionsOpened ? m(PauseMenuHud, {onResume: handleOptionsOverlay}) : '',
-                m('div', {className: 'absolute top-0 left-0 flex justify-between w-full pt-2 pb-2 pl-5 pr-5 bg-background border-b-[1px] border-solid border-secondary-500 shadow-lg shadow-background-500/50'}, [
+                m('div', {className: 'absolute top-0 left-0 flex justify-between w-full pt-2 pb-2 pl-5 pr-5 bg-background border-b-[1px] border-solid border-secondary-500 shadow-lg shadow-background-500/50 select-none'}, [
                     m('div', {className: 'relative'}, [
                         m('div', {
                             className: 'absolute w-16 h-24 mr-2',

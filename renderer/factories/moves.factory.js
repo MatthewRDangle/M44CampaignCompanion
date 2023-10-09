@@ -16,16 +16,16 @@ export function createMovementCostsForMultipleUnits (units) {
         })
 
         // Find tiles that every unit is capable of moving to, and insert the object into here.
-        const canMoveTo = []
-        allEligibleMoves.forEach((value) => {
+        const canMoveTo = {}
+        allEligibleMoves.forEach((value, key) => {
             if (value.length === units.length)
-                canMoveTo.push(value)
+                canMoveTo[key] = value
         })
 
         return canMoveTo
     }
 
-    return []
+    return {}
 }
 
 const createEligibleMove = (cost, unit) => {

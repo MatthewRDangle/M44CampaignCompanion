@@ -221,7 +221,8 @@ export default class Unit {
     // }
 
     move(tile, cost) {
-        if (this.tile && cost) {
+        debugger
+        if (tile && cost) {
             if (this.available_movement >= cost) {
                 this.warp(tile);
                 this.activeScenario.trackUnitMoved(this);
