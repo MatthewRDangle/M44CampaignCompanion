@@ -1,7 +1,7 @@
 import Unit from "../models/scenario/Unit.model.js";
 import Tile from "../models/scenario/Tile.model.js";
 import { findAllAttackOpportunities } from "../factories/attacks.factory.js";
-import { createMovementCostsForMultipleUnits } from "../factories/moves.factory.js";
+import { calculateCostToMoveMultipleUnits } from "../utilities/calculateMovement.js";
 
 let modeStore;
 
@@ -52,6 +52,7 @@ class ModeStore {
     }
 
     enableCommandMode() {
+        this.deselectAllUnits()
         this.disableMovementMode()
         this.disableDirectAttackMode()
         this.disableIndirectFireMode()
@@ -61,7 +62,7 @@ class ModeStore {
         if (this.unitsAreSelected) {
             this.disableDirectAttackMode()
             this.disableIndirectFireMode()
-            this.possibleMoves = createMovementCostsForMultipleUnits(this.selectedUnits)
+            this.possibleMoves = calculateCostToMoveMultipleUnits(this.selectedUnits)
         }
     }
 
@@ -94,6 +95,9 @@ class ModeStore {
     }
 
     selectUnit(unit) {
+        this.disableMovementMode()
+        this.disableDirectAttackMode()
+        this.disableIndirectFireMode()
         if (unit instanceof Unit && !this.selectedUnits.includes(unit))
             this.selectedUnits.push(unit)
     }
@@ -111,6 +115,9 @@ class ModeStore {
     }
 
     deselectUnit(unit) {
+        this.disableMovementMode()
+        this.disableDirectAttackMode()
+        this.disableIndirectFireMode()
         if (unit instanceof Unit) {
             const idx = this.selectedUnits.indexOf(unit);
             if (idx >= 0) this.selectedUnits.splice(idx, 1)

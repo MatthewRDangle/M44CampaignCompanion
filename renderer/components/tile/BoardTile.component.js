@@ -34,6 +34,7 @@ const BoardTile = (initialVnode) => {
                 })
                 modeStore.disableIndirectFireMode()
             } else {
+                modeStore.enableCommandMode()
                 tile.select();
             }
         }

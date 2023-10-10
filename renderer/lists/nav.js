@@ -3,6 +3,11 @@ const {ipcRenderer} = require('electron');
 
 export const nav = [
     {
+        label: 'Tutorial',
+        path: '/session/lobby',
+        disabled: true
+    },
+    {
         label: 'Hotseat',
         path: '/session/lobby',
     }, {
