@@ -1,10 +1,8 @@
 const m = require("mithril");
 const classNames = require("classnames");
 
-import Color from "../../models/Color.model.js";
 
-
-const FactionToken = (initialVnode) => {
+const UnitToken = (initialVnode) => {
 
 
     return {
@@ -49,4 +47,4 @@ const FactionToken = (initialVnode) => {
     }
 }
 
-export default FactionToken;
+export default UnitToken;

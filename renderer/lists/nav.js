@@ -3,21 +3,21 @@ const {ipcRenderer} = require('electron');
 
 export const nav = [
     {
-        label: 'Skirmish',
+        label: 'Tutorial',
         path: '/session/lobby',
-    }, {
-        label: 'Multiplayer',
-        path: '/multiplayer',
         disabled: true
     },
     {
-        label: 'Scenarios',
-        path: '/settings/scenarios',
+        label: 'Hotseat',
+        path: '/session/lobby',
+    }, {
+        label: 'Network (LAN)',
+        path: '/session/lobby',
+        disabled: true
     },
     {
         label: 'Settings',
-        path: '/settings',
-        disabled: true
+        path: '/settings/scenarios'
     },
     {
         label: 'Exit to Desktop',

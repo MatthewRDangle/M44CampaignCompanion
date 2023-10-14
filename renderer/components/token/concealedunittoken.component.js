@@ -1,7 +1,7 @@
 const m = require("mithril");
 
 
-const UnitToken = (initialVnode) => {
+const ConcealedUnitToken = (initialVnode) => {
 
 
     return {
@@ -36,4 +36,4 @@ const UnitToken = (initialVnode) => {
     }
 }
 
-export default UnitToken;
+export default ConcealedUnitToken;

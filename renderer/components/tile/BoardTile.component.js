@@ -1,7 +1,7 @@
 const m = require("mithril");
 const classNames = require("classnames");
 
-import UnitToken from "../token/UnitToken.component.js";
+import UnitToken from "../token/ConcealedUnitToken.component.js";
 import definitionStore from "../../stores/Definition.store.js";
 import modeStore from "../../stores/Mode.store.js";
 
@@ -9,15 +9,48 @@ import modeStore from "../../stores/Mode.store.js";
 const BoardTile = (initialVnode) => {
     const handleOnClick = (tile) => {
         if (!!tile.terrain?.render || tile.terrain?.render === undefined) {
-            if (modeStore.isMoveUnitMode) {
-                const unit = modeStore.selectedUnit;
-                unit.move(tile)
+            if (modeStore.isMovementMode) {
+                const moves = modeStore.possibleMoves[tile.id]
+                if (!moves) return
+                if (Array.isArray(moves)) {
+                    moves.forEach(move => {
+                        const {unit, cost} = move;
+                        unit.move(tile, cost);
+                    })
+                } else {
+                    const {unit, cost} = moves;
+                    unit.move(tile, cost);
+                }
+                modeStore.disableMovementMode()
+            } else if (modeStore.isDirectAttackMode) {
+                const attacks = modeStore.possibleDirectAttacks[tile.id]
+                if (!attacks) return
+                if (Array.isArray(attacks)) {
+                    attacks.forEach(attack => {
+                        const { unit, cost } = attack;
+                        unit.directAttack(tile, cost);
+                    })
+                } else {
+                    const { unit, cost } = attacks;
+                    unit.directAttack(tile, cost);
+                }
+                modeStore.disableDirectAttackMode()
             } else if (modeStore.isIndirectFireMode) {
-                const unit = modeStore.selectedUnit;
-                unit.indirectAttack(tile)
-            }
-            else {
-                tile.select()
+                const attacks = modeStore.possibleIndirectAttacks[tile.id]
+                if (!attacks) return
+                if (Array.isArray(attacks)) {
+                    attacks.forEach(attack => {
+                        const { unit, tile } = attack;
+                        unit.indirectAttack(tile)
+                    })
+                } else {
+                    const { unit, tile } = attacks;
+                    unit.indirectAttack(tile)
+                }
+                modeStore.disableIndirectFireMode()
+            } else {
+                modeStore.enableCommandMode()
+                tile.select();
             }
         }
     }
@@ -28,7 +61,7 @@ const BoardTile = (initialVnode) => {
             const {attrs} = vNode;
             const {activeScenarioDefinition} = definitionStore;
 
-            const { isMoveUnitMode, isIndirectFireMode, selectedUnit } = modeStore;
+            const { isMovementMode, isDirectAttackMode, isIndirectFireMode, possibleMoves, possibleDirectAttacks, possibleIndirectAttacks } = modeStore;
             const { hex, size, margin } = attrs;
             const overlays = Object.values(hex.overlays);
             const height = size * 1.1547;
@@ -40,8 +73,8 @@ const BoardTile = (initialVnode) => {
                     className: classNames('relative inline-block text-base align-top disabled:opacity-50', {
                         'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.terrain?.render || hex.terrain?.render === undefined,
                         '!cursor-pointer !bg-interaction-900': hex.isSelected,
-                        '!bg-interaction-900': isMoveUnitMode && selectedUnit?.canMoveTo[hex.id] >= 0,
-                        '!bg-warning-900': isIndirectFireMode && selectedUnit?.canIndirectTo.includes(hex),
+                        '!bg-interaction-900': isMovementMode && possibleMoves[hex.id],
+                        '!bg-warning-900': (isDirectAttackMode && possibleDirectAttacks[hex.id]) || (isIndirectFireMode && possibleIndirectAttacks[hex.id]),
                         '!bg-warning-500': hex.isContested
                     }),
                     style: {width: `${size}px`, height: `${height}px`, margin: `${margin}px`,
@@ -53,7 +86,7 @@ const BoardTile = (initialVnode) => {
                     }, [
                         overlays.map(overlay => overlay.images.map(image =>
                             m('img', {
-                                className: 'absolute w-full h-full object-cover',
+                                className: 'absolute w-full h-full object-cover select-none',
                                 role: "presentation",
                                 src: image,
                                 alt: "",

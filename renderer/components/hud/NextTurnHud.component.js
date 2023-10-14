@@ -17,7 +17,7 @@ const NextTurnHud = (initialVnode) => {
             const color = activeScenarioDefinition.currentTurn.color
 
             return (
-                m('div', {className: 'group absolute bottom-8 right-8 z-1 shadow-background-500/50'},
+                m('div', {className: 'group absolute bottom-8 right-8 z-1 shadow-background-500/50 select-none'},
                     m('button', {
                         className: 'block w-16 h-16 p-3 pl-4 m-auto mb-2 bg-tertiary group-hover:bg-interaction border-2 border-solid border-interaction rounded-full cursor-pointer',
                         disabled: activeScenarioDefinition?.isGameOver,

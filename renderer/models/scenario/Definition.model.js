@@ -47,14 +47,6 @@ export default class Definition {
         this.tiles = [];
     }
 
-    get selectedTile() {
-        return modeStore.selectedTile
-    }
-
-    get selectedUnit() {
-        return modeStore.selectedUnit
-    }
-
     compile(definition) {
         this.devMode = !!definition.devMode;
 
@@ -297,14 +289,6 @@ export default class Definition {
         this.trackers.unitMoves.forEach((unit) => {
             unit.replenish();
         });
-    }
-
-    selectTile(tile) {
-        modeStore.selectTile(tile)
-    }
-
-    selectUnit(unit) {
-        modeStore.selectUnit(unit)
     }
 
     trackBattle(battle) {
