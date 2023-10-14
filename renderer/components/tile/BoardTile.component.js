@@ -12,26 +12,41 @@ const BoardTile = (initialVnode) => {
             if (modeStore.isMovementMode) {
                 const moves = modeStore.possibleMoves[tile.id]
                 if (!moves) return
-                modeStore.possibleMoves[tile.id].forEach(move => {
-                    const {unit, cost} = move;
+                if (Array.isArray(moves)) {
+                    moves.forEach(move => {
+                        const {unit, cost} = move;
+                        unit.move(tile, cost);
+                    })
+                } else {
+                    const {unit, cost} = moves;
                     unit.move(tile, cost);
-                })
+                }
                 modeStore.disableMovementMode()
             } else if (modeStore.isDirectAttackMode) {
                 const attacks = modeStore.possibleDirectAttacks[tile.id]
                 if (!attacks) return
-                modeStore.possibleMoves[tile.id].forEach(attack => {
-                    const { unit, weapon } = attack;
-                    unit.attack(tile, weapon);
-                    modeStore.disableDirectAttackMode()
-                })
+                if (Array.isArray(attacks)) {
+                    attacks.forEach(attack => {
+                        const { unit, cost } = attack;
+                        unit.directAttack(tile, cost);
+                    })
+                } else {
+                    const { unit, cost } = attacks;
+                    unit.directAttack(tile, cost);
+                }
+                modeStore.disableDirectAttackMode()
             } else if (modeStore.isIndirectFireMode) {
                 const attacks = modeStore.possibleIndirectAttacks[tile.id]
                 if (!attacks) return
-                modeStore.possibleMoves[tile.id].forEach(attack => {
-                    const { unit, weapon } = attack;
-                    unit.attack(tile, weapon);
-                })
+                if (Array.isArray(attacks)) {
+                    attacks.forEach(attack => {
+                        const { unit, tile } = attack;
+                        unit.indirectAttack(tile)
+                    })
+                } else {
+                    const { unit, tile } = attacks;
+                    unit.indirectAttack(tile)
+                }
                 modeStore.disableIndirectFireMode()
             } else {
                 modeStore.enableCommandMode()
@@ -46,7 +61,7 @@ const BoardTile = (initialVnode) => {
             const {attrs} = vNode;
             const {activeScenarioDefinition} = definitionStore;
 
-            const { isMovementMode, isIndirectFireMode, possibleMoves, possibleIndirectAttacks } = modeStore;
+            const { isMovementMode, isDirectAttackMode, isIndirectFireMode, possibleMoves, possibleDirectAttacks, possibleIndirectAttacks } = modeStore;
             const { hex, size, margin } = attrs;
             const overlays = Object.values(hex.overlays);
             const height = size * 1.1547;
@@ -59,7 +74,7 @@ const BoardTile = (initialVnode) => {
                         'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.terrain?.render || hex.terrain?.render === undefined,
                         '!cursor-pointer !bg-interaction-900': hex.isSelected,
                         '!bg-interaction-900': isMovementMode && possibleMoves[hex.id],
-                        '!bg-warning-900': isIndirectFireMode && possibleIndirectAttacks[hex.id],
+                        '!bg-warning-900': (isDirectAttackMode && possibleDirectAttacks[hex.id]) || (isIndirectFireMode && possibleIndirectAttacks[hex.id]),
                         '!bg-warning-500': hex.isContested
                     }),
                     style: {width: `${size}px`, height: `${height}px`, margin: `${margin}px`,

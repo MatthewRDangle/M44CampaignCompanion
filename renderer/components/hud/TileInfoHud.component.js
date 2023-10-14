@@ -18,7 +18,7 @@ const TileInfoHud = (initialVnode) => {
     }
 
     const handleIndirectFireMode = () => {
-        modeStore.enableDirectAttackMode()
+        modeStore.enableIndirectFireMode()
     }
 
     const handleBattle = (tile) => {

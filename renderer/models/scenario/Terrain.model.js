@@ -27,20 +27,20 @@ export default class Terrain {
     get activeScenario() {
         return ScenarioDefinitionStore.activeScenarioDefinition;
     }
-
-    calculateAccessibilityByUnit(unit) {
-        return this.inaccessible_by.includes(unit.type)
-    }
-
-    calculateMovementCostByUnit(unit) {
-        const type = unit.type;
-        if (!!type) {
-            const modifier = this.movement_cost_modifiers_by_type[type] || 0
-            return this.movement_cost + modifier;
-        }
-
-        return this.movement_cost;
-    }
+    //
+    // calculateAccessibilityByUnit(unit) {
+    //     return this.inaccessible_by.includes(unit.type)
+    // }
+    //
+    // calculateMovementCostByUnit(unit) {
+    //     const type = unit.type;
+    //     if (!!type) {
+    //         const modifier = this.movement_cost_modifiers_by_type[type] || 0
+    //         return this.movement_cost + modifier;
+    //     }
+    //
+    //     return this.movement_cost;
+    // }
 
     calculateIndirectAttackChanceModifier(unit) {
         const type = unit.type;

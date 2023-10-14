@@ -1,3 +1,6 @@
-export function findAllAttackOpportunities (units) {
-    return {}
+export function createEligibleIndirectAttack (unit, tile) {
+    return {
+        unit,
+        tile
+    }
 }

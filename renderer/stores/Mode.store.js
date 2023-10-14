@@ -1,7 +1,7 @@
 import Unit from "../models/scenario/Unit.model.js";
 import Tile from "../models/scenario/Tile.model.js";
-import { findAllAttackOpportunities } from "../factories/attacks.factory.js";
-import { calculateCostToMoveMultipleUnits } from "../utilities/calculateMovement.js";
+import { findEligibleMoves } from "../utilities/calculateMovement.js";
+import { findEligibleDirectAttacks, findEligibleIndirectAttacks } from "../utilities/calculateAttack.js";
 
 let modeStore;
 
@@ -36,7 +36,6 @@ class ModeStore {
 
     get isCommandMode() {
         return !this.isMovementMode && !this.isDirectAttackMode && !this.isIndirectFireMode
-
     }
 
     get isMovementMode() {
@@ -62,7 +61,7 @@ class ModeStore {
         if (this.unitsAreSelected) {
             this.disableDirectAttackMode()
             this.disableIndirectFireMode()
-            this.possibleMoves = calculateCostToMoveMultipleUnits(this.selectedUnits)
+            this.possibleMoves = findEligibleMoves(this.selectedUnits)
         }
     }
 
@@ -70,7 +69,7 @@ class ModeStore {
         if (this.unitsAreSelected) {
             this.disableMovementMode()
             this.disableIndirectFireMode()
-            this.possibleDirectAttacks = findAllAttackOpportunities(this.selectedUnits)
+            this.possibleDirectAttacks = findEligibleDirectAttacks(this.selectedUnits)
         }
     }
 
@@ -78,7 +77,7 @@ class ModeStore {
         if (this.unitsAreSelected) {
             this.disableMovementMode()
             this.disableDirectAttackMode()
-            this.possibleIndirectAttacks = findAllAttackOpportunities(this.selectedUnits)
+            this.possibleIndirectAttacks = findEligibleIndirectAttacks(this.selectedUnits)
         }
     }
 

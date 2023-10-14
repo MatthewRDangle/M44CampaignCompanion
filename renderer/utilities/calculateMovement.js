@@ -1,7 +1,29 @@
 import DefinitionStore from "../stores/Definition.store.js";
 import Unit from "../models/scenario/Unit.model.js";
 import Tile from "../models/scenario/Tile.model.js";
+import ScenarioDefinitionStore from "../stores/Definition.store.js";
 import { createEligibleMove } from "../factories/moves.factory.js";
+
+// TODO Optimize this function at some point.
+export const findEligibleMoves = (units) => {
+    let eligibleMoves = {}
+    if (Array.isArray(units) && units.length) {
+        if (units.length === 1)
+            eligibleMoves = calculateCostToMoveOneUnit(units[0])
+        else
+            eligibleMoves = calculateCostToMoveMultipleUnits(units)
+    } else if (units instanceof Unit) {
+        eligibleMoves = calculateCostToMoveOneUnit(units)
+    }
+
+    Object.keys({...eligibleMoves}).forEach((key) => {
+        const tile = ScenarioDefinitionStore.activeScenarioDefinition.fetchTileReferenceById(key)
+        if (tile.isHostile)
+            delete eligibleMoves[key]
+    })
+
+    return eligibleMoves
+}
 
 // TODO Optimize this function at some point.
 export const calculateCostToMoveOneUnit = (unit) => {
@@ -37,10 +59,11 @@ export const calculateCostToMoveOneUnit = (unit) => {
             })
         }
     }
-    console.log(eligibleMoves)
+
     return eligibleMoves
 }
 
+// TODO Optimize this function at some point.
 export const calculateCostToMoveMultipleUnits = (units) => {
     if (Array.isArray(units)) {
         const allEligibleMoves = {}
