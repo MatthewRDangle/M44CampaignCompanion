@@ -3,13 +3,13 @@
   "author": "Matthew R. Dangle",
   "description": "An engine to create, share, and play interactive 2D head-to-head scenarios for war-based board games.",
   "license": "GPL-2.0",
-  "main": "startup.js",
+  "main": "src/startup.js",
   "homepage": "https://github.com/MatthewRDangle/battlecry#readme",
   "scripts": {
     "start": "electron-forge start",
     "dev": "npm run build:tailwindcss && electron . dev",
-    "build:tailwindcss": "tailwindcss build -i renderer/stylesheets/_tailwind.css -o renderer/stylesheets/tailwind.css",
-    "watch:tailwindcss": "tailwindcss build -i renderer/stylesheets/_tailwind.css -o renderer/stylesheets/tailwind.css --watch",
+    "build:tailwindcss": "tailwindcss build -i src/stylesheets/_tailwind.css -o src/stylesheets/tailwind.css",
+    "watch:tailwindcss": "tailwindcss build -i src/stylesheets/_tailwind.css -o src/stylesheets/tailwind.css --watch",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
