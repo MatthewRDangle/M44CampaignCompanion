@@ -2,3 +2,6 @@
 /dist/
 
 out/
+/webapp/dist/
+/webapp/node_modules/
+/electron/node_modules/
