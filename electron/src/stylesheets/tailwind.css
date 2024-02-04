@@ -966,10 +966,6 @@ video {
   overflow: hidden;
 }
 
-.overflow-x-hidden {
-  overflow-x: hidden;
-}
-
 .overflow-y-scroll {
   overflow-y: scroll;
 }
@@ -1263,10 +1259,6 @@ video {
 
 .font-normal {
   font-weight: 400;
-}
-
-.leading-relaxed {
-  line-height: 1.625;
 }
 
 .\!text-interaction {

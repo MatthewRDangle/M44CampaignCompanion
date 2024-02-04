@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./renderer/**/*.{html,js}"],
+  content: ["./src/**/*.{html,js}"],
   theme: {
     fontSize: {
       sm: '0.8rem',

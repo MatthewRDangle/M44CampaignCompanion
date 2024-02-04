@@ -1,4 +1,4 @@
-const { app, BrowserWindow, contextBridge, ipcRenderer } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const ipcHandler = require('./system/main');
 const path = require('path');
 
@@ -17,10 +17,10 @@ const createWindow = () => {
             contextIsolation: false // TODO set to true after securing ipcRenderer in renderer
         }
     });
-    win.setIcon(path.join(__dirname, 'renderer', 'images', 'icon', 'favicon-32x32.png'))
+    win.setIcon(path.join(__dirname, '../', 'public', 'images', 'icon', 'favicon-32x32.png'))
     win.webContents.openDevTools();
     win.setMenu(null);
-    win.loadFile(path.join(global.appdir, 'renderer/index.html'));
+    win.loadFile(path.join(global.appdir, '../public/index.html'));
     win.maximize();
 }
 
