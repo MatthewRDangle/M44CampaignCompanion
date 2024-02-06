@@ -1,9 +1,7 @@
 {
-  "name": "@matthewrdangle/battlecry",
-  "author": "Matthew R. Dangle",
-  "description": "An engine to create, share, and play interactive 2D head-to-head scenarios for war-based board games.",
-  "license": "GPL-2.0",
-  "homepage": "https://github.com/MatthewRDangle/battlecry#readme",
+  "engine": {
+    "node": ">=v18.16.1"
+  },
   "scripts": {
     "dev": "npm run build:tailwindcss",
     "build:tailwindcss": "tailwindcss build -i src/stylesheets/_tailwind.css -o src/stylesheets/tailwind.css",
@@ -25,6 +23,5 @@
     "classnames": "^2.3.1",
     "js-yaml": "^4.1.0",
     "mithril": "^2.0.4"
-  },
-  "version": "1.0.0-alpha.0"
+  }
 }
