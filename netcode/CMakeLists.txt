@@ -3,4 +3,4 @@ project(BattleCry)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(BattleCry netcode/src/main.cpp)
+add_executable(BattleCry src/main.cpp)
