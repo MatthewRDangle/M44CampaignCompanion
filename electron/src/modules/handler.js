@@ -16,8 +16,8 @@ const handler = ()=> {
     })
 
     // Import custom emitters.
-    applicationController('/' + 'app');
-    systemController('/' + 'system');
+    applicationController('/application');
+    systemController('/system');
 }
 
 module.exports = handler;

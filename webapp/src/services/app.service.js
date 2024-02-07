@@ -2,10 +2,10 @@ const { api } = window;
 
 export const appService = {
     getAppPath: async () => {
-        return await api.handle('app/path');
+        return await api.handle('/application/path');
     },
 
     quit: () => {
-        api.handle('app/quit');
+        api.handle('/application/quit');
     }
 }
