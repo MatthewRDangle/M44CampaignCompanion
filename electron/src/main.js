@@ -21,7 +21,7 @@ const createWindow = () => {
     win.setIcon(path.join(__dirname, '../', 'public', 'images', 'icon', 'favicon-32x32.png'))
     win.webContents.openDevTools();
     win.setMenu(null);
-    win.loadFile(path.join(global.appdir, '../../webapp/src/index.html')); // TODO this is bad. This is a shortcut. Fix later.
+    win.loadFile(path.join(global.appdir, '../../webapp/dist/index.html')); // TODO this is bad. This is a shortcut. Fix later.
     win.maximize();
 }
 

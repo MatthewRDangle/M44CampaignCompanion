@@ -1,9 +1,9 @@
-const {ipcRenderer} = require('electron/src/main');
+const { api } = window;
 
 
 export const definitionService = {
     getFileContent: async (path) => {
-        return await ipcRenderer.invoke("/system/getFileContent", path)
+        return await api.handle("/system/getFileContent", path)
     },
     importScript: async (pathToScripts) => {
         return new Promise(resolve => {

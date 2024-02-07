@@ -1,10 +1,7 @@
-const {ipcRenderer} = require('electron/src/main');
-
-
-const channel = '/system';
+const { api } = window;
 
 export const systemService = {
     getFileContent: async (path) => {
-        return await ipcRenderer.invoke(channel + '/getFileContent', path);
+        return await api.handle('system/getFileContent', path);
     }
 }

@@ -1,4 +1,4 @@
-const m = require("mithril");
+import m from 'mithril';
 
 import BoardTile from "./tile/BoardTile.component.js";
 import ScenarioDefinitionStore from "../stores/Definition.store.js";

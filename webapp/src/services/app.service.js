@@ -1,14 +1,11 @@
-const {ipcRenderer} = require('electron/src/main');
-
-
-const channel = '/app';
+const { api } = window;
 
 export const appService = {
     getAppPath: async () => {
-        return await ipcRenderer.invoke(channel + '/path');
+        return await api.handle('app/path');
     },
 
     quit: () => {
-        ipcRenderer.invoke(channel + '/quit');
+        api.handle('app/quit');
     }
 }

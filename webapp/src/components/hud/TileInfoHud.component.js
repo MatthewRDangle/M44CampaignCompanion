@@ -1,4 +1,4 @@
-const m = require("mithril");
+import m from 'mithril';
 
 import modeStore from "../../stores/Mode.store.js";
 import Terrain from "../../models/scenario/Terrain.model.js";

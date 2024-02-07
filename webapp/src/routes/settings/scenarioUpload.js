@@ -1,4 +1,4 @@
-const m = require('mithril');
+import m from 'mithril';
 
 import Page from '../../models/Page.model.js';
 import Body from "../../components/Body.component.js";

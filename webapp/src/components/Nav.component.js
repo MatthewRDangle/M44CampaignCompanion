@@ -1,4 +1,4 @@
-const m = require("mithril");
+import m from 'mithril';
 const classnames = require("classnames");
 
 import routeStore from "../stores/Route.store.js";

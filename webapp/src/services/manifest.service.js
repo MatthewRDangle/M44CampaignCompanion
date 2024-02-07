@@ -1,4 +1,4 @@
-const {ipcRenderer} = require('electron/src/main');
+const { api } = window;
 
 
 export const manifestService = {
@@ -11,7 +11,7 @@ export const manifestService = {
     },
 
     getFileContent: async (path) => {
-        return await ipcRenderer.invoke("/system/getFileContent", path)
+        return await api.handle("/system/getFileContent", path)
     },
 
     set: (manifests) => {

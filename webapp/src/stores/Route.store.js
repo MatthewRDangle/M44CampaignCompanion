@@ -1,6 +1,6 @@
-const m = require("mithril");
+import m from 'mithril';
 
-import {routeService} from "../services/route.service.js";
+// import {routeService} from "../services/route.service.js";
 import {nav} from "../lists/nav.js";
 
 
@@ -11,7 +11,7 @@ class RouteStore {
     constructor() {
         if (!routeStore) {
             this.clearRoutes = this.clearRoutes.bind(this);
-            this.loadAllRoutes = this.loadAllRoutes.bind(this);
+            // this.loadAllRoutes = this.loadAllRoutes.bind(this);
             return this;
         } else
             return routeStore;
@@ -34,17 +34,17 @@ class RouteStore {
     }
 
 
-    async loadAllRoutes() {
-        let tmpRegistry;
-        try {
-            tmpRegistry = await routeService.getAll();
-        } catch(e) {throw Error(e)}
-        finally {
-            this.clearRoutes();
-            this.routeList = tmpRegistry;
-        }
-        return tmpRegistry;
-    }
+    // async loadAllRoutes() {
+    //     let tmpRegistry;
+    //     try {
+    //         tmpRegistry = await routeService.getAll();
+    //     } catch(e) {throw Error(e)}
+    //     finally {
+    //         this.clearRoutes();
+    //         this.routeList = tmpRegistry;
+    //     }
+    //     return tmpRegistry;
+    // }
 }
 
 routeStore = new RouteStore();

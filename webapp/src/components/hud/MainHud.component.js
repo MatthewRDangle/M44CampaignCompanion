@@ -1,4 +1,4 @@
-const m = require("mithril");
+import m from 'mithril';
 
 import NextTurnHud from "./NextTurnHud.component.js";
 import TileInfoHud from "./TileInfoHud.component.js";

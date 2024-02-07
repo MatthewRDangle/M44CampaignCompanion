@@ -1,4 +1,4 @@
-const m = require("mithril");
+import m from 'mithril';
 
 import ScenarioDefinitionStore from "../../stores/Definition.store.js";
 

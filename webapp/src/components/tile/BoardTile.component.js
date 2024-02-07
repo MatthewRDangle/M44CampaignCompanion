@@ -1,4 +1,4 @@
-const m = require("mithril");
+import m from 'mithril';
 const classNames = require("classnames");
 
 import UnitToken from "../token/ConcealedUnitToken.component.js";

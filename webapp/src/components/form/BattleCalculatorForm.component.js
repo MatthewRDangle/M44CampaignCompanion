@@ -1,4 +1,4 @@
-const m = require("mithril");
+import m from 'mithril';
 
 import Divider from "../Divider.component.js";
 import Button from "../Button.component.js";
