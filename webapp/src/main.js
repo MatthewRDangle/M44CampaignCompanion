@@ -1,6 +1,6 @@
 const m = require('mithril');
 
-import router from './pages/index.js'
+import router from './routes/index.js'
 // import Page from "./models/Page.model.js";
 // import routeStore from "./stores/Route.store.js";
 
