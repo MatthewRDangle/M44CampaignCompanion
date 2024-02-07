@@ -2,7 +2,7 @@ const fs = require ("fs");
 const path = require ("path");
 const {ipcMain} = require("electron");
 
-const systemHandle = (channel) => {
+const controller = (channel) => {
     ipcMain.handle(channel + '/getFileContent', (e, path) => {
         return new Promise(async resolve => {
             fs.readFile(path, 'utf8', (err, data) => {
@@ -12,4 +12,4 @@ const systemHandle = (channel) => {
     })
 }
 
-module.exports = systemHandle
+module.exports = controller

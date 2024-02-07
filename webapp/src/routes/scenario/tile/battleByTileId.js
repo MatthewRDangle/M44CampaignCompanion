@@ -7,7 +7,7 @@ import Background from "../../../components/Background.component.js";
 import BattleCalculatorForm from "../../../components/form/BattleCalculatorForm.component.js";
 import ScenarioDefinitionStore from "../../../stores/Definition.store.js";
 
-export const page = new Page('/scenario/tile/:tileId/battle', (initialVnode) => {
+export default new Page('/scenario/tile/:tileId/battle', (initialVnode) => {
 
 
     return {

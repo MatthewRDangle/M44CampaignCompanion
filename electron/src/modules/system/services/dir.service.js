@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+const fs = require ("fs");
+const path = require ("path");
 
 const recursiveReadDir = (dir) => {
     if (!dir) return
@@ -12,7 +12,7 @@ const recursiveReadDir = (dir) => {
                 const stats = await fs.statSync(location);
 
                 if (stats.isDirectory()) {
-                    const tmpSubFilesNames = await recursiveReaddir(location);
+                    const tmpSubFilesNames = await recursiveReadDir(location);
                     tmpSubFilesNames.forEach((tmpSubFileName) => {localFileNames.push(tmpSubFileName)})
                 }
                 else

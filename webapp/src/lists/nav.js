@@ -1,4 +1,4 @@
-const {ipcRenderer} = require('electron');
+import {appService} from "../services/app.service.js";
 
 
 export const nav = [
@@ -22,7 +22,7 @@ export const nav = [
     {
         label: 'Exit to Desktop',
         onclick: async () => {
-            await ipcRenderer.invoke('/app/quit')
+            await appService.quit()
         }
     }
 ]

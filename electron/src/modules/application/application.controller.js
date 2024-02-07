@@ -1,6 +1,6 @@
 const {app, ipcMain} = require("electron");
 
-const appHandle = (channel) => {
+const controller = (channel) => {
     ipcMain.handle(channel + '/quit', async (e, path) => {
         app.quit();
     })
@@ -10,4 +10,4 @@ const appHandle = (channel) => {
     })
 }
 
-module.exports = appHandle
+module.exports = controller

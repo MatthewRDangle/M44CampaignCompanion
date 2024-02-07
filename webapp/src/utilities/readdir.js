@@ -1,7 +1,7 @@
 // TODO move into electron IPC and out of GUI.
 const fs = require ("fs");
 const path = require ("path");
-const {ipcRenderer} = require('electron');
+const {ipcRenderer} = require('electron/src/main');
 
 
 export const appDir = await ipcRenderer.invoke('/app/path');

@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron');
-const ipcHandler = require('./system/main');
+const ipcHandler = require('./modules/handler');
 const path = require('path');
 
 const appArguments = process.argv;
@@ -12,9 +12,10 @@ const createWindow = () => {
         width: 800,
         height: 600,
         webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: path.join(__dirname, "preload.js"),
             devTools: appArguments.includes('dev'),
-            nodeIntegration: true, // TODO set to true after securing ipcRenderer in renderer
-            contextIsolation: false // TODO set to true after securing ipcRenderer in renderer
         }
     });
     win.setIcon(path.join(__dirname, '../', 'public', 'images', 'icon', 'favicon-32x32.png'))
@@ -34,4 +35,4 @@ app.whenReady().then(() => {
     })
 })
 
-ipcHandler('/'); // initiate ipc handler.
+ipcHandler(); // initiate ipc handler.

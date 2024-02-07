@@ -7,7 +7,7 @@ import TitleBar from "../../components/TitleBar.component.js";
 import manifestStore from "../../stores/Manifest.store.js";
 
 
-export const page = new Page('/settings/scenarios/upload', (initialVnode) => {
+export default new Page('/settings/scenarios/upload', (initialVnode) => {
     const {addOneScenarioManifest, getContentsFromScenarioManifestFile} = manifestStore;
 
 

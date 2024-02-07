@@ -1,5 +1,5 @@
 {
-  "main": "src/startup.js",
+  "main": "./src/main.js",
   "engine": {
     "node": ">=v18.16.1"
   },

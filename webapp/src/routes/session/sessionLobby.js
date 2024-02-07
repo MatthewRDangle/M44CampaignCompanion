@@ -10,7 +10,7 @@ import definitionStore from "../../stores/Definition.store.js";
 import boardStore from "../../stores/Board.store.js";
 
 
-export const page = new Page('/session/lobby', (initialVnode) => {
+export default new Page('/session/lobby', (initialVnode) => {
     const {loadScenarioManifestRegistry} = manifestStore;
     const {setActiveScenarioDefinition} = definitionStore;
     loadScenarioManifestRegistry().then(() => m.redraw());

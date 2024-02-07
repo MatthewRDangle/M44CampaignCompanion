@@ -6,7 +6,7 @@ import Quotes from "../components/Quotes.component.js";
 import LoadingStatus from "../components/LoadingStatus.component.js";
 
 
-export const page = new Page('/splash', (initialVnode) => {
+export default new Page('/splash', (initialVnode) => {
 
 
     return {

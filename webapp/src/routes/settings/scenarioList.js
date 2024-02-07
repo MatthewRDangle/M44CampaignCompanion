@@ -8,7 +8,7 @@ import manifestStore from "../../stores/Manifest.store.js";
 import TitleBar from "../../components/TitleBar.component.js";
 
 
-export const page = new Page('/settings/scenarios', (initialVnode) => {
+export default new Page('/settings/scenarios', (initialVnode) => {
     const {loadScenarioManifestRegistry, deleteOneScenarioManifest} = manifestStore;
     loadScenarioManifestRegistry().then(() => m.redraw());
 

@@ -6,7 +6,7 @@ import Button from "../../../components/Button.component.js";
 import Background from "../../../components/Background.component.js";
 import ScenarioDefinitionStore from "../../../stores/Definition.store.js";
 
-export const page = new Page('/scenario/tile/:tileId/setup', (initialVnode) => {
+export default new Page('/scenario/tile/:tileId/setup', (initialVnode) => {
 
     const handlePostpone = () => {
         m.route.set('/scenario')

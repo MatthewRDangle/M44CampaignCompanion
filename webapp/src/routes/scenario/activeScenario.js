@@ -6,7 +6,7 @@ import definitionStore from "../../stores/Definition.store.js";
 import boardStore from "../../stores/Board.store.js";
 
 
-export const page = new Page('/scenario', (initialVnode) => {
+export default new Page('/scenario', (initialVnode) => {
 
 
     return {

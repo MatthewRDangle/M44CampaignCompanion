@@ -6,7 +6,7 @@ import Nav from "../components/Nav.component.js";
 import NavTitle from "../components/NavTitle.component.js";
 
 
-export const page = new Page('/mainmenu', (initialVnode) => {
+export default new Page('/mainmenu', (initialVnode) => {
 
 
     return {
