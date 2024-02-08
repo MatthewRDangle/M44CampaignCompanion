@@ -19,7 +19,9 @@ Scenarios are built via a scenario definition file. They are very easy to write;
 documentation make it even easier.
 
 ## Pre-release Build Disclaimer
-BattleCry is currently in alpha. Current releases are unstable and are not guaranteed to offer backwords compability for future major changes. Only once a stable version 1.0.0 is released will future major changes support backwords compability.
+BattleCry is currently in alpha. Current releases are unstable and are not guaranteed to offer backwards compatibility 
+for future major changes. Only once a stable version 1.0.0 is released will future major changes support backwards 
+compatibility.
 
 ## Legality
 BattleCry is open source and free. You do not need to pay to download a copy of this software. However, there are 
