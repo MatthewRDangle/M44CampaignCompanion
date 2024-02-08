@@ -1,5 +1,4 @@
-import m from 'mithril';
-import routes from './routes/index.js'
+import m from 'mithril';import routes from './routes/index.js'
 
 (async () => {
     const router = {}

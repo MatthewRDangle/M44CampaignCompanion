@@ -1,12 +1,12 @@
-import battleByTileId from './scenario/tile/battleByTileId.js'
-import mapByTileId from './scenario/tile/mapByTileId.js'
-import setupByTileId from './scenario/tile/setupByTileId.js'
-import activeScenario from './scenario/activeScenario.js'
-import sessionLobby from './session/sessionLobby.js'
-import scenarioList from './settings/scenarioList.js'
-import scenarioUpload from './settings/scenarioUpload.js'
-import mainMenu from './mainMenu.js';
-import splash from './splash.js'
+import battleByTileId from './scenario/tile/battleByTileId.view.js'
+import mapByTileId from './scenario/tile/mapByTileId.view.js'
+import setupByTileId from './scenario/tile/setupByTileId.view.js'
+import activeScenario from './scenario/activeScenario.view.js'
+import sessionLobby from './session/sessionLobby.view.js'
+import scenarioList from './settings/scenarioList.view.js'
+import scenarioUpload from './settings/scenarioUpload.view.js'
+import mainMenu from './mainMenu.view.js';
+import splash from './splash.view.js'
 
 export default [
     battleByTileId,

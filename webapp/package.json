@@ -1,4 +1,5 @@
 {
+  "browser": "./src/main.js",
   "engine": {
     "node": ">=v18.16.1"
   },
@@ -6,8 +7,8 @@
     "dev": "npm run build:tailwindcss",
     "build": "npm run build:tailwindcss && npm run build:webpack",
     "build:webpack": "webpack",
-    "build:tailwindcss": "tailwindcss build -i public/stylesheets/_tailwind.css -o public/stylesheets/tailwind.css",
-    "watch:tailwindcss": "tailwindcss build -i public/stylesheets/_tailwind.css -o public/stylesheets/tailwind.css --watch"
+    "build:tailwindcss": "tailwindcss build -i src/main.css -o public/stylesheets/tailwind.css",
+    "watch:tailwindcss": "tailwindcss build -i src/main.css -o public/stylesheets/tailwind.css --watch"
   },
   "repository": {
     "type": "git",
