@@ -1,5 +1,6 @@
 import m from 'mithril';
-import UnitToken from "../token/Concealedunittoken.view.js";
+import classNames from "classNames";
+import UnitToken from "../token/ConcealedUnitToken.view.js";
 import definitionStore from "../../../stores/Definition.store.js";
 import modeStore from "../../../stores/Mode.store.js";
 

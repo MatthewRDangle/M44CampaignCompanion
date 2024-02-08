@@ -1,5 +1,6 @@
 import m from 'mithril';
 
+
 const ConcealedUnitToken = (initialVnode) => {
 
 

@@ -1,5 +1,5 @@
 import m from 'mithril';
-import classnames from "classnames";
+import classNames from "classNames";
 import Hud from "../huds/MainHud.view.js";
 import HexGrid from "./HexGrid.view.js";
 import boardStore from "../../../stores/Board.store.js";
@@ -67,7 +67,7 @@ const BoardGrid = (initialVnode) => {
                     oncontextmenu: () => handleRightClick(definitionStore.activeScenarioDefinition),
                 }, [
                     m('div', {
-                        className: classnames('absolute',{
+                        className: classNames('absolute',{
                             '!cursor-grabbing': !!isBeingDragged
                         }),
                         style: {

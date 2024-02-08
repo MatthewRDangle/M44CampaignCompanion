@@ -1,7 +1,7 @@
 import Terrain from "../../../models/scenario/Terrain.model.js";
 import m from 'mithril';
 import Button from "../../primitives/Button.view.js";
-import UnitToken from "../token/Unittoken.view.js";
+import UnitToken from "../token/UnitToken.view.js";
 import modeStore from "../../../stores/Mode.store.js";
 
 
