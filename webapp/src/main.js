@@ -6,5 +6,5 @@ import routes from './routes/index.js'
     routes.forEach((module) => {
         router[module.path] = module.component
     })
-    m.route(document.body, "/splash", router)
+    m.route(document.body, "/", router)
 })();

@@ -1,5 +1,5 @@
-import Page from '../../models/Page.model.js';
 import m from 'mithril';
+import Page from '../../models/Page.model.js';
 import BoardGrid from "../../components/features/grids/BoardGrid.view.js"
 import definitionStore from "../../stores/Definition.store.js";
 

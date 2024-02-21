@@ -1,5 +1,5 @@
-import Page from '../../../models/Page.model.js';
 import m from 'mithril';
+import Page from '../../../models/Page.model.js';
 import TitleBar from "../../../components/compounds/TitleBar.view.js";
 import Body from "../../../components/layouts/Body.view.js";
 import Background from "../../../components/primitives/Background.view.js";
