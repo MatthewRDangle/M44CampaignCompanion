@@ -1,6 +1,6 @@
-import TableControllerBuilder from "../../models/TableController.builder";
+import TableBuilder from "../../models/Table.builder";
 
-const ScenarioManifestSessionTableController = new TableControllerBuilder();
+const ScenarioManifestSessionTableController = new TableBuilder();
 ScenarioManifestSessionTableController.handle('scenario','Scenario')
 ScenarioManifestSessionTableController.handle('factions','Factions')
 ScenarioManifestSessionTableController.handle('size','Size')

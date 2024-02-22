@@ -4,7 +4,7 @@
 import Color from "./Color.model.js";
 
 
-export default class ColorSolver {
+export default class ColorConverter {
     constructor(target, baseColor) {
         this.target = target;
         this.targetHSL = target.hsl();

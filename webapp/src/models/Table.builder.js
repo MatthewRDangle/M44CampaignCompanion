@@ -1,4 +1,4 @@
-export default class TableControllerBuilder {
+export default class TableBuilder {
     rawData = []
     rules = {}
     columns = []

@@ -1,9 +1,9 @@
 import m from 'mithril';
-import TableControllerBuilder from "../../models/TableController.builder";
+import TableBuilder from "../../models/Table.builder";
 
 
 const SimpleTable = (initialVnode) => {
-    initialVnode.attrs.builder = new TableControllerBuilder();
+    initialVnode.attrs.builder = new TableBuilder();
 
 
     return {
