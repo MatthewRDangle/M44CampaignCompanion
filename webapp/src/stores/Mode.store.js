@@ -1,7 +1,7 @@
 import Unit from "../models/scenario/Unit.model.js";
 import Tile from "../models/scenario/Tile.model.js";
-import { findEligibleMoves } from "../utilities/calculateMovement.js";
-import { findEligibleDirectAttacks, findEligibleIndirectAttacks } from "../utilities/calculateAttack.js";
+import { findEligibleMoves } from "../utils/calculateMovement.js";
+import { findEligibleDirectAttacks, findEligibleIndirectAttacks } from "../utils/calculateAttack.js";
 
 let modeStore;
 

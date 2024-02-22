@@ -1,9 +1,9 @@
 import m from 'mithril';
 import Page from '../../../models/Page.model.js';
-import TitleBar from "../../../components/compounds/TitleBar.view.js";
-import Body from "../../../components/layouts/Body.view.js";
-import Background from "../../../components/primitives/Background.view.js";
-import BattleCalculatorForm from "../../../components/features/forms/BattleCalculatorForm.view.js";
+import TitleBar from "../../../views//TitleBar.view.js";
+import Body from "../../../views/layouts/BodyLayout.view.js";
+import Background from "../../../views/Background.view.js";
+import BattleCalculatorForm from "../../../views/features/forms/BattleCalculatorForm.view.js";
 import ScenarioDefinitionStore from "../../../stores/Definition.store.js";
 
 export default new Page('/scenario/tile/:tileId/battle', (initialVnode) => {

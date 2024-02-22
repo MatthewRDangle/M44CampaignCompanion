@@ -1,8 +1,8 @@
 import m from 'mithril';
 import Page from '../models/Page.model.js';
-import Body from "../components/layouts/Body.view.js";
-import Quotes from "../components/primitives/Quotes.view.js";
-import LoadingStatus from "../components/compounds/LoadingStatus.view.js";
+import Body from "../views/layouts/BodyLayout.view.js";
+import Quotes from "../views/Quotes.view.js";
+import LoadingStatus from "../views//LoadingStatus.view.js";
 
 
 export default new Page('/splash', (initialVnode) => {

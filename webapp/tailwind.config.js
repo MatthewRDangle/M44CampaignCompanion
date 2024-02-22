@@ -137,7 +137,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      'sans': ['Gunplay', 'Roboto', 'sans-serif']
+      'sans': ['"Inria Sans"', 'Roboto', 'sans-serif']
     },
     extend: {
       spacing: {

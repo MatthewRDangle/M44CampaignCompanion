@@ -1,9 +1,9 @@
 import m from 'mithril';
 import Page from '../../models/Page.model.js';
 import classNames from 'classnames';
-import Button from "../../components/primitives/Button.view.js";
-import Body from "../../components/layouts/Body.view.js";
-import TitleBar from "../../components/compounds/TitleBar.view.js";
+import Button from "../../views/Button.view.js";
+import Body from "../../views/layouts/BodyLayout.view.js";
+import TitleBar from "../../views//TitleBar.view.js";
 import manifestStore from "../../stores/Manifest.store.js";
 import definitionStore from "../../stores/Definition.store.js";
 import boardStore from "../../stores/Board.store.js";
@@ -66,7 +66,7 @@ export default new Page('/session/lobby', (initialVnode) => {
                 ]),
                 m('div', {className: 'absolute left-[5%] bottom-[5%]'},
                     m(Button, {
-                        onclick: () => m.route.set('mainmenu')
+                        onclick: () => m.route.set('/session')
                     }, 'Back')
                 ),
                 m('div', {className: 'absolute right-[5%] bottom-[5%]'},

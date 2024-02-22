@@ -1,8 +1,8 @@
 import m from 'mithril';
 import Page from '../../../models/Page.model.js';
-import Body from "../../../components/layouts/Body.view.js";
-import Button from "../../../components/primitives/Button.view.js";
-import Background from "../../../components/primitives/Background.view.js";
+import Body from "../../../views/layouts/BodyLayout.view.js";
+import Button from "../../../views/Button.view.js";
+import Background from "../../../views/Background.view.js";
 import ScenarioDefinitionStore from "../../../stores/Definition.store.js";
 
 export default new Page('/scenario/tile/:tileId/map', (initialVnode) => {

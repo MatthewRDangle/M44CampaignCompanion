@@ -1,8 +1,8 @@
 import m from 'mithril';
 import Page from '../../models/Page.model.js';
-import Body from "../../components/layouts/Body.view.js";
-import Button from "../../components/primitives/Button.view.js";
-import TitleBar from "../../components/compounds/TitleBar.view.js";
+import Body from "../../views/layouts/BodyLayout.view.js";
+import Button from "../../views/Button.view.js";
+import TitleBar from "../../views//TitleBar.view.js";
 import manifestStore from "../../stores/Manifest.store.js";
 
 
@@ -52,7 +52,7 @@ export default new Page('/settings/scenarios', (initialVnode) => {
                 ]),
                 m('div', {className: 'absolute left-[5%] bottom-[5%]'},
                     m(Button, {
-                        onclick: () => m.route.set('mainmenu')
+                        onclick: () => m.route.set('/settings')
                     }, 'Back')
                 ),
             ])
