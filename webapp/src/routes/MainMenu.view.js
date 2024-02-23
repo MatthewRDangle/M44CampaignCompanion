@@ -1,8 +1,8 @@
 import m from 'mithril';
-import Page from '../models/Page.model.js';
 import MainLayout from "../views/layouts/MenuLayout.view.js";
 import Nav from "../views/Nav.view";
-import { mainNav } from "../lists/nav";
+import Page from '../models/Page.model.js';
+import mainNav from "../lists/navs/main.nav.js";
 
 
 export default new Page('/', (initialVnode) => {
