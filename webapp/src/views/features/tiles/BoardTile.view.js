@@ -70,9 +70,9 @@ const BoardTile = (initialVnode) => {
             return (
                 m('div.', {
                     className: classNames('relative inline-block text-base align-top disabled:opacity-50', {
-                        'hover:!cursor-pointer hover:!bg-interaction-900': !!hex.terrain?.render || hex.terrain?.render === undefined,
-                        '!cursor-pointer !bg-interaction-900': hex.isSelected,
-                        '!bg-interaction-900': isMovementMode && possibleMoves[hex.id],
+                        'hover:!cursor-pointer hover:!bg-secondary-900': !!hex.terrain?.render || hex.terrain?.render === undefined,
+                        '!cursor-pointer !bg-secondary-900': hex.isSelected,
+                        '!bg-secondary-900': isMovementMode && possibleMoves[hex.id],
                         '!bg-warning-900': (isDirectAttackMode && possibleDirectAttacks[hex.id]) || (isIndirectFireMode && possibleIndirectAttacks[hex.id]),
                         '!bg-warning-500': hex.isContested
                     }),

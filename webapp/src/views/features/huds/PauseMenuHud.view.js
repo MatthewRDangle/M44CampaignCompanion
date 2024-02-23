@@ -26,7 +26,7 @@ const PauseMenuHud = (initialVnode) => {
                     ]),
                     m('div', {className: 'p-6'}, [
                         m('div', {
-                            className: 'w-full text-center pt-4 pb-4 mt-2 mb-2 cursor-pointer hover:bg-selected',
+                            className: 'w-full text-center pt-4 pb-4 mt-2 mb-2 cursor-pointer hover:bg-primary-100',
                             onclick: onResume
                         }, 'Resume'),
                         m('div', {className: 'w-1/4 m-auto'},
@@ -37,7 +37,7 @@ const PauseMenuHud = (initialVnode) => {
                         }, 'Save Game'),
                         m('div', {className: 'w-1/4 m-auto'}, m(Divider, {fancy: true})),
                         m('div', {
-                            className: 'w-full text-center pt-4 pb-4 mt-2 mb-2 cursor-pointer hover:bg-selected',
+                            className: 'w-full text-center pt-4 pb-4 mt-2 mb-2 cursor-pointer hover:bg-primary-100',
                             onclick: handleBackToMainMenu
                         }, 'Back to Main Menu'),
                     ])

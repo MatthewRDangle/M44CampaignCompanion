@@ -45,9 +45,9 @@ const HeaderHud = (initialVnode) => {
                     ]),
                     m('span', `Turn ${activeScenarioDefinition.turnCounter}`),
                     m('button', {onclick: handleOptionsOverlay}, [
-                        m('div', {className: 'w-6 h-1 bg-interaction-700 mt-1 mb-1 rounded-full'}),
-                        m('div', {className: 'w-6 h-1 bg-interaction-700 mt-1 mb-1 rounded-full'}),
-                        m('div', {className: 'w-6 h-1 bg-interaction-700 mt-1 mb-1 rounded-full'}),
+                        m('div', {className: 'w-6 h-1 bg-secondary-700 mt-1 mb-1 rounded-full'}),
+                        m('div', {className: 'w-6 h-1 bg-secondary-700 mt-1 mb-1 rounded-full'}),
+                        m('div', {className: 'w-6 h-1 bg-secondary-700 mt-1 mb-1 rounded-full'}),
                     ]),
                 ])
             ])

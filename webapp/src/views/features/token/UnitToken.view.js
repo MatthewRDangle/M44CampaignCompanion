@@ -18,8 +18,8 @@ const UnitToken = (initialVnode) => {
                     })}, [
                     m('div', {
                         className: classNames('w-16 h-24', {
-                            'cursor-pointer !hover:text-background !hover:bg-interaction': !!attrs.onclick,
-                            '!text-interaction !bg-interaction': unit.isSelected,
+                            'cursor-pointer !hover:text-background !hover:bg-secondary': !!attrs.onclick,
+                            '!text-secondary !bg-secondary': unit.isSelected,
                         }),
                         style: {
                             color: factionColor?.text,

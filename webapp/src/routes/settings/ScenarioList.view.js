@@ -1,8 +1,8 @@
 import m from 'mithril';
-import Page from '../../models/Page.model.js';
 import Body from "../../views/layouts/BodyLayout.view.js";
 import Button from "../../views/Button.view.js";
 import TitleBar from "../../views//TitleBar.view.js";
+import Page from '../../models/Page.model.js';
 import manifestStore from "../../stores/Manifest.store.js";
 
 

@@ -12,7 +12,7 @@ const DefaultInput = (initialVnode) => {
 
             return m('div', {className: 'w-full'}, [
                 !!children && m('label', {className: 'ml-2'}, children),
-                m('div', {className: 'flex w-full p-2 text-font bg-background border border-solid border-interaction rounded-md'}, [
+                m('div', {className: 'flex w-full p-2 text-font bg-background border border-solid border-secondary rounded-md'}, [
                     !!attrs.icon && m('img', {
                         className: 'w-2 h-full object-cover',
                         style: `filter: ${whiteSVGFilter}`,
