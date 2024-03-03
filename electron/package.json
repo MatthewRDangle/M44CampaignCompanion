@@ -1,4 +1,7 @@
 {
+  "name": "@matthewrdangle/battlecry-electron",
+  "version": "1.0.0-alpha.0",
+  "author": "Matthew R. Dangle",
   "main": "./src/main.js",
   "engine": {
     "node": ">=v18.16.1"
