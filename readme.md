@@ -18,7 +18,7 @@ tiles on a hex grid, and let the application handle the rest.
 To build a scenario see the [docs](docs/readme.md) located within the projects source code.
 Start with the readme file. To build a scenario will require the use of JSON or YAML. Writing
 these definitions is easy and examples will be provided for you. If the community likes this
-project, and it becomes popular, and fans demand a user interface for the scenario api, I
+project, and it becomes popular, and fans demand a user interface for the definition api, I
 will then create one. Otherwise, for now, it's JSON and YAML files.
 
 ## Pre-release Build Disclaimer
