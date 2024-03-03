@@ -1,6 +1,13 @@
 module.exports = {
-  packagerConfig: {},
-  rebuildConfig: {},
+  packagerConfig: {
+    name: 'BattleCry',
+    ignore: [
+        "/\.env"
+    ],
+    extraResource: [
+      "../webapp/dist",
+    ]
+  },
   makers: [
     {
       name: '@electron-forge/maker-zip',

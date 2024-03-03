@@ -1,6 +1,7 @@
 /.idea/
 /dist/
 
+.env
 out/
 /webapp/dist/
 /webapp/node_modules/
