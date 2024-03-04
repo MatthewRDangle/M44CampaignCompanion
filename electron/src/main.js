@@ -8,10 +8,7 @@ const env = process.env
 const resourcesPath = process.resourcesPath
 
 // Find the webapp dir path
-const webappDir =
-    !!env.WEBAPP_DIR
-        ? env.WEBAPP_DIR
-        : path.join(resourcesPath, 'webapp');
+const webappIndex = env.WEBAPP_INDEX ?? path.join(resourcesPath, 'dist/index.html');
 
 // Browser Window Config
 const createWindow = () => {
@@ -29,7 +26,7 @@ const createWindow = () => {
     win.setIcon(path.join(__dirname, '../', 'public', 'images', 'icon', 'favicon-32x32.png'))
     win.webContents.openDevTools();
     win.setMenu(null);
-    win.loadFile(path.join(webappDir, 'dist/index.html'));
+    win.loadFile(path.join(webappIndex));
     win.maximize();
 }
 
