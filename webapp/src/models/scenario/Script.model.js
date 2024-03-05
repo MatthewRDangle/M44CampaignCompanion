@@ -1,5 +1,5 @@
-import runners from "../../runners/index.js";
 import Runner from "./Runner.model.js";
+import runners from "../../runners/index.js";
 
 
 export default class Script {

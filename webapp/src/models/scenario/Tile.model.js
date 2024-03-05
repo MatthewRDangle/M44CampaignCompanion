@@ -4,8 +4,8 @@ import Faction from "./Faction.model.js";
 import Overlay from "./Overlay.model.js";
 import Battle from "././Battle.model.js";
 import Map from "./Map.model.js";
-import ScenarioDefinitionStore from "../../stores/Definition.store.js";
 import Setup from "./Setup.model.js";
+import ScenarioDefinitionStore from "../../stores/Definition.store.js";
 import modeStore from "../../stores/Mode.store.js";
 
 

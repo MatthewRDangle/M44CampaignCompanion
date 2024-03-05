@@ -4,5 +4,5 @@ import definitionStore from "../../stores/Definition.store.js";
 
 export default ({faction}) => {
     const { activeScenarioDefinition } = definitionStore;
-    return faction instanceof Faction && faction.name === activeScenarioDefinition.currentTurn;
+    return faction instanceof Faction && faction === activeScenarioDefinition.currentTurn;
 }

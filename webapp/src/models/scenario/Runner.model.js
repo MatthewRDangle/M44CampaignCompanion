@@ -26,8 +26,8 @@ export default class Runner {
                     }
                 }
                 else if (key === "tile") {
-                    const [row, column] = key.split(',');
-                    const tile = this.scenarioDefinition.tiles[row][column];
+                    const [row, column] = rawParam.split('-');
+                    const tile = this.scenarioDefinition.tiles[row][rawParam];
                     this.params[key] = tile;
                 }
                 else if (key === "tiles") {
@@ -37,6 +37,9 @@ export default class Runner {
                         const tile = this.scenarioDefinition.tiles[row][id];
                         this.params[key].push(tile);
                     }
+                }
+                else {
+                    this.params[key] = rawParam;
                 }
             }
         } catch(err) { console.error(err) }

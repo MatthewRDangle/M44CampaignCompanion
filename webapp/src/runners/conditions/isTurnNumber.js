@@ -1,4 +1,3 @@
-import Faction from "../../models/scenario/Faction.model.js";
 import definitionStore from "../../stores/Definition.store.js";
 
 
