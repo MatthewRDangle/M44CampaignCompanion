@@ -1,6 +1,6 @@
 {
   "name": "@matthewrdangle/battlecry-webapp",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "author": "Matthew R. Dangle",
   "browser": "./src/main.js",
   "engine": {

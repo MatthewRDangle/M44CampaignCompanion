@@ -24,7 +24,7 @@ const LobbyLayout = (initialVnode) => {
                             alt: 'BattleCry',
                         }),
                         m('div', {className: 'flex gap-x-4 items-center'}, [
-                            m('span', 'v1.0.0.alpha.0'),
+                            m('span', 'v1.0.0.alpha.2'),
                             m(Divider, { fancy: true })
                         ])
                     ]),
